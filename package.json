@@ -1,0 +1,20 @@
+{
+  "name": "TransportePGR",
+  "version": "1.0.0",
+  "description": "Sistema Informático que permite llevar el control de la flotar vehicular de la Procuraduría General de la República de El Salvador y todos los procesos relacionados a su uso por parte de sus empleados",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dalthon22/TransportePGR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dalthon22/TransportePGR/issues"
+  },
+  "homepage": "https://github.com/Dalthon22/TransportePGR#readme"
+}
