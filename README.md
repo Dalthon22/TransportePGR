@@ -9,3 +9,5 @@ install dependencies:
 
 run the app:
 >set DEBUG=transporte:* & npm start
+
+Al no estar conectado  a la base el enturamiento de la base de encuentra en localhost/home
