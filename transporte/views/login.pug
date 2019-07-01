@@ -1,0 +1,81 @@
+include default
+block content
+
+doctype html
+head
+  meta(charset='utf-8')
+  meta(content='IE=edge,chrome=1' http-equiv='X-UA-Compatible')
+  meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no')
+  meta(name='description' content='Semantic-UI-Forest, collection of design, themes and templates for Semantic-UI.')
+  meta(name='keywords' content='Semantic-UI, Theme, Design, Template')
+  meta(name='author' content='PPType')
+  meta(name='theme-color' content='#ffffff')
+  title Login Template for Semantic-UI
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css' type='text/css')
+  style(type='text/css').
+    body {
+    background-color: #dadada;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: grayscale;
+    }
+    body > .ui.grid {
+    height: 100%;
+    }
+    .column {
+    max-width: 450px;
+    }
+  img.ui.fluid.image(src='/images/banner1.jpeg')
+.ui.middle.aligned.center.aligned.grid
+  .column
+    h2
+      |  Ingrese su 
+      |           cuenta  
+    form.ui.large.form
+      .ui.stacked.segment
+        .field
+          .ui.left.icon.input
+            i.user.icon
+            input(name='email' placeholder='E-mail address' type='text')
+        .field
+          .ui.left.icon.input
+            i.lock.icon
+            input(name='password' placeholder='Password' type='password')
+        button.fluid.ui.button(type='submit') Iniciar sesion
+      .ui.error.message
+    
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js')
+script.
+  $(document).ready(function() {
+  $(".ui.form").form({
+  fields: {
+  email: {
+  identifier: "email",
+  rules: [
+  {
+  type: "empty",
+  prompt: "Por favor introduzca su correo electronico"
+  },
+  {
+  type: "email",
+  prompt: "Porfavor introduzca una direccion de correo electronico valida"
+  }
+  ]
+  },
+  password: {
+  identifier: "password",
+  rules: [
+  {
+  type: "empty",
+  prompt: "Por favor introduzca su contraseña"
+  },
+  {
+  type: "length[6]",
+  prompt: "La contraseña deve tener al menos # caracteres"
+  }
+  ]
+  }
+  }
+  });
+  });
+
