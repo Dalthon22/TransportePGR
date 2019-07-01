@@ -56,15 +56,16 @@ const Sequelize = require('sequelize');
 });*/
 
 //Local db connection
-module.exports = new Sequelize('procu', 'hq14006', 'hq14006', {
+/*module.exports = new Sequelize('procu', 'hq14006', 'hq14006', {
   host: 'localhost',
   dialect: 'mssql',
-});
+});*/
 
 //Dalton: Local db connection
 const dbConex = new Sequelize('sigestran', 'DM15012', 'dm15012+', {
   host: 'localhost',
   dialect: 'mssql',
+  operatorAliases: false,
 
   pool: {
     max: 5,
