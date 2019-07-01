@@ -8,6 +8,10 @@ var app = require('../app');
 var debug = require('debug')('transporte:server');
 var http = require('http');
 
+/*Dependecy for Dalton Conecction
+in order to test Database Conecction*/
+const dbConex = require('../dbconfig/conex');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -88,3 +92,12 @@ function onListening() {
     'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+//Test Database to check connection
+dbConex.authenticate()
+  .then(
+    () => console.log('Database connected...')
+  )
+  .catch(
+    error => console.log('Error: ' + error)
+  )
