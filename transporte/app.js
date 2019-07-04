@@ -11,7 +11,7 @@ const Sequelize = require('sequelize');
 var app = express();
 
 // Database
-const db = require('./conex/conex.js');
+const db = require('./dbconfig/conex.js');
 
 // Test DB
 db.authenticate()
