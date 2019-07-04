@@ -5,7 +5,7 @@ const Procuraduria = require('../models/procuraduria_m');
 const procuraduriaServices = require('../services/procuraduria_s');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-
+aaaaa;
 
 // Get procuradurías list
 router.get('/', (req, res) => procuraduriaServices.getAll());
