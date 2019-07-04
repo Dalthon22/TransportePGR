@@ -1,3 +1,4 @@
+var createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -7,6 +8,17 @@ const bodyParser = require('body-parser');
 const nunjucks=require('nunjucks');
 const index = require('./routes/index');
 const Sequelize = require('sequelize');
+
+//Import Routes (Controllers)
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var carRouter = require('./routes/c_car');
+
+//Usage of Routes
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/cars', carRouter);
+
 
 var app = express();
 
@@ -18,16 +30,13 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err))
 
-//DB sync
-  
-
 // view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'nunjucks');
-nunjucks.configure('views', {
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+/*nunjucks.configure('views', {
     autoescape: true,
     express: app
-});
+});*/
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
