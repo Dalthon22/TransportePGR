@@ -18,7 +18,7 @@ class car_services {
         const data = {
             brand: 'Toyota',
             model: 'Corolla SE',
-            plate: 'P23698632',
+            plate: 'P698632',
             chassis: 'Negro',
             engine: 1.8,
             seats: 5
