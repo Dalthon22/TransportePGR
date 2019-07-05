@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../conex/conex');
+const db = require('../dbconfig/conex');
 
 const Ruta = db.define('ruta', {
 

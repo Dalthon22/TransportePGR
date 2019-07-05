@@ -1,13 +1,20 @@
 const Sequelize = require('sequelize');
-const db = require('../conex/conex');
-const Ruta = require('./ruta_m');
+const db = require('../dbconfig/conex');
+const Ruta = require('./m_ruta');
 
 const Procuraduria = db.define('procuraduria', {
 
-    procuraduriaName: {
+    procuraduria_name: {
         type: Sequelize.STRING, allowNull: false,
         validate: {
             isAlphanumeric: true,
+            notEmpty: true,
+        }
+    },
+
+    address:{
+        type: Sequelize.STRING,
+        validate:{
             notEmpty: true,
         }
     },
@@ -30,6 +37,6 @@ const Procuraduria = db.define('procuraduria', {
 })
 
 Procuraduria.hasMany(Ruta, {foreignKey: 'idProcuraduria'});
-Procuraduria.sync();
-Ruta.sync();
+//Procuraduria.sync();
+//Ruta.sync();
 module.exports = Procuraduria;

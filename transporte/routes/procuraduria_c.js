@@ -1,14 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../conex/conex');
-const Procuraduria = require('../models/procuraduria_m');
-const procuraduriaServices = require('../services/procuraduria_s');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+const Procuraduria = require('../models/m_procuraduria');
+const services = require('../services/s_procuraduria');
+
 
 // Get procuradurías list
-router.get('/', (req, res) => procuraduriaServices.getAll());
-
+router.get('/', (req, res, next) =>{
+    let procuradurias = services.getAll()
+    if (procuradurias) {
+        res.render('../views/procuradurias/list.html'), {
+            procuradurias
+        };
+    } else {
+        res.render('../views/procuradurias/list.html'), {
+            procuradurias
+        };
+    }
+});
 // Display create procuradurías form
-router.get('/create', (req, res) => res.render('create'));
+router.get('/add', (req, res) => res.render('../views/procuraduria/createProcuradurias'));
 module.exports = router;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="scripts/semantic-ui-css/semantic.min.css">
+    <script src="scripts/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/semantic-ui-css/semantic.min.js"></script>
+</head>
+
+<body>
+
+    {% block body %}
+
+    <section id="lista_procuradurias" class="ui center aligned container">
+        <h1 id="title" class="ui header">Lista de procuradurías</h1>
+        <table class="ui selectable celled table">
+            <thead>
+                <tr class="ui green table">
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{% for procu in procuradurias %}}
+                <tr>
+                    <td>{{% procuraduria_name %}}</td>
+                    <td>{{% procu.address%}}</td>
+                </tr>
+            </tbody>
+        </table>
+                {{% else %}}
+                  <p>No hay procuradurías disponibles.</p>
+                {{% endfor %}}
+    </section>
+
+    <button class="ui button">Follow</button>
+
+    {% endblock %}
+</body>
+
+</html>
+
+<!--<section id="index_procuradurias" class="container">
+    <h1>Listado de procuradurías.</h1>
+        {{% for procu in procuradurias %}}
+        <div class="procuraduria">
+            <h3>{{% procu.procuraduria_name %}}</h3>
+            <p>{{% procu.address%}}</p>
+        </div>
+    {{% else %}}
+      <p>No hay procuradurías disponibles.</p>
+    {{% endfor %}}
+  </section>-->
+  

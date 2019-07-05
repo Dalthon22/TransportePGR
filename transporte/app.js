@@ -14,6 +14,7 @@ const Sequelize = require('sequelize');
 var usersRouter = require('./routes/users');
 var carRouter = require('./routes/c_car');
 
+
 //Usage of Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -32,15 +33,17 @@ db.authenticate()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'nunjucks');
+app.set('view engine', 'html');
 nunjucks.configure('views', {
     autoescape: true,
     express: app
 });
+//var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
 //Renderiza la primera página de la aplicación al correr el servidor
 app.get('/', function(req, res) {
   res.render('base.html');
 });
+app.use('/procuraduria', require('./routes/procuraduria_c'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
