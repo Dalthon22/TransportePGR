@@ -7,9 +7,9 @@ const Car = require('../models/m_car');
 router.get('/', (req, res, next) => {
     let cars = services.getAll()
     if (cars) {
-        res.send(`This is the list: ${cars}`);
+        res.render('../views/Cars/list.html');
     } else {
-        res.send('NOT WORKING!');
+        res.render('../views/Cars/list.html');
     }
 });
 

@@ -49,6 +49,17 @@ const Car = db.define('car', {
             isNumeric: true,
         }
     },
+    state: {
+        type: Sequelize.STRING(25),
+        defaultValue: 'funcional',
+        allowNull: false,
+        validate: {
+            isAlpha: true,
+            isLowercase: {
+                msg: 'Debe estar en minúscula'
+            }
+        }
+    },
 }, {
     underscored: true,
     timestamps: true,

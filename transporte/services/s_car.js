@@ -20,8 +20,8 @@ class car_services {
             model: 'Corolla SE',
             plate: 'P698632',
             chassis: 'Negro',
-            engine: 1.8,
-            seats: 5
+            engine: 1.3,
+            seats: 4
         }
 
         let {
