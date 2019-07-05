@@ -38,7 +38,7 @@ nunjucks.configure('views', {
     autoescape: true,
     express: app
 });
-//var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
+var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
 //Renderiza la primera página de la aplicación al correr el servidor
 app.get('/', function(req, res) {
   res.render('base.html');
@@ -69,7 +69,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  //res.status(err.status || 500);
+ // res.status(err.status || 500);
   //res.render('error');
 });
 
