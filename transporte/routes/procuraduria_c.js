@@ -6,18 +6,11 @@ var nunjucks = require('nunjucks');
 
 
 // Get procuradurías list
-router.get('/', (req, res, next) =>{
-    let procuradurias = services.getAll()
-    if (procuradurias) {
-        res.render('../views/procuraduria/list.html'), {
-            procuradurias
-        };
-    } else {
-        res.render('../views/procuraduria/list.html'), {
-            procuradurias
-        };
-    }
-});
+router.get('/', (req, res) => Procuraduria = services.getAll()
+.then(res.render('../views/procuraduria/list.html'), {Procuraduria})
+.catch(err => console.log(err)));
+
 // Display create procuradurías form
-router.get('/add', (req, res) => res.render('../views/procuraduria/createProcuradurias'));
+
+router.get('/add', (req, res) => res.render('../views/procuraduria/add.html'));
 module.exports = router;

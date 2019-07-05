@@ -1,4 +1,4 @@
-{{% extends '../views/base.html' %}}
+{% extends '../base.html' %}
 {% block body %}
 
     <section id="lista_procuradurias" class="ui center aligned container">
@@ -11,29 +11,17 @@
                 </tr>
             </thead>
             <tbody>
-                {{% for procu in procuradurias %}}
+                {% for procu in Procuradurias %}
                 <tr>
-                    <td>{{% procuraduria_name %}}</td>
-                    <td>{{% address %}}</td>
+                    <td>{{ procu.procuraduria_name }}</td>
+                    <td>{{ procu.address }}</td>
                 </tr>
             </tbody>
         </table>
-                {{% else %}}
+                {% else %}
                   <p>No hay procuradurías disponibles.</p>
-                {{% endfor %}}
+                {% endfor %}
     </section>
 
     {% endblock %}
-
-<!--<section id="index_procuradurias" class="container">
-    <h1>Listado de procuradurías.</h1>
-        {{% for procu in procuradurias %}}
-        <div class="procuraduria">
-            <h3>{{% procu.procuraduria_name %}}</h3>
-            <p>{{% procu.address%}}</p>
-        </div>
-    {{% else %}}
-      <p>No hay procuradurías disponibles.</p>
-    {{% endfor %}}
-  </section>-->
   
