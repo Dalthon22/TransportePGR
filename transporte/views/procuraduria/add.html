@@ -1,21 +1,15 @@
-{{% extends ''../views/base.html' %}}
+{% extends '../base.html' %}
+{% block body %}
 
-{{% block body %}}
-<section id="createProcuraduria" class="container">
-    <div class="form-wrap">
-      <h1>Crear procuraduría.</h1>
-      {{% for error in errors %}}
-        <div class="ui error message">
-          <p>{{error.text}}</p>
-        </div>
-      {{/each}}
+    <section id="add" class="ui center aligned container">
+      <h1 class="ui header">Crear procuraduría.</h1>
       <form class="ui form">
-        <div class="required-field">
+        <div class="required field">
           <label>Nombre procuraduría:</label>
-          <input type="text" name="Nombre procuraduria" placeholder="Nombre procuraduria" value={{nombre}}>
+          <input type="text" name="procuraduria_name" placeholder="Nombre procuraduria" value={{procuraduria_name}}>
         </div>
-        <button class="ui button" type="submit">Crear procuraduría</button>
+        <button class="ui primary button">Save</button>
       </form>
-    </div>
-  </section>
-{{% endblock %}}
+    </section>
+
+{% endblock %}

@@ -11,6 +11,7 @@ router.get('/', (req, res) => Procuraduria = services.getAll()
 .catch(err => console.log(err)));
 
 // Display create procuradurías form
+router.get('/add', (req, res) => res.render('../views/procuraduria/add.html')
+.catch(err => console.log(err)));
 
-router.get('/add', (req, res) => res.render('../views/procuraduria/add.html'));
 module.exports = router;

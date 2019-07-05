@@ -38,13 +38,12 @@ nunjucks.configure('views', {
     autoescape: true,
     express: app
 });
-var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
+//var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
 //Renderiza la primera página de la aplicación al correr el servidor
 app.get('/', function(req, res) {
   res.render('base.html');
 });
 app.use('/procuraduria', require('./routes/procuraduria_c'));
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
