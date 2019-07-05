@@ -39,12 +39,12 @@ nunjucks.configure('views', {
 });
 
 
-app.get('/', function(req, res) {
+app.get('/home', function(req, res) {
   res.render('index.html');
 });
 
-app.get('/home', function(req, res) {
-  res.render('base.html');
+app.get('/', function(req, res) {
+  res.render('login.html');
 });
 
 
