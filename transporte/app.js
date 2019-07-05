@@ -6,22 +6,12 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
-//const index = require('./routes/index');
-const Sequelize = require('sequelize');
-const router = express.Router(); //vamos a probar este mame
+const passport = require('passport');
+//const Sequelize = require('sequelize');
+
+//initializations
 var app = express();
-
-//Import Routes (Controllers)
-//var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
-var carRouter = require('./routes/c_car');
-
-//Usage of Routes
-//app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-app.use('/cars', carRouter);
-
-
+require('./services/passporth_s')
 // Database
 const db = require('./dbconfig/conex.js');
 
@@ -38,16 +28,7 @@ nunjucks.configure('views', {
   express: app
 });
 
-
-app.get('/home', function(req, res) {
-  res.render('index.html');
-});
-
-app.get('/', function(req, res) {
-  res.render('login.html');
-});
-
-
+//Files static
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -59,7 +40,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(`${__dirname}/node_modules/`));
 
+//middelware
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Routes
+app.use(require('./routes/authentications'));
+app.use(require('./routes/index'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
