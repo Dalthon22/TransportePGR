@@ -10,8 +10,6 @@ class car_services {
     }
 
     create() {
-        //var car = new Car();
-        //car = car_new;
         const data = {
             brand: 'Peogeut',
             model: '206',
@@ -45,7 +43,6 @@ class car_services {
             })
             .catch(error => console.log(error));
     }
-
 };
 
 module.exports = car_services;
