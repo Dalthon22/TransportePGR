@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Cities = require('./m_city');
 
-const State = db.define('state', {
+const Deparment = db.define('deparment', {
     created_by: {
         type: Sequelize.INTEGER
     },
@@ -29,6 +30,9 @@ const State = db.define('state', {
     updatedAt: 'updated_at',
 });
 
-
-State.sync();
-module.exports = State;
+Deparment.hasMany(Cities, {
+    foreignKey: 'deparment_id'
+});
+Deparment.sync();
+Cities.sync();
+module.exports = Deparment;

@@ -1,51 +1,39 @@
-<html>
-
-<head>
-    <link rel="stylesheet" href="scripts/semantic-ui-css/semantic.min.css">
-    <script src="scripts/jquery/dist/jquery.min.js"></script>
-    <script src="scripts/semantic-ui-css/semantic.min.js"></script>
-</head>
-
-<body>
-
-    {% block body %}
-    <section id="lista_vehiculos" class="ui center aligned container">
-        <h1 id="title" class="ui header" style="text-align: left">Vehículos</h1>
-        <table class="ui sortable selectable celled table" style="width:70em">
-            <thead>
-                <tr style="text-align: center">
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Placa</th>
-                    <th>Chasis</th>
-                    <th>Motor</th>
-                    <th class="sorted ascending"># Asientos</th>
-                    <th class="sorted descending">Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if cars %}
-                {% for c in cars %}
-                <tr>
-                    <td class="center aligned">{{c.brand}}</td>
-                    <td class="center aligned">{{c.model}}</td>
-                    <td class="center aligned">{{c.plate}}</td>
-                    <td class="center aligned">{{c.chassis}}</td>
-                    <td class="center aligned">{{c.engine}}/td>
-                    <td class="center aligned">{{c.seats}}</td>
-                    <td class="positive"><i class="plus icon"></i>{{c.state}}</td>
-                </tr>
-                {% endfor %}
-                {% else %}
-                <td colspan="7">No hay registros disponibles</td>
-                {% endif %}
-            </tbody>
-        </table>
-    </section>
-    <div id="nuevo" class="left aligned">
-        <button class="ui button">Nuevo</button>
-    </div>
-    {% endblock %}
-</body>
-
-</html>
+{% extends 'base.html' %}
+{% block body %}
+<section id="lista_vehiculos" class="ui center aligned container">
+    <h1 id="title" class="ui header" style="text-align: left">Vehículos</h1>
+    <table class="ui sortable selectable table" style="width:70em">
+        <thead>
+            <tr style="text-align: center">
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Placa</th>
+                <th>Chasis</th>
+                <th>Motor</th>
+                <th class="sorted ascending descending"># Asientos</th>
+                <th class="sorted descending ascending">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if cars %}
+            {% for c in cars %}
+            <tr>
+                <td class="center aligned">{{c.brand}}</td>
+                <td class="center aligned">{{c.model}}</td>
+                <td class="center aligned">{{c.plate}}</td>
+                <td class="center aligned">{{c.chassis}}</td>
+                <td class="center aligned">{{c.engine}}</td>
+                <td class="center aligned">{{c.seats}}</td>
+                <td class="positive"><i class="plus icon"></i>{{c.state}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td colspan="7">No hay registros disponibles</td>
+            {% endif %}
+        </tbody>
+    </table>
+</section>
+<div id="nuevo" class="left aligned">
+    <button class="ui button">Nuevo</button>
+</div>
+{% endblock %}

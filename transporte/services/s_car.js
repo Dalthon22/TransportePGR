@@ -1,14 +1,11 @@
 const db = require('../dbconfig/conex');
 const Car = require('../models/m_car');
-const State = require('../models/m_state');
+const Deparment = require('../models/m_deparment');
 
 class car_services {
-    constructor() {
-        this.car = new Car();
-        this.state = new State()
-    }
+    constructor() {}
     getAll() {
-        return this.car.findAll();
+        return Car.findAll();
     }
 
     create() {
@@ -47,4 +44,4 @@ class car_services {
     }
 };
 
-module.exports = car_services;
+module.exports = new car_services();

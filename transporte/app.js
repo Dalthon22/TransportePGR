@@ -8,17 +8,6 @@ const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 var app = express();
 
-//Import Routes (Controllers)
-//var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
-var carRouter = require('./routes/c_car');
-
-
-//Usage of Routes
-//app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-app.use('/cars', carRouter);
-
 
 // Database
 const db = require('./dbconfig/conex.js');
@@ -42,11 +31,18 @@ app.get('/home', function (req, res) {
 });
 //var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
 //Renderiza la primera página de la aplicación al correr el servidor
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.render('base.html');
 });
+
+//Uso de rutas
 app.use('/procuraduria', require('./routes/c_procuraduria'));
 app.use('/route', require('./routes/c_route'));
+app.use('/cars', require('./routes/c_car'));
+//app.use('/',require('./routes/index'));
+//app.use('/users', require('./routes/users'));
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -73,7 +69,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
- // res.status(err.status || 500);
+  // res.status(err.status || 500);
   //res.render('error');
 });
 
