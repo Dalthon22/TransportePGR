@@ -29,5 +29,4 @@ const City = db.define('city', {
     updatedAt: 'updated_at',
 });
 
-City.sync();
 module.exports = City;
