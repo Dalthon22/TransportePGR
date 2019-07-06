@@ -6,10 +6,10 @@ const Car = require('../models/m_car');
 const car_services = new services();
 
 /*GET Car List*/
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     car_services.getAll()
-        .then(cars => {
-            res.render('../views/Cars/list.html')
+        .then(cars => res.render('../views/Cars/list.html'), {
+            cars
         })
         .catch(errors => console.log(errors))
 });
@@ -17,10 +17,10 @@ router.get('/', (req, res, next) => {
 /*Get Add a car */
 router.get('/add', (req, res) => {
     if (services.create()) {
-        res.redirect('index');
+        res.redirect('index.html');
     } else {
         res.redirect('/');
     }
-})
+});
 
 module.exports = router
