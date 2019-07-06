@@ -6,7 +6,7 @@ class car_services {
         this.car = new Car();
     }
     getAll() {
-
+        return this.car.findAll();
     }
 
     create() {

@@ -7,7 +7,12 @@ const car_services = new services();
 
 /*GET Car List*/
 router.get('/', (req, res, next) => {
-
+    car_services.getAll()
+        .then(cars => {
+            res.render('../views/Cars/list.html', {
+                cars
+            })
+        })
 });
 
 /*Get Add a car */
