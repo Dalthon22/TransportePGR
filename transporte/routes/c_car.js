@@ -13,6 +13,7 @@ router.get('/', (req, res, next) => {
                 cars
             })
         })
+        .catch(errors => console.log(errors))
 });
 
 /*Get Add a car */
