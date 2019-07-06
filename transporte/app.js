@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 //const index = require('./routes/index');
 const Sequelize = require('sequelize');
-
+const router = express.Router(); //vamos a probar este mame
 var app = express();
 
 //Import Routes (Controllers)
@@ -37,10 +37,16 @@ nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
-//Renderiza la primera página de la aplicación al correr el servidor
-app.get('/', function (req, res) {
-  res.render('base.html');
+
+
+app.get('/home', function(req, res) {
+  res.render('index.html');
 });
+
+app.get('/', function(req, res) {
+  res.render('login.html');
+});
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

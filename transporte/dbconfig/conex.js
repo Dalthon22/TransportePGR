@@ -62,7 +62,7 @@ const Sequelize = require('sequelize');
 });*/
 
 //Dalton: Local db connection
-const dbConex = new Sequelize('sigestran', 'DM15012', 'dm15012+', {
+const dbConex = new Sequelize('SchoolDB', 'sa', 'localhost', {
   host: 'localhost',
   dialect: 'mssql',
   operatorAliases: false,
