@@ -9,9 +9,7 @@ const car_services = new services();
 router.get('/', (req, res, next) => {
     car_services.getAll()
         .then(cars => {
-            res.render('../views/Cars/list.html', {
-                cars
-            })
+            res.render('../views/Cars/list.html')
         })
         .catch(errors => console.log(errors))
 });
