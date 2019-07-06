@@ -3,11 +3,9 @@ const router = express.Router();
 const services = require('../services/s_car');
 const Car = require('../models/m_car');
 
-const car_services = new services();
-
 /*GET Car List*/
 router.get('/', (req, res) => {
-    car_services.getAll()
+    services.getAll()
         .then(cars => res.render('../views/Cars/list.html'), {
             cars
         })

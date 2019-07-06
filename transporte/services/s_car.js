@@ -44,4 +44,4 @@ class car_services {
     }
 };
 
-module.exports = car_services;
+module.exports = new car_services();
