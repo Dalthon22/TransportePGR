@@ -2,7 +2,7 @@
 {% block body %}
 <section id="lista_vehiculos" class="ui center aligned container">
     <h1 id="title" class="ui header" style="text-align: left">Vehículos</h1>
-    <table class="ui sortable selectable celled table" style="width:70em">
+    <table class="ui sortable selectable table" style="width:70em">
         <thead>
             <tr style="text-align: center">
                 <th>Marca</th>
@@ -10,8 +10,8 @@
                 <th>Placa</th>
                 <th>Chasis</th>
                 <th>Motor</th>
-                <th class="sorted ascending"># Asientos</th>
-                <th class="sorted descending">Estado</th>
+                <th class="sorted ascending descending"># Asientos</th>
+                <th class="sorted descending ascending">Estado</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
                 <td class="center aligned">{{c.model}}</td>
                 <td class="center aligned">{{c.plate}}</td>
                 <td class="center aligned">{{c.chassis}}</td>
-                <td class="center aligned">{{c.engine}}/td>
+                <td class="center aligned">{{c.engine}}</td>
                 <td class="center aligned">{{c.seats}}</td>
                 <td class="positive"><i class="plus icon"></i>{{c.state}}</td>
             </tr>
