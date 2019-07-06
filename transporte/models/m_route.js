@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 
-const Ruta = db.define('ruta', {
+const Route = db.define('route', {
 
-  routeName: {
+  route_name: {
     type: Sequelize.STRING, allowNull: false,
     validate: {
         isAlphanumeric: true,
@@ -11,7 +11,7 @@ const Ruta = db.define('ruta', {
     }
   },
 
-  serviceDays: {
+  service_days: {
       type: Sequelize.STRING, allowNull: false,
       validate: {
         isAlphanumeric: true,
@@ -36,4 +36,4 @@ const Ruta = db.define('ruta', {
   }
 })
 
-module.exports = Ruta;
+module.exports = Route;

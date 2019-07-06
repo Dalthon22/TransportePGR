@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Ruta = require('./m_ruta');
+const Route = require('./m_route');
 
 const Procuraduria = db.define('procuraduria', {
 
@@ -36,7 +36,7 @@ const Procuraduria = db.define('procuraduria', {
     }
 })
 
-Procuraduria.hasMany(Ruta, {foreignKey: 'idProcuraduria'});
-//Procuraduria.sync();
-//Ruta.sync();
+Procuraduria.hasMany(Route, {foreignKey: 'idProcuraduria'});
+Procuraduria.sync();
+Route.sync();
 module.exports = Procuraduria;

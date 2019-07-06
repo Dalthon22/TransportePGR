@@ -1,5 +1,8 @@
 const db = require('../dbconfig/conex');
 const Procuraduria = require('../models/m_procuraduria');
+const express = require('express');
+const bodyParser = require('body-parser');
+const Sequelize = require('sequelize');
 
 class procuraduria_services {
     constructor() {}
@@ -7,27 +10,13 @@ class procuraduria_services {
        return Procuraduria.findAll();
 };
 
-    create() {
+    create(procuraduria_name, address) {
 
-    const data = {
-        procuraduria_name: 'Procuraduría General de la República',
-        address: 'San Salvador, San Salvador',
-    }
-
-    let { procuraduria_name, address } = data;
-
-    //Insert into table
-    Car.create({
-        procuraduria_name,
-        address,
-        })
-        .then(procuraduria => {
-            return procuraduria;
-        })
-        .catch(error => console.log(error));
-}
-
-
+        Procuraduria.create({
+            procuraduria_name,
+            address,
+          })
+        }
 };
 
 module.exports = new procuraduria_services();
