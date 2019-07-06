@@ -11,52 +11,44 @@
     {% block body %}
 
     <section id="lista_vehiculos" class="ui center aligned container">
-        <h1 id="title" class="ui header">Vehículos</h1>
-        <table class="ui selectable celled table">
+        <h1 id="title" class="ui header" style="text-align: left">Vehículos</h1>
+        <table class="ui sortable selectable collapsing celled table" style="width:70em">
             <thead>
-                <tr class="ui green table">
+                <tr style="text-align: center">
                     <th>Marca</th>
                     <th>Modelo</th>
                     <th>Placa</th>
                     <th>Chasis</th>
                     <th>Motor</th>
-                    <th># Asientos</th>
+                    <th class="sorted ascending"># Asientos</th>
                     <th class="sorted descending">Estado</th>
                 </tr>
             </thead>
             <tbody>
+                {% if cars %}
+                {% for c in cars %}
                 <tr>
-                    <td>Toyota</td>
-                    <td>Corolla</td>
-                    <td>P369632</td>
-                    <td>M/D</td>
-                    <td>1.8</td>
-                    <td>5</td>
-                    <td class="positive">Funcional</td>
+                    <td class="center aligned">{{c.brand}}</td>
+                    <td class="center aligned">{{c.model}}</td>
+                    <td class="center aligned">{{c.plate}}</td>
+                    <td class="center aligned">{{c.chassis}}</td>
+                    <td class="center aligned">{{c.engine}}/td>
+                    <td class="center aligned">{{c.seats}}</td>
+                    <td class="positive"><i class="plus icon"></i>{{c.state}}</td>
                 </tr>
-                <tr>
-                    <td>Honda</td>
-                    <td>Civic</td>
-                    <td>P112568</td>
-                    <td>YC136639</td>
-                    <td>800</td>
-                    <td>4</td>
-                    <td class="negative">Dañado</td>
-                </tr>
-                <tr>
-                    <td>Hyundai</td>
-                    <td>Elantra</td>
-                    <td>P169489</td>
-                    <td>YC125639</td>
-                    <td>800</td>
-                    <td>4</td>
-                    <td class="negative">Dañado</td>
-                </tr>
+                {% endfor %}
+                {% else %}
+                <td colspan="7">No hay registros disponibles</td>
+                {% endif %}
             </tbody>
         </table>
     </section>
+    <div id="nuevo" class="left aligned">
+        <button class="ui button">Nuevo</button>
+    </div>
 
-    <button class="ui button">Follow</button>
+
+
 
     {% endblock %}
 </body>

@@ -32,7 +32,7 @@ db.authenticate()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'nunjucks');
+app.set('view engine', 'html');
 nunjucks.configure('views', {
   autoescape: true,
   express: app
