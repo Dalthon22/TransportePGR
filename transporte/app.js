@@ -6,9 +6,6 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
-//const index = require('./routes/index');
-const Sequelize = require('sequelize');
-const router = express.Router(); //vamos a probar este mame
 var app = express();
 
 //Import Routes (Controllers)
@@ -39,11 +36,11 @@ nunjucks.configure('views', {
 });
 
 
-app.get('/home', function(req, res) {
+app.get('/home', function (req, res) {
   res.render('index.html');
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.render('login.html');
 });
 
@@ -78,8 +75,5 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-//"localhost:3000" en barra de navegador
-//const PORT = process.env.PORT || 3000;
-//app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
 module.exports = app;
