@@ -1,9 +1,11 @@
 const db = require('../dbconfig/conex');
 const Car = require('../models/m_car');
+const State = require('../models/m_state');
 
 class car_services {
     constructor() {
         this.car = new Car();
+        this.state = new State()
     }
     getAll() {
         return this.car.findAll();
