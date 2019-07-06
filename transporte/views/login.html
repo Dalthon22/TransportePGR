@@ -1,50 +1,59 @@
 <!-- Aquí debería de ir el home/dashboard luego del login, lo que está ahorita solo es prueba. -->
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <link rel="stylesheet" href="scripts/semantic-ui-css/semantic.min.css">
     <script src="scripts/jquery/dist/jquery.min.js"></script>
     <script src="scripts/semantic-ui-css/semantic.min.js"></script>
-  </head>
+</head>
+
 <body>
     {% block body %}
-    
+
     <head>
         <meta charset="utf-8">
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
-        <meta name="description" content="Semantic-UI-Forest, collection of design, themes and templates for Semantic-UI.">
+        <meta name="description"
+            content="Semantic-UI-Forest, collection of design, themes and templates for Semantic-UI.">
         <meta name="keywords" content="Semantic-UI, Theme, Design, Template">
         <meta name="author" content="PPType">
         <meta name="theme-color" content="#ffffff">
         <title>Login Template for Semantic-UI</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+            type="text/css">
         <style type="text/css">
             body {
                 background-color: #dadada;
                 -webkit-font-smoothing: antialiased;
                 -moz-font-smoothing: grayscale;
             }
-    
+
             body>.ui.grid {
                 height: 100%;
             }
-    
+
             .column {
                 max-width: 450px;
             }
-        </style><img class="ui fluid image" src="/images/banner1.jpeg"></head>
+        </style><img class="ui fluid image" src="/images/banner1.jpeg">
+        </img>
+    </head>
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             <h2> Ingrese su cuenta </h2>
-            <form class="ui large form" action="/home" method="POST">
+            <form class="ui large form" action="/" method="POST">
                 <div class="ui stacked segment">
                     <div class="field">
-                        <div class="ui left icon input"><i class="user icon"></i><input name="user" placeholder="user" type="text"></div>
+                        <div class="ui left icon input"><i class="user icon"></i><input name="username"
+                                placeholder="usern" type="text"></div>
                     </div>
                     <div class="field">
-                        <div class="ui left icon input"><i class="lock icon"></i><input name="password" placeholder="Password" type="password"></div>
-                    </div><button class="fluid ui button" type="submit">Iniciar sesion</button></div>
+                        <div class="ui left icon input"><i class="lock icon"></i><input name="password"
+                                placeholder="Password" type="password"></div>
+                    </div><button class="fluid ui button" type="submit">Iniciar sesion</button>
+                </div>
                 <div class="ui error message"></div>
             </form>
         </div>
@@ -52,7 +61,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".ui.form").form({
                 fields: {
                     email: {
@@ -85,4 +94,3 @@
     </script>
     {% endblock %}
 </body>
-

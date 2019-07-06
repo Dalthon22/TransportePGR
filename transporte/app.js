@@ -11,7 +11,7 @@ const passport = require('passport');
 
 //initializations
 var app = express();
-require('./services/passporth_s')
+require('./services/s_passporth');
 // Database
 const db = require('./dbconfig/conex.js');
 
