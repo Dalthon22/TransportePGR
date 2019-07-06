@@ -40,14 +40,6 @@ nunjucks.configure('views', {
 app.get('/home', function (req, res) {
   res.render('index.html');
 });
-<<<<<<< HEAD
-
-app.get('/', function (req, res) {
-  res.render('login.html');
-});
-
-
-=======
 //var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
 //Renderiza la primera página de la aplicación al correr el servidor
 app.get('/', function(req, res) {
@@ -55,7 +47,6 @@ app.get('/', function(req, res) {
 });
 app.use('/procuraduria', require('./routes/c_procuraduria'));
 app.use('/route', require('./routes/c_route'));
->>>>>>> Axel
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -81,15 +72,9 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-<<<<<<< HEAD
-  //render the error page
-  res.status(err.status || 500);
-  res.render('error');
-=======
   // render the error page
  // res.status(err.status || 500);
   //res.render('error');
->>>>>>> Axel
 });
 
 
