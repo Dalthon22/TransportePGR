@@ -2,7 +2,7 @@
 {% block body %}
 <section id="lista_vehiculos" class="ui center aligned container">
     <h1 id="title" class="ui header" style="text-align: left">Vehículos</h1>
-    <table class="ui sortable selectable table" style="width:70em">
+    <table class="ui sortable selectable table" style="width:70em;max-height:100px;overflow-x:scroll;">
         <thead>
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -32,12 +32,50 @@
             {% endif %}
         </tbody>
     </table>
+    <table>
+        <tr>
+            <td>
+                <div id="nuevo" class="left aligned">
+                    <button class="ui green button">Nuevo</button>
+                </div>
+            </td>
+            <td style="width: 200px"></td>
+            <td>
+                <div id="nuevo" class="left aligned">
+                    <button class="ui olive button">Editar</button>
+                </div>
+            </td>
+        </tr>
+    </table>
 </section>
-<div id="nuevo" class="left aligned">
-    <button class="ui green button">Nuevo</button>
-</div>
 <br>
-<div id="nuevo" class="left aligned">
-    <button class="ui olive button">Editar</button>
-</div>
+<section id="formulario_vehiculo" class="ui center aligned container">
+    <form action="/add" method="POST">
+        <div class="two fields">
+            <div class="field">
+                <label>Marca</label>
+                <input name="brand" placeholder="Ej.:Toyota" type="text" readonly="" tabindex="-1">
+            </div>
+            <div class="field">
+                <label>Modelo</label>
+                <input name="model" placeholder="Disabled" type="text" readonly="" tabindex="-1">
+            </div>
+        </div>
+        <div class="field">
+            <label>Estado</label>
+            <input name="state" placeholder="Disabled" type="text" readonly="" tabindex="-1">
+        </div>
+        <br>
+        <div class="ui success message">
+            <div class="header">Form Completed</div>
+            <p>You're all signed up for the newsletter.</p>
+        </div>
+    </form>
+    <br>
+    <div class="ui buttons" style="text-align:right">
+        <button class="ui teal button" type="submit">Guaradar</button>
+        <div class="or"></div>
+        <button class="ui red button" type="button">Cancel</button>
+    </div>
+</section>
 {% endblock %}
