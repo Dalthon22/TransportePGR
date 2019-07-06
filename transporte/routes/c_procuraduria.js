@@ -14,4 +14,12 @@ router.get('/', (req, res) => Procuraduria = services.getAll()
 router.get('/add', (req, res) => res.render('../views/procuraduria/add.html')
 .catch(err => console.log(err)));
 
+/*router.get('/add', (req, res) => {
+    if (services.create()) {
+        res.redirect('../views/procuraduria/list.html');
+    } else {
+        res.redirect('/');
+    }
+})*/
+
 module.exports = router;

@@ -1,9 +1,9 @@
-{% extends '../base.html' %}
-{% block body %}
+{% extends 'base.html' %}
 
-    <section id="add" class="ui center aligned container">
+{% block body %}
+    <section id="add">
       <h1 class="ui header">Crear procuraduría.</h1>
-      <form class="ui form">
+      <form class="ui form" method="GET">
         <div class="required field">
           <label>Nombre procuraduría:</label>
           <input type="text" name="procuraduria_name" placeholder="Nombre procuraduria" value={{procuraduria_name}}>
@@ -11,5 +11,4 @@
         <button class="ui primary button">Save</button>
       </form>
     </section>
-
 {% endblock %}

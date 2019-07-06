@@ -9,7 +9,24 @@ class procuraduria_services {
 
     create() {
 
+    const data = {
+        procuraduria_name: 'Procuraduría General de la República',
+        address: 'San Salvador, San Salvador',
     }
+
+    let { procuraduria_name, address } = data;
+
+    //Insert into table
+    Car.create({
+        procuraduria_name,
+        address,
+        })
+        .then(procuraduria => {
+            return procuraduria;
+        })
+        .catch(error => console.log(error));
+}
+
 
 };
 
