@@ -62,10 +62,16 @@ const Sequelize = require('sequelize');
 });*/
 
 //Dalton: Local db connection
-const dbConex = new Sequelize('usuarios', 'sa', 'localhost', {
-  host: 'localhost',
+const dbConex = new Sequelize('sigestran', 'th15003', 'Kalexander2019', {
+  host: 'sigestran.database.windows.net',
   dialect: 'mssql',
-  operatorAliases: false,
+  dialectOptions: {
+    options: {
+      encrypt: true,
+    }
+  },
+
+  //operatorAliases: false,
 
   pool: {
     max: 5,

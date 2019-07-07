@@ -5,7 +5,7 @@ const db = require('../dbconfig/conex');
 
 router.get('/', (req, res) => {
     res.render('login.html');
-    db.query('select * from users').then(results => {
+    db.query('select * from SIS_Usuarios').then(results => {
         console.log(results);
     });
 
@@ -16,7 +16,7 @@ router.post('/auth', function (request, response) {
     var password = request.body.password;
     if (username && password) {
 
-        db.query('SELECT * FROM users WHERE username = ? AND password = ?', {
+        db.query('SELECT * FROM SIS_Usuarios WHERE CorreoElectronicoUsuario = ? AND ClaveUsuario = ?', {
                 replacements: [username, password],
                 type: db.QueryTypes.SELECT
             }).then(results => {
