@@ -54,8 +54,8 @@ app.use(passport.session()); */
 
 //Routes
 app.use(require('./routes/index'));
-app.use('/cars', require('./routes/c_car'));
-app.use('/routes', require('./routes/c_route'));
+app.use('/vehiculos', require('./routes/c_car'));
+app.use('/rutas', require('./routes/c_route'));
 app.use('/instituciones', require('./routes/c_procuraduria'));
 
 
