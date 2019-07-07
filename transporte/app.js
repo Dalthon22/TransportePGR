@@ -6,8 +6,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
-const passport = require('passport');
-//const Sequelize = require('sequelize');
+var app = express();
+
 
 //initializations
 var app = express();
@@ -27,7 +27,24 @@ nunjucks.configure('views', {
   express: app
 });
 
-//Files static
+
+app.get('/home', function (req, res) {
+  res.render('index.html');
+});
+//var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('views'));
+//Renderiza la primera página de la aplicación al correr el servidor
+app.get('/', function (req, res) {
+  res.render('base.html');
+});
+
+//Uso de rutas
+app.use('/procuraduria', require('./routes/c_procuraduria'));
+app.use('/route', require('./routes/c_route'));
+app.use('/cars', require('./routes/c_car'));
+//app.use('/',require('./routes/index'));
+//app.use('/users', require('./routes/users'));
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(session({
@@ -67,13 +84,10 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  //render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // render the error page
+  // res.status(err.status || 500);
+  //res.render('error');
 });
 
-//"localhost:3000" en barra de navegador
-//const PORT = process.env.PORT || 3000;
-//app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
 module.exports = app;
