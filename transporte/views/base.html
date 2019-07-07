@@ -1,60 +1,47 @@
-<!-- Aquí debería de ir el home/dashboard luego del login, lo que está ahorita solo es prueba. -->
-<!DOCTYPE html>
-<html>
+{% extends 'login.html' %}
 
-<head>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-</head>
-
-<body>
-    <div class="ui top attached demo menu"><a class="item"><i class="sidebar icon"></i>
+{% block body %}
+<div class="ui top attached demo menu"><a class="item"><i class="sidebar icon"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Men&uacute;</font></font></a></div>
+<div class="ui bottom attached segment pushable">
+    <div class="ui visible inverted labeled icon left inline vertical sidebar menu">
+        <a class="item">
             <font style="vertical-align: inherit;">
-                <font style="vertical-align: inherit;">Men&uacute;</font>
+                <font style="vertical-align: inherit;">Vehiculos</font>
             </font>
-        </a></div>
-    <div class="ui bottom attached segment pushable">
-        <div class="ui visible inverted labeled icon left inline vertical sidebar menu">
-            <a class="item" href="/cars">
+        </a>
+        <a class="item">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">Motoristas</font>
+            </font>
+        </a>
+        <a class="item">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">Rutas</font>
+            </font>
+        </a>
+        <a class="item">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">vales</font>
+            </font>
+        </a>
+        <a class="item">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">Calendarizacion</font>
+            </font>
+        </a>
+    </div>
+    <div class="pusher">
+        <div class="ui basic segment">
+            <h3 class="ui header">
                 <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Vehiculos</font>
+                    <font style="vertical-align: inherit;">Contenido de la aplicacioacute;n</font>
                 </font>
-            </a>
-            <a class="item">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Motoristas</font>
-                </font>
-            </a>
-            <a class="item">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Procuradurías</font>
-                </font>
-            </a>
-            <a class="item">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Rutas</font>
-                </font>
-            </a>
-            <a class="item">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Vales de combustible</font>
-                </font>
-            </a>
-            <a class="item">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Calendarizacion</font>
-                </font>
-            </a>
-        </div>
-        <div class="pusher">
-            <div class="ui basic segment">
-                {% block body %}{% endblock %}
-            </div>
+            </h3>
+            <p>Pruebas de sonido</p>
+            <p></p>
+            <p></p>
+            <p></p>
         </div>
     </div>
-
-</body>
-
-</html>
+</div>
+{% endblock %}

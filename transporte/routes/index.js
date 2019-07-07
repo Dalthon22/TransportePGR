@@ -36,7 +36,7 @@ router.post('/auth', function (request, response) {
     }
 });
 router.get('/home', (req, res) => {
-    res.render('index.html');
+    res.render('base.html');
 
 });
 
