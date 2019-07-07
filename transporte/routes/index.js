@@ -4,7 +4,7 @@ const db = require('../dbconfig/conex');
 
 
 router.get('/', (req, res) => {
-    res.render('prueba.html');
+    res.render('login.html');
     db.query('select * from users').then(results => {
         console.log(results);
     });
@@ -35,10 +35,16 @@ router.post('/auth', function (request, response) {
         response.end();
     }
 });
+router.get('/home', (req, res) => {
+    res.render('index.html');
+
+});
 
 router.get('/home', function (request, response) {
     if (request.session.loggedin) {
-        response.send('Welcome back, ' + request.session.username + '!');
+        //response.send('Welcome back, ' + request.session.username + '!');
+        //res.render('index.html');
+
     } else {
         response.send('Please login to view this page!');
     }
