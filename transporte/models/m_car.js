@@ -2,12 +2,6 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 
 const Car = db.define('car', {
-    created_by: {
-        type: Sequelize.INTEGER
-    },
-    updated_by: {
-        type: Sequelize.INTEGER
-    },
     brand: {
         type: Sequelize.STRING(50),
         allowNull: false,
@@ -60,12 +54,18 @@ const Car = db.define('car', {
             }
         }
     },
+    created_by: {
+        type: Sequelize.INTEGER
+    },
+    updated_by: {
+        type: Sequelize.INTEGER
+    },
 }, {
     underscored: true,
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    freezeTableName: true,
 });
 
-Car.sync();
 module.exports = Car;

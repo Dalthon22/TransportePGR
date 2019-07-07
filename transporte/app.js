@@ -65,8 +65,8 @@ app.use('/scripts', express.static(`${__dirname}/node_modules/`));
 
 //middelware
 
-app.use(passport.initialize());
-app.use(passport.session());
+/* app.use(passport.initialize());
+app.use(passport.session()); */
 
 //Routes
 

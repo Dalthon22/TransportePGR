@@ -1,9 +1,11 @@
 const db = require('../dbconfig/conex');
 const Car = require('../models/m_car');
-const Deparment = require('../models/m_deparment');
+const Migration = require('../models/migrations');
 
 class car_services {
-    constructor() {}
+    constructor() {
+        new Migration();
+    }
     getAll() {
         return Car.findAll();
     }

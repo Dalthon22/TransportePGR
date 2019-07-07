@@ -1,19 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Routes = require('../models/m_route');
+const City = require('../models/m_city');
 
-const City = db.define('city', {
-    cnr_code: {
-        type: Sequelize.STRING(4),
+const Address = db.define('address', {
+    detail: {
+        type: Sequelize.STRING(250),
         allowNull: false,
         validate: {
-            notEmpty: true,
-        }
-    },
-    name: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        validate: {
+            isAlphanumeric: true,
             notEmpty: true,
         }
     },
@@ -31,8 +25,8 @@ const City = db.define('city', {
     freezeTableName: true,
 });
 
-City.hasMany(Routes, {
-    foreignKey: 'city_id'
+Address.belongsTo(City, {
+    foreignKey: 'city_id',
 });
 
-module.exports = City;
+module.exports = Address;

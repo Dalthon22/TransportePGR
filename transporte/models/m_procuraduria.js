@@ -1,42 +1,40 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Route = require('./m_route');
+const Routes = require('./m_route');
+const Cars = require('./m_car');
+const Address = require('./m_address');
 
 const Procuraduria = db.define('procuraduria', {
-
-    procuraduria_name: {
-        type: Sequelize.STRING, allowNull: false,
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false,
         validate: {
             isAlphanumeric: true,
             notEmpty: true,
         }
     },
-
-    address:{
-        type: Sequelize.STRING,
-        validate:{
-            notEmpty: true,
-        }
+    created_by: {
+        type: Sequelize.INTEGER
     },
-
-    createdAt:{
-        type: Sequelize.DATE
-    },
-
-    updatedAt:{
-        type: Sequelize.DATE
-    },
-
-    created_by:{
-        type: Sequelize.STRING
-    },
-
-    updated_by:{
-        type: Sequelize.STRING
+    updated_by: {
+        type: Sequelize.INTEGER
     }
-})
+}, {
+    underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    freezeTableName: true,
+});
 
-Procuraduria.hasMany(Route, {foreignKey: 'idProcuraduria'});
-Procuraduria.sync();
-Route.sync();
+Procuraduria.hasMany(Routes, {
+    foreignKey: 'procuraduria_id'
+});
+Procuraduria.hasMany(Cars, {
+    foreignKey: 'procuraduria_id'
+});
+Procuraduria.belongsTo(Address, {
+    foreignKey: 'address_id'
+});
+
 module.exports = Procuraduria;
