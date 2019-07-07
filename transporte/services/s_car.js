@@ -1,4 +1,3 @@
-const db = require('../dbconfig/conex');
 const Car = require('../models/m_car');
 const Migration = require('../models/migrations');
 
