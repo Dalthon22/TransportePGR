@@ -1,4 +1,4 @@
-var createError = require('http-errors');
+var Error = require('http-errors');
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -46,6 +46,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(`${__dirname}/node_modules/`));
 
+
 //middelware
 
 app.use(passport.initialize());
@@ -69,7 +70,7 @@ app.use(function (err, req, res, next) {
 
   //render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
 
 //"localhost:3000" en barra de navegador
