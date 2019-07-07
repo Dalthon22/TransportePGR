@@ -1,8 +1,4 @@
-{% extends 'base.html' %}
-
-<head>
-    <script src="/public/static/js/a_cars.js"></script>
-</head>
+{% extends 'base.html'%}
 
 {% block body %}
 <section id="lista_vehiculos" class="ui container" style="margin-left: 0em !important">
@@ -66,12 +62,12 @@
     <h1 class="ui header left aligned">Agregar Vehículo</h1>
     <form class="ui equal width large form" id="nuevo_vehiculo" name="vehiculo">
         <div class="fields">
-            <div class="required field" id="brand">
-                <label>Marca</label>
+            <div class="required field">
+                <label for="brand">Marca</label>
                 <input name="brand" type="text" placeholder="Ej.: Toyota">
             </div>
             <div class="required field" style="margin-left: 3em !important">
-                <label>Chasis</label>
+                <label for="chassis">Chasis</label>
                 <input name="chassis" type="text" placeholder="Chasis">
             </div>
             <div class="grouped required fields" id="state" style="margin-left: 3em !important">
@@ -98,28 +94,30 @@
         </div>
         <div class="equal width fields">
             <div class="required field">
-                <label>Modelo</label>
-                <input type="text" placeholder="Ej. Corolla">
+                <label for="model">Modelo</label>
+                <input name="model" type="text" placeholder="Ej. Corolla SE">
             </div>
             <div class="required field">
-                <label>Motor</label>
-                <input type="number" placeholder="1.8">
+                <label for="engine">Motor</label>
+                <input name="engine" type="text" placeholder="64EKT931230">
             </div>
             <div class="required field">
-                <label>Placa</label>
-                <input type="text" placeholder="AA236963">
+                <label for="plate">Placa</label>
+                <input name="plate" type="text" placeholder="AA236963">
             </div>
             <div class="required field">
-                <label>Asientos</label>
-                <input type="number" placeholder="2-40">
+                <label for="seats">Asientos</label>
+                <input name="seats" type="number" placeholder="2-40">
             </div>
         </div>
+        <br>
+        <div class="ui right floated buttons">
+            <button class="ui teal button" type="submit">Guaradar</button>
+            <div class="or"></div>
+            <button class="ui red button" type="button">Cancel</button>
+        </div>
     </form>
-    <br>
-    <div class="ui right floated buttons">
-        <button class="ui teal button" type="submit">Guaradar</button>
-        <div class="or"></div>
-        <button class="ui red button" type="button">Cancel</button>
-    </div>
 </section>
+
+<script src="/public/static/js/a_cars.js"></script>
 {% endblock %}

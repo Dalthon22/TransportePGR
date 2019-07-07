@@ -1,53 +1,66 @@
 /*Validacion del lado del cliente */
 $('.ui.form')
     .form({
+        inline: true,
+        on: 'blur',
         fields: {
-            name: {
-                identifier: 'name',
+            brand: {
+                identifier: 'brand',
                 rules: [{
                     type: 'empty',
-                    prompt: 'Please enter your name'
+                    prompt: 'Por favor ingrese la marca del vehículo'
                 }]
             },
-            skills: {
-                identifier: 'skills',
-                rules: [{
-                    type: 'minCount[2]',
-                    prompt: 'Please select at least two skills'
-                }]
-            },
-            gender: {
-                identifier: 'gender',
+            chassis: {
+                identifier: 'chassis',
                 rules: [{
                     type: 'empty',
-                    prompt: 'Please select a gender'
+                    prompt: 'Por favor ingrese información del chasis'
                 }]
             },
-            username: {
-                identifier: 'username',
+            model: {
+                identifier: 'model',
                 rules: [{
                     type: 'empty',
-                    prompt: 'Please enter a username'
+                    prompt: 'Por favor ingrese el modelo'
                 }]
             },
-            password: {
-                identifier: 'password',
+            engine: {
+                identifier: 'engine',
                 rules: [{
                         type: 'empty',
-                        prompt: 'Please enter a password'
+                        prompt: 'Por favor ingrese número del motor'
                     },
                     {
-                        type: 'minLength[6]',
-                        prompt: 'Your password must be at least {ruleValue} characters'
+                        type: 'minLength[10]',
+                        prompt: 'La información del motor debe contener al menos caracteres'
                     }
                 ]
             },
-            terms: {
-                identifier: 'terms',
+            plate: {
+                identifier: 'plate',
                 rules: [{
-                    type: 'checked',
-                    prompt: 'You must agree to the terms and conditions'
+                        type: 'empty',
+                        prompt: 'Por favor ingrese el número de placa'
+                    },
+                    {
+                        type: 'minLength[4]',
+                        prompt: 'El numero de placa puede poseer menos de 4 caracteres'
+                    },
+                    {
+                        type: 'maxLength[8]',
+                        prompt: 'El numero de placa no puede poseer más de 8 caracteres'
+                    }
+                ]
+            },
+            seats: {
+                identifier: 'seats',
+                rules: [{
+                    type: 'integer[2..40]',
+                    prompt: 'Le número de asientos del vehículo debe ser entre 2 y 40'
                 }]
             }
         }
     });
+
+prompt('Desea continuar');

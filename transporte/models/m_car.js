@@ -36,10 +36,10 @@ const Car = db.define('car', {
         allowNull: false,
     },
     engine: {
-        type: Sequelize.DECIMAL(2, 1),
+        type: Sequelize.STRING(25),
         allowNull: false,
         validate: {
-            isDecimal: true,
+            isAlphanumeric: true,
         }
     },
     seats: {
