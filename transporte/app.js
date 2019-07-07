@@ -53,8 +53,13 @@ app.use('/scripts', express.static(`${__dirname}/node_modules/`));
 app.use(passport.session()); */
 
 //Routes
-
 app.use(require('./routes/index'));
+app.use('/cars', require('./routes/c_car'));
+app.use('/routes', require('./routes/c_route'));
+app.use('/instituciones', require('./routes/c_procuraduria'));
+
+
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');

@@ -4,8 +4,18 @@ const services = require('../services/s_car');
 
 /*GET Car List*/
 router.get('/', (req, res) => {
+    /* if (request.session.loggedin === true) {
+        services.getAll()
+            .then(cars => res.render('../views/car/list.html', {
+                cars
+            }))
+            .catch(error => console.log(error))
+    } else {
+        response.send('Please login to view this page!');
+    }
+    res.end(); */
     services.getAll()
-        .then(cars => res.render('../views/Cars/list.html', {
+        .then(cars => res.render('../views/car/list.html', {
             cars
         }))
         .catch(error => console.log(error))

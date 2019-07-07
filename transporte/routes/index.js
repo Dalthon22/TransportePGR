@@ -35,12 +35,18 @@ router.post('/auth', function (request, response) {
         response.end();
     }
 });
+
 router.get('/home', (req, res) => {
-    res.render('base.html');
+    if (req.session.loggedin) {
+        res.render('base.html');
+    } else {
+        response.send('Please login to view this page!');
+    }
+
 
 });
 
-router.get('/home', function (request, response) {
+/* router.get('/home', function (request, response) {
     if (request.session.loggedin) {
         //response.send('Welcome back, ' + request.session.username + '!');
         //res.render('index.html');
@@ -49,6 +55,6 @@ router.get('/home', function (request, response) {
         response.send('Please login to view this page!');
     }
     response.end();
-});
+}); */
 
 module.exports = router;
