@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
+
+<head>
+    <script src="/public/static/js/a_cars.js"></script>
+</head>
+
 {% block body %}
-<section id="lista_vehiculos" class="ui center aligned container">
-    <h1 id="title" class="ui header" style="text-align: left">Vehículos</h1>
-    <table class="ui sortable selectable table" style="width:70em;max-height:100px;overflow-x:scroll;">
-        <thead>
+<section id="lista_vehiculos" class="ui container" style="margin-left: 0em !important">
+    <h1 id="title" class="ui header left">Vehículos</h1>
+    <table class="ui selectable large table" style="width:80em;max-height:400px;">
+        <thead class="full-width">
             <tr style="text-align: center">
                 <th>Placa</th>
                 <th>Marca</th>
@@ -24,7 +29,8 @@
                 <td class="center aligned">{{c.seats}}</td>
                 <td class="center aligned">{{c.chassis}}</td>
                 <td class="center aligned">{{c.engine}}</td>
-                <td class="positive"><i class="plus icon"></i>{{c.state}}</td>
+                <td class="positive"><i class="exclamation icon"></i><i class="check icon"></i><i
+                        class="x icon"></i>{{c.state}}</td>
             </tr>
             {% endfor %}
             {% else %}
@@ -41,7 +47,7 @@
             </td>
             <td style="width: 200px"></td>
             <td>
-                <div id="nuevo" class="left aligned">
+                <div id="editar" class="left aligned">
                     <button class="ui olive button">Editar</button>
                 </div>
             </td>
@@ -49,30 +55,68 @@
     </table>
 </section>
 <br>
-<section id="formulario_vehiculo" class="ui center aligned container">
-    <form action="/add" method="POST">
-        <div class="two fields">
-            <div class="field">
+
+<div id="exito" class="ui success message center aligned" style="display: none">
+    <div class="header">Éxito</div>
+    <p>¡Registro guardado correctamente!</p>
+</div>
+
+<br>
+<section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important">
+    <h1 class="ui header left aligned">Agregar Vehículo</h1>
+    <form class="ui equal width large form" id="nuevo_vehiculo" name="vehiculo">
+        <div class="fields">
+            <div class="required field" id="brand">
                 <label>Marca</label>
-                <input name="brand" placeholder="Ej.:Toyota" type="text" readonly="" tabindex="-1">
+                <input name="brand" type="text" placeholder="Ej.: Toyota">
             </div>
-            <div class="field">
+            <div class="required field" style="margin-left: 3em !important">
+                <label>Chasis</label>
+                <input name="chassis" type="text" placeholder="Chasis">
+            </div>
+            <div class="grouped required fields" id="state" style="margin-left: 3em !important">
+                <label>Estado</label>
+                <div class="field">
+                    <div class="ui toggle checkbox">
+                        <input type="radio" id="funcional" name="state" checked="checked">
+                        <label class="coloring green">Funcional</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui toggle checkbox">
+                        <input type="radio" id="mantenimiento" name="state">
+                        <label>Mantenimiento</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui toggle checkbox">
+                        <input type="radio" id="daniado" name="state">
+                        <label>Dañado</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="equal width fields">
+            <div class="required field">
                 <label>Modelo</label>
-                <input name="model" placeholder="Disabled" type="text" readonly="" tabindex="-1">
+                <input type="text" placeholder="Ej. Corolla">
             </div>
-        </div>
-        <div class="field">
-            <label>Estado</label>
-            <input name="state" placeholder="Disabled" type="text" readonly="" tabindex="-1">
-        </div>
-        <br>
-        <div class="ui success message">
-            <div class="header">Form Completed</div>
-            <p>You're all signed up for the newsletter.</p>
+            <div class="required field">
+                <label>Motor</label>
+                <input type="number" placeholder="1.8">
+            </div>
+            <div class="required field">
+                <label>Placa</label>
+                <input type="text" placeholder="AA236963">
+            </div>
+            <div class="required field">
+                <label>Asientos</label>
+                <input type="number" placeholder="2-40">
+            </div>
         </div>
     </form>
     <br>
-    <div class="ui buttons" style="text-align:right">
+    <div class="ui right floated buttons">
         <button class="ui teal button" type="submit">Guaradar</button>
         <div class="or"></div>
         <button class="ui red button" type="button">Cancel</button>
