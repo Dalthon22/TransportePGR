@@ -9,10 +9,6 @@ router.get('/', (req, res) => {
             cars
         }))
         .catch(error => console.log(error))
-    /* var cars;
-    res.render('../views/Cars/list.html', {
-        cars
-    }); */
 });
 
 /*Get Add a car */

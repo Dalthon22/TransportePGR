@@ -25,7 +25,7 @@
                 <td class="center aligned">{{c.seats}}</td>
                 <td class="center aligned">{{c.chassis}}</td>
                 <td class="center aligned">{{c.engine}}</td>
-                <td class="positive"><i class="exclamation icon"></i><i class="check icon"></i><i
+                <td id="state" class="positive"><i class="exclamation icon"></i><i class="check icon"></i><i
                         class="x icon"></i>{{c.state}}</td>
             </tr>
             {% endfor %}
@@ -60,7 +60,7 @@
 <br>
 <section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important">
     <h1 class="ui header left aligned">Agregar Vehículo</h1>
-    <form class="ui equal width large form" id="nuevo_vehiculo" name="vehiculo">
+    <form class="ui loading equal width large form" id="nuevo_vehiculo" name="vehiculo">
         <div class="fields">
             <div class="required field">
                 <label for="brand">Marca</label>
@@ -70,24 +70,27 @@
                 <label for="chassis">Chasis</label>
                 <input name="chassis" type="text" placeholder="Chasis">
             </div>
-            <div class="grouped required fields" id="state" style="margin-left: 3em !important">
-                <label>Estado</label>
-                <div class="field">
-                    <div class="ui toggle checkbox">
-                        <input type="radio" id="funcional" name="state" checked="checked">
-                        <label class="coloring green">Funcional</label>
+            <div class="field">
+                <input type="hidden" name="state_chosen" id="confirm_value" value="">
+                <div class="grouped required fields" id="state" style="margin-left: 3em !important">
+                    <label>Estado</label>
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="radio" id="funcional" name="state" checked="checked">
+                            <label class="coloring green">Funcional</label>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="ui toggle checkbox">
-                        <input type="radio" id="mantenimiento" name="state">
-                        <label>Mantenimiento</label>
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="radio" id="mantenimiento" name="state">
+                            <label>Mantenimiento</label>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="ui toggle checkbox">
-                        <input type="radio" id="daniado" name="state">
-                        <label>Dañado</label>
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="radio" id="daniado" name="state">
+                            <label>Dañado</label>
+                        </div>
                     </div>
                 </div>
             </div>

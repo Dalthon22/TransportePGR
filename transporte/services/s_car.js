@@ -3,7 +3,7 @@ const Migration = require('../models/migrations');
 
 class car_services {
     constructor() {
-        new Migration();
+        //new Migration();
     }
     getAll() {
         return Car.findAll();
