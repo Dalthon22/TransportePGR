@@ -9,30 +9,19 @@ class car_services {
         return Car.findAll();
     }
 
-    create() {
+    create(brand, chassis, state, model, engine, plate, seats) {
         const create_at = new Date();
-        let {
-            brand,
-            model,
-            plate,
-            chassis,
-            engine,
-            seats
-        } = data;
-
         //Insert into table
-        Car.create({
-                brand,
-                model,
-                plate,
-                chassis,
-                engine,
-                seats
-            })
-            .then(car => {
-                return car;
-            })
-            .catch(error => console.log(error));
+        return Car.create({
+            brand,
+            chassis,
+            state,
+            model,
+            engine,
+            plate,
+            seats,
+            create_at
+        });
     }
 };
 

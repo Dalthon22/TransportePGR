@@ -60,7 +60,7 @@
 <br>
 <section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important">
     <h1 class="ui header left aligned">Agregar Vehículo</h1>
-    <form class="ui equal width large form" id="nuevo_vehiculo" name="vehiculo" action="/add" method="POST">
+    <form class="ui equal width large form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/add" method="POST">
         <div class="fields">
             <div class="required disabled field">
                 <label for="brand">Marca</label>
@@ -103,10 +103,10 @@
             </div>
         </div>
         <br>
-        <div class="ui right floated buttons">
-            <button class="ui teal submit enter button" type="submit">Guaradar</button>
+        <div id="buttons" class="ui right floated buttons">
+            <button id="submit_form" class="ui disabled teal submit enter button" type="submit">Guaradar</button>
             <div class="or"></div>
-            <button id="cancel_form" class="ui clear red button" type="button">Cancel</button>
+            <button id="cancel_form" class="ui disabled reset red button" type="button">Cancel</button>
         </div>
     </form>
 </section>
@@ -188,7 +188,7 @@
                                 prompt: 'El numero de placa no puede poseer más de 8 caracteres'
                             },
                             {
-                                type: 'regExp[/^[A-Z]{1,2}[0-9]{4,8}$/]',
+                                type: 'regExp[/^[A-Z]{1,2}[0-9]{4,6}$/]',
                                 prompt: 'El número de placa debe tener este este formato: AA999999'
                             }
                         ]
@@ -205,10 +205,6 @@
 
         $('#Funcional').attr("checked", "checked");
 
-        $('.ui.clear.red.button').on('click', () => {
-            $('#Funcional').attr("checked", "checked");
-        });
-
         $('#nuevo').on('click', () => {
             $('.ui.basic.modal')
                 .modal({
@@ -218,6 +214,8 @@
                     },
                     onApprove: function () {
                         $('.field').removeClass("disabled");
+                        $('#submit_form').removeClass("disabled");
+                        $('#cancel_form').removeClass("disabled");
                     }
                 })
                 .modal('show');
