@@ -3,7 +3,7 @@
 {% block views %}
 <section id="lista_vehiculos" class="ui container" style="margin-left: 0em !important">
     <h1 id="title" class="ui header left">Vehículos</h1>
-    <table class="ui selectable table" style="width:80em;max-height:400px;">
+    <table id="listado_vehiculos" class="ui selectable table" style="width:80em;max-height:400px;">
         <thead class="full-width">
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -19,14 +19,25 @@
             {% if cars %}
             {% for c in cars %}
             <tr>
-                <td class="center aligned">{{c.plate}}</td>
+                <td style="display: none">{{c.id}}</td>
+                <td class="aligned">{{c.plate}}</td>
                 <td class="center aligned">{{c.brand}}</td>
                 <td class="center aligned">{{c.model}}</td>
                 <td class="center aligned">{{c.seats}}</td>
                 <td class="center aligned">{{c.chassis}}</td>
                 <td class="center aligned">{{c.engine}}</td>
-                <td id="state" class="positive"><i class="exclamation icon"></i><i class="check icon"></i><i
-                        class="x icon"></i>{{c.state}}</td>
+                {% set state = c.state %}
+                <td id="state_table"
+                    class={{"positive" if state == "funcional" else ("warning" if state == "mantenimiento" else "error")}}>
+                    {% if state == "funcional" %}
+                    <i class="check icon"></i>
+                    {% elif state == "mantenimiento" %}
+                    <i class="exclamation icon"></i>
+                    {% else %}
+                    <i class="x icon"></i>
+                    {% endif %}
+                    {{c.state | capitalize}}
+                </td>
             </tr>
             {% endfor %}
             {% else %}
@@ -74,7 +85,7 @@
                 <div class="grouped required fields" id="state" style="margin-left: 3em !important">
                     <label>Estado</label>
                     {% for value, state in states %}
-                    <div class="required disabled field">
+                    <div class="disabled field">
                         <div class="ui toggle checkbox">
                             <input id={{value}} type="radio" name="state" value={{value}}>
                             <label for="state">{{state}}</label>
@@ -128,6 +139,7 @@
 <!-- <script src="/public/static/js/a_cars.js"></script> -->
 <script>
     $(function () {
+        //Validacion de formulario
         $('.ui.form')
             .form({
                 inline: true,
@@ -203,8 +215,10 @@
                 }
             });
 
+        //Setea el radio button de la opcion funcional como chequeado
         $('#Funcional').attr("checked", "checked");
 
+        //Muestra Mensaje de confirmacion  cuando se desea ingesar un nuevo registro
         $('#nuevo').on('click', () => {
             $('.ui.basic.modal')
                 .modal({
@@ -221,8 +235,15 @@
                 .modal('show');
         });
 
+        //Verifica que elemento de la tabla fue seleccionado con un click
+        /* $('.ui.table').click(function (event) {
+            var text = $(event.target).text();
+            window.alert(text);
+        });*/
 
-
+        /* $('#listado_vehiculos').find('tr').click(function () {
+            alert('You clicked row ' + ($(this).index() + 1));
+        }); */
     });
 </script>
 {% endblock %}

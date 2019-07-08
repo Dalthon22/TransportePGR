@@ -48,7 +48,7 @@ const Car = db.define('car', {
         defaultValue: 'funcional',
         allowNull: false,
         validate: {
-            isAlpha: true,
+            //isAlpha: true,
             isLowercase: {
                 msg: 'Debe estar en minúscula'
             }
