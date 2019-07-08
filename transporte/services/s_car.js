@@ -10,16 +10,7 @@ class car_services {
     }
 
     create() {
-        const data = {
-            brand: 'Peogeut',
-            model: '206',
-            plate: 'P678932',
-            chassis: 'YC145632',
-            engine: 1.0,
-            seats: 4,
-            state: 'Dañado'
-        }
-
+        const create_at = new Date();
         let {
             brand,
             model,

@@ -4,6 +4,10 @@ const services = require('../services/s_car');
 
 /*GET Car List*/
 router.get('/', (req, res) => {
+    let states_map = new Map();
+    states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
+    const states = states_map.entries();
+
     /* if (request.session.loggedin === true) {
         services.getAll()
             .then(cars => res.render('../views/car/list.html', {
@@ -16,13 +20,22 @@ router.get('/', (req, res) => {
     res.end(); */
     services.getAll()
         .then(cars => res.render('../views/car/list.html', {
-            cars
+            cars,
+            states
         }))
         .catch(error => console.log(error))
 });
 
 /*Get Add a car */
 router.get('/add', (req, res) => {
+    let {
+        brand,
+        model,
+        plate,
+        chassis,
+        engine,
+        seats
+    } = req.body;
     if (services.create()) {
         res.redirect('index.html');
     } else {
