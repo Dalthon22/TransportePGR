@@ -5,26 +5,22 @@ const services = require('../services/s_procuraduria');
 const bodyParser = require('body-parser');
 
 // Get procuradurías list
-router.get('/', (req, res) => {
-    services.getAll()
-        .then(Procuraduria => res.render('../views/procuraduria/list.html', {
-            Procuraduria
-        }))
-        .catch(err => console.log(err))
-});
+router.get('/', (req, res) => Procuraduria = services.getAll()
+.then(res.render('../views/instituciones/list.html'), {Procuraduria})
+.catch(err => console.log(err)));
 
 // Display create procuradurías form
-router.get('/add', (req, res) => res.render('../views/procuraduria/add.html')
-    .catch(err => console.log(err)));
+router.get('/add', (req, res) => res.render('../views/instituciones/add.html')
+.catch(err => console.log(err)));
 
 router.post('/add', (req, res) => {
-    let {
+    let{
         name,
-        address
+        address,
     } = req.body;
-    services.create(name, address)
-        .then(res.redirect('/instituciones'))
-        .catch(err => console.log(err));
-})
+    services.Create(name, address)
+    .then(res.render('/instituciones'))
+    .catch(err => console.log(err));
+});
 
 module.exports = router;
