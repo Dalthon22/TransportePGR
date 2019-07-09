@@ -43,7 +43,7 @@ nunjucks.configure('views', {
 app.get('/', function(req, res) {
   res.render('base.html');
 });
-app.use('/procuraduria', require('./routes/c_procuraduria'));
+app.use('/instituciones', require('./routes/c_procuraduria'));
 app.use('/route', require('./routes/c_route'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

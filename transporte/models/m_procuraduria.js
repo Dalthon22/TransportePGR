@@ -19,20 +19,12 @@ const Procuraduria = db.define('procuraduria', {
         }
     },
 
-    createdAt:{
-        type: Sequelize.DATE
-    },
-
-    updatedAt:{
-        type: Sequelize.DATE
-    },
-
     created_by:{
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
 
     updated_by:{
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
 },  {
         underscored: true,
