@@ -3,7 +3,7 @@ const db = require('../dbconfig/conex');
 
 const Route = db.define('route', {
 
-  route_name: {
+  name: {
     type: Sequelize.STRING, allowNull: false,
     validate: {
         isAlphanumeric: true,
@@ -33,7 +33,13 @@ const Route = db.define('route', {
 
   updated_by:{
       type: Sequelize.STRING
-  }
+  },
+},  {
+  underscored: true,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  freezeTableName: true,
 })
 
 module.exports = Route;
