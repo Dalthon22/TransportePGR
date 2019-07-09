@@ -10,11 +10,12 @@ class procuraduria_services {
        return Procuraduria.findAll();
 };
 
-    create(procuraduria_name, address) {
-
-        Procuraduria.create({
-            procuraduria_name,
+    create(name, address) {
+      const created_at = new Date();
+        return Procuraduria.create({
+            name,
             address,
+            created_at,
           })
         }
 };

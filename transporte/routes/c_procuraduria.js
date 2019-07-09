@@ -19,11 +19,11 @@ router.get('/add', (req, res) => res.render('../views/procuraduria/add.html')
 
 router.post('/add', (req, res) => {
     let {
-        procuraduria_name,
+        name,
         address
     } = req.body;
-    services.create(procuraduria_name, address)
-        .then(res.redirect('../views/procuraduria/list.html'))
+    services.create(name, address)
+        .then(res.redirect('/instituciones'))
         .catch(err => console.log(err));
 })
 
