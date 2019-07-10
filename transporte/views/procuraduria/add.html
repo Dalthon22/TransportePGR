@@ -1,17 +1,13 @@
 {% extends 'base.html' %}
 
-{% block body %}
+{% block views %}
     <section id="add">
       <h1 class="ui header">Crear procuraduría.</h1>
-      <form class="ui form" method="POST" action="{{c_procuraduria/add}}">
+      <form class="ui form" action="/instituciones/add" method="POST">
         <div class="required field">
           <label>Nombre procuraduría:</label>
-          <input type="text" name="procuraduria_name" id="procuraduria_name" placeholder="Nombre procuraduria" value={{procuraduria_name}}>
+          <input type="text" name="name" id="name" placeholder="Nombre procuraduría">
         </div>
-        <div class="field">
-            <label>Dirección:</label>
-            <input type="text" name="address" id="address" placeholder="address" value={{address}}>
-          </div>
         <button class="ui primary button" type="submit">Guardar procuraduría</button>
       </form>
     </section>

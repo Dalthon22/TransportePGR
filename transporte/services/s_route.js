@@ -10,13 +10,12 @@ class route_services {
        return Route.findAll();
 };
 
-    create(route_name, service_days) {
+  create(name) {
 
-        Route.create({
-            route_name,
-            service_days,
-          })
-        }
+    return Route.create({
+      name,
+    });
+  };
 };
 
 module.exports = new route_services();

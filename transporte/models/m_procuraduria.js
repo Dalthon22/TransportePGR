@@ -9,7 +9,6 @@ const Procuraduria = db.define('procuraduria', {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-            isAlphanumeric: true,
             notEmpty: true,
         }
     },

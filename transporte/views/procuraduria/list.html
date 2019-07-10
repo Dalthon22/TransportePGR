@@ -7,14 +7,12 @@
         <thead>
             <tr class="ui green table">
                 <th>Nombre</th>
-                <th>Dirección</th>
             </tr>
         </thead>
         <tbody>
-            {% for procu in Procuradurias %}
+            {% for procu in Procuraduria %}
             <tr>
-                <td>{{ procu.procuraduria_name }}</td>
-                <td>{{ procu.address }}</td>
+                <td>{{ procu.name }}</td>
             </tr>
         </tbody>
     </table>

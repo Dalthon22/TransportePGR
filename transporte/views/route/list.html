@@ -7,14 +7,12 @@
         <thead>
             <tr class="ui green table">
                 <th>Nombre de la ruta</th>
-                <th>Días de servicio</th>
             </tr>
         </thead>
         <tbody>
             {% for route in Routes %}
             <tr>
-                <td>{{ route.route_name }}</td>
-                <td>{{ route.service_days }}</td>
+                <td>{{ route.name }}</td>
             </tr>
         </tbody>
     </table>

@@ -6,18 +6,10 @@ const Route = db.define('route', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      isAlphanumeric: true,
       notEmpty: true,
     }
   },
-  service_days: {
-    type: Sequelize.STRING(7),
-    allowNull: false,
-    validate: {
-      isAlphanumeric: true,
-      notEmpty: true,
-    }
-  },
+
   created_by: {
     type: Sequelize.INTEGER
   },

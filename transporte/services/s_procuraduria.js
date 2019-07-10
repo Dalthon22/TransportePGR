@@ -10,13 +10,12 @@ class procuraduria_services {
        return Procuraduria.findAll();
 };
 
-    create(procuraduria_name, address) {
-
-        Procuraduria.create({
-            procuraduria_name,
-            address,
-          })
-        }
+  create(name, address) {
+    return Procuraduria.create({
+      name,
+      address,
+    });
+  };
 };
 
 module.exports = new procuraduria_services();
