@@ -3,7 +3,7 @@
 {% block views %}
 <section id="lista_vehiculos" class="ui container" style="margin-left: 0em !important">
     <h1 id="title" class="ui header left">Vehículos</h1>
-    <table id="listado_vehiculos" class="ui selectable table" style="width:80em;max-height:400px;">
+    <table id="listado_vehiculos" class="ui selectable table" style="width:50em;max-height:300px;">
         <thead class="full-width">
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -71,7 +71,7 @@
 <br>
 <section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important">
     <h1 class="ui header left aligned">Agregar Vehículo</h1>
-    <form class="ui equal width large form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/add" method="POST">
+    <form class="ui equal width form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/add" method="POST">
         <div class="fields">
             <div class="required disabled field">
                 <label for="brand">Marca</label>
