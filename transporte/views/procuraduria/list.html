@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block views %}
+
+<section id="lista_procuradurias">
+    <h1 id="title" class="ui header">Lista de procuradurías</h1>
+    <table class="ui collapsing table">
+        <thead>
+            <tr class="ui green table">
+                <th>Nombre</th>
+                <th>Dirección</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for procu in Procuradurias %}
+            <tr>
+                <td>{{ procu.procuraduria_name }}</td>
+                <td>{{ procu.address }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay procuradurías disponibles.</p>
+    {% endfor %}
+</section>
+{% endblock %}
