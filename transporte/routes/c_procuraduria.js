@@ -4,38 +4,26 @@ const router = express.Router();
 const services = require('../services/s_procuraduria');
 
 // Get procuradurías list
-router.get('/', (req, res) => Procuraduria = services.getAll()
-.then(res.render('../views/instituciones/list.html'), {Procuraduria})
-.catch(err => console.log(err)));
+router.get('/', (req, res) => {
+    services.getAll()
+        .then(Procuraduria => res.render('../views/procuraduria/list.html', {
+            Procuraduria
+        }))
+        .catch(err => console.log(err))
+});
 
 // Display create procuradurías form
-router.get('/add', (req, res) => { res.render('../views/instituciones/add.html')
-//.catch(err => console.log(err))
-});
+router.get('/add', (req, res) => res.render('../views/procuraduria/add.html')
+    .catch(err => console.log(err)));
 
 router.post('/add', (req, res) => {
-    console.log(req.body);
-    res.redirect('/instituciones');
-    /*let{
-        name,
-        address,
+    let {
+        procuraduria_name,
+        address
     } = req.body;
-    console.log (name+address);
-    services.Create(name, address)
-    .then(procuraduria => res.redirect('/instituciones'))
-    .catch(err => console.log(err));*/
-});
-
-router.post('/mostrar', (req, res) => {
-    let{
-        name,
-        address,
-    } = req.body;
-    console.log (name+address);
-    services.Create(name, address)
-    .then(procuraduria => res.redirect('/instituciones'))
-    .catch(err => console.log(err));
-    //res.render('../views/route/list.html')
-});
+    services.create(procuraduria_name, address)
+        .then(res.redirect('../views/procuraduria/list.html'))
+        .catch(err => console.log(err));
+})
 
 module.exports = router;
