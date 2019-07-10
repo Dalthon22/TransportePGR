@@ -35,6 +35,6 @@ const Procuraduria = db.define('procuraduria', {
 })
 
 Procuraduria.hasMany(Route, {foreignKey: 'idProcuraduria'});
-Procuraduria.sync();
-Route.sync();
+//Procuraduria.sync();
+//Route.sync();
 module.exports = Procuraduria;
