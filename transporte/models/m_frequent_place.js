@@ -3,7 +3,7 @@ const db = require('../dbconfig/conex');
 const City = require('../models/m_city');
 const Department = require('../models/m_deparment');
 
-const Address = db.define('address', {
+const Frequent_Place = db.define('frequent_place', {
     name: {
         type: Sequelize.STRING(250),
         allowNull: false,
@@ -32,12 +32,12 @@ const Address = db.define('address', {
     freezeTableName: true,
 });
 
-Address.belongsTo(City, {
+Frequent_Place.belongsTo(City, {
     foreignKey: 'city_id',
 });
 
-Address.belongsTo(Department, {
+Frequent_Place.belongsTo(Department, {
     foreignKey: 'department_id'
 });
 
-module.exports = Address;
+module.exports = Frequent_Place;
