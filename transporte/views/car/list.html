@@ -3,7 +3,7 @@
 {% block views %}
 <section id="lista_vehiculos" class="ui container" style="margin-left: 0em !important">
     <h1 id="title" class="ui header left">Vehículos</h1>
-    <table id="listado_vehiculos" class="ui selectable table" style="width:50em;max-height:300px;">
+    <table id="listado_vehiculos" class="ui selectable table" style="width:50em;max-height:300px;font-size:medium">
         <thead class="full-width">
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -69,17 +69,17 @@
 </div>
 
 <br>
-<section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important">
+<section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important;font-size-adjust: inherit;">
     <h1 class="ui header left aligned">Agregar Vehículo</h1>
     <form class="ui equal width form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/add" method="POST">
         <div class="fields">
             <div class="required disabled field">
                 <label for="brand">Marca</label>
-                <input name="brand" type="text" placeholder="Ej.: Toyota">
+                <input id="name" name="brand" type="text" placeholder="Ej.: Toyota">
             </div>
             <div class="required disabled field" style="margin-left: 3em !important">
                 <label for="chassis">Chasis</label>
-                <input name="chassis" type="text" placeholder="Chasis">
+                <input id="chassis" name="chassis" type="text" placeholder="Chasis">
             </div>
             <div class="field">
                 <div class="grouped required fields" id="state" style="margin-left: 3em !important">
@@ -98,19 +98,19 @@
         <div class="equal width fields">
             <div class="required disabled field">
                 <label for="model">Modelo</label>
-                <input name="model" type="text" placeholder="Ej. Corolla SE">
+                <input id="model" name="model" type="text" placeholder="Ej. Corolla SE">
             </div>
             <div class="required disabled field">
                 <label for="engine">Motor</label>
-                <input name="engine" type="text" placeholder="64EKT931230">
+                <input id="engine" name="engine" type="text" placeholder="64EKT931230">
             </div>
             <div class="required disabled field">
                 <label for="plate">Placa</label>
-                <input name="plate" type="text" placeholder="AA236963">
+                <input id="plate_form" name="plate" type="text" placeholder="AA236963">
             </div>
             <div class="required disabled field">
                 <label for="seats">Asientos</label>
-                <input name="seats" type="number" placeholder="2-40">
+                <input id="seats" name="seats" type="number" placeholder="2-40">
             </div>
         </div>
         <br>
@@ -241,9 +241,13 @@
             window.alert(text);
         });*/
 
-        /* $('#listado_vehiculos').find('tr').click(function () {
-            alert('You clicked row ' + ($(this).index() + 1));
-        }); */
+        $('#listado_vehiculos').find('tr').click(function () {
+            //alert('You clicked row ' + ($(this).index() + 1));
+            alert('El contenido de la celda' + ($(this).find('td:eq(1)').html()));
+            var valor = ($(this).find('td:eq(1)').html());
+            $('#plate_form').val() = valor;
+
+        });
     });
 </script>
 {% endblock %}
