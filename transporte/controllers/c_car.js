@@ -3,14 +3,31 @@ const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
 
 
-class car_services {
+class car_controllers {
     constructor() {
         //new Migration();
     }
-    getAll() {
-        return Car.findAll({
-            order: Sequelize.literal('created_at DESC')
-        });
+
+    async getAdd(req, res) {
+        let states_map = new Map();
+        states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
+        const states = states_map.entries();
+        return res.render('../views/car/create.html', {
+            states
+        })
+    }
+
+    async getList(req, res) {
+        try {
+            var cars = await Car.findAll({
+                order: Sequelize.literal('created_at DESC')
+            });
+            return res.render('../views/car/list.html', {
+                cars
+            });
+        } catch (Error) {
+            console.log(Error)
+        }
     }
 
     getByPlate(plate) {
@@ -57,4 +74,4 @@ class car_services {
     }
 };
 
-module.exports = new car_services();
+module.exports = new car_controllers();

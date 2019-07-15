@@ -1,6 +1,6 @@
 /*Validacion del lado del cliente */
-
 $(function () {
+    //Validacion de formulario
     $('.ui.form')
         .form({
             inline: true,
@@ -20,6 +20,13 @@ $(function () {
                         prompt: 'Por favor ingrese información del chasis'
                     }]
                 },
+                state: {
+                    identifier: 'state',
+                    rules: [{
+                        type: 'checked',
+                        prompt: 'Debe seleccionar el estado del vehículo'
+                    }]
+                },
                 model: {
                     identifier: 'model',
                     rules: [{
@@ -35,7 +42,7 @@ $(function () {
                         },
                         {
                             type: 'minLength[10]',
-                            prompt: 'La información del motor debe contener al menos caracteres'
+                            prompt: 'La información del motor debe contener al menos caracteres 10'
                         }
                     ]
                 },
@@ -54,7 +61,7 @@ $(function () {
                             prompt: 'El numero de placa no puede poseer más de 8 caracteres'
                         },
                         {
-                            type: 'regExp[/^([A-Z]{1,2})([a-z0-9]{4,8}$/]',
+                            type: 'regExp[/^[A-Z]{1,2}[0-9]{4,6}$/]',
                             prompt: 'El número de placa debe tener este este formato: AA999999'
                         }
                     ]
@@ -68,4 +75,36 @@ $(function () {
                 }
             }
         });
+
+    //Setea el radio button de la opcion funcional como chequeado
+    $('#Funcional').attr("checked", "checked");
+
+    //Muestra Mensaje de confirmacion  cuando se desea ingesar un nuevo registro
+    $('#nuevo').on('click', () => {
+        $('.ui.basic.modal')
+            .modal({
+                closable: true,
+                onDeny: function () {
+                    return true;
+                },
+                onApprove: function () {
+                    $('#add_get').prop('action', '/vehiculos/add');
+                }
+            })
+            .modal('show');
+    });
+
+    //Verifica que elemento de la tabla fue seleccionado con un click
+    /* $('.ui.table').click(function (event) {
+        var text = $(event.target).text();
+        window.alert(text);
+    });*/
+
+    $('#listado_vehiculos').find('tr').click(function () {
+        //alert('You clicked row ' + ($(this).index() + 1));
+        alert('El contenido de la celda' + ($(this).find('td:eq(1)').html()));
+        var valor = ($(this).find('td:eq(1)').html());
+        $('#plate_form').val() = valor;
+
+    });
 });

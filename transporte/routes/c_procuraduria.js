@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const services = require('../services/s_procuraduria');
+const services = require('../controllers/s_procuraduria');
 
 // Get procuradurías list
 router.get('/', (req, res) => {

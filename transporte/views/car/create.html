@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+
+{% block views %}
+
+<div id="exito" class="ui success message center aligned" style="display: none">
+    <div class="header green">Éxito</div>
+    <p>¡Registro guardado correctamente!</p>
+</div>
+
+<br>
+
+<section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important;font-size-adjust: inherit;">
+    <h1 class="ui header left aligned">Agregar Vehículo</h1>
+    <form class="ui equal width form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/add" method="POST">
+        <div class="fields">
+            <div class="required  field">
+                <label for="brand">Marca</label>
+                <input id="name" name="brand" type="text" placeholder="Ej.: Toyota">
+            </div>
+            <div class="required field" style="margin-left: 3em !important">
+                <label for="chassis">Chasis</label>
+                <input id="chassis" name="chassis" type="text" placeholder="Chasis">
+            </div>
+            <div class="field">
+                <div class="grouped required fields" id="state" style="margin-left: 3em !important">
+                    <label>Estado</label>
+                    {% for value, state in states %}
+                    <div class=" field">
+                        <div class="ui toggle checkbox">
+                            <input id={{value}} type="radio" name="state" value={{value}}>
+                            <label for="state">{{state}}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="equal width fields">
+            <div class="required field">
+                <label for="model">Modelo</label>
+                <input id="model" name="model" type="text" placeholder="Ej. Corolla SE">
+            </div>
+            <div class="required field">
+                <label for="engine">Motor</label>
+                <input id="engine" name="engine" type="text" placeholder="64EKT931230">
+            </div>
+            <div class="required field">
+                <label for="plate">Placa</label>
+                <input id="plate_form" name="plate" type="text" placeholder="AA236963">
+            </div>
+            <div class="required field">
+                <label for="seats">Asientos</label>
+                <input id="seats" name="seats" type="number" placeholder="2-40">
+            </div>
+        </div>
+        <br>
+        <div id="buttons" class="ui left floated buttons">
+            <button id="submit_form" class="ui positive submit enter button" type="submit">Guardar</button>
+            <div style="width: 2em"></div>
+            <button id="cancel_form" class="ui reset negative button" type="button">Cancel</button>
+        </div>
+    </form>
+</section>
+<script src="/static/js/a_cars.js"></script>
+
+{% endblock %}

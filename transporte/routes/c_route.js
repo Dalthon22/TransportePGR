@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const services = require('../services/s_route');
+const services = require('../controllers/s_route');
 
 // Get route list
 router.get('/', (req, res) => {
