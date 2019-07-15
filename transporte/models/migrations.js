@@ -10,6 +10,7 @@ class Migration {
         Department.sync();
         City.sync();
         Address.sync();
+        Frequent_Place.sync();
         Procuraduria.sync();
         Car.sync();
         Route.sync();

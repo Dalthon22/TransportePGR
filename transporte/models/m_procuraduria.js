@@ -29,6 +29,9 @@ const Procuraduria = db.define('procuraduria', {
 Procuraduria.hasMany(Routes, {
     foreignKey: 'procuraduria_id'
 });
+Procuraduria.hasMany(Frequent_Place, {
+    foreignKey: 'frequent_place_id'
+});
 Procuraduria.hasMany(Cars, {
     foreignKey: 'procuraduria_id'
 });
