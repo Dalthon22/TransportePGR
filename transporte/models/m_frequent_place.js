@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const City = require('../models/m_city');
-const Department = require('../models/m_deparment');
+const Department = require('./m_deparment');
 
 const Frequent_Place = db.define('frequent_place', {
     name: {

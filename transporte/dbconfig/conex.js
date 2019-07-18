@@ -59,7 +59,7 @@ const Sequelize = require('sequelize');
 }); */
 
 //Local db connection
-/* const dbConex = new Sequelize('sigestran', 'dm15012', 'dm15012+', {
+ const dbConex = new Sequelize('procu', 'hq14006', 'hq14006', {
   host: 'localhost',
   dialect: 'mssql',
   dialectOptions: {
@@ -73,10 +73,10 @@ const Sequelize = require('sequelize');
     acquire: 30000,
     idle: 10000
   },
-}); */
+}); 
 
 //Toloza: Local db connection
-const dbConex = new Sequelize('sigestran', 'th15003', 'Kalexander2019', {
+/*const dbConex = new Sequelize('sigestran', 'th15003', 'Kalexander2019', {
   host: 'sigestran.database.windows.net',
   dialect: 'mssql',
   dialectOptions: {
@@ -94,6 +94,6 @@ const dbConex = new Sequelize('sigestran', 'th15003', 'Kalexander2019', {
     idle: 10000
   },
 
-});
+});*/
 
 module.exports = dbConex;

@@ -8,14 +8,16 @@ const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 const passport = require('passport');
 //const Sequelize = require('sequelize');
+const migration = require('./models/migrations');
 
+//var migrate = new migration();
 //initializations
 var app = express();
 // Database
-const db = require('./dbconfig/conex.js');
+const dbConex = require('./dbconfig/conex.js');
 
 // Test DB
-db.authenticate()
+dbConex.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err))
 
@@ -57,6 +59,7 @@ app.use(require('./routes/index'));
 app.use('/vehiculos', require('./routes/c_car'));
 app.use('/rutas', require('./routes/c_route'));
 app.use('/instituciones', require('./routes/c_procuraduria'));
+app.use('/direccion', require('./routes/c_address'));
 
 
 

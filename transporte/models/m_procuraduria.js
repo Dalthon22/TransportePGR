@@ -3,6 +3,7 @@ const db = require('../dbconfig/conex');
 const Routes = require('./m_route');
 const Cars = require('./m_car');
 const Address = require('./m_address');
+const Frequent_Place = require('./m_frequent_place');
 
 const Procuraduria = db.define('procuraduria', {
     name: {
