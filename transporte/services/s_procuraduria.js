@@ -1,7 +1,6 @@
 const db = require('../dbconfig/conex');
 const Procuraduria = require('../models/m_procuraduria');
 const express = require('express');
-const bodyParser = require('body-parser');
 const Sequelize = require('sequelize');
 
 class procuraduria_services {

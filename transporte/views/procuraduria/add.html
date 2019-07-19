@@ -6,9 +6,16 @@
       <form class="ui form" action="/instituciones/add" method="POST">
         <div class="required field">
           <label>Nombre procuraduría:</label>
-          <input type="text" name="name" id="name" placeholder="Nombre procuraduría">
+          <input type="text" name="name" id="name" placeholder="Nombre procuraduría" value={{name}}>
         </div>
-        <button class="ui primary button" type="submit">Guardar procuraduría</button>
+        <button class="ui positive button" type="submit">Guardar procuraduría</button>
       </form>
+      {% if errors %}
+      <div class="ui error message">
+        {% for error in errors %}
+          <li> {{ error.msg }} </li>
+        {% endfor %}
+      </div>
+      {% endif %}
     </section>
 {% endblock %}

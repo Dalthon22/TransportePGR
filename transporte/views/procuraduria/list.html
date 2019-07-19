@@ -14,10 +14,12 @@
             <tr>
                 <td>{{ procu.name }}</td>
             </tr>
+            {% else %}
+                <p>No hay procuradurías disponibles.</p>
+            {% endfor %}
         </tbody>
     </table>
-    {% else %}
-    <p>No hay procuradurías disponibles.</p>
-    {% endfor %}
+
+
 </section>
 {% endblock %}
