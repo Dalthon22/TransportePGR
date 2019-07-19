@@ -22,7 +22,6 @@ router.post('/add', [
     const errors = validationResult(req);
     let {
         name,
-        address
     } = req.body;
     console.log(errors.array());
     if (!errors.isEmpty()) {
@@ -32,7 +31,7 @@ router.post('/add', [
     }
     else {
         console.log(req.body);
-        services.create(name, address)
+        services.create(name)
             .then(res.redirect('/instituciones'))
             .catch(err => console.log(err))
     }
