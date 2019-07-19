@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const services = require('../services/s_procuraduria');
-const {body, validationResult} = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 // Get procuradurías list
 router.get('/', (req, res) => {
@@ -16,26 +16,25 @@ router.get('/', (req, res) => {
 router.get('/add', (req, res) => res.render('../views/procuraduria/add.html'));
 
 router.post('/add', [
-   body('name', 'Ingrese el nombre de la procuraduría.').not().isEmpty()
+    body('name', 'Ingrese el nombre de la procuraduría.').not().isEmpty()
 ],
- (req, res) => {
-    const errors = validationResult(req);
-    let {
-        name,
-    } = req.body;
-    console.log(errors.array());
-    if (!errors.isEmpty()) {
-        res.render('../views/procuraduria/add.html', {
-            name, errors: errors.array()
-        });
-    }
-    else {
-        console.log(req.body);
-        services.create(name)
-            .then(res.redirect('/instituciones'))
-            .catch(err => console.log(err))
-    }
-});
-
+    (req, res) => {
+        const errors = validationResult(req);
+        let {
+            name,
+        } = req.body;
+        console.log(errors.array());
+        if (!errors.isEmpty()) {
+            res.render('../views/procuraduria/add.html', {
+                name, errors: errors.array()
+            });
+        }
+        else {
+            console.log(req.body);
+            services.create(name)
+                .then(res.redirect('/instituciones'))
+                .catch(err => console.log(err))
+        }
+    });
 
 module.exports = router;

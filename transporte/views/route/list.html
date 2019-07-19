@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-
 {% block views %}
+
 <section id="lista_routes">
     <h1 id="title" class="ui header">Lista de rutas.</h1>
     <table class="ui collapsing table">
@@ -13,12 +13,11 @@
             {% for route in Routes %}
             <tr>
                 <td>{{ route.name }}</td>
+            </tr>
             {% else %}
                 <p>No hay rutas disponibles.</p>
             {% endfor %}
-            </tr>
         </tbody>
     </table>
-
 </section>
 {% endblock %}

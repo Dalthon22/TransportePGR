@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
 
 {% block views %}
-    <section id="add">
+    <section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
       <h1 class="ui header">Crear ruta.</h1>
       <form class="ui form" action="/rutas/add" method="POST">
         <div class="required field">
           <label>Nombre de la ruta:</label>
-          <input type="text" name="name" id="name" placeholder="Nombre de la ruta">
+          <input type="text" name="name" id="name" placeholder="Nombre de la ruta estándar" value={{name}}>
         </div>
-        <button class="ui primary button" type="submit">Guardar ruta</button>
+        <button class="ui positive button" type="submit">Guardar ruta</button>
       </form>
+      {% if errors %}
+      <div class="ui error message">
+        {% for error in errors %}
+          <li> {{ error.msg }} </li>
+        {% endfor %}
+      </div>
+      {% endif %}
     </section>
 {% endblock %}
