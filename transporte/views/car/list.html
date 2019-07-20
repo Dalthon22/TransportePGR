@@ -1,62 +1,69 @@
 {% extends 'base.html'%}
 
 {% block views %}
-<h1 id="title" class="ui header left">Vehículos</h1>
-<a href="/vehiculos/add">
-    <div id="nuevo" class="ui animated blue button" tabindex="0">
-        <div class="visible content">Nuevo</div>
-        <div class="hidden content">
-            <i class="plus icon"></i>
+<div id="exito" class="ui success message center aligned" style="display: none">
+    <div class="header green">Éxito</div>
+    <p>¡Registro guardado correctamente!</p>
+</div>
+
+<section id="lista_vehiculos" class="ui container" style="margin-left:0em !important">
+    <div style="height:30em;width:57em !important">
+        <h1 id="title" class="ui dividing header left">Vehículos</h1>
+        <a href="/vehiculos/add">
+            <div id="nuevo" class="ui right floated animated blue button" style="margin-bottom:1em" tabindex="0">
+                <div class="visible content">Nuevo</div>
+                <div class="hidden content">
+                    <i class="plus icon"></i>
+                </div>
+            </div>
+        </a>
+
+        <div style="overflow-y:scroll;overflow-x:hidden;height:25em;width:57em !important;">
+            <table id="listado_vehiculos" class="ui medium selectable table" style="max-height:150px;">
+                <thead class="full-width">
+                    <tr style="text-align: center">
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Asientos</th>
+                        <th>Chasis</th>
+                        <th>Motor</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if cars %}
+                    {% for c in cars %}
+                    <tr>
+                        <td style="display: none">{{c.id}}</td>
+                        <td class="aligned">{{c.plate}}</td>
+                        <td class="center aligned">{{c.brand}}</td>
+                        <td class="center aligned">{{c.model}}</td>
+                        <td class="center aligned">{{c.seats}}</td>
+                        <td class="center aligned">{{c.chassis}}</td>
+                        <td class="center aligned">{{c.engine}}</td>
+                        {% set state = c.state %}
+                        <td id="state_table"
+                            class={{"positive" if state == "funcional" else ("warning" if state == "mantenimiento" else "error")}}>
+                            {% if state == "funcional" %}
+                            <i class="check icon"></i>
+                            {% elif state == "mantenimiento" %}
+                            <i class="exclamation icon"></i>
+                            {% else %}
+                            <i class="x icon"></i>
+                            {% endif %}
+                            {{c.state | capitalize}}
+                        </td>
+                        <td><a href=""><i class="pencil yellow alternate icon"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <td colspan="7">No hay registros disponibles</td>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
-    </div>
-</a>
-<section id="lista_vehiculos" class="ui container" style="margin-left: 0em !important">
-    <br>
-    <div style="overflow-y:scroll;overflow-x:hidden;height:40em;width:57em !important">
-        <table id="listado_vehiculos" class="ui medium selectable table" style="max-height:150px;">
-            <thead class="full-width">
-                <tr style="text-align: center">
-                    <th>Placa</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Asientos</th>
-                    <th>Chasis</th>
-                    <th>Motor</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if cars %}
-                {% for c in cars %}
-                <tr>
-                    <td style="display: none">{{c.id}}</td>
-                    <td class="aligned">{{c.plate}}</td>
-                    <td class="center aligned">{{c.brand}}</td>
-                    <td class="center aligned">{{c.model}}</td>
-                    <td class="center aligned">{{c.seats}}</td>
-                    <td class="center aligned">{{c.chassis}}</td>
-                    <td class="center aligned">{{c.engine}}</td>
-                    {% set state = c.state %}
-                    <td id="state_table"
-                        class={{"positive" if state == "funcional" else ("warning" if state == "mantenimiento" else "error")}}>
-                        {% if state == "funcional" %}
-                        <i class="check icon"></i>
-                        {% elif state == "mantenimiento" %}
-                        <i class="exclamation icon"></i>
-                        {% else %}
-                        <i class="x icon"></i>
-                        {% endif %}
-                        {{c.state | capitalize}}
-                    </td>
-                    <td><a href=""><i class="pencil yellow alternate icon"></i></a></td>
-                </tr>
-                {% endfor %}
-                {% else %}
-                <td colspan="7">No hay registros disponibles</td>
-                {% endif %}
-            </tbody>
-        </table>
     </div>
 </section>
 
