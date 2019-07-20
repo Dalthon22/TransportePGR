@@ -8,7 +8,7 @@ class car_controllers {
         //new Migration();
     }
 
-    async getAdd(req, res) {
+    getAdd(req, res) {
         let states_map = new Map();
         states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
         const states = states_map.entries();

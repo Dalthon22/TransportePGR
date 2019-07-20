@@ -76,7 +76,7 @@ const Sequelize = require('sequelize');
 }); */
 
 //Toloza: Local db connection
-const dbConex = new Sequelize('sigestran', 'th15003', 'Kalexander2019', {
+const dbConex = new Sequelize('sigestran', 'dm15012', 'Cdalton2019', {
   host: 'sigestran.database.windows.net',
   dialect: 'mssql',
   dialectOptions: {
@@ -84,8 +84,6 @@ const dbConex = new Sequelize('sigestran', 'th15003', 'Kalexander2019', {
       encrypt: true,
     }
   },
-
-  //operatorAliases: false,
 
   pool: {
     max: 5,
