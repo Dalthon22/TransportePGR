@@ -27,28 +27,23 @@ nunjucks.configure('views', {
   express: app
 });
 
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
 //Files static
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(`${__dirname}/public/`)));
+app.use('/scripts', express.static(`${__dirname}/node_modules/`));
+
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true
 }));
-
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(`${__dirname}/public/`)));
-app.use('/scripts', express.static(`${__dirname}/node_modules/`));
-
-
-//middelware
 
 /* app.use(passport.initialize());
 app.use(passport.session()); */
