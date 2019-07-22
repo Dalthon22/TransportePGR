@@ -36,8 +36,8 @@ app.use(bodyParser.urlencoded({
 
 //Files static
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(`${__dirname}/public/`)));
-app.use('/scripts', express.static(`${__dirname}/node_modules/`));
+app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-css')));
+app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 app.use(session({
   secret: 'secret',
