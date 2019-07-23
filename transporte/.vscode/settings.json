@@ -1,0 +1,6 @@
+{
+    "sync.askGistName": true,
+    "sync.autoDownload": true,
+    "sync.autoUpload": true,
+    "sync.quietSync": true
+}
