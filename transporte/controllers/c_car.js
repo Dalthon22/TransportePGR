@@ -1,6 +1,7 @@
 const Car = require('../models/m_car');
 const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
+const {body, validationResult} = require('../middleware/expresse-validator');
 
 
 class car_controllers {
