@@ -6,8 +6,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
-const passport = require('passport');
-//const Sequelize = require('sequelize');
+
 
 //initializations
 var app = express();
@@ -36,7 +35,7 @@ app.use(bodyParser.urlencoded({
 
 //Files static
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-css')));
+app.use(express.static(path.join(__dirname, 'node_modules/fomantic-ui/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 app.use(session({
