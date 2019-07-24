@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 //archivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules/semantic-ui-css')));
+app.use(express.static(path.join(__dirname, 'node_modules/fomantic-ui/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 //routes
