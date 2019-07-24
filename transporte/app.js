@@ -60,7 +60,7 @@ app.use('/vehiculos', require('./routes/c_car'));
 app.use('/rutas', require('./routes/c_route'));
 app.use('/instituciones', require('./routes/c_procuraduria'));
 app.use('/direccion', require('./routes/c_address'));
-
+app.use('/prueba', require('./routes/c_pdf'));
 
 
 // catch 404 and forward to error handler

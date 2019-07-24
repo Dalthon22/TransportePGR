@@ -24,6 +24,7 @@
     "nunjucks": "^3.2.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "pdfmake": "^0.1.57",
     "pug": "^2.0.4",
     "semantic-ui-css": "^2.4.1",
     "sequelize": "^5.9.2",
