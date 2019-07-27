@@ -15,10 +15,17 @@ router.get('/', (req, res) => {
 // Display create route form
 router.get('/add', (req, res) => res.render('../views/route/add.html'));
 
+//Save route
 router.post('/add', [
-    body('name', 'Ingrese el nombre de la ruta estándar.').not().isEmpty()
+    //Validations
+    body('name', 'Ingrese el nombre de la ruta estándar.').not().isEmpty(),
+    body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({ max: 40 }),
+    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(),
+    body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
+    body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ],
     (req, res) => {
+        //if there are errors, renders the same form, otherwise saves the new route in the DB.
         const errors = validationResult(req);
         let {
             name,

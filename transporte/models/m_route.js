@@ -9,6 +9,13 @@ const Route = db.define('route', {
       notEmpty: true,
     }
   },
+  detail: {
+    type: Sequelize.STRING(250),
+    allowNull: false,
+    validate: {
+        notEmpty: true,
+    }
+},
 
   created_by: {
     type: Sequelize.INTEGER

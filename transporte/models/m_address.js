@@ -37,7 +37,7 @@ Address.belongsTo(City, {
 });
 
 Address.belongsTo(Department, {
-    foreignKey: 'department_id'
+    foreignKey: 'deparment_id'
 });
 
 module.exports = Address;

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const dep_services = require('../services/s_department');
 const city_services = require('../services/s_city');
+const address_services = require('../services/s_address');
 
 // Get departments list
 router.get('/', (req, res) => {
@@ -22,13 +23,14 @@ router.get('/getMunicipios', (req, res) =>{
 router.post('/add', (req, res) => {
     let {
         name,
+        detail,
         departamento,
         municipio,
     } = req.body;
     console.log(req.body);
-    /*services.create(name, departamento, municipio)
-        .then(res.redirect('/instituciones'))
-        .catch(err => console.log(err));*/
+    address_services.create(name, detail, departamento, municipio)
+        .then(res.render('/instituciones'))
+        .catch(err => console.log(err));
 });
 
 module.exports = router;
