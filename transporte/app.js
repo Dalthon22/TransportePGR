@@ -10,9 +10,9 @@ var app = express();
 
 
 // Test DB
-db.authenticate()
+/* db.authenticate()
   .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err))
+  .catch(err => console.log('Error: ' + err)) */
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
@@ -23,7 +23,9 @@ nunjucks.configure('views', {
 //bodyparser
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 
 //archivos estaticos
@@ -32,15 +34,16 @@ app.use(express.static(path.join(__dirname, 'node_modules/fomantic-ui/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 //routes
+app.use(require('./routes/index'));
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
