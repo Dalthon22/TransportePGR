@@ -4,8 +4,8 @@ const express = require('express');
 
 class department_services {
     constructor() {}
-    getAll() {
-       return Departamentos.findAll();
+    async getAll() {
+       return await Departamentos.findAll();
 };
 
   create(cnr_code, name) {

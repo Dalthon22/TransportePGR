@@ -5,7 +5,7 @@ const city_services = require('../services/s_city');
 const address_services = require('../services/s_address');
 
 // Get departments list
-router.get('/', (req, res) => {
+router.get('/add', (req, res) => {
     Departamentos = dep_services.getAll()
         .then(Departamentos => res.render('../views/address/add.html', {
             Departamentos
@@ -22,14 +22,13 @@ router.get('/getMunicipios', (req, res) =>{
 
 router.post('/add', (req, res) => {
     let {
-        name,
         detail,
         departamento,
         municipio,
     } = req.body;
     console.log(req.body);
-    address_services.create(name, detail, departamento, municipio)
-        .then(res.render('/instituciones'))
+    address_services.create(detail, departamento, municipio)
+        .then(res.render('/direccion'))
         .catch(err => console.log(err));
 });
 

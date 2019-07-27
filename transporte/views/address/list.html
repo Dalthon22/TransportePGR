@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block views %}
+
+<section id="lista_direcciones">
+    <h1 id="title" class="ui header">Lista de direcciones</h1>
+    <table class="ui collapsing table">
+        <thead>
+            <tr class="ui green table">
+                <th>Detalle:</th>
+                <th>Departamento:</th>
+                <th>Municipio:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dir in Direccion %}
+            <tr>
+                <td>{{ dir.detail }}</td>
+                <td>{{ dir.departamento }}</td>
+                <td>{{ dir.municipio }}</td>
+            </tr>
+            {% else %}
+                <p>No hay direcciones disponibles.</p>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
