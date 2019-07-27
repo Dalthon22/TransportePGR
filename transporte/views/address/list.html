@@ -12,11 +12,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for dir in Direccion %}
+            {% for dir in Direcciones %}
             <tr>
                 <td>{{ dir.detail }}</td>
-                <td>{{ dir.departamento }}</td>
-                <td>{{ dir.municipio }}</td>
+                {% for dep %}
+                <td>{{ dep.name }}</td>
+                {% endfor %}
+                {% for mun  %}
+                <td>{{ mun.name }}</td>
+                {% endfor %}
             </tr>
             {% else %}
                 <p>No hay direcciones disponibles.</p>

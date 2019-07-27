@@ -4,9 +4,13 @@ const express = require('express');
 
 class city_services {
     constructor() {}
-    getAll() {
-       return Municipios.findAll();
+    async getAll() {
+       return await Municipios.findAll();
     };
+
+    async getMunicipio(municipio){
+      return await Municipios.findByPk(municipio);
+  };
 
   create(cnr_code, name) {
     return Municipios.create({

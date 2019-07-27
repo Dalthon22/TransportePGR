@@ -8,6 +8,10 @@ class department_services {
        return await Departamentos.findAll();
 };
 
+    async getDepartamento(departamento){
+      return await Departamentos.findByPk(departamento);
+  };
+
   create(cnr_code, name) {
     return Departamentos.create({
       cnr_code,
