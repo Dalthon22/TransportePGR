@@ -15,12 +15,9 @@
             {% for dir in Direcciones %}
             <tr>
                 <td>{{ dir.detail }}</td>
-                {% for dep %}
-                <td>{{ dep.name }}</td>
-                {% endfor %}
-                {% for mun  %}
-                <td>{{ mun.name }}</td>
-                {% endfor %}
+                <td>{{ dir.deparment_id }}</td>
+                <td>{{ dir.city_id }}</td>
+
             </tr>
             {% else %}
                 <p>No hay direcciones disponibles.</p>

@@ -14,6 +14,9 @@ const Deparment = db.define('deparment', {
     name: {
         type: Sequelize.STRING(50),
         allowNull: false,
+        get(){
+            return this.getDataValue('name');
+        },
         validate: {
             notEmpty: true,
         }

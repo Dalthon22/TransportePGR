@@ -3,13 +3,18 @@ const Municipios = require('../models/m_city');
 const express = require('express');
 
 class city_services {
-    constructor() {}
-    async getAll() {
-       return await Municipios.findAll();
-    };
+  constructor() { }
+  getAll() {
+    return Municipios.findAll();
+  };
 
-    async getMunicipio(municipio){
-      return await Municipios.findByPk(municipio);
+  //Igual que en s_department.js
+  getMunicipioById(municipio) {
+    Municipios.findByPk(municipio)
+      .then(Municipios => {
+        console.log(Municipios.name);
+        return Municipios.name;
+      });
   };
 
   create(cnr_code, name) {
@@ -20,8 +25,8 @@ class city_services {
   };
 
   getMunicipios(selectedDepartamento) {
-    return Municipios.findAll({ where: {deparment_id: selectedDepartamento}});
-    };
+    return Municipios.findAll({ where: { deparment_id: selectedDepartamento } });
+  };
 };
 
 module.exports = new city_services();

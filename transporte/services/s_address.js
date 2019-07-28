@@ -5,16 +5,16 @@ const Sequelize = require('sequelize');
 
 class address_services {
     constructor() {}
-    getAll() {
+     getAll() {
        return Address.findAll();
 };
 
-  create(name, detail, city_id, department_id) {
+  create(name, detail, city_id, deparment_id) {
     return Address.create({
       name,
       detail,
       city_id,
-      department_id
+      deparment_id
     });
   };
 };
