@@ -6,39 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="/jquery/dist/jquery.js"></script>
-    <script src="/semantic-ui-css/semantic.js"></script>
-    <link rel="stylesheet" type="text/css" href="/semantic-ui-css/semantic.css">
-    <title><i class="car side icon"></i>sigestan</title>
+    <link rel="stylesheet" type="text/css" href="/fomantic-ui/dist/semantic.css">
+    <script src="/fomantic-ui/dist/semantic.js"></script>
+    <title> <i class="car side icon"></i> sigestan</title>
+    <img class="ui fluid image" src="/images/banner.jpeg"></img>
 </head>
 
 <body>
-    <div class="ui middle aligned center aligned grid">
-        <div class="column">
-            <h2> Ingrese su cuenta</h2>
-            <form class="ui large form" action="auth" method="POST">
-                <div class="ui stacked segment">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="user icon"></i>
-                            <input name="username" placeholder="e-mail" type="text">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="lock icon"></i>
-                            <input name="password" placeholder="Password" type="password">
-                        </div>
-                    </div>
-                    <button class="fluid ui button" type="submit">Iniciar sesion</button>
-                </div>
-                <div class="ui error message"></div>
-            </form>
-        </div>
-    </div>
+    {% block body %}
 
+    {% endblock %}
 </body>
 <footer class="ui vertical inverted segment">
-    <div class="sub header">Procuraduria General de la República de El Salvador</div>
+    <div class="sub header" style="color: yellow">Procuraduria General de la República de El Salvador</div>
 </footer>
 
 </html>
