@@ -1,10 +1,9 @@
 body {
-    background-color: #dadada;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: grayscale;
 }
 
-body>.ui.grid {
+.ui.grid {
     height: 100%;
 }
 
