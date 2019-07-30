@@ -61,7 +61,7 @@ router.post('/add', [
     else {
         console.log(req.body);
         address_services.create(name, detail, municipio, departamento)
-        .then(res.render('/direccion'))
+        .then(res.redirect('/direccion'))
         .catch(err => console.log(err));
     }
 });
