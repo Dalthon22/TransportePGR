@@ -11,7 +11,7 @@
       </div>
       <div class="required field">
         <label>Detalle de la dirección:</label>
-        <input type="text" id="detail" name="detail" placeholder="Ej: Col. Miramonte, 3ra calle poniente"> 
+        <input type="text" id="detail" name="detail" placeholder="Ej: # de casa o local, # de pasaje o calle, colonia o urbanización"> 
       </div>
       <div class="required field">
         <label>Departamento:</label>
@@ -30,6 +30,13 @@
     </div> 
       <button class="ui positive button" type="submit">Agregar dirección</button>
     </form>
+    {% if errors %}
+      <div class="ui error message">
+        {% for error in errors %}
+          <li> {{ error.msg }} </li>
+        {% endfor %}
+      </div>
+      {% endif %}
   </section>
 
   <script type="text/javascript">

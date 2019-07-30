@@ -2,7 +2,7 @@
 {% block views %}
 
 <section id="lista_direcciones">
-    <h1 id="title" class="ui header">Lista de direcciones</h1>
+    <h1 id="title" class="ui header">Lista de direcciones.</h1>
     <table class="ui collapsing table">
         <thead>
             <tr class="ui green table">
@@ -15,8 +15,8 @@
             {% for dir in Direcciones %}
             <tr>
                 <td>{{ dir.detail }}</td>
-                <td>{{ dir.deparment_id }}</td>
-                <td>{{ dir.city_id }}</td>
+                <td>{{ dir.deparment.name }}</td>
+                <td>{{ dir.city.name }}</td>
 
             </tr>
             {% else %}

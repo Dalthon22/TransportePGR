@@ -8,15 +8,6 @@ class city_services {
     return Municipios.findAll();
   };
 
-  //Igual que en s_department.js
-  getMunicipioById(municipio) {
-    Municipios.findByPk(municipio)
-      .then(Municipios => {
-        console.log(Municipios.name);
-        return Municipios.name;
-      });
-  };
-
   create(cnr_code, name) {
     return Municipios.create({
       cnr_code,

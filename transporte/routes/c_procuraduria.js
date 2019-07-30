@@ -16,7 +16,9 @@ router.get('/', (req, res) => {
 router.get('/add', (req, res) => res.render('../views/procuraduria/add.html'));
 
 router.post('/add', [
-    body('name', 'Ingrese el nombre de la procuraduría.').not().isEmpty()
+    body('name', 'Ingrese el nombre de la procuraduría.').not().isEmpty(),
+    body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({ max: 40 }),
+    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(),
 ],
     (req, res) => {
         const errors = validationResult(req);
