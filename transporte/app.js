@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 
 //routes
 app.use(require('./routes/index'));
-
+app.use('/lugares_frecuentes', require('./routes/c_frequent_places'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
