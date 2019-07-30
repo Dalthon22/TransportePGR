@@ -5,7 +5,7 @@ const city_services = require('../services/s_city');
 const address_services = require('../services/s_address');
 const { body, validationResult } = require('express-validator');
 
-//get address list
+//get addresses list
 router.get('/', (req, res) => {
     Direcciones = address_services.getAll()
     .then(Direcciones => {
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
-// Get departments list
+// Show add form and Get Departamentos list
 router.get('/add', (req, res) => {
     Departamentos = department_services.getAll()
         .then(Departamentos => res.render('../views/address/add.html', {
@@ -25,6 +25,7 @@ router.get('/add', (req, res) => {
         .catch(err => console.log(err))
 });
 
+//Gets Municipios depending on the selected Departamento
 router.get('/getMunicipios', (req, res) =>{
     selectedDepartamento=req.query.selectedDepartamento;
     municipios = city_services.getMunicipios(selectedDepartamento)
@@ -32,7 +33,9 @@ router.get('/getMunicipios', (req, res) =>{
     .catch(err => console.log(err));
 });
 
+//Saves the new address in the DB.
 router.post('/add', [
+    //Validations
     body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({ max: 40 }),
     body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(),
     body('detail','Ingrese el detalle de la dirección.').not().isEmpty(),
@@ -49,6 +52,7 @@ router.post('/add', [
         municipio,
     } = req.body;
     console.log(errors.array());
+    //If there are errors, renders the same form, otherwise saves the new Address
     if (!errors.isEmpty()) {
         res.render('../views/route/add.html', {
             name, detail, departamento, municipio, errors: errors.array()
