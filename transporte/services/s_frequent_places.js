@@ -1,10 +1,10 @@
 const db = require('../dbconfig/conex');
-const Route = require('../models/m_frequent_place');
+const Address = require('../models/m_frequent_place');
 const express = require('express');
 const bodyParser = require('body-parser');
 const Sequelize = require('sequelize');
 
-class address_services {
+class frequent_places_services {
     constructor() {}
     getAll() {
         return Address.findAll({
@@ -22,4 +22,4 @@ class address_services {
     };
 };
 
-module.exports = new address_services();
+module.exports = new frequent_places_services();

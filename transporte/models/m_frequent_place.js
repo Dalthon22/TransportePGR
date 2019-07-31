@@ -37,7 +37,7 @@ Frequent_Place.belongsTo(City, {
 });
 
 Frequent_Place.belongsTo(Department, {
-    foreignKey: 'department_id'
+    foreignKey: 'deparment_id'
 });
 
 module.exports = Frequent_Place;

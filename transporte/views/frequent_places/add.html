@@ -5,17 +5,17 @@
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
-                <form class="ui form" action="/frequent_places/add" method="POST">
+                <form class="ui form" action="/lugares_frecuentes/add" method="POST">
                     <br>
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
                     <div class="required field">
                         <label>Lugar de Destino:</label>
-                        <input type="text" name="name" id="name" placeholder="Nombre del Destino" value={{name}}>
+                        <input type="text" name="name" id="name" placeholder="Nombre del Destino">
                     </div>
                     <div class="required field">
                         <label>Direccion:</label>
-                        <input type="text" name="name" id="name"
-                            placeholder="#Casa o local,#Pasaje o Calle,Nombre colonia o urbanización." value={{name}}>
+                        <input type="text" name="detail" id="detail"
+                            placeholder="#Casa o local,#Pasaje o Calle,Nombre colonia o urbanización.">
                     </div>
                     <div class="two fields">
                         <div class="field">
@@ -51,36 +51,35 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-
-                <script type="text/javascript">
-                    $('#departamento').change(function () {
-                        var selectedDepartamento = $("#departamento").val();
-                        var municipiosSelect = $('#municipio');
-                        municipiosSelect.empty();
-                        if (selectedDepartamento != null && selectedDepartamento != '') {
-                            $.getJSON('http://localhost:3000/direccion/getMunicipios', {
-                                selectedDepartamento
-                            }, function (municipios) {
-                                if (municipios != null && !jQuery.isEmptyObject(municipios)) {
-                                    municipiosSelect.append($('<option/>', {
-                                        value: null,
-                                        text: "--Seleccione un municipio--"
-                                    }));
-                                    $.each(municipios, function (index, municipio) {
-                                        municipiosSelect.append($('<option/>', {
-                                            value: municipio.id,
-                                            text: municipio.name
-                                        }));
-                                    });
-                                };
-                            });
-                        };
-                    });
-                </script>
-
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#departamento').change(function () {
+        var selectedDepartamento = $("#departamento").val();
+        var municipiosSelect = $('#municipio');
+        municipiosSelect.empty();
+        if (selectedDepartamento != null && selectedDepartamento != '') {
+            $.getJSON('http://localhost:3000/direccion/getMunicipios', {
+                selectedDepartamento
+            }, function (municipios) {
+                if (municipios != null && !jQuery.isEmptyObject(municipios)) {
+                    municipiosSelect.append($('<option/>', {
+                        value: null,
+                        text: "--Seleccione un municipio--"
+                    }));
+                    $.each(municipios, function (index, municipio) {
+                        municipiosSelect.append($('<option/>', {
+                            value: municipio.id,
+                            text: municipio.name
+                        }));
+                    });
+                };
+            });
+        };
+    });
+</script>
 
 {% endblock %}
