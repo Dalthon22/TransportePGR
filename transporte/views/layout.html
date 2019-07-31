@@ -11,15 +11,23 @@
     <script src="/fomantic-ui/dist/semantic.js"></script>
     <title>Transporte PGR</title>
     <link class="ui mini image" rel="icon" href="/images/bus.png" type="image/icon" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css">
 </head>
 
 <body style="padding: 0em">
+    <!-- Header: donde se encuentra el encabezado -->
+    <div class="ui top attached secondary menu" style="border: 0px;margin-top: 0em;background: #FEF4e1;">
+        {% block header %}
+
+        {% endblock %}
+    </div>
+
     <!-- Contenido de la aplicación -->
     {% block body %}
 
 
     {% endblock %}
-    <div class="ui inverted vertical footer segment" style="padding: 3em 0em">
+    <div class="ui inverted vertical footer segment" style="padding: 3em 0em;">
         <div class="ui center aligned container">
             <div class="ui relaxed stackable equal width inverted divided grid">
                 <div class="left aligned column">
