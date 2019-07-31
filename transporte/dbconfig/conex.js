@@ -27,6 +27,17 @@ const Sequelize = require('sequelize');
 const dbConex = new Sequelize('sigestran', 'ms15050', 'ms15050', {
   host: 'localhost',
   dialect: 'mssql',
+  dialectOptions: {
+    options: {
+      encrypt: true,
+    }
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
 });
 
 module.exports = dbConex;
