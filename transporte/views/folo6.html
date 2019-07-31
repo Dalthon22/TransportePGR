@@ -1,0 +1,275 @@
+{% extends 'index.html' %}
+{% block views %}
+<div class="ui container">
+    <div class="ui vertically divided grid">
+        <div class="one column row">
+            <div class="column">
+                <form class="ui form" id="folo6_form" method="POST">
+                    <div></div>
+                    <h3 class="ui blue dividing header">Solicitud de transporte FOLO-6</h3>
+                    <div class="labels">
+                        <label>Fecha de solicitud: </label>
+                        <label id="date_lb">--/--/--</label>
+                    </div>
+                    <div class="labels">
+                        <label>Unidad solicitante: </label>
+                        <label id="unidad_lb">Unidad ---</label>
+                    </div>
+                    <div class="three wide field">
+                        <label for="calendar1">Fecha de salida: </label>
+                        <div class="ui calendar" id="standard_calendar">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" placeholder="Seleccione fecha" name="calendar1" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three wide field">
+                        <label>Hora de salida: </label>
+                        <!-- TIMER -->
+                        <div class="ui calendar" id="time_calendar">
+                            <div class="ui input left icon">
+                                <i class="time icon"></i>
+                                <input type="text" placeholder="Seleccione la hora" id="time">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three wide field">
+                        <label>Hora de retorno: </label>
+                        <!-- TIMER -->
+                        <div class="ui calendar" id="time_calendar1">
+                            <div class="ui input left icon">
+                                <i class="time icon"></i>
+                                <input type="text" placeholder="Seleccione la hora" id="time1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="fields">
+                            <div class="ui toggle checkbox" id="driver_cb">
+                                <input type="checkbox" name="driver_i" checked="checked" tabindex="0" class="hidden">
+                                <label for="driver_i">Motorista</label>
+                            </div>
+                            <div class="one wide field"></div>
+                            <label>Cantidad de pasajeros: </label>
+                            <div class="two wide field">
+                                <input type="number" name="passengers_i" min="0" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fields">
+                        <div class="eight wide field" id="name_driver_f">
+                            <label for="name_driver_i">Nombre:</label>
+                            <input type="text" placeholder="Perona que va a coducir" name="name_driver_i"
+                                id="n_driver_i" disabled="true">
+                        </div>
+                        <div class="field" id="type_license_f">
+                            <label for="license_ls_id">Tipo de licencia:</label>
+                            <select class="ui fluid dropdown" name="license_ls" id="license_ls_id" disabled="true">
+                                <option value="">Tipo de licencia</option>
+                                <option value="1">Particular</option>
+                                <option value="2">Liviana</option>
+                                <option value="3">Pesada</option>
+                                <option value="4">Pesada-T</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- área de rutas -->
+                    <h4 class="ui blue dividing header">Lugar de destino</h4>
+                    <div class="field">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Departamento</label>
+                                <select class="ui fluid dropdown" name="departamento_ls">
+                                    <option value="">Seleccione el Departamento</option>
+                                    <option value="1">Santa Ana</option>
+                                    <option value="2">San Salvador</option>
+                                    <option value="3">La Union</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Municipio</label>
+                                <select class="ui fluid dropdown" name="municipio_ls">
+                                    <option value="">Seleccione el Departamento</option>
+                                    <option value="1">Ciudad Delgado</option>
+                                    <option value="2">Soyapango</option>
+                                    <option value="3">Apopa</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <select class="ui fluid dropdown" name="place_ls">
+                            <option value="">Seleccione el lugar de destino</option>
+                            <option value="1">Aeropuerto Internacional de El Salvador San Óscar Arnulfo
+                                Romero y
+                                Galdámez</option>
+                            <option value="2">Alcaldía Municipal de Apopa</option>
+                            <option value="3">Centro Judicial de Santa Tecla</option>
+                            <option value="3">Otro</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Lugar de destino</label>
+                        <input type="text" name="destiny_place_i" disabled="disabled">
+                    </div>
+                    <div class="field">
+                        <label>Detalle de dirección</label>
+                        <textarea rows="3" name="direction_txt" disabled="disabled"
+                            placeholder="Calle x, pasaje y, local...."></textarea>
+                    </div>
+                    <button class="ui button">Agregar dirección</button>
+                    <table class="ui celled table tablet stackable">
+                        <thead>
+                            <tr>
+                                <th>Destino</th>
+                                <th>Dir</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Destino">Alacaldía Municipal de Apopa</td>
+                                <td data-label="Dir">24, calle Leonardo Azgunaga</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="ui blue dividing header">Misión</h4>
+                    <div class="field">
+                        <label>Misión o motivo del viaje</label>
+                        <input type="text" name="mision_i" placeholder="Auditoria al área laboral..." maxlength="150">
+                    </div>
+                    <div class="field">
+                        <label>Observaciones (Opcional)</label>
+                        <input type="text" name="details_i"
+                            placeholder="Llevaremos cajas pesadas, esperamos al motorista en la entrada del edificio central"
+                            maxlength="150">
+                    </div>
+                    <div class="ui error message"></div>
+                    <button class="ui right aligned submit green button" id="save_print_btn">Guardar e imprimir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Validaciones-->
+<script type="text/javascript">
+    $(function () {
+        $('.ui.form').form({
+            onSuccess: function (event, fields) {
+                event.preventDefault();
+            },
+            fields: {
+                calendar1: {
+                    identifier: 'calendar1',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Seleccione una fecha de salida'
+                    }]
+                },
+                time: {
+                    identifier: 'time',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Seleccione una hora de salida'
+                    }]
+                },
+                time1: {
+                    identifier: 'time1',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Seleccione una hora de retorno'
+                    }]
+                },
+                passengers_i: {
+                    identifier: 'passengers_i',
+                    rules: [{
+                            type: 'empty',
+                            prompt: 'Seleccione un horario de salida'
+                        },
+                        {
+                            type: 'integer',
+                            prompt: 'Ingrese un número válido de pasajeros'
+                        }
+                    ]
+                },
+                mision_i: {
+                    identifier: 'mision_i',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Ingrese el motivo o misión de su viaje'
+                    }]
+                },
+            }
+        });
+    });
+</script>
+<!--Formato y setting de fecha -->
+<script>
+    var today = new Date();
+    var month_lb = today.getMonth() + 1;
+    //Para setting de los labels
+    $("#date_lb").text('' + today.getDate() + '/' + month_lb + '/' + today.getFullYear());
+    $("#unidad_lb").text('Unidad de familia');
+    $('#standard_calendar').calendar({
+        monthFirst: false,
+        type: 'date',
+        minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+        formatter: {
+            date: function (date, settings) {
+                if (!date) return '';
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                return day + '/' + month + '/' + year;
+            }
+        }
+    });
+</script>
+<!-- Checkbox motorista -->
+
+<script>
+    $('.ui.checkbox').checkbox('enable');
+    $('#driver_cb').checkbox({
+        onChecked: function () {
+            $('#n_driver_i').prop('disabled', true);
+            $('#license_ls_id').prop('disabled', true);
+            $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
+        },
+        onUnchecked: function () {
+            $('#n_driver_i').prop('disabled', false);
+            $('#license_ls_id').prop('disabled', false);
+            $('.ui.form').form('add rule', 'name_driver_i', {
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Ingrese el nombre de la persona que conducirá'
+                }]
+            });
+            $('.ui.form').form('add rule', 'license_ls', {
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Seleccione el tipo de licencia que posee el conductor'
+                }]
+            });
+        },
+    })
+</script>
+<!-- TIMER´s -->
+<script>
+    var d;
+    $('#time_calendar')
+        .calendar({
+            type: 'time',
+            minTimeGap: '30',
+            endCalendar: $('#time_calendar1'),
+        });
+    $('#time_calendar1')
+        .calendar({
+            type: 'time',
+            minTimeGap: '30',
+            startCalendar: $('#time_calendar'),
+            onChange: function (date, text, mode) {
+                var dat = new Date($('#time_calendar').calendar('get date'));
+                console.log(dat.getHours() + ':' + dat.getMinutes());
+            },
+        });
+</script>
+{% endblock %}
