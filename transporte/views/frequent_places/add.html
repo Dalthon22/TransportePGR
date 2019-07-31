@@ -17,23 +17,29 @@
                         <input type="text" name="name" id="name"
                             placeholder="#Casa o local,#Pasaje o Calle,Nombre colonia o urbanización." value={{name}}>
                     </div>
-                    <div class="four wide field ">
-                        <div class="required field">
-                            <label>Departamento:</label>
-                            <select class="ui dropdown" id="departamento" name="departamento">
-                                <option value="">--Seleccione un departamento--</option>
-                                {% for dep in Departamentos %}
-                                <option value="{{ dep.id }}">{{ dep.name }}</option>
-                                {% endfor %}
-                            </select>
+                    <div class="two column row">
+                        <div class="column">
+                            <div class="four wide field ">
+                                <div class="required field">
+                                    <label>Departamento:</label>
+                                    <select class="ui dropdown" id="departamento" name="departamento">
+                                        <option value="">--Seleccione un departamento--</option>
+                                        {% for dep in Departamentos %}
+                                        <option value="{{ dep.id }}">{{ dep.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="four wide field">
-                        <div class="required field">
-                            <label>Municipio:</label>
-                            <select class="ui dropdown" id="municipio" name="municipio">
-                                <option value=""></option>
-                            </select>
+                        <div class="column">
+                            <div class="four wide field">
+                                <div class="required field">
+                                    <label>Municipio:</label>
+                                    <select class="ui dropdown" id="municipio" name="municipio">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
