@@ -1,6 +1,49 @@
 {% extends 'index.html' %}
 
 {% block views %}
+<div id="exito" class="ui success message center aligned" style="display: none">
+    <div class="header green">Éxito</div>
+    <p>¡Registro guardado correctamente!</p>
+</div>
+
+<div class="ui container">
+    <div class="ui vertically divided grid">
+        <div class="one column row">
+            <div class="column">
+                <br>
+                <h1 id="title" class="ui header">Lista de direcciones.</h1>
+
+                <table class="ui celled collapsing table">
+                    <thead>
+                        <tr class="ui green table">
+                            <th>nombre</th>
+                            <th>Detalle:</th>
+                            <th>Departamento:</th>
+                            <th>Municipio:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dir in Direcciones %}
+                        <tr>
+                            <td>{{ dir.name}}</td>
+                            <td>{{ dir.detail }}</td>
+                            <td>{{ dir.deparment.name }}</td>
+                            <td>{{ dir.city.name }}</td>
+                        </tr>
+                        {% else %}
+                        <p>No hay direcciones disponibles.</p>
+                        {% endfor %}
+                    </tbody>
+
+
+                </table>
+                <form class="ui form" action="/lugares_frecuentes/add" method="GET">
+                    <button class="ui positive button" type="submit">Agregar Direccion</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

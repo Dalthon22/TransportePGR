@@ -5,7 +5,7 @@
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
-                <form class="ui form" action="/lugares_frecuentes/add" method="POST">
+                <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
                     <br>
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
                     <div class="required field">
@@ -42,19 +42,59 @@
                             </div>
                         </div>
                     </div>
+                    <div class="ui error message">
+                    </div>
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
                 </form>
-                {% if errors %}
-                <div class="ui error message">
-                    {% for error in errors %}
-                    <li> {{ error.msg }} </li>
-                    {% endfor %}
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        $('#frm-prueba').form({
+            fields: {
+                name: {
+                    identifier: 'name',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Ingrese un nombre para la Dirección'
+                    }, {
+                        type: 'maxLength[40]',
+                        prompt: 'Longitud Maxima de nombre 40 caracteres'
+                    }, {
+                        type: 'Alphanumeric',
+                        prompt: 'El campo nombre solo acepta caracteres alfanumericos.'
+                    }]
+                },
+                detail: {
+                    identifier: 'detail',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Ingrese un Detalle de Direccion.'
+                    }, {
+                        type: 'maxLength[250]',
+                        prompt: 'Longitud Maxima del detalle 250 caracteres'
+                    }]
+                },
+                departamento: {
+                    identifier: 'departamento',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Seleccione un Departamento'
+                    }]
+                },
+                municipio: {
+                    identifier: 'municipio',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Seleccione un Municipio'
+                    }]
+                },
+            }
+        })
+    });
+</script>
 
 <script type="text/javascript">
     $('#departamento').change(function () {
