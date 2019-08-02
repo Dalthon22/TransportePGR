@@ -3,7 +3,7 @@
 {% block views %}
 
 <section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important;font-size-adjust: inherit;">
-    <form class="ui equal width form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/add" method="POST">
+    <form class="ui equal width form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/create" method="POST">
         <h1 class="ui dividing header left aligned">Agregar Vehículo</h1>
         <div class="fields">
             <div class="required  field">
@@ -51,6 +51,6 @@
                 type="button">Cancel</button></a>
     </form>
 </section>
-<script src="./static/js/a_cars.js"></script>
+<script src="/static/js/a_cars.js"></script>
 
 {% endblock %}

@@ -2,14 +2,19 @@ const express = require('express')
 const router = express.Router();
 const controller = require('../controllers/c_car');
 
-/*GET Car List*/
+/*GET List*/
 router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 
-/*GET Add*/
-router.get('/add', (req, res) => {
-    controller.getAdd(req, res);
+/*GET Create*/
+router.get('/create', (req, res) => {
+    controller.getCreate(req, res);
+});
+
+/*POST Create*/
+router.post('/create', (req, res) => {
+    controller.create(req, res);
 });
 
 /*POST Add a car */
@@ -25,8 +30,7 @@ router.get('/add', (req, res) => {
         plate,
         seats,
     } = req.body;
-    state = state.toLowerCase();
-    engine = state.toUpperCase();
+    
     //Actualizacion
     services.getByPlate(plate)
         .then(tuple => {

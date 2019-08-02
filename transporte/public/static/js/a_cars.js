@@ -23,7 +23,7 @@ $(function () {
                 state: {
                     identifier: 'state',
                     rules: [{
-                        type: 'checked',
+                        type: 'empty',
                         prompt: 'Debe seleccionar el estado del vehículo'
                     }]
                 },

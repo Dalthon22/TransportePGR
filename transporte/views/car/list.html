@@ -9,7 +9,7 @@
 <section id="lista_vehiculos" class="ui container" style="margin-left:0em !important">
     <div style="height:30em;width:57em !important">
         <h1 id="title" class="ui dividing header left">Vehículos</h1>
-        <a href="/vehiculos/add">
+        <a href="/vehiculos/create">
             <div id="nuevo" class="ui right floated animated blue button" style="margin-bottom:1em" tabindex="0">
                 <div class="visible content">Nuevo</div>
                 <div class="hidden content">
@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if cars %}
+                    {% if cars.length > 0 %}
                     {% for c in cars %}
                     <tr>
                         <td style="display: none">{{c.id}}</td>
