@@ -4,7 +4,7 @@
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
-                <form class="ui form" id="folo6_form" method="POST">
+                <form class="ui form " id="folo6_form" method="POST">
                     <div></div>
                     <h3 class="ui blue dividing header">Solicitud de transporte FOLO-6</h3>
                     <div class="labels">
@@ -20,7 +20,8 @@
                         <div class="ui calendar" id="standard_calendar">
                             <div class="ui input left icon">
                                 <i class="calendar icon"></i>
-                                <input type="text" placeholder="Seleccione fecha" name="calendar1" autocomplete="off">
+                                <input type="text" placeholder="Seleccione fecha" name="calendar1" autocomplete="off"
+                                    id="calendar1_id">
                             </div>
                         </div>
                     </div>
@@ -30,7 +31,7 @@
                         <div class="ui calendar" id="time_calendar">
                             <div class="ui input left icon">
                                 <i class="time icon"></i>
-                                <input type="text" placeholder="Seleccione la hora" id="time">
+                                <input type="text" placeholder="Seleccione la hora" id="time" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -40,7 +41,7 @@
                         <div class="ui calendar" id="time_calendar1">
                             <div class="ui input left icon">
                                 <i class="time icon"></i>
-                                <input type="text" placeholder="Seleccione la hora" id="time1">
+                                <input type="text" placeholder="Seleccione la hora" id="time1" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -135,7 +136,8 @@
                     <h4 class="ui blue dividing header">Misión</h4>
                     <div class="field">
                         <label>Misión o motivo del viaje</label>
-                        <input type="text" name="mision_i" placeholder="Auditoria al área laboral..." maxlength="150">
+                        <input type="text" name="mision_i" placeholder="Auditoria al área laboral..." maxlength="150"
+                            id="mision_i_id">
                     </div>
                     <div class="field">
                         <label>Observaciones (Opcional)</label>
@@ -152,54 +154,65 @@
 </div>
 <!--Validaciones-->
 <script type="text/javascript">
-    $(function () {
-        $('.ui.form').form({
-            onSuccess: function (event, fields) {
-                event.preventDefault();
+    $('.ui.form').form({
+        //revalidate: true,
+        inline: true,
+        fields: {
+            calendar1: {
+                identifier: 'calendar1',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Seleccione una fecha de salida'
+                }]
             },
-            fields: {
-                calendar1: {
-                    identifier: 'calendar1',
-                    rules: [{
+            time: {
+                identifier: 'time',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Seleccione una hora de salida'
+                }]
+            },
+            time1: {
+                identifier: 'time1',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Seleccione una hora de retorno'
+                }]
+            },
+            passengers_i: {
+                identifier: 'passengers_i',
+                rules: [{
                         type: 'empty',
-                        prompt: 'Seleccione una fecha de salida'
-                    }]
-                },
-                time: {
-                    identifier: 'time',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Seleccione una hora de salida'
-                    }]
-                },
-                time1: {
-                    identifier: 'time1',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Seleccione una hora de retorno'
-                    }]
-                },
-                passengers_i: {
-                    identifier: 'passengers_i',
-                    rules: [{
-                            type: 'empty',
-                            prompt: 'Seleccione un horario de salida'
-                        },
-                        {
-                            type: 'integer',
-                            prompt: 'Ingrese un número válido de pasajeros'
-                        }
-                    ]
-                },
-                mision_i: {
-                    identifier: 'mision_i',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Ingrese el motivo o misión de su viaje'
-                    }]
-                },
-            }
-        });
+                        prompt: 'Seleccione un horario de salida'
+                    },
+                    {
+                        type: 'integer',
+                        prompt: 'Ingrese un número válido de pasajeros'
+                    }
+                ]
+            },
+            mision_i: {
+                identifier: 'mision_i',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Ingrese el motivo o misión de su viaje'
+                }]
+            },
+        }
+    });
+
+    //Validación de campos si NO selecciona motorista
+    //valida select de licencia
+    $("#license_ls_id").change(function () {
+        $(".ui.form").form('validate field', 'license_ls');
+    });
+    $("#n_driver_i").change(function () {
+        $(".ui.form").form('validate field', 'name_driver_i');
+    });
+    //
+    //valida input de misión
+    $("#mision_i_id").keyup(function () {
+        $(".ui.form").form('validate field', 'mision_i');
     });
 </script>
 <!--Formato y setting de fecha -->
@@ -213,6 +226,9 @@
         monthFirst: false,
         type: 'date',
         minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+        onHide: function () {
+            $(".ui.form").form('validate field', 'calendar1');
+        },
         formatter: {
             date: function (date, settings) {
                 if (!date) return '';
@@ -233,6 +249,10 @@
             $('#n_driver_i').prop('disabled', true);
             $('#license_ls_id').prop('disabled', true);
             $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
+            $(".ui.form").form('validate field', 'name_driver_i');
+            $(".ui.form").form('validate field', 'license_ls');
+            $('#license_ls_id').prop('selectedIndex', 0);
+            $('#n_driver_i').val('');
         },
         onUnchecked: function () {
             $('#n_driver_i').prop('disabled', false);
@@ -249,17 +269,19 @@
                     prompt: 'Seleccione el tipo de licencia que posee el conductor'
                 }]
             });
-        },
+        }
     })
 </script>
 <!-- TIMER´s -->
 <script>
-    var d;
     $('#time_calendar')
         .calendar({
             type: 'time',
             minTimeGap: '30',
             endCalendar: $('#time_calendar1'),
+            onHide: function (date, text, mode) {
+                $(".ui.form").form('validate field', 'time');
+            }
         });
     $('#time_calendar1')
         .calendar({
@@ -269,7 +291,11 @@
             onChange: function (date, text, mode) {
                 var dat = new Date($('#time_calendar').calendar('get date'));
                 console.log(dat.getHours() + ':' + dat.getMinutes());
+                //$(".ui.form").form('validate field', 'time1');
             },
+            onHide: function (date, text, mode) {
+                $(".ui.form").form('validate field', 'time1');
+            }
         });
 </script>
 {% endblock %}
