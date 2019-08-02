@@ -1,43 +1,45 @@
 {% extends 'layout.html' %}
 
+{% block header %}
+<div class="right menu">
+    <a class="item" style="color: black">
+        <i class="user tie icon"></i>
+        Usted no se ha identificado.
+    </a>
+</div>
+{% endblock %}
+
 {% block body %}
 
 <link rel="stylesheet" type="text/css" href="/stylesheets/login.css">
 
-<div class="ui top attached secondary menu" style="border: 0px;margin-top: 0em;">
-    <div class="right menu">
-        <a class="item" style="color: black">
-            <i class="user tie icon"></i>
-            Usted no se ha identificado.
-        </a>
-    </div>
-</div>
-<div style="margin-bottom: -25em">
+<!-- <div style="margin-bottom: -15em;border: 0em;padding: 0em">
     <img class="ui fluid image" src="/images/banner.jpeg"></img>
-</div>
-<!-- <img class="ui fluid image" src="/images/banner.jpeg" style="margin-bottom: -25em;"></img>
- -->
-<div class="ui stackable middle aligned center aligned grid" style="margin:1rem;">
-    <div class="column">
-        <h2> Ingrese su cuenta</h2>
-        <form class="ui large form" action="auth" method="POST">
-            <div class="ui stacked segment">
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="user icon"></i>
-                        <input name="username" placeholder="e-mail" type="text">
+</div> -->
+<div class="ui fluid container">
+    <img class="ui fluid image" src="/images/banner.jpeg"></img>
+    <div class=" ui stackable middle aligned center aligned grid" style="margin:1rem;">
+        <div class="column">
+            <h2> Ingrese su cuenta</h2>
+            <form class="ui large form" action="auth" method="POST">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input name="username" placeholder="e-mail" type="text">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="lock icon"></i>
-                        <input name="password" placeholder="Password" type="password">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input name="password" placeholder="Password" type="password">
+                        </div>
                     </div>
+                    <button class="fluid ui button" type="submit">Iniciar sesion</button>
                 </div>
-                <button class="fluid ui button" type="submit">Iniciar sesion</button>
-            </div>
-            <div class="ui error message"></div>
-        </form>
+                <div class="ui error message"></div>
+            </form>
+        </div>
     </div>
 </div>
 

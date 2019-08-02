@@ -1,7 +1,8 @@
 $(function () {
     $('.ui.sidebar')
         .sidebar({
-            context: $('.attached.segment')
+            //overflow: hidden
+            context: $('.ui.container'),
         })
         .sidebar('attach events', '#menu');
 
