@@ -1,12 +1,13 @@
 const Car = require('../models/m_car');
 const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
+const Migration = require('../models/migrations');
 const {body, validationResult} = require('../middleware/expresse-validator');
 
 
 class car_controllers {
     constructor() {
-        //new Migration();
+        //var migrate = new Migration();
     }
 
     getAdd(req, res) {

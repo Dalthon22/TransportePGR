@@ -4,6 +4,7 @@ const Car = require('../models/m_car');
 const Route = require('../models/m_route');
 const Procuraduria = require('../models/m_procuraduria');
 const Address = require('../models/m_address');
+const Frequent_Place = require('../models/m_frequent_place');
 
 class Migration {
     constructor() {
