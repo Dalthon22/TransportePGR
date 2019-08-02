@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 
+
 {% block views %}
 <div id="exito" class="ui success message center aligned" style="display: none">
     <div class="header green">Éxito</div>
@@ -12,8 +13,11 @@
             <div class="column">
                 <br>
                 <h1 id="title" class="ui header">Lista de direcciones.</h1>
-
-                <table class="ui celled collapsing table">
+                <form class="ui form" action="/lugares_frecuentes/add" method="GET">
+                    <button class="ui positive button" type="submit">Agregar Direccion</button>
+                </form>
+                <br>
+                <table class="ui celled collapsing table" id="mytable" name="mytable">
                     <thead>
                         <tr class="ui green table">
                             <th>nombre</th>
@@ -37,14 +41,16 @@
 
 
                 </table>
-                <form class="ui form" action="/lugares_frecuentes/add" method="GET">
-                    <button class="ui positive button" type="submit">Agregar Direccion</button>
-                </form>
+
             </div>
         </div>
     </div>
 </div>
 
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#mytable').DataTable();
+    });
+</script>
 
 {% endblock %}
