@@ -19,24 +19,42 @@ db.authenticate()
   .catch(err => console.log('Error: ' + err))
 
 // view engine setup
+/* app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
+nunjucks.configure('views', {
+  autoescape: true,
+  express: app
+}); */
+
+/* app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+  extended: false
+})); */
+
+//Files static
+/* app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules/fomantic-ui/dist')));
+app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist'))); */
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
-
+//bodyparser
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
   extended: false
 }));
+app.use(cookieParser());
 
-//Files static
+//archivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules/fomantic-ui/dist')));
-app.use(express.static(path.join(__dirname, 'node_modules/jquery/dist')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use(session({
   secret: 'secret',
