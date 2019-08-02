@@ -10,11 +10,11 @@
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
                     <div class="required field">
                         <label>Lugar de Destino:</label>
-                        <input type="text" name="name" id="name" placeholder="Nombre del Destino">
+                        <input type="text" name="name" id="name" placeholder="Nombre del Destino" maxlength="100">
                     </div>
                     <div class="required field">
                         <label>Direccion:</label>
-                        <input type="text" name="detail" id="detail"
+                        <input type="text" name="detail" id="detail" maxlength="150"
                             placeholder="#Casa o local,#Pasaje o Calle,Nombre colonia o urbanización.">
                     </div>
                     <div class="two fields">
@@ -62,8 +62,8 @@
                         type: 'empty',
                         prompt: 'Ingrese un nombre para la Dirección'
                     }, {
-                        type: 'maxLength[60]',
-                        prompt: 'Longitud Maxima de nombre  caracteres'
+                        type: 'maxLength[100]',
+                        prompt: 'Longitud Maxima de nombre 100 caracteres'
                     }, {
                         type: 'Alphanumeric',
                         prompt: 'El campo nombre solo acepta caracteres alfanumericos.'
@@ -75,8 +75,8 @@
                         type: 'empty',
                         prompt: 'Ingrese un Detalle de Direccion.'
                     }, {
-                        type: 'maxLength[250]',
-                        prompt: 'Longitud Maxima del detalle 250 caracteres'
+                        type: 'maxLength[150]',
+                        prompt: 'Longitud Maxima del detalle 150 caracteres'
                     }]
                 },
                 departamento: {
