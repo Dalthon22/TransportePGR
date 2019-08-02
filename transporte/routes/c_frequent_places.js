@@ -70,7 +70,7 @@ router.post('/add', [
                     detail,
                     departamento,
                     municipio,
-                    errors: errors.array()
+
                 });
 
             })
