@@ -88,18 +88,23 @@ class car_controllers {
         const created_at = new Date();
         state = state.toLowerCase();
         engine = engine.toUpperCase();
-        let success = await Car.create({
-            brand,
-            chassis,
-            model,
-            engine,
-            plate,
-            state,
-            seats,
-            created_at
-        });
 
-        console.log(success);
+        if (findByPlate(plate)) {
+            console.log('Plate already exists');
+        } else {
+            let success = await Car.create({
+                brand,
+                chassis,
+                model,
+                engine,
+                plate,
+                state,
+                seats,
+                created_at
+            });
+            console.log(success);
+        }
+
     }
 
     update(id, ...seats) {

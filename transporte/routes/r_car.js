@@ -5,6 +5,7 @@ const controller = require('../controllers/c_car');
 /*GET List*/
 router.get('/', (req, res) => {
     controller.getList(req, res);
+
 });
 
 /*GET Create*/
