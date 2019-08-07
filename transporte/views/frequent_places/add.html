@@ -5,17 +5,23 @@
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
+                <br>
+                <form class="ui form" action="/lugares_frecuentes/list" method="GET" autocomplete="off">
+                    <button class="ui right labeled icon button" type="submit">
+                        <i class="left arrow icon"></i>
+                        Volver al Listado
+                    </button>
+                </form>
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
-                    <br>
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
                     <div class="required field">
                         <label>Lugar de Destino:</label>
-                        <input type="text" name="name" id="name" placeholder="Nombre del Destino" maxlength="100"
-                            value={{name}}>
+                        <input type="text" autocomplete="off" name="name" id="name" placeholder="Nombre del Destino"
+                            maxlength="150" value={{name}}>
                     </div>
                     <div class="required field">
                         <label>Direccion:</label>
-                        <input type="text" name="detail" id="detail" maxlength="150"
+                        <input type="text" autocomplete="off" name="detail" id="detail" maxlength="200"
                             placeholder="#Casa o local,#Pasaje o Calle,Nombre colonia o urbanización." value={{detail}}>
                     </div>
                     <div class="two fields">
@@ -46,13 +52,6 @@
                     <div class="ui error message">
                     </div>
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
-                </form>
-                <br>
-                <form class="ui form" action="/lugares_frecuentes/list" method="GET">
-                    <button class="ui right labeled icon button" type="submit">
-                        <i class="left arrow icon"></i>
-                        Volver al Listado
-                    </button>
                 </form>
             </div>
         </div>

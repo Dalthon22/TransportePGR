@@ -20,6 +20,17 @@ class frequent_places_services {
             deparment_id
         });
     };
+    async existByName(name) {
+        let is_registered = false;
+        let address = await Address.findOne({
+            name: name
+        });
+
+        if (address) {
+            is_registered = true;
+        }
+        return is_registered;
+    }
 };
 
 module.exports = new frequent_places_services();

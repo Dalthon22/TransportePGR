@@ -8,6 +8,7 @@ const {
 } = require('express-validator');
 
 
+
 router.get('/list', (req, res) => {
     Direcciones = frequent_places_services.getAll()
         .then(Direcciones => {
@@ -37,6 +38,7 @@ router.post('/add', [
     body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
         max: 100
     }),
+
     /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 150 caracteres.').isLength({
@@ -53,9 +55,12 @@ router.post('/add', [
         departamento,
         municipio,
     } = req.body;
+    if (frequent_places_services.existByName(name)) {
+        console.log('ya esta la dir');
+    }
     console.log(errors.array());
     //If there are errors, renders the same form, otherwise saves the new Address
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty() || frequent_places_services.existByName(name)) {
         Departamentos = department_services.getAll()
             .then(Departamentos => {
                 res.render('../views/frequent_places/add.html', {
@@ -73,6 +78,7 @@ router.post('/add', [
         frequent_places_services.create(name, detail, municipio, departamento)
             .then(res.redirect('/lugares_frecuentes/add'))
             .catch(err => console.log(err));
+
     }
 });
 
