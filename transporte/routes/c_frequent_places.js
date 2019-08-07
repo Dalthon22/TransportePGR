@@ -100,7 +100,7 @@ router.post('/add', [
                         detail,
                         departamento,
                         municipio,
-                        message: 'El lugar de destino ya existe',
+
                     });
 
                 })
