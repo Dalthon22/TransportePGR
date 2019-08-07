@@ -20,14 +20,14 @@ class frequent_places_services {
             deparment_id
         });
     };
-    async existByName(name) {
-        let is_registered = false;
-        let address = await Address.findOne({
-            name: name
+    async existByName(name_s) {
+        let is_registered = true;
+        let faddress = await Address.findOne({
+            name: name_s
         });
 
-        if (address) {
-            is_registered = true;
+        if (faddress) {
+            is_registered = false;
         }
         return is_registered;
     }

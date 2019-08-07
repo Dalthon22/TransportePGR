@@ -36,13 +36,13 @@ router.get('/getMunicipios', (req, res) => {
 router.post('/add', [
     //Validations
     body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
-        max: 100
+        max: 150
     }),
 
     /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 150 caracteres.').isLength({
-        max: 150
+        max: 200
     }),
     /* body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
@@ -55,12 +55,10 @@ router.post('/add', [
         departamento,
         municipio,
     } = req.body;
-    if (frequent_places_services.existByName(name)) {
-        console.log('ya esta la dir');
-    }
     console.log(errors.array());
     //If there are errors, renders the same form, otherwise saves the new Address
-    if (!errors.isEmpty() || frequent_places_services.existByName(name)) {
+    console.log(name);
+    if (!errors.isEmpty()) {
         Departamentos = department_services.getAll()
             .then(Departamentos => {
                 res.render('../views/frequent_places/add.html', {
@@ -73,11 +71,40 @@ router.post('/add', [
                 });
 
             })
-    } else {
+    }
+    /* else if (frequent_places_services.existByName(name)) {
+           Departamentos = department_services.getAll()
+               .then(Departamentos => {
+                   res.render('../views/frequent_places/add.html', {
+                       Departamentos,
+                       name,
+                       detail,
+                       departamento,
+                       municipio,
+
+                   });
+                   console.log(name);
+               })
+       } */
+    else {
         console.log(req.body);
         frequent_places_services.create(name, detail, municipio, departamento)
             .then(res.redirect('/lugares_frecuentes/add'))
             .catch(err => console.log(err));
+        if (err) {
+            Departamentos = department_services.getAll()
+                .then(Departamentos => {
+                    res.render('../views/frequent_places/add.html', {
+                        Departamentos,
+                        name,
+                        detail,
+                        departamento,
+                        municipio,
+                        message: 'El lugar de destino ya existe',
+                    });
+
+                })
+        }
 
     }
 });
