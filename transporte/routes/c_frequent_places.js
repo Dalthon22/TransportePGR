@@ -32,23 +32,17 @@ router.get('/getMunicipios', (req, res) => {
         .catch(err => console.log(err));
 });
 
-/*router.post('/list', (req, res) => {
-
-})*/
-
-
-
 router.post('/add', [
     //Validations
     body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
         max: 100
     }),
-    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(),
+    /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 150 caracteres.').isLength({
         max: 150
     }),
-    body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(),
+    /* body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
@@ -77,7 +71,7 @@ router.post('/add', [
     } else {
         console.log(req.body);
         frequent_places_services.create(name, detail, municipio, departamento)
-            .then(res.redirect('/lugares_frecuentes/list'))
+            .then(res.redirect('/lugares_frecuentes/add'))
             .catch(err => console.log(err));
     }
 });

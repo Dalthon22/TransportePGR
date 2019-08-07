@@ -47,82 +47,18 @@
                     </div>
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
                 </form>
+                <br>
+                <form class="ui form" action="/lugares_frecuentes/list" method="GET">
+                    <button class="ui right labeled icon button" type="submit">
+                        <i class="left arrow icon"></i>
+                        Volver al Listado
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $('#frm-prueba').form({
-            inline: true,
-            on: 'change',
-            fields: {
-                name: {
-                    identifier: 'name',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Ingrese un nombre para la Dirección'
-                    }, {
-                        type: 'maxLength[100]',
-                        prompt: 'Longitud Maxima de nombre 100 caracteres'
-                    }, {
-                        type: 'Alphanumeric',
-                        prompt: 'El campo nombre solo acepta caracteres alfanumericos.'
-                    }]
-                },
-                detail: {
-                    identifier: 'detail',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Ingrese un Detalle de Direccion.'
-                    }, {
-                        type: 'maxLength[150]',
-                        prompt: 'Longitud Maxima del detalle 150 caracteres'
-                    }]
-                },
-                departamento: {
-                    identifier: 'departamento',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Seleccione un Departamento'
-                    }]
-                },
-                municipio: {
-                    identifier: 'municipio',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Seleccione un Municipio'
-                    }]
-                },
-            }
-        })
-    });
-</script>
-
-<script type="text/javascript">
-    $('#departamento').change(function () {
-        var selectedDepartamento = $("#departamento").val();
-        var municipiosSelect = $('#municipio');
-        municipiosSelect.empty();
-        if (selectedDepartamento != null && selectedDepartamento != '') {
-            $.getJSON('http://localhost:3000/direccion/getMunicipios', {
-                selectedDepartamento
-            }, function (municipios) {
-                if (municipios != null && !jQuery.isEmptyObject(municipios)) {
-                    municipiosSelect.append($('<option/>', {
-                        value: null,
-                        text: "--Seleccione un municipio--"
-                    }));
-                    $.each(municipios, function (index, municipio) {
-                        municipiosSelect.append($('<option/>', {
-                            value: municipio.id,
-                            text: municipio.name
-                        }));
-                    });
-                };
-            });
-        };
-    });
-</script>
+<script src="/javascript/a_frequent_places_add.js"></script>
+<script src="/javascript/a_load_dropdown_city.js"></script>
 
 {% endblock %}
