@@ -13,16 +13,19 @@ router.get('/list', (req, res) => {
     Direcciones = frequent_places_services.getAll()
         .then(Direcciones => {
             res.render('../views/frequent_places/list.html', {
-                Direcciones
+                Direcciones,
+
             });
         })
         .catch(err => console.log(err));
 });
 
 router.get('/add', (req, res) => {
+
     Departamentos = department_services.getAll()
         .then(Departamentos => res.render('../views/frequent_places/add.html', {
-            Departamentos
+            Departamentos,
+
         }))
         .catch(err => console.log(err))
 });
@@ -55,10 +58,12 @@ router.post('/add', [
         departamento,
         municipio,
     } = req.body;
+
     console.log(errors.array());
     //If there are errors, renders the same form, otherwise saves the new Address
     console.log(name);
     if (!errors.isEmpty()) {
+
         Departamentos = department_services.getAll()
             .then(Departamentos => {
                 res.render('../views/frequent_places/add.html', {
@@ -67,46 +72,41 @@ router.post('/add', [
                     detail,
                     departamento,
                     municipio,
-
                 });
 
             })
-    }
-    /* else if (frequent_places_services.existByName(name)) {
-           Departamentos = department_services.getAll()
-               .then(Departamentos => {
-                   res.render('../views/frequent_places/add.html', {
-                       Departamentos,
-                       name,
-                       detail,
-                       departamento,
-                       municipio,
-
-                   });
-                   console.log(name);
-               })
-       } */
-    else {
+    } else {
         console.log(req.body);
-        frequent_places_services.create(name, detail, municipio, departamento)
-            .then(res.redirect('/lugares_frecuentes/add'))
-            .catch(err => console.log(err));
-        if (err) {
-            Departamentos = department_services.getAll()
-                .then(Departamentos => {
-                    res.render('../views/frequent_places/add.html', {
-                        Departamentos,
-                        name,
-                        detail,
-                        departamento,
-                        municipio,
-
+        frequent_places_services.create(name, detail, municipio, departamento).catch(function (err) {
+            console.log(err);
+            if (err) {
+                let Mstate = true;
+                Departamentos = department_services.getAll()
+                    .then(Departamentos => {
+                        res.render('../views/frequent_places/add.html', {
+                            Departamentos,
+                            name,
+                            detail,
+                            departamento,
+                            municipio,
+                            Mstate,
+                        });
                     });
+            } else {
+                let Mstate2 = true;
+                Departamentos = department_services.getAll()
+                    .then(Departamentos => res.render('../views/frequent_places/add.html', {
+                        Departamentos,
+                        Mstate2,
+                    }))
+                    .catch(err => console.log(err))
+            }
 
-                })
-        }
-
+        })
     }
+    /* .then(res.redirect('/lugares_frecuentes/add'))
+    .catch(err => console.log(err)); */
+
 });
 
 module.exports = router;

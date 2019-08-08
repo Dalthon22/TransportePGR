@@ -15,6 +15,27 @@
                 <br>
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
+                    
+                        {# And Snippet #}
+                        {% if Mstate  %}
+                        <div class="ui negative message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                El lugar de destino ya existe
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {# Or Snippet #}
+                        {% if Mstate2 %}
+                            <div class="ui success message">
+                                <i class="close icon"></i>
+                                <div class="header">
+                                    Lugar de Destino Agregado con Exito
+                                </div>
+                            </div>
+                        {% endif %}
+                    
                     <div class="required field">
                         <label>Lugar de Destino:</label>
                         <input type="text" autocomplete="off" name="name" id="name" placeholder="Nombre del Destino"
