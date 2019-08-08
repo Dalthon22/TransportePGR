@@ -3,16 +3,25 @@
 
 <section id="lista_procuradurias">
     <h1 id="title" class="ui header">Lista de procuradurías</h1>
-    <table class="ui celled collapsing table">
+    <table class="ui collapsing table">
         <thead>
             <tr class="ui green table">
-                <th>Nombre</th>
+                <th class="center aligned">Nombre</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for procu in Procuraduria %}
             <tr>
                 <td>{{ procu.name }}</td>
+                <td>
+                    <form action="/instituciones/update" method="GET">
+                        <button type="submit" class="huge basic black ui icon button">
+                            <i class="black edit icon">
+                            <input type="hidden" id="procu_id" name="procu_id" value={{ procu.id }}></i>
+                        </button>
+                    </form>
+                </td>
             </tr>
             {% else %}
                 <p>No hay procuradurías disponibles.</p>

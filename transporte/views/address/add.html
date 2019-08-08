@@ -13,21 +13,23 @@
         <label>Detalle de la dirección:</label>
         <input type="text" id="detail" name="detail" placeholder="Ej: # de casa o local, # de pasaje o calle, colonia o urbanización"> 
       </div>
-      <div class="required field">
-        <label>Departamento:</label>
-        <select class="ui dropdown" id="departamento" name="departamento">
+      <div class ="two fields">
+        <div class="required field">
+          <label>Departamento:</label>
+          <select class="ui dropdown" id="departamento" name="departamento">
             <option value="">--Seleccione un departamento--</option>
             {% for dep in Departamentos %}
             <option value="{{ dep.id }}">{{ dep.name }}</option>
             {% endfor %}
           </select>
         </div>
-      <div class="required field">
-        <label>Municipio:</label> 
-        <select class="ui dropdown" id="municipio" name="municipio">
-            <option value=""></option>
-        </select>
-    </div> 
+        <div class="required field">
+          <label>Municipio:</label> 
+          <select class="ui dropdown" id="municipio" name="municipio">
+              <option value=""></option>
+          </select>
+        </div>
+      </div> 
       <button class="ui positive button" type="submit">Agregar dirección</button>
     </form>
     {% if errors %}

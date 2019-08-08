@@ -39,4 +39,39 @@ router.post('/add', [
         }
     });
 
+    router.get('/update', (req, res) => {
+        procu_id = req.query.procu_id;
+        console.log(procu_id);
+        Procu = services.getProcuraduriaByID(procu_id)
+        .then(Procu => res.render('../views/procuraduria/edit.html', {
+            Procu
+        }))
+        .catch(err => console.log(err))
+    }
+    );
+
+    router.post('/update', [
+        body('name', 'Ingrese el nombre de la procuraduría.').not().isEmpty(),
+        body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({ max: 40 }),
+        body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(),
+    ],
+        (req, res) => {
+            const errors = validationResult(req);
+            let {
+                procu_id,
+                name,
+            } = req.body;
+            console.log(errors.array());
+            if (!errors.isEmpty()) {
+                res.render('../views/procuraduria/edit.html', {
+                    name, errors: errors.array()
+                });
+            }
+            else {
+                console.log(req.body);
+                services.update(procu_id, name)
+                    .then(res.redirect('/instituciones'))
+                    .catch(err => console.log(err))
+            }
+        });
 module.exports = router;
