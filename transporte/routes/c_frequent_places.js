@@ -93,10 +93,6 @@ router.post('/add', [
                     .then(Departamentos => {
                         res.render('../views/frequent_places/add.html', {
                             Departamentos,
-                            name,
-                            detail,
-                            departamento,
-                            municipio,
                             Mstate,
                         });
                     })
