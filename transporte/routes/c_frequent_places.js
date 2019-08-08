@@ -77,7 +77,15 @@ router.post('/add', [
             })
     } else {
         console.log(req.body);
-        frequent_places_services.create(name, detail, municipio, departamento).catch(function (err) {
+        frequent_places_services.create(name, detail, municipio, departamento).then(function () {
+            let Mstate2 = true;
+            Departamentos = department_services.getAll()
+                .then(Departamentos => res.render('../views/frequent_places/add.html', {
+                    Departamentos,
+                    Mstate2,
+                }))
+                .catch(err => console.log(err));
+        }).catch(function (err) {
             console.log(err);
             if (err) {
                 let Mstate = true;
@@ -91,7 +99,7 @@ router.post('/add', [
                             municipio,
                             Mstate,
                         });
-                    });
+                    })
             } else {
                 let Mstate2 = true;
                 Departamentos = department_services.getAll()
@@ -99,7 +107,7 @@ router.post('/add', [
                         Departamentos,
                         Mstate2,
                     }))
-                    .catch(err => console.log(err))
+                    .catch(err => console.log(err));
             }
 
         })
