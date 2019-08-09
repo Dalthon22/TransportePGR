@@ -24,11 +24,11 @@ router.get('/add', (req, res) => {
 });
 
 //Gets Municipios depending on the selected Departamento
-router.get('/getMunicipios', (req, res) =>{
-    selectedDepartamento=req.query.selectedDepartamento;
+router.get('/getMunicipios', (req, res) => {
+    selectedDepartamento = req.query.selectedDepartamento;
     municipios = city_services.getMunicipios(selectedDepartamento)
-    .then(municipios => res.send(municipios))
-    .catch(err => console.log(err));
+        .then(municipios => res.send(municipios))
+        .catch(err => console.log(err));
 });
 
 //Save route
@@ -48,9 +48,16 @@ router.post('/add', [
         } = req.body;
         console.log(errors.array());
         if (!errors.isEmpty()) {
-            res.render('../views/route/add.html', {
-                name, errors: errors.array()
-            });
+
+            Departamentos = department_services.getAll()
+                .then(Departamentos => {
+                    res.render('../views/route/add.html', {
+                        Departamentos,
+                        name,
+                        errors: errors.array()
+                    });
+
+                });
         }
         else {
             console.log(body);
