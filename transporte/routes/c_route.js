@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const services = require('../services/s_route');
+const department_services = require('../services/s_department');
+const city_services = require('../services/s_city');
 const { body, validationResult } = require('express-validator');
 
 // Get route list
@@ -12,8 +14,22 @@ router.get('/', (req, res) => {
         .catch(err => console.log(err))
 });
 
-// Display create route form
-router.get('/add', (req, res) => res.render('../views/route/add.html'));
+// Show add form and Get Departamentos list
+router.get('/add', (req, res) => {
+    Departamentos = department_services.getAll()
+        .then(Departamentos => res.render('../views/route/add.html', {
+            Departamentos
+        }))
+        .catch(err => console.log(err))
+});
+
+//Gets Municipios depending on the selected Departamento
+router.get('/getMunicipios', (req, res) =>{
+    selectedDepartamento=req.query.selectedDepartamento;
+    municipios = city_services.getMunicipios(selectedDepartamento)
+    .then(municipios => res.send(municipios))
+    .catch(err => console.log(err));
+});
 
 //Save route
 router.post('/add', [
