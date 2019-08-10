@@ -51,6 +51,7 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(bodyParser.text());
 
 //archivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));

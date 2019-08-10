@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 const Migration = require('../models/migrations');
 const {
     body,
+    check,
     validationResult
 } = require('../middleware/expresse-validator');
 
@@ -40,10 +41,13 @@ class car_controllers {
     }
 
     //Metodo exist atraves de la placa
-    static async existByPlate(plate) {
+    async existByPlate(_plate) {
         let is_registered = false;
         let car = await Car.findOne({
-            plate: plate
+            attributes: ['id'],
+            where: {
+                plate: _plate
+            }
         });
 
         if (car) {
@@ -76,7 +80,31 @@ class car_controllers {
     }
 
     async create(req, res) {
-        let {
+        try {
+            /* //this.validator();
+            [
+                body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
+                body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
+                body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
+                body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
+                .not().isAlphanumeric()
+                .isLength({
+                    min: 10
+                }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos')
+            ] */
+            const errors = validationResult(req);
+            if (errors.isEmpty()) {
+                console.log('Everything is ok. You can create the object');
+                this.getList(req, res);
+            } else {
+                console.log(errors.array());
+                this.getCreate(req, res);
+            }
+        } catch (error) {
+            console.log('This is the error when creating: ' + error);
+        }
+
+        /* let {
             brand,
             chassis,
             model,
@@ -89,7 +117,7 @@ class car_controllers {
         state = state.toLowerCase();
         engine = engine.toUpperCase();
 
-        if (findByPlate(plate)) {
+        if (this.existByPlate(plate)) {
             console.log('Plate already exists');
         } else {
             let success = await Car.create({
@@ -103,7 +131,7 @@ class car_controllers {
                 created_at
             });
             console.log(success);
-        }
+        } */
 
     }
 
@@ -123,6 +151,45 @@ class car_controllers {
                 id: id
             }
         })
+    }
+
+    async validator() {
+        [
+            body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
+            body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
+            body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
+            body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
+            .not().isAlphanumeric()
+            .isLength({
+                min: 10
+            }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos')
+        ]
+        /*  [
+             check('brand', 'Debe ingresar la marca del vehículo').isEmpty(),
+             check('chassis', 'Debe ingresar el número chasis del vehículo').isEmpty(),
+             check('model', 'Debe ingresar modelo del vehículo').isEmpty(),
+             check('engine', 'Debe ingresar número de motor del vehículo').isEmpty()
+             .isAlphanumeric()
+             .isLength({
+                 min: 10
+             }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
+             await check('plate').custom(value => {
+                 let msg = 'La placa ya ha sido registrada en otro vehículo';
+                 let in_used = this.existByPlate(value);
+                 if (in_used) {
+                     return Promise.reject(msg);
+                 }
+             }),
+             check('state', 'Debe ingresar el estado del vehículo').isEmpty(),
+             await check('seats', 'Debe ingresar una cantidad númerica').toInt()
+             .custom(value => {
+                 if (value < 2 || value > 40) {
+                     return Promise.reject('El número no puede ser inferior a 1 o superior a 40');
+                 }
+             })
+         ] */
+
+        //return validationResult(req);
     }
 };
 

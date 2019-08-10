@@ -1,4 +1,9 @@
 const express = require('express')
+const {
+    body,
+    check,
+    validationResult
+} = require('../middleware/expresse-validator');
 const router = express.Router();
 const controller = require('../controllers/c_car');
 
@@ -14,9 +19,35 @@ router.get('/create', (req, res) => {
 });
 
 /*POST Create*/
-router.post('/create', (req, res) => {
-    controller.create(req, res);
-});
+router.post('/create',
+    [
+        body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
+        body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
+        body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
+        body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
+        .not().isAlphanumeric()
+        .isLength({
+            min: 10
+        }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
+        /* body('plate', 'Debe ingresar la placa del vehículo').not().isEmpty()
+        .custom(value => {
+            let in_used = await controller.existByPlate(value);
+            console.log(in_used);
+            if (!in_used) {
+                return Promise.ok();
+            }
+        }).withMessage('Ya está en uso'), */
+        check('state', 'Debe ingresar el estado del vehículo').not().isEmpty(),
+        check('seats', 'Debe ingresar la cantidad de asientos').not().isEmpty()
+        .not().toInt().withMessage('Debe ingresar una cantidad númerica')
+        .custom(value => {
+            if (value < 2 || value > 40) {
+                return Promise.reject('El número no puede ser inferior a 1 o superior a 40');
+            }
+        })
+    ], (req, res) => {
+        controller.create(req, res);
+    });
 
 /*POST Add a car */
 /* router.post('/add', (req, res) => {
