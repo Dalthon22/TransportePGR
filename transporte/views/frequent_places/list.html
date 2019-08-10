@@ -24,24 +24,43 @@
                             <th>Detalle:</th>
                             <th>Departamento:</th>
                             <th>Municipio:</th>
+                            <th>
+                                Acciones
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for dir in Direcciones %}
+                        <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
                         <tr>
                             <td>{{ dir.name}}</td>
                             <td>{{ dir.detail }}</td>
                             <td>{{ dir.deparment.name }}</td>
                             <td>{{ dir.city.name }}</td>
+                            <td>
+                                <div>
+                                    <form action="/instituciones/update" method="GET">
+                                        <button type="submit" class="big basic black ui icon button">
+                                            <i class="black edit icon">
+                                                <input type="hidden" id="procu_id" name="procu_id"
+                                                    value={{ Direcciones.id }}></i>
+                                        </button>
+                                    </form>
+                                    <form action="/instituciones/delete" method="GET">
+                                        <button type="submit" class="big basic black ui icon button">
+                                            <i class="trash alternate outline icon">
+                                                <input type="hidden" id="procu_id" name="procu_id"
+                                                    value={{ Direcciones.id }}></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                         {% else %}
                         <p>No hay direcciones disponibles.</p>
                         {% endfor %}
                     </tbody>
-
-
                 </table>
-
             </div>
         </div>
     </div>
@@ -52,8 +71,13 @@
         $('#mytable').DataTable({
             "scrollY": "500px",
             "scrollCollapse": true,
+
         });
     });
+    var table = $('#example').DataTable();
+
+    $('#container').css('display', 'block');
+    table.columns.adjust().draw();
 </script>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 const router = require('../middleware/router');
 const department_services = require('../services/s_department');
 const city_services = require('../services/s_city');
-const frequent_places_services = require('../services/s_frequent_places');
+const frequent_places_services = require('../controllers/s_frequent_places');
 const {
     body,
     validationResult

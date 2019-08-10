@@ -15,23 +15,41 @@
                 <br>
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
-                    
-                        {# And Snippet #}
-                        {% if Mstate  %}
-                        <div class="ui negative message" id="message">
-                            <i class="close icon"></i>
-                            <div class="header">
-                                El lugar de destino ya existe
-                            </div>
+
+                    {# And Snippet #}
+                    {% if Mstate  %}
+                    <div class="ui negative message" id="message">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            El lugar de destino ya existe
                         </div>
-                        {% elif Mstate2 %}
-                            <div class="ui positive message" id="message">
-                                <i class="close icon"></i>
-                                <div class="header">
-                                    Lugar de Destino Agregado con Exito
-                                </div>
-                            </div>
-                        {% endif %}
+                    </div>
+                    <script type="text/javascript">
+                        $('body')
+                            .toast({
+                                position: 'middle left',
+                                class: 'error',
+                                message: `You're using the good framework !`,
+                                showProgress: 'bottom'
+                            });
+                    </script>
+                    {% elif Mstate2 %}
+                    <div class="ui positive message" id="message">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            Lugar de Destino Agregado con Exito
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $('body')
+                            .toast({
+                                position: 'middle left',
+                                class: 'success',
+                                message: `You're using the good framework !`,
+                                showProgress: 'bottom'
+                            });
+                    </script>
+                    {% endif %}
                     <div class="required field">
                         <label>Lugar de Destino:</label>
                         <input type="text" autocomplete="off" name="name" id="name" placeholder="Nombre del Destino"
@@ -76,17 +94,17 @@
 <script src="/javascript/a_frequent_places_add.js"></script>
 <script src="/javascript/a_load_dropdown_city.js"></script>
 <script type="text/javascript">
-    $(".close.icon").click(function(){
+    $(".close.icon").click(function () {
         $(this).parent().hide();
-        });
+    });
 </script>
 <script>
-        //When the page has loaded.
-        $( document ).ready(function(){
-            $('#message').fadeIn('slow', function(){
-               $('#message').delay(5000).fadeOut(); 
-            });
+    //When the page has loaded.
+    $(document).ready(function () {
+        $('#message').fadeIn('slow', function () {
+            $('#message').delay(5000).fadeOut();
         });
-        </script>
+    });
+</script>
 
 {% endblock %}
