@@ -2,8 +2,8 @@ const db = require('../dbconfig/conex');
 const frequent_place = require('../models/m_frequent_place');
 const department_controller = require('../services/s_department');
 const municipio_controller = require('../services/s_city');
+const express = require('express');
 const Sequelize = require('sequelize');
-const Migration = require('../models/migrations');
 const {
     validationResult
 } = require('express-validator');
@@ -15,11 +15,12 @@ class frequent_place_controller {
     async getList(req, res) {
         try {
             var fplaces = await frequent_place.findAll({
-                include: ['city', 'department']
+                include: ['city', 'deparment']
             });
+            console.log(fplaces);
             return res.render('../views/frequent_places/list.html', {
                 fplaces
-            })
+            });
         } catch (error) {
             console.log(error);
         }
@@ -57,11 +58,12 @@ class frequent_place_controller {
             } = req.body;
             console.log(errors.array());
             if (!errors.isEmpty()) {
-                Departamentos = await department_controller.getList();
+                let Departamentos = await department_controller.getList();
                 res.render('../views/frequent_places/add.html', {
                     name,
                     detail,
                     departamento,
+                    Departamentos,
                     municipio,
                     errors: errors.array()
                 });
@@ -74,7 +76,7 @@ class frequent_place_controller {
                         deparment_id: departamento
                     });
                     let Mstate2 = true;
-                    Departamentos = await department_controller.getList();
+                    let Departamentos = await department_controller.getList();
                     res.render('../views/frequent_places/add.html', {
                         Departamentos,
                         Mstate2
@@ -82,7 +84,7 @@ class frequent_place_controller {
                 } catch (error) {
                     console.log(error);
                     let Mstate = true;
-                    Departamentos = await department_controller.getList();
+                    let Departamentos = await department_controller.getList();
                     res.render('../views/frequent_places/add.html', {
                         Departamentos,
                         Mstate
@@ -97,3 +99,5 @@ class frequent_place_controller {
 
 
 }
+
+module.exports = new frequent_place_controller();

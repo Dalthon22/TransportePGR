@@ -12,7 +12,7 @@ class city_services {
     try {
       return await Municipios.findAll({
         where: {
-          department_id: selectedDepartamento
+          deparment_id: selectedDepartamento
         }
       });
     } catch (error) {
