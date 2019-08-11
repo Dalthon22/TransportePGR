@@ -1,4 +1,4 @@
-fillMunicipio => {
+function fillMunicipio() {
     var sMun = $("#idmun").val();
     var selectedDepartamento = $("#departamento").val();
     var municipiosSelect = $('#municipio');

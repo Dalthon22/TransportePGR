@@ -50,7 +50,7 @@ router.post('/lugares_frecuentes/add', [
     }),
     /* body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
-    body('municipio', 'No seleccionó un municipio').not().isEmpty()
+    body('municipio', 'No seleccionó un municipio').not().isEmpty(),
 ], (req, res) => {
     const errors = validationResult(req);
     let {
