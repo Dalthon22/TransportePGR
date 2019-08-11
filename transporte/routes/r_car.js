@@ -29,22 +29,9 @@ router.post('/create',
         .isLength({
             min: 10
         }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
-        /* body('plate', 'Debe ingresar la placa del vehículo').not().isEmpty()
-        .custom(value => {
-            let in_used = await controller.existByPlate(value);
-            console.log(in_used);
-            if (!in_used) {
-                return Promise.ok();
-            }
-        }).withMessage('Ya está en uso'), */
-        check('state', 'Debe ingresar el estado del vehículo').not().isEmpty(),
-        check('seats', 'Debe ingresar la cantidad de asientos').not().isEmpty()
+        body('state', 'Debe ingresar el estado del vehículo').not().isEmpty(),
+        body('seats', 'Debe ingresar la cantidad de asientos').not().isEmpty()
         .not().toInt().withMessage('Debe ingresar una cantidad númerica')
-        .custom(value => {
-            if (value < 2 || value > 40) {
-                return Promise.reject('El número no puede ser inferior a 1 o superior a 40');
-            }
-        })
     ], (req, res) => {
         controller.create(req, res);
     });

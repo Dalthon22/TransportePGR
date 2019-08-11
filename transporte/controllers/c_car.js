@@ -15,13 +15,13 @@ class car_controllers {
     }
 
     //Metodo find por id
-    static async find(_id) {
+    static async findById(_id) {
         let vehicle = await Car.findByPk(_id);
         return vehicle;
     }
 
     //Metodo exist atraves del id
-    static async existByPlate(_id) {
+    static async existById(_id) {
         let exist = false;
         let car = await Car.findByPk(_id);
         if (car) {
@@ -81,17 +81,6 @@ class car_controllers {
 
     async create(req, res) {
         try {
-            /* //this.validator();
-            [
-                body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
-                body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
-                body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
-                body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
-                .not().isAlphanumeric()
-                .isLength({
-                    min: 10
-                }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos')
-            ] */
             const errors = validationResult(req);
             if (errors.isEmpty()) {
                 console.log('Everything is ok. You can create the object');
