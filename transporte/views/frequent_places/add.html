@@ -6,7 +6,7 @@
         <div class="one column row">
             <div class="column">
                 <br>
-                <form class="ui form" action="/lugares_frecuentes/list" method="GET" autocomplete="off">
+                <form class="ui form" action="/lugares_frecuentes" method="GET" autocomplete="off">
                     <button class="ui right labeled icon button" type="submit">
                         <i class="left arrow icon"></i>
                         Volver al Listado
@@ -15,8 +15,6 @@
                 <br>
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
-
-                    {# And Snippet #}
                     {% if Mstate  %}
                     <div class="ui negative message" id="message">
                         <i class="close icon"></i>
@@ -68,8 +66,13 @@
                                     <select class="ui fluid dropdown" id="departamento" name="departamento">
                                         <option value="">--Seleccione un departamento--</option>
                                         {% for dep in Departamentos %}
+                                        {% if(dep.id == departamento) %}
+                                        <option value="{{ dep.id }}" selected>{{ dep.name }}</option>
+                                        {% else %}
                                         <option value="{{ dep.id }}">{{ dep.name }}</option>
+                                        {% endif %}
                                         {% endfor %}
+
                                     </select>
                                 </div>
                             </div>
@@ -82,16 +85,34 @@
                                         <option value=""></option>
                                     </select>
                                 </div>
+                                <input id="idmun" type="hidden" value="{{municipio}}">
                             </div>
                         </div>
                     </div>
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
                 </form>
+                {% if errors %}
+
+                <div class="ui error message" style="width:30em">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Errores al Insertar
+                    </div>
+                    <ul class="list">
+                        {% for error in errors %}
+                        <li>{{error.msg}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                {% endif %}
+
+
             </div>
         </div>
     </div>
 </div>
-<script src="/javascript/a_frequent_places_add.js"></script>
+<!-- <script src="/javascript/a_frequent_places_add.js"></script> -->
 <script src="/javascript/a_load_dropdown_city.js"></script>
 <script type="text/javascript">
     $(".close.icon").click(function () {

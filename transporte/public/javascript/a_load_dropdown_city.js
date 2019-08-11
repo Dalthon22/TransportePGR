@@ -1,4 +1,5 @@
-$('#departamento').change(function () {
+fillMunicipio => {
+    var sMun = $("#idmun").val();
     var selectedDepartamento = $("#departamento").val();
     var municipiosSelect = $('#municipio');
     municipiosSelect.empty();
@@ -12,12 +13,29 @@ $('#departamento').change(function () {
                     text: "--Seleccione un municipio--"
                 }));
                 $.each(municipios, function (index, municipio) {
-                    municipiosSelect.append($('<option/>', {
-                        value: municipio.id,
-                        text: municipio.name
-                    }));
+                    if (municipio.id == sMun) {
+                        municipiosSelect.append($('<option/>', {
+                            value: municipio.id,
+                            text: municipio.name,
+                            selected: true,
+                        }))
+                    } else {
+                        municipiosSelect.append($('<option/>', {
+                            value: municipio.id,
+                            text: municipio.name,
+                        }))
+                    }
                 });
             };
         });
     };
+};
+
+
+$(function () {
+    fillMunicipio();
+});
+
+$('#departamento').change(function () {
+    fillMunicipio();
 });

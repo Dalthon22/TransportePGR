@@ -4,10 +4,13 @@ const express = require('express');
 const Sequelize = require('sequelize');
 
 class address_services {
-    constructor() {}
-     getAll() {
-       return Address.findAll({include: ['city', 'deparment']});
-};
+  constructor() {}
+
+  getAll() {
+    return Address.findAll({
+      include: ['city', 'deparment']
+    });
+  };
 
   create(name, detail, city_id, deparment_id) {
     return Address.create({

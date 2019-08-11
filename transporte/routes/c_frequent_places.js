@@ -9,7 +9,7 @@ const {
 
 
 
-router.get('/list', (req, res) => {
+router.get('/lugares_frecuentes', (req, res) => {
     Direcciones = frequent_places_services.getAll()
         .then(Direcciones => {
             res.render('../views/frequent_places/list.html', {
@@ -20,7 +20,7 @@ router.get('/list', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/add', (req, res) => {
+router.get('/lugares_frecuentes/add', (req, res) => {
 
     Departamentos = department_services.getAll()
         .then(Departamentos => res.render('../views/frequent_places/add.html', {
@@ -36,11 +36,12 @@ router.get('/getMunicipios', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/add', [
+router.post('/lugares_frecuentes/add', [
     //Validations
     body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
         max: 150
     }),
+    body('name', 'Ingrese el nombre de la dirección.').not().isEmpty(),
 
     /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
     body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
@@ -57,6 +58,7 @@ router.post('/add', [
         detail,
         departamento,
         municipio,
+
     } = req.body;
 
     console.log(errors.array());
@@ -72,6 +74,7 @@ router.post('/add', [
                     detail,
                     departamento,
                     municipio,
+                    errors: errors.array()
                 });
 
             })
