@@ -20,17 +20,7 @@ class frequent_places_services {
             deparment_id
         });
     };
-    async existByName(name_s) {
-        let is_registered = true;
-        let faddress = await Address.findOne({
-            name: name_s
-        });
 
-        if (faddress) {
-            is_registered = false;
-        }
-        return is_registered;
-    }
 };
 
 module.exports = new frequent_places_services();

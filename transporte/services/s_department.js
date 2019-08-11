@@ -3,16 +3,14 @@ const Departamentos = require('../models/m_deparment');
 const express = require('express');
 
 class department_services {
-  constructor() { }
-  getAll() {
-    return Departamentos.findAll();
-  };
-
-  create(cnr_code, name) {
-    return Departamentos.create({
-      cnr_code,
-      name,
-    });
+  constructor() {}
+  //Gets departments list
+  async getList() {
+    try {
+      return await Departamentos.findAll();
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
