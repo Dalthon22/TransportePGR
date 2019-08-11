@@ -2,25 +2,85 @@ const db = require('../dbconfig/conex');
 const Procuraduria = require('../models/m_procuraduria');
 const express = require('express');
 const Sequelize = require('sequelize');
+const { validationResult } = require('express-validator');
 
 class procuraduria_services {
   constructor() { }
-  getAll() {
-    return Procuraduria.findAll();
+  //Gets procuradurías list
+  async getList(req, res) {
+    try {
+      var Procuradurias = await Procuraduria.findAll();
+      return res.render('../views/procuraduria/list.html', {
+        Procuradurias
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  create(name) {
-    return Procuraduria.create({
-      name,
-    });
+  //Saves the new procuraduría in the DB.
+  async createProcuraduria(req, res) {
+    try {
+      const errors = validationResult(req);
+      let {
+        name,
+      } = req.body;
+      console.log(errors.array());
+      if (!errors.isEmpty()) {
+        //If there are errors, renders the same form, otherwise saves the new Address
+        res.render('../views/procuraduria/add.html', {
+          name, errors: errors.array()
+        });
+      }
+      else {
+        console.log(req.body);
+        Procuraduria.create({
+          name,
+        });
+        res.redirect('/instituciones');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  getProcuraduriaByID(procu_id){
-    return Procuraduria.findByPk(procu_id);
+  //Renders edit form
+  async getUpdate(req, res) {
+    try {
+      let procu_id = req.query.procu_id;
+      console.log(procu_id);
+      let Procu = await Procuraduria.findByPk(procu_id);
+      return res.render('../views/procuraduria/edit.html', {
+        Procu
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  update(procu_id, name){
-    return Procuraduria.update({name: name}, {where: {id: procu_id}})
+  //Saves the edited procuraduria in the DB
+  async updateProcuraduria(req, res) {
+    try {
+      const errors = validationResult(req);
+      let {
+        procu_id, name,
+      } = req.body;
+      console.log(errors.array());
+      if (!errors.isEmpty()) {
+        //If there are errors, renders the same form, otherwise saves the edited Address
+        let Procu = await Procuraduria.findByPk(procu_id);
+        res.render('../views/procuraduria/edit.html', {
+          Procu, errors: errors.array()
+        });
+      }
+      else {
+        console.log(req.body);
+        Procuraduria.update({ name: name }, { where: { id: procu_id } });
+        res.redirect('/instituciones');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

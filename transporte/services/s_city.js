@@ -4,19 +4,18 @@ const express = require('express');
 
 class city_services {
   constructor() { }
+  //Gets municipios list
   getAll() {
     return Municipios.findAll();
   };
 
-  create(cnr_code, name) {
-    return Municipios.create({
-      cnr_code,
-      name,
-    });
-  };
-
-  getMunicipios(selectedDepartamento) {
-    return Municipios.findAll({ where: { deparment_id: selectedDepartamento } });
+  //Gets a municipios list based on department_id
+  async getMunicipios(selectedDepartamento) {
+    try {
+      return await Municipios.findAll({ where: { department_id: selectedDepartamento } });
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

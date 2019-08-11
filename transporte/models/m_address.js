@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const City = require('../models/m_city');
-const Department = require('./m_deparment');
+const Department = require('./m_department');
 
 const Address = db.define('address', {
     name: {
@@ -37,7 +37,7 @@ Address.belongsTo(City, {
 });
 
 Address.belongsTo(Department, {
-    foreignKey: 'deparment_id'
+    foreignKey: 'department_id'
 });
 
 module.exports = Address;

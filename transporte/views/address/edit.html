@@ -2,11 +2,15 @@
 
 {% block views %}
     <section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
-      <h1 class="ui header">Crear ruta.</h1>
-      <form class="ui form" action="/rutas/add" method="POST">
+      <h1 class="ui header">Editar dirección.</h1>
+      <form class="ui form" action="/direccion/update" method="POST">
         <div class="required field">
-          <label>Nombre de la ruta:</label>
-          <input type="text" name="name" id="name" placeholder="Nombre de la ruta estándar" value="{{name}}">
+            <label>Nombre de la dirección:</label>
+            <input type="text" name="name" id="name" value="{{Direccion.name}}">
+        </div>
+        <div class="required field">
+            <label>Detalle de la dirección:</label>
+            <input type="text" id="detail" name="detail" placeholder="Ej: # de casa o local, # de pasaje o calle, colonia o urbanización" value="{{Direccion.detail}}"> 
         </div>
         <div class ="two fields">
         <div class="required field">
@@ -24,8 +28,9 @@
               <option value=""></option>
           </select>
         </div>
-      </div>
-        <button class="ui positive button" type="submit">Guardar ruta</button>
+      </div> 
+        <input type="hidden" id="address_id" name="address_id" value={{ Direccion.id }}>
+        <button class="ui positive button" type="submit">Actualizar dirección</button>
       </form>
       {% if errors %}
       <div class="ui error message">

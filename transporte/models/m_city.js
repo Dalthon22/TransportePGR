@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Routes = require('../models/m_route');
 
 const City = db.define('city', {
     cnr_code: {
@@ -32,10 +31,6 @@ const City = db.define('city', {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     freezeTableName: true,
-});
-
-City.hasMany(Routes, {
-    foreignKey: 'city_id'
 });
 
 module.exports = City;

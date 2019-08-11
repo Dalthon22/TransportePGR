@@ -1,4 +1,4 @@
-const Department = require('./m_deparment');
+const Department = require('./m_department');
 const City = require('../models/m_city');
 const Car = require('../models/m_car');
 const Route = require('../models/m_route');
@@ -8,13 +8,13 @@ const Frequent_Place = require('../models/m_frequent_place');
 
 class Migration {
     constructor() {
-        Department.sync();
-        City.sync();
-        Address.sync();
-        Frequent_Place.sync();
-        Procuraduria.sync();
         Car.sync();
+        Frequent_Place.sync();
         Route.sync();
+        Procuraduria.sync();
+        Address.sync();
+        City.sync();
+        Department.sync();
     }
 }
 

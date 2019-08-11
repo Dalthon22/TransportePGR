@@ -2,30 +2,29 @@
 
 {% block views %}
     <section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
-      <h1 class="ui header">Crear ruta.</h1>
-      <form class="ui form" action="/rutas/add" method="POST">
+      <h1 class="ui header">Editar ruta estándar.</h1>
+      <form class="ui form" action="/rutas/update" method="POST">
         <div class="required field">
-          <label>Nombre de la ruta:</label>
-          <input type="text" name="name" id="name" placeholder="Nombre de la ruta estándar" value="{{name}}">
+          <label>Nombre de la ruta estándar:</label>
+          <input type="text" name="name" id="name" value="{{Ruta.name}}">
         </div>
-        <div class ="two fields">
         <div class="required field">
-          <label>Departamento:</label>
-          <select class="ui dropdown" id="departamento" name="departamento">
+        <label>Departamento:</label>
+        <select class="ui dropdown" id="departamento" name="departamento">
             <option value="">--Seleccione un departamento--</option>
             {% for dep in Departamentos %}
             <option value="{{ dep.id }}">{{ dep.name }}</option>
             {% endfor %}
           </select>
         </div>
-        <div class="required field">
-          <label>Municipio:</label> 
-          <select class="ui dropdown" id="municipio" name="municipio">
-              <option value=""></option>
-          </select>
-        </div>
-      </div>
-        <button class="ui positive button" type="submit">Guardar ruta</button>
+      <div class="required field">
+        <label>Municipio:</label> 
+        <select class="ui dropdown" id="municipio" name="municipio">
+            <option value=""></option>
+        </select>
+    </div>
+        <input type="hidden" id="route_id" name="route_id" value={{ Ruta.id }}>
+        <button class="ui positive button" type="submit">Actualizar ruta</button>
       </form>
       {% if errors %}
       <div class="ui error message">
