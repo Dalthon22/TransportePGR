@@ -1,5 +1,5 @@
 const db = require('../dbconfig/conex');
-const Departamentos = require('../models/m_deparment');
+const Departamentos = require('../models/m_department');
 const express = require('express');
 
 class department_services {

@@ -16,6 +16,13 @@ router.get('/lugares_frecuentes/add', (req, res) => {
 router.get('/getMunicipios', (req, res) => {
     controller.getMunicipiosByDepartamento(req, res);
 });
+router.get('/lugares_frecuentes/edit', (req, res) => {
+    controller.getUpdate(req, res);
+});
+router.get('/lugares_frecuentes/delete', (req, res) => {
+    /* controller.deleteFrequentPlace(req, res); */
+    res.redirect('/lugares_frecuentes');
+});
 
 router.post('/lugares_frecuentes/add', [
     //Validations

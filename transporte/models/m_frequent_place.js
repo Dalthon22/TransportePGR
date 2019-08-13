@@ -1,12 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const City = require('../models/m_city');
-const Department = require('./m_deparment');
+const Department = require('./m_department');
 
 const Frequent_Place = db.define('frequent_place', {
     name: {
         type: Sequelize.STRING(250),
         allowNull: false,
+        unique: true,
         validate: {
             notEmpty: true,
         }
@@ -37,7 +38,7 @@ Frequent_Place.belongsTo(City, {
 });
 
 Frequent_Place.belongsTo(Department, {
-    foreignKey: 'deparment_id'
+    foreignKey: 'department_id'
 });
 
 module.exports = Frequent_Place;

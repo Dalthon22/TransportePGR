@@ -15,9 +15,8 @@ class frequent_place_controller {
     async getList(req, res) {
         try {
             var fplaces = await frequent_place.findAll({
-                include: ['city', 'deparment']
+                include: ['city', 'department']
             });
-            console.log(fplaces);
             return res.render('../views/frequent_places/list.html', {
                 fplaces
             });
@@ -73,7 +72,7 @@ class frequent_place_controller {
                         name,
                         detail,
                         city_id: municipio,
-                        deparment_id: departamento
+                        department_id: departamento
                     });
                     let Mstate2 = true;
                     let Departamentos = await department_controller.getList();
@@ -96,6 +95,38 @@ class frequent_place_controller {
         }
     }
 
+    async deleteFrequentPlace(req, res) {
+        this.getList(req, res);
+    }
+
+    async getUpdate(req, res) {
+        try {
+            let place_name = await req.query.fplace_name;
+            console.log(place_name);
+            let place = await frequent_place.findOne({
+                where: {
+                    name: place_name
+                }
+            });
+            console.log(place);
+            let name = place.name;
+            let detail = place.detail;
+            let municipio = place.municipio;
+            let departamento = place.departamento;
+
+            let Departamentos = await department_controller.getList();
+            return res.render('../views/frequent_places/edit.html', {
+                name,
+                detail,
+                departamento,
+                municipio,
+                Departamentos
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+    };
 
 
 }

@@ -1,4 +1,4 @@
-const Department = require('./m_deparment');
+const Department = require('./m_department');
 const City = require('../models/m_city');
 
 const Route = require('../models/m_route');

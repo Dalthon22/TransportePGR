@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Cities = require('./m_city');
-const Routes = require('../models/m_route');
+const Routes = require('./m_route');
 
-const Deparment = db.define('deparment', {
+const Department = db.define('department', {
     cnr_code: {
         type: Sequelize.STRING(2),
         allowNull: false,
@@ -35,14 +35,14 @@ const Deparment = db.define('deparment', {
     freezeTableName: true,
 });
 
-Deparment.hasMany(Cities, {
-    foreignKey: 'deparment_id'
+Department.hasMany(Cities, {
+    foreignKey: 'department_id'
 });
 
-Deparment.hasMany(Routes, {
+Department.hasMany(Routes, {
     foreignKey: 'department_id'
 });
 
 
 
-module.exports = Deparment;
+module.exports = Department;

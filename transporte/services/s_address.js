@@ -8,16 +8,16 @@ class address_services {
 
   getAll() {
     return Address.findAll({
-      include: ['city', 'deparment']
+      include: ['city', 'department']
     });
   };
 
-  create(name, detail, city_id, deparment_id) {
+  create(name, detail, city_id, department_id) {
     return Address.create({
       name,
       detail,
       city_id,
-      deparment_id
+      department_id
     });
   };
 };
