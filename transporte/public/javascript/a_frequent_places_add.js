@@ -43,3 +43,26 @@ $(function () {
         }
     })
 });
+
+$(document).ready(function () {
+    $('#message').fadeIn('slow', function () {
+        $('#message').delay(5000).fadeOut();
+    });
+});
+$(".close.icon").click(function () {
+    $(this).parent().hide();
+});
+$('body')
+    .toast({
+        position: 'top left',
+        class: 'error',
+        message: `You're using the good framework !`,
+        showProgress: 'bottom'
+    });
+$('body')
+    .toast({
+        position: 'top left',
+        class: 'success',
+        message: `You're using the good framework !`,
+        showProgress: 'bottom'
+    });

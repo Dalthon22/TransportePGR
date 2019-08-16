@@ -113,14 +113,16 @@ class frequent_place_controller {
             let detail = place.detail;
             let municipio = place.municipio;
             let departamento = place.departamento;
+            let edit = true;
 
             let Departamentos = await department_controller.getList();
-            return res.render('../views/frequent_places/edit.html', {
+            return res.render('../views/frequent_places/add.html', {
                 name,
                 detail,
                 departamento,
                 municipio,
-                Departamentos
+                Departamentos,
+                edit
             })
         } catch (error) {
             console.log(error);

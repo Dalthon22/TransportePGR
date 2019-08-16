@@ -14,7 +14,12 @@
                 </form>
                 <br>
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
+                    {% if edit %}
+                    <h1 class="ui header">Editar la Direccion.</h1>
+                    {% else %}
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
+                    {% endif %}
+
                     {% if Mstate  %}
                     <div class="ui negative message" id="message">
                         <i class="close icon"></i>
@@ -22,15 +27,6 @@
                             El lugar de destino ya existe
                         </div>
                     </div>
-                    <script type="text/javascript">
-                        $('body')
-                            .toast({
-                                position: 'middle left',
-                                class: 'error',
-                                message: `You're using the good framework !`,
-                                showProgress: 'bottom'
-                            });
-                    </script>
                     {% elif Mstate2 %}
                     <div class="ui positive message" id="message">
                         <i class="close icon"></i>
@@ -38,15 +34,7 @@
                             Lugar de Destino Agregado con Exito
                         </div>
                     </div>
-                    <script type="text/javascript">
-                        $('body')
-                            .toast({
-                                position: 'middle left',
-                                class: 'success',
-                                message: `You're using the good framework !`,
-                                showProgress: 'bottom'
-                            });
-                    </script>
+
                     {% endif %}
                     <div class="required field">
                         <label>Lugar de Destino:</label>
@@ -86,6 +74,7 @@
                                     </select>
                                 </div>
                                 <input id="idmun" type="hidden" value="{{municipio}}">
+                                <input id="edit" type="hidden" value="{{edit}}">
                             </div>
                         </div>
                     </div>
@@ -114,18 +103,5 @@
 </div>
 <!-- <script src="/javascript/a_frequent_places_add.js"></script> -->
 <script src="/javascript/a_load_dropdown_city.js"></script>
-<script type="text/javascript">
-    $(".close.icon").click(function () {
-        $(this).parent().hide();
-    });
-</script>
-<script>
-    //When the page has loaded.
-    $(document).ready(function () {
-        $('#message').fadeIn('slow', function () {
-            $('#message').delay(5000).fadeOut();
-        });
-    });
-</script>
 
 {% endblock %}
