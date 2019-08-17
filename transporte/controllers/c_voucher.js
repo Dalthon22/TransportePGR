@@ -1,4 +1,4 @@
-const Car = require('../models/voucher');
+const Vouchers = require('../models/voucher');
 const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
 /* const Migration = require('../models/migrations');
@@ -23,45 +23,45 @@ class voucher_controllers {
 
     async createVoucher(req, res) {
         try {
+            console.log(Vouchers.Vouchers);
+
             const errors = validationResult(req);
             let {
-                name,
-                detail,
-                departamento,
-                municipio
+                date_entry_bill,
+                bill_num,
+                provider,
+                price,
+                first_voucher,
+                last_voucher
             } = req.body;
             console.log(errors.array());
-            if (!errors.isEmpty()) {
-                let Departamentos = await department_controller.getList();
-                res.render('../views/frequent_places/add.html', {
-                    name,
-                    detail,
-                    departamento,
-                    Departamentos,
-                    municipio,
-                    errors: errors.array()
-                });
-            } else {
+            if (!errors.isEmpty()) {} else {
                 try {
-                    frequent_place.create({
-                        name,
-                        detail,
-                        city_id: municipio,
-                        department_id: departamento
-                    });
-                    let Mstate2 = true;
-                    let Departamentos = await department_controller.getList();
-                    res.render('../views/frequent_places/add.html', {
-                        Departamentos,
-                        Mstate2
+                    do {
+                        Vouchers.Vouchers.create({
+                            num_voucher: first_voucher,
+                            price,
+                            condition: "Disponible",
+                            date_entry: date_entry_bill,
+                            voucher_provider: provider,
+                            num_entry_bill: bill_num,
+                            date_entry_bill
+                        });
+                        first_voucher++;
+                    }
+                    while (first_voucher == last_voucher);
+                    /*  let Mstate2 = true;
+                     let Departamentos = await department_controller.getList(); */
+                    res.render('./voucher/add_voucher.html', {
+                        //Departamentos
                     })
                 } catch (error) {
                     console.log(error);
-                    let Mstate = true;
-                    let Departamentos = await department_controller.getList();
-                    res.render('../views/frequent_places/add.html', {
-                        Departamentos,
-                        Mstate
+                    /*   let Mstate = true;
+                      let Departamentos = await department_controller.getList(); */
+                    res.render('./voucher/add_voucher.html', {
+                        /* Departamentos,
+                        Mstate */
                     });
                 }
             }

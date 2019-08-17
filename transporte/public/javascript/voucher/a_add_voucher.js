@@ -1,10 +1,10 @@
 //HABILITA EL INPUT DEL ULTIMO VALE 
-$("#first_voucher_id").change(function () {
-    if ($("#first_voucher_id").val() != "") {
-        $("#last_voucher_id").prop('disabled', false);
+$("#first_voucher").change(function () {
+    if ($("#first_voucher").val() != "") {
+        $("#last_voucher").prop('disabled', false);
     } else {
-        $("#last_voucher_id").prop('disabled', true);
-        $("#last_voucher_id").val("");
+        $("#last_voucher").prop('disabled', true);
+        $("#last_voucher").val("");
     }
 });
 
@@ -16,7 +16,7 @@ document.getElementById("add_btn")
 //AGREGA REGLA PARA VERIFICAR QUE EL ULTIMO VALE SEA MAYOR QUE EL PRIMERO
 $.fn.form.settings.rules.minor = function (value, minor) {
     var valido = true;
-    if (parseInt($("#last_voucher_id").val()) <= parseInt($("#first_voucher_id").val())) {
+    if (parseInt($("#last_voucher").val()) <= parseInt($("#first_voucher").val())) {
         valido = false;
     }
     console.log(valido);
@@ -42,7 +42,7 @@ $(function () {
                     prompt: 'Por favor ingrese el nombre del proveedor'
                 }]
             },
-            nominal_value: {
+            price: {
                 identifier: 'nominal_value',
                 rules: [{
                         type: 'empty',
@@ -112,8 +112,9 @@ $(function () {
                 onApprove: function () {
                     $('.ui.form').form('validate form');
                     if ($('.ui.form').form('is valid')) {
-                        $('#voucher_cant_id').val(parseInt($("#last_voucher_id").val()) - parseInt($("#first_voucher_id").val()));
-                        alert("Se ingresaran " + $('#voucher_cant_id').val());
+                        $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()));
+                        alert("Se ingresaran " + $('#voucher_cant').val());
+                        $('.ui.form').form('submit');
                     } else {
                         return false;
                     }

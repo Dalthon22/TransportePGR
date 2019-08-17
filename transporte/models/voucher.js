@@ -1,5 +1,5 @@
 'use strict';
-module.exports = (sequelize, DataTypes) => {
+module.exports.Vouchers = (sequelize, DataTypes) => {
   const Voucher = sequelize.define('Voucher', {
     num_voucher: DataTypes.INTEGER,
     price: DataTypes.DECIMAL,

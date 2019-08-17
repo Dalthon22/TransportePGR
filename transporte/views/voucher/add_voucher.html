@@ -23,7 +23,8 @@
     <div class="content">
         <div class="ui container grid stackable">
             <div class="sixteen wide column">
-                <form class="ui form" id="add_voucher_form" method="POST" name="add_voucher" id="add_voucher_id">
+                <form class="ui form" id="add_voucher_form" method="POST" name="add_voucher"
+                    action="/agregar_vales/add">
                     <div class="four wide field">
                         <!-- Calendario para fecha de facturacion -->
                         <label for="date_entry_bill">Fecha de facturacion</label>
@@ -31,42 +32,43 @@
                             <div class="ui input left icon">
                                 <i class="calendar icon"></i>
                                 <input type="text" placeholder="Seleccione fecha" name="date_entry_bill"
-                                    autocomplete="off" id="date_entry_bill_id">
+                                    autocomplete="off" id="date_entry_bill">
                             </div>
                         </div>
                     </div>
                     <!-- Campo para numero de factura -->
                     <div class="eight wide field">
                         <label for="">Número de factura</label>
-                        <input type="number" autocomplete="off" min="0" name="bill_num" autocomplete="off">
+                        <input type="number" autocomplete="off" min="0" name="bill_num" autocomplete="off"
+                            id="bill_num">
                     </div>
                     <div class="field">
                         <label>Proveedor</label>
-                        <input type="text" placeholder="Nombre del proveedor de vales" name="provider">
+                        <input type="text" placeholder="Nombre del proveedor de vales" name="provider" id="provider">
                     </div>
                     <div class="three wide field">
                         <label>Valor Nominal</label>
                         <!-- Mostrar el simbolo de $ dentro del input -->
                         <div class="ui left labeled input">
-                            <label for="amount" class="ui label">$</label>
-                            <input type="number" placeholder="10.00" id="amount" min="0" name="nominal_value"
-                                value="10.00" autocomplete="off">
+                            <label for="price" class="ui label">$</label>
+                            <input type="number" placeholder="10.00" id="price" min="0" name="price" value="10.00"
+                                autocomplete="off">
                         </div>
                     </div>
                     <!-- Campos para numeros de vales por paquete -->
                     <div class="two fields">
                         <div class="field">
                             <label for="first_voucher">Número del primer vale</label>
-                            <input type="number" min="0" autocomplete="false" name="first_voucher" id="first_voucher_id"
+                            <input type="number" min="0" autocomplete="false" name="first_voucher" id="first_voucher"
                                 autocomplete="off" placeholder="Correlativo del primer vale">
                         </div>
                         <div class="field">
                             <label for="last_voucher">Número del último vale</label>
-                            <input type="number" min="0" autocomplete="false" name="last_voucher" id="last_voucher_id"
+                            <input type="number" min="0" autocomplete="false" name="last_voucher" id="last_voucher"
                                 disabled="true" autocomplete="off" placeholder="Correlativo del último vale">
                         </div>
                     </div>
-                    <input type="hidden" name="voucher_cant" id="voucher_cant_id" value="">
+                    <input type="hidden" name="voucher_cant" id="voucher_cant" value="">
                     <div class="ui error message"></div>
                     <!--button class="ui primary submit green button" id="add_btn">Agregar</button> -->
                 </form>
