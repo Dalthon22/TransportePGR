@@ -1,14 +1,7 @@
-{% extends 'base.html' %}
 
-{% block views %}
-
-<section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
+<section class="ui segment" id="addAddress">
     <h1 class="ui header">Agregar dirección.</h1>
     <form class="ui form" action="/direccion/add" method="POST">
-      <div class="required field">
-        <label>Nombre de la dirección:</label>
-        <input type="text" id="name" name="name" placeholder="Ej: Puerto de La Libertad" value="{{name}}"> 
-      </div>
       <div class="required field">
         <label>Detalle de la dirección:</label>
         <input type="text" id="detail" name="detail" placeholder="Ej: # de casa o local, # de pasaje o calle, colonia o urbanización" value="{{detail}}"> 
@@ -65,5 +58,3 @@
         };
     });
 </script>
-
-{% endblock %}

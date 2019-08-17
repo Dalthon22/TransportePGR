@@ -48,19 +48,19 @@ class address_services {
     try {
       const errors = validationResult(req);
       let {
-        name, detail, departamento, municipio,
+        detail, departamento, municipio,
       } = req.body;
       console.log(errors.array());
       //If there are errors, renders the same form, otherwise saves the new Address
       if (!errors.isEmpty()) {
         Departamentos = await department_controller.getList();
-        res.render('../views/route/add.html', {
-          name, detail, Departamentos, errors: errors.array()
+        res.render('../views/address/add.html', {
+          detail, Departamentos, errors: errors.array()
         });
       }
       else {
         console.log(req.body);
-        Address.create({ name, detail, city_id: municipio, deparment_id: departamento });
+        Address.create({ detail, city_id: municipio, deparment_id: departamento });
         res.redirect('/direccion');
       }
     } catch (error) {
@@ -88,7 +88,7 @@ class address_services {
     try {
       const errors = validationResult(req);
       let {
-        address_id, name, detail, departamento, municipio,
+        address_id, detail, departamento, municipio,
       } = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
@@ -101,7 +101,7 @@ class address_services {
       }
       else {
         console.log(req.body);
-        Address.update({ name, detail, city_id: municipio, department_id: departamento },
+        Address.update({ detail, city_id: municipio, department_id: departamento },
           { where: { id: address_id } });
         res.redirect('/direccion');
       }

@@ -3,19 +3,9 @@ const db = require('../dbconfig/conex');
 const Cities = require('./m_city');
 
 const Department = db.define('department', {
-    cnr_code: {
-        type: Sequelize.STRING(2),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
     name: {
         type: Sequelize.STRING(50),
         allowNull: false,
-        get(){
-            return this.getDataValue('name');
-        },
         validate: {
             notEmpty: true,
         }
