@@ -17,6 +17,7 @@
     "jquery": "^3.4.1",
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.0",
+    "pdfmake": "^0.1.58",
     "sequelize": "^5.10.1",
     "tedious": "^6.2.0"
   },
