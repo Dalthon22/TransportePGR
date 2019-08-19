@@ -10,9 +10,14 @@ var app = express();
 
 
 // Test DB
-/* db.authenticate()
+db.authenticate()
   .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err)) */
+  .catch(err => console.log('Error: ' + err))
+
+//Migracion de tablas
+/* var Migrate = require('./models/migrations');
+var migration = new Migrate(); */
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');

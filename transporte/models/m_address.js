@@ -4,13 +4,6 @@ const City = require('../models/m_city');
 const Department = require('./m_department');
 
 const Address = db.define('address', {
-    name: {
-        type: Sequelize.STRING(250),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
     detail: {
         type: Sequelize.STRING(250),
         allowNull: false,

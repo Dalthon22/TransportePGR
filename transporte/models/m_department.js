@@ -1,22 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Cities = require('./m_city');
-const Routes = require('./m_route');
 
 const Department = db.define('department', {
-    cnr_code: {
-        type: Sequelize.STRING(2),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
     name: {
         type: Sequelize.STRING(50),
         allowNull: false,
-        get() {
-            return this.getDataValue('name');
-        },
         validate: {
             notEmpty: true,
         }
@@ -38,11 +27,5 @@ const Department = db.define('department', {
 Department.hasMany(Cities, {
     foreignKey: 'department_id'
 });
-
-Department.hasMany(Routes, {
-    foreignKey: 'department_id'
-});
-
-
 
 module.exports = Department;
