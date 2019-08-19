@@ -1,5 +1,4 @@
 {% extends 'index.html' %}
-
 {% block views %}
 <div class="ui container">
     <div class="ui vertically divided grid">
@@ -13,80 +12,20 @@
                     </button>
                 </form>
                 <br>
-                {% if fplace_id %}
-                <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/edit" method="POST"></form>
-                {% else  %}
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
-                    {% endif %}
-
-                    {% if edit %}
+                    {% if fplace_id %}
                     <h1 class="ui header">Editar Lugar Frecuente.</h1>
                     {% else %}
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
                     {% endif %}
-
-                    {% if Mstate  %}
-                    <div class="ui negative message" id="message">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            El lugar de destino ya existe
-                        </div>
-                    </div>
-                    {% elif Mstate2 %}
-                    <div class="ui positive message" id="message">
-                        <i class="close icon"></i>
-                        <div class="header">
-                            Lugar de Destino Agregado con Exito
-                        </div>
-                    </div>
-
-                    {% endif %}
-
-
                     <div class="required field">
                         <label>Lugar de Destino:</label>
                         <input type="text" autocomplete="off" name="name" id="name" placeholder="Nombre del Destino"
                             maxlength="150" value={{name}}>
                     </div>
-                    <h1 class="ui blue dividing header">direccion</h1>
-                    <div class="required field">
-                        <label>Direccion:</label>
-                        <input type="text" autocomplete="off" name="detail" id="detail" maxlength="200"
-                            placeholder="#Casa o local,#Pasaje o Calle,Nombre colonia o urbanización." value={{detail}}>
-                    </div>
-                    <div class="two fields">
-                        <div class="field">
-                            <div class="eight wide field ">
-                                <div class="required field">
-                                    <label>Departamento:</label>
-                                    <select class="ui fluid dropdown" id="departamento" name="departamento">
-                                        <option value="">--Seleccione un departamento--</option>
-                                        {% for dep in Departamentos %}
-                                        {% if(dep.id == departamento) %}
-                                        <option value="{{ dep.id }}" selected>{{ dep.name }}</option>
-                                        {% else %}
-                                        <option value="{{ dep.id }}">{{ dep.name }}</option>
-                                        {% endif %}
-                                        {% endfor %}
+                    {% include '../address/add.html' %}
 
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="six wide field">
-                                <div class="required field">
-                                    <label>Municipio:</label>
-                                    <select class="ui fluid dropdown" id="municipio" name="municipio">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                                <input id="idmun" type="hidden" value="{{municipio}}">
-
-                            </div>
-                        </div>
-                    </div>
-                    {% if edit %}
+                    {% if fplace_id %}
                     <button class="ui positive button" type="submit">Guardar Cambios</button>
                     {% else %}
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
@@ -94,7 +33,6 @@
                     <input id="fplace_id" name="fplace_id" type="hidden" value="{{fplace_id}}">
                 </form>
                 {% if errors %}
-
                 <div class="ui error message" style="width:30em">
                     <i class="close icon"></i>
                     <div class="header">
@@ -106,15 +44,10 @@
                         {% endfor %}
                     </ul>
                 </div>
-
                 {% endif %}
-
-
             </div>
         </div>
     </div>
 </div>
-<!-- <script src="/javascript/a_frequent_places_add.js"></script> -->
-<script src="/javascript/a_load_dropdown_city.js"></script>
-
+<script src="/javascript/a_frequent_places_add.js"></script>
 {% endblock %}

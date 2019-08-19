@@ -35,7 +35,8 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 //routes
 app.use(require('./routes/index'));
 app.use('/', require('./routes/r_frequent_places'));
-app.use('/direccion', require('./routes/c_address'));
+app.use('/direccion', require('./routes/r_address'));
+app.use('/instituciones', require('./routes/r_procuraduria'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

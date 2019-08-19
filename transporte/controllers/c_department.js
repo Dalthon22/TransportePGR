@@ -1,13 +1,11 @@
-const db = require('../dbconfig/conex');
-const Departamentos = require('../models/m_department');
-const express = require('express');
+const Departamento = require('../models/m_department');
 
 class department_services {
   constructor() {}
   //Gets departments list
   async getList() {
     try {
-      return await Departamentos.findAll();
+      return await Departamento.findAll();
     } catch (error) {
       console.log(error);
     }
