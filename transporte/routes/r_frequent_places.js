@@ -19,6 +19,7 @@ router.get('/getMunicipios', (req, res) => {
 router.get('/lugares_frecuentes/edit', (req, res) => {
     controller.getUpdate(req, res);
 });
+
 router.get('/lugares_frecuentes/delete', (req, res) => {
     /* controller.deleteFrequentPlace(req, res); */
     res.redirect('/lugares_frecuentes');
@@ -41,6 +42,26 @@ router.post('/lugares_frecuentes/add', [
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
     controller.createFrequentPlace(req, res);
+
+});
+
+router.post('/lugares_frecuentes/edit', [
+    //Validations
+    body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
+        max: 150
+    }),
+    body('name', 'Ingrese el nombre de la dirección.').not().isEmpty(),
+
+    /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
+    body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
+    body('detail', 'El detalle debe ser menor a 150 caracteres.').isLength({
+        max: 200
+    }),
+    /* body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
+    body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
+    body('municipio', 'No seleccionó un municipio').not().isEmpty()
+], (req, res) => {
+    controller.editFrequentPlace(req, res);
 
 });
 

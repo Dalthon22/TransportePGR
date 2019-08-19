@@ -9,17 +9,11 @@
 
 <div class="ui container">
     <div class="ui vertically divided grid">
-        <!-- <div class="one column row">
-            <div class="column"> -->
-        <!-- <div class="field"> -->
         <div class="sixteen wide column">
             <br>
-            <h1 id="title" class="ui header">Lista de direcciones.</h1>
-            <!-- <form class="ui form" action="/lugares_frecuentes/add" method="GET">
-                    <button class="ui positive button" type="submit">Agregar Direccion</button>
-                </form> -->
-            <a href="/lugares_frecuentes/add"><button class="ui positive button" type="submit">Agregar
-                    Direccion</button></a>
+            <h1 id="title" class="ui header">Lista de lugares frecuentes.</h1>
+            <a href="/lugares_frecuentes/add"><button class="ui primary button" type="submit">Agregar
+                    lugar frecuente</button></a>
             <br>
             <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
                 <thead>
@@ -42,12 +36,12 @@
                         <td>
                             <div class="ui buttons">
                                 <form action="/lugares_frecuentes/edit" method="GET">
-                                    <input type="hidden" id="fplace_name" name="fplace_name" value={{fplace.name}}>
+                                    <input type="hidden" id="fplace_id" name="fplace_id" value={{fplace.id}}>
                                     <button type="submit" class="ui icon button" data-content="Editar Lugar Frecuente">
                                         <i class="black edit icon"></i>
                                     </button>
                                 </form>
-                                <input type="hidden" id="fplace_name" name="fplace_name" value={{fplace.name}}>
+                                <input type="hidden" id="fplace_id" name="fplace_id" value={{fplace.id}}>
                                 <button type="submit" class="ui icon button" id="btnDeleteFplace"
                                     data-content="Editar Lugar Frecuente">
                                     <i class="black window close icon"></i>

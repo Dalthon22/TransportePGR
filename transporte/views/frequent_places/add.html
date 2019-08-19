@@ -13,9 +13,14 @@
                     </button>
                 </form>
                 <br>
+                {% if fplace_id %}
+                <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/edit" method="POST"></form>
+                {% else  %}
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/add" method="POST">
+                    {% endif %}
+
                     {% if edit %}
-                    <h1 class="ui header">Editar la Direccion.</h1>
+                    <h1 class="ui header">Editar Lugar Frecuente.</h1>
                     {% else %}
                     <h1 class="ui header">Agregar una Direccion Frecuente.</h1>
                     {% endif %}
@@ -36,11 +41,14 @@
                     </div>
 
                     {% endif %}
+
+
                     <div class="required field">
                         <label>Lugar de Destino:</label>
                         <input type="text" autocomplete="off" name="name" id="name" placeholder="Nombre del Destino"
                             maxlength="150" value={{name}}>
                     </div>
+                    <h1 class="ui blue dividing header">direccion</h1>
                     <div class="required field">
                         <label>Direccion:</label>
                         <input type="text" autocomplete="off" name="detail" id="detail" maxlength="200"
@@ -74,11 +82,16 @@
                                     </select>
                                 </div>
                                 <input id="idmun" type="hidden" value="{{municipio}}">
-                                <input id="edit" type="hidden" value="{{edit}}">
+
                             </div>
                         </div>
                     </div>
+                    {% if edit %}
+                    <button class="ui positive button" type="submit">Guardar Cambios</button>
+                    {% else %}
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
+                    {% endif %}
+                    <input id="fplace_id" name="fplace_id" type="hidden" value="{{fplace_id}}">
                 </form>
                 {% if errors %}
 
