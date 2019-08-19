@@ -38,7 +38,8 @@ router.post('/lugares_frecuentes/add', [
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
-    let fplace_id = req.query.fplace_id;
+    let fplace_id = req.body;
+    console.log(fplace_id);
     if (fplace_id) {
         controller.updateFrequentPlace(req, res);
     } else {
@@ -49,8 +50,7 @@ router.post('/lugares_frecuentes/add', [
 });
 
 router.get('/lugares_frecuentes/delete', (req, res) => {
-    /* controller.deleteFrequentPlace(req, res); */
-    res.redirect('/lugares_frecuentes');
+    controller.deleteFrequentPlace(req, res);
 });
 
 module.exports = router;

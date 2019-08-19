@@ -78,7 +78,6 @@ class frequent_place_controller {
                     })
                 } catch (error) {
                     errors = error;
-                    let Mstate = true;
                     let Departamentos = await department_controller.getList();
                     res.render('../views/frequent_places/add.html', {
                         Departamentos,
@@ -143,23 +142,22 @@ class frequent_place_controller {
                 });
             } else {
                 try {
-                    updateTime = Date.now();
-                    console.log(updateTime);
                     frequent_place.update({
                         name: name,
                         detail: detail,
                         city_id: municipio,
                         department_id: departamento,
-                        updated_at: Date.now()
+                        updated_at: new Date()
+                    }, {
+                        where: {
+                            id: fplace_id
+                        }
                     });
-                    res.redirect('/lugares_frecuentes');
+                    res.redirect('../lugares_frecuentes')
                 } catch (error) {
                     console.log(error);
-                    let Departamentos = await department_controller.getList();
-                    res.render('../views/frequent_places/add.html', {
-                        Departamentos,
-                        errors: errors.array()
-                    });
+                    erros = 'Error con la base de Datos'
+                    this.getUpdate(req, res);
                 }
 
             }
@@ -169,7 +167,7 @@ class frequent_place_controller {
     }
 
     async deleteFrequentPlace(req, res) {
-        this.getList(req, res);
+
     }
 
 

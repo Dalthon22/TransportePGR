@@ -41,9 +41,8 @@
                                         <i class="black edit icon"></i>
                                     </button>
                                 </form>
-                                <input type="hidden" id="fplace_id" name="fplace_id" value={{fplace.id}}>
                                 <button type="submit" class="ui icon button" id="btnDeleteFplace"
-                                    data-content="Editar Lugar Frecuente">
+                                    data-content="Editar Lugar Frecuente" onclick="showDeleteModal()">
                                     <i class="black window close icon"></i>
                                 </button>
                             </div>
@@ -55,9 +54,6 @@
                 </tbody>
             </table>
         </div>
-        <!-- </div> -->
-        <!--     </div>
-        </div> -->
     </div>
 </div>
 <div class="ui basic modal" id="deleteModal">
@@ -66,43 +62,24 @@
         Eliminar Destino Frecuente.
     </div>
     <div class="content">
-        <p>¿Esta seguro de Eliminar el Destino?</p>
+        <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
     </div>
     <div class="actions">
         <div class="ui red basic cancel inverted button">
             <i class="remove icon"></i>
             No
         </div>
-        <a href="/lugares_frecuentes/delete">
+        <form>
             <div class="ui green ok inverted button" type="submit">
+                <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal">
                 <i class="checkmark icon"></i>
                 Yes
             </div>
+        </form>
         </a>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $("#btnDeleteFplace").click(function () {
-            $("#deleteModal").modal('show');
-        });
-        $("#deleteModal").modal({
-            closable: true
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#mytable').DataTable({
-            "scrollY": "500px",
-            "scrollCollapse": true,
-        });
-    });
-    var table = $('#example').DataTable();
-
-    $('#container').css('display', 'block');
-</script>
+<script src="/javascript/frequent_places/a_frequent_places_list.js"></script>
 <script src="/stylesheets/datatablefix.css"></script>
 
-<link {% endblock %}
+{% endblock %}
