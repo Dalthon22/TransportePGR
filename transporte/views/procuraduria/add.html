@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+
+{% block views %}
+<section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
+  {% if Procu %}
+  <h1 class="ui header">Crear procuraduría</h1>
+  {% else %}
+  <h1 class="ui header">Editar procuraduría</h1>
+  {% endif %}
+  <form class="ui form" action="/instituciones/update" method="POST">
+    <div class="required field">
+      <label>Nombre procuraduría:</label>
+      <input type="text" name="name" id="name" value="{{Procu.name}}">
+    </div>
+    {% include '../address/add.html' %}
+    <input type="hidden" id="procu_id" name="procu_id" value={{ Procu.id }}>
+    <button class="ui positive button" type="submit">Guardar</button>
+  </form>
+  {% if errors %}
+  <div class="ui error message">
+    {% for error in errors %}
+    <li> {{ error.msg }} </li>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block views %}
+
+<section id="lista_procuradurias">
+    <h1 id="title" class="ui header">Lista de rutas estándar.</h1>
+    <table class="ui collapsing table">
+        <thead>
+            <tr class="ui green table">
+                <th class="center aligned">Nombre:</th>
+                <th class="center aligned">Departamento:</th>
+                <th class="center aligned">Municipio:</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for route in Routes %}
+            <tr>
+                <td>{{ route.name }}</td>
+                <td>{{ route.department.name }}</td>
+                <td>{{ route.city.name }}</td>
+                <td>
+                    <form action="/rutas/update" method="GET">
+                        <button type="submit" class="huge basic black ui icon button">
+                            <i class="black edit icon">
+                            <input type="hidden" id="route_id" name="route_id" value={{ route.id }}></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+                <p>No hay rutas estándar disponibles.</p>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
