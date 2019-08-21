@@ -1,6 +1,8 @@
-const Vouchers = require('../models/voucher');
 const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
+//const Vouchers = require('../models/voucher');
+var models = require('../models');
+
 /* const Migration = require('../models/migrations');
  */
 const {
@@ -22,9 +24,8 @@ class voucher_controllers {
     }
 
     async createVoucher(req, res) {
+        var primer, ultimo;
         try {
-            console.log(Vouchers.Vouchers);
-
             const errors = validationResult(req);
             let {
                 date_entry_bill,
@@ -34,12 +35,18 @@ class voucher_controllers {
                 first_voucher,
                 last_voucher
             } = req.body;
+            console.log(date_entry_bill);
+            console.log(price);
+            primer = parseInt(first_voucher);
+            ultimo = parseInt(last_voucher);
+            console.log(primer);
+            console.log(ultimo);
             console.log(errors.array());
             if (!errors.isEmpty()) {} else {
                 try {
                     do {
-                        Vouchers.Vouchers.create({
-                            num_voucher: first_voucher,
+                        models.Voucher.create({
+                            num_voucher: primer,
                             price,
                             condition: "Disponible",
                             date_entry: date_entry_bill,
@@ -47,9 +54,11 @@ class voucher_controllers {
                             num_entry_bill: bill_num,
                             date_entry_bill
                         });
-                        first_voucher++;
+                        primer++;
                     }
-                    while (first_voucher == last_voucher);
+                    while (primer <= ultimo);
+                    console.log(primer);
+                    console.log(ultimo);
                     /*  let Mstate2 = true;
                      let Departamentos = await department_controller.getList(); */
                     res.render('./voucher/add_voucher.html', {

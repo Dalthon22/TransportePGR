@@ -1,5 +1,5 @@
 'use strict';
-module.exports.Vouchers = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Voucher = sequelize.define('Voucher', {
     num_voucher: DataTypes.INTEGER,
     price: DataTypes.DECIMAL,
@@ -12,7 +12,7 @@ module.exports.Vouchers = (sequelize, DataTypes) => {
     date_close_bill: DataTypes.DATE
   }, {});
   Voucher.associate = function (models) {
-    Voucher.belongsToMany(models.Procuradurias, {
+    Voucher.belongsToMany(models.Procuraduria, {
       through: "voucher_procu_assign",
       as: "procuradurias",
       foreignKey: "num_voucher"

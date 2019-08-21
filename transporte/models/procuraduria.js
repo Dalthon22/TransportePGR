@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Procuraduria.associate = function (models) {
     // associations can be defined here
-    Procuraduria.belongsToMany(models.Vouchers, {
+    Procuraduria.belongsToMany(models.Voucher, {
       through: "voucher_procu_assign",
       as: "vouchers",
       foreignKey: "id_procu"
