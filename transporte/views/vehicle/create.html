@@ -1,0 +1,66 @@
+{% extends 'index.html'%}
+
+{% block views %}
+
+<link rel="stylesheet" href="/stylesheets/vehicle.css">
+
+<!-- <section id="formulario_vehiculo" class="ui container" style="margin-left: 0em !important;font-size-adjust: inherit;"> -->
+<div class="ui container">
+    <div class="ui vertically divided grid">
+        <div class="one column row">
+            <div class="column">
+                <form class="ui form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/create" method="POST">
+                    <h1 class="ui dividing header left aligned blue">Agregar Vehículo</h1>
+                    <div class="fields">
+                        <div class="required  field">
+                            <label for="brand">Marca</label>
+                            <input id="name" name="brand" type="text" placeholder="Ej.: Toyota">
+                        </div>
+                        <div class="required field">
+                            <label for="chassis">Chasis</label>
+                            <input id="chassis" name="chassis" type="text" placeholder="Chasis">
+                        </div>
+                    </div>
+                    <div class="equal width fields">
+                        <div class="required field">
+                            <label for="model">Modelo</label>
+                            <input id="model" name="model" type="text" placeholder="Ej. Corolla SE">
+                        </div>
+                        <label class="required field">
+                            <label for="engine">Motor</label>
+                            <input id="engine" name="engine" type="text" placeholder="64EKT931230">
+                        </label>
+                        <div class="required field">
+                            <label for="plate">Placa</label>
+                            <input id="plate_form" name="plate" type="text" placeholder="AA236963">
+                        </div>
+                    </div>
+                    <div class="sixteen wide field">
+                        <div class="two fields">
+                            <div class="four wide required field">
+                                <label for="state">Estado</label>
+                                <select class="ui fluid search dropdown" name="state">
+                                    {% for value, state in states %}
+                                    <option value={{value}}>{{state}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="four wide required field">
+                                <label for="seats">Asientos</label>
+                                <input id="seats" name="seats" type="number" placeholder="2-40">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button id="submit_form" class="ui positive submit enter button" type="submit">Guardar</button>
+                    <a href="/vehiculos"> <button id="cancel_form" class="ui reset negative button"
+                            type="button">Cancel</button></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </section> -->
+<script src="/javascript/a_vehicle.js"></script>
+
+{% endblock %}
