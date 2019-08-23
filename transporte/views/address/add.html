@@ -3,11 +3,11 @@
   <div class="required field">
     <label>Detalle:</label>
     <input type="text" id="detail" name="detail"
-      placeholder="Ej: # de casa o local, # de pasaje o calle, colonia o urbanización" value="{{detail}}">
+      placeholder="Ej: # de casa o local, # de pasaje o calle, colonia o urbanización" value="{{detail}}" maxlength="250" autocomplete="off">
   </div>
   <div class="two fields">
     <div class="field">
-      <div class="eight wide field ">
+      <div class="twelve wide field ">
         <div class="required field">
           <label>Departamento:</label>
           <select class="ui fluid dropdown" id="departamento" name="departamento">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="field">
-      <div class="six wide field">
+      <div class="twelve wide field">
         <div class="required field">
           <label>Municipio:</label>
           <select class="ui fluid dropdown" id="municipio" name="municipio">

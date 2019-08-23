@@ -19,7 +19,6 @@ class procuraduria_services {
     } catch (error) {
       console.log(error);
     }
-
   };
 
   async getList(req, res) {
@@ -39,18 +38,31 @@ class procuraduria_services {
       const errors = validationResult(req);
       let {
         name,
+        detail,
+        departamento,
+        municipio,
       } = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new Address
         res.render('../views/procuraduria/add.html', {
           name,
+          detail,
+          departamento,
+          municipio,
           errors: errors.array()
         });
       } else {
         console.log(req.body);
+        let Dir = await Address.create({
+          detail,
+          city_id: municipio,
+          department_id: departamento
+        });
+        console.log(Dir.id);
         Procuraduria.create({
           name,
+          address_id: Dir.id, 
         });
         res.redirect('/instituciones');
       }

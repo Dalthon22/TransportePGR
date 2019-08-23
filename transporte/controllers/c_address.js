@@ -4,9 +4,7 @@ const department_controller = require('../controllers/c_department');
 const municipio_controller = require('../controllers/c_city');
 const express = require('express');
 const Sequelize = require('sequelize');
-const {
-  validationResult
-} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 class address_services {
   constructor() {}
@@ -52,7 +50,6 @@ class address_services {
     try {
       const errors = validationResult(req);
       let {
-        detail,
         departamento,
         municipio,
       } = req.body;
@@ -61,14 +58,12 @@ class address_services {
       if (!errors.isEmpty()) {
         Departamentos = await department_controller.getList();
         res.render('../views/address/add.html', {
-          detail,
           Departamentos,
           errors: errors.array()
         });
       } else {
         console.log(req.body);
         Address.create({
-          detail,
           city_id: municipio,
           deparment_id: departamento
         });
@@ -101,7 +96,6 @@ class address_services {
       const errors = validationResult(req);
       let {
         address_id,
-        detail,
         departamento,
         municipio,
       } = req.body;
@@ -118,7 +112,6 @@ class address_services {
       } else {
         console.log(req.body);
         Address.update({
-          detail,
           city_id: municipio,
           department_id: departamento
         }, {
