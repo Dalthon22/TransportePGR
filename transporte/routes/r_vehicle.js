@@ -1,11 +1,9 @@
 const express = require('express')
 const {
-    body,
-    check,
-    validationResult
-} = require('../middleware/expresse-validator');
+    body
+} = require('express-validator');
 const router = express.Router();
-const controller = require('../controllers/c_car');
+const controller = require('../controllers/c_vehicle');
 
 /*GET List*/
 router.get('/', (req, res) => {

@@ -75,36 +75,4 @@ $(function () {
                 }
             }
         });
-
-    //Setea el radio button de la opcion funcional como chequeado
-    $('#Funcional').attr("checked", "checked");
-
-    //Muestra Mensaje de confirmacion  cuando se desea ingesar un nuevo registro
-    $('#nuevo').on('click', () => {
-        $('.ui.basic.modal')
-            .modal({
-                closable: true,
-                onDeny: function () {
-                    return true;
-                },
-                onApprove: function () {
-                    $('#add_get').prop('action', '/vehiculos/add');
-                }
-            })
-            .modal('show');
-    });
-
-    //Verifica que elemento de la tabla fue seleccionado con un click
-    /* $('.ui.table').click(function (event) {
-        var text = $(event.target).text();
-        window.alert(text);
-    });*/
-
-    $('#listado_vehiculos').find('tr').click(function () {
-        //alert('You clicked row ' + ($(this).index() + 1));
-        alert('El contenido de la celda' + ($(this).find('td:eq(1)').html()));
-        var valor = ($(this).find('td:eq(1)').html());
-        $('#plate_form').val() = valor;
-
-    });
 });

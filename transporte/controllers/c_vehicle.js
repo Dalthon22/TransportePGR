@@ -1,21 +1,26 @@
 const Vehicle = require('../models/m_vehicle');
 const Sequelize = require('sequelize');
-const validationResult = require('../middleware/expresse-validator');
+const {
+    validationResult
+} = require('express-validator');
 
-
+//Clase controller que contiene todos los metodos necesarios para la gestion
+//de vehiculos
 class Vehicle_controller {
     constructor() {
 
     }
 
-    //Encuntra un registro por 
+    //Encuntra un registro por el id
+    //Parametro: _id Llave primaria de la tabla
     async findById(_id) {
         let vehicle = await Vehicle.findByPk(_id);
         return vehicle;
     }
 
-    //Metodo exist atraves del id
-    static async existById(_id) {
+    //Encuentra el registro y devuelve true si existe
+    //Parametro: _id Llave primaria de la tabla
+    async existById(_id) {
         let exist = false;
         let vehicle = await Vehicle.findByPk(_id);
         if (vehicle) {
@@ -24,8 +29,9 @@ class Vehicle_controller {
         return exist;
     }
 
-    //Metodo find por la placa
-    static async findByPlate(_plate) {
+    //Encuntra un registro por el placa
+    //Parametro: _plate Campo único en la tabla
+    async findByPlate(_plate) {
         let vehicle = await Vehicle.findOne({
             where: {
                 plate: _plate
@@ -34,7 +40,8 @@ class Vehicle_controller {
         return vehicle;
     }
 
-    //Metodo exist atraves de la placa
+    //Encuentra el registro y devuelve true si existe
+    //Parametro: _plate Campo único en la tabla
     async existByPlate(_plate) {
         let is_registered = false;
         let vehicle = await Vehicle.findOne({
@@ -50,6 +57,7 @@ class Vehicle_controller {
         return is_registered;
     }
 
+    //Obtiene todos los reguistros almacenados en la tabla
     async getList(req, res) {
         try {
             var vehicles = await Vehicle.findAll({
@@ -135,45 +143,6 @@ class Vehicle_controller {
             }
         })
     }
-
-    async validator() {
-        [
-            body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
-            body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
-            body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
-            body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
-            .not().isAlphanumeric()
-            .isLength({
-                min: 10
-            }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos')
-        ]
-        /*  [
-             check('brand', 'Debe ingresar la marca del vehículo').isEmpty(),
-             check('chassis', 'Debe ingresar el número chasis del vehículo').isEmpty(),
-             check('model', 'Debe ingresar modelo del vehículo').isEmpty(),
-             check('engine', 'Debe ingresar número de motor del vehículo').isEmpty()
-             .isAlphanumeric()
-             .isLength({
-                 min: 10
-             }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
-             await check('plate').custom(value => {
-                 let msg = 'La placa ya ha sido registrada en otro vehículo';
-                 let in_used = this.existByPlate(value);
-                 if (in_used) {
-                     return Promise.reject(msg);
-                 }
-             }),
-             check('state', 'Debe ingresar el estado del vehículo').isEmpty(),
-             await check('seats', 'Debe ingresar una cantidad númerica').toInt()
-             .custom(value => {
-                 if (value < 2 || value > 40) {
-                     return Promise.reject('El número no puede ser inferior a 1 o superior a 40');
-                 }
-             })
-         ] */
-
-        //return validationResult(req);
-    }
 };
 
-module.exports = new Vehicle_controllers();
+module.exports = new Vehicle_controller();
