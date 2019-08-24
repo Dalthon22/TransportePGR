@@ -11,6 +11,12 @@ class Vehicle_controller {
 
     }
 
+    getStateList() {
+        let states_map = new Map();
+        states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
+        return states_map.entries();
+    }
+
     //Encuntra un registro por el id
     //Parametro: _id Llave primaria de la tabla
     async findById(_id) {
@@ -50,7 +56,6 @@ class Vehicle_controller {
                 plate: _plate
             }
         });
-
         if (vehicle) {
             is_registered = true;
         }
@@ -73,9 +78,7 @@ class Vehicle_controller {
     }
 
     getCreate(req, res) {
-        let states_map = new Map();
-        states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
-        const states = states_map.entries();
+        const states = this.getStateList();
         return res.render('../views/vehicle/create.html', {
             states
         })
@@ -84,34 +87,8 @@ class Vehicle_controller {
     async create(req, res) {
         try {
             const errors = validationResult(req);
-            if (errors.isEmpty()) {
-                console.log('Everything is ok. You can create the object');
-                this.getList(req, res);
-            } else {
-                console.log(errors.array());
-                this.getCreate(req, res);
-            }
-        } catch (error) {
-            console.log('This is the error when creating: ' + error);
-        }
-
-        /* let {
-            brand,
-            chassis,
-            model,
-            engine,
-            plate,
-            state,
-            seats,
-        } = req.body;
-        const created_at = new Date();
-        state = state.toLowerCase();
-        engine = engine.toUpperCase();
-
-        if (this.existByPlate(plate)) {
-            console.log('Plate already exists');
-        } else {
-            let success = await Vehicle.create({
+            const states = this.getStateList();
+            let vehicle = {
                 brand,
                 chassis,
                 model,
@@ -119,11 +96,38 @@ class Vehicle_controller {
                 plate,
                 state,
                 seats,
-                created_at
-            });
-            console.log(success);
-        } */
-
+            } = req.body;
+            if (errors.isEmpty()) {
+                const created_at = new Date();
+                if (!this.existByPlate(plate)) {
+                    Vehicle.create({
+                        brand,
+                        chassis,
+                        model,
+                        engine,
+                        plate,
+                        state,
+                        seats,
+                        created_at
+                    });
+                    res.redirect('/vehiculos');
+                } else {
+                    res.render('../views/vehicle/create.html', {
+                        plate_error: "El número de placa ya existe!",
+                        states,
+                        vehicle
+                    })
+                }
+            } else {
+                res.render('../views/vehicle/create.html', {
+                    errors: errors.array(),
+                    states,
+                    vehicle
+                })
+            }
+        } catch (error) {
+            console.log('This is the error when creating: ' + error);
+        }
     }
 
     update(id, ...seats) {

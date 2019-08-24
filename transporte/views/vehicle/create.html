@@ -3,30 +3,34 @@
 {% block views %}
 
 <div class="ui container">
-    <form class="ui form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/create" method="POST">
+    <a href="/vehiculos"> <button class="ui right labeled icon button" type="button">
+            <i class="left arrow icon"></i>
+            Volver al Listado
+        </button> </a>
+    <form class="ui form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/gestionar" method="POST">
         <h1 class="ui dividing header left aligned blue">Agregar Vehículo</h1>
         <div class="two fields">
             <div class="required  field">
                 <label for="brand">Marca</label>
-                <input id="name" name="brand" type="text" placeholder="Ej.: Toyota">
+                <input id="name" name="brand" type="text" placeholder="Ej.: Toyota" value="{{ vehicle.brand }}">
             </div>
             <div class="required field">
                 <label for="model">Modelo</label>
-                <input id="model" name="model" type="text" placeholder="Ej. Corolla SE">
+                <input id="model" name="model" type="text" placeholder="Ej. Corolla SE" value="{{ vehicle.model }}">
             </div>
         </div>
         <div class="equal width fields">
             <div class="required field">
                 <label for="chassis">Chasis</label>
-                <input id="chassis" name="chassis" type="text" placeholder="Chasis">
+                <input id="chassis" name="chassis" type="text" placeholder="Chasis" value="{{ vehicle.chassis }}">
             </div>
             <div class="required field">
                 <label for="engine">Motor</label>
-                <input id="engine" name="engine" type="text" placeholder="64EKT931230">
+                <input id="engine" name="engine" type="text" placeholder="64EKT931230" value="{{ vehicle.engine }}">
             </div>
             <div class="required field">
                 <label for="plate">Placa</label>
-                <input id="plate_form" name="plate" type="text" placeholder="AA236963">
+                <input id="plate_form" name="plate" type="text" placeholder="AA236963" value="{{ vehicle.plate }}">
             </div>
         </div>
         <div class="sixteen wide field">
@@ -35,21 +39,36 @@
                     <label for="state">Estado</label>
                     <select class="ui fluid search dropdown" name="state">
                         {% for value, state in states %}
+                        {% if value == vehicle.state %}
+                        <option value={{value}} selected>{{state}}</option>
+                        {% else %}
                         <option value={{value}}>{{state}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
                 <div class="four wide required field">
                     <label for="seats">Asientos</label>
-                    <input id="seats" name="seats" type="number" placeholder="2-40">
+                    <input id="seats" name="seats" type="number" placeholder="2-40" value="{{ vehicle.seats }}">
                 </div>
             </div>
         </div>
         <br>
+        <input type="hidden" id="vehicle_id" name="vehicle_id" value={{ vehicle.id }}>
         <button id="submit_form" class="ui positive submit enter button" type="submit">Guardar</button>
-        <a href="/vehiculos"> <button id="cancel_form" class="ui reset negative button"
-                type="button">Cancel</button></a>
     </form>
+    {% if plate_error %}
+    <div class="ui warning message">
+        <li> {{ plate_error}} </li>
+    </div>
+    {% endif %}
+    {% if errors %}
+    <div class="ui error message">
+        {% for error in errors %}
+        <li> {{ error.msg }} </li>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 
 <link rel="stylesheet" href="/stylesheets/vehicle.css">

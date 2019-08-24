@@ -12,12 +12,12 @@ router.get('/', (req, res) => {
 });
 
 /*GET Create*/
-router.get('/create', (req, res) => {
+router.get('/gestionar', (req, res) => {
     controller.getCreate(req, res);
 });
 
 /*POST Create*/
-router.post('/create',
+router.post('/gestionar',
     [
         body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
         body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
@@ -31,7 +31,12 @@ router.post('/create',
         body('seats', 'Debe ingresar la cantidad de asientos').not().isEmpty()
         .not().toInt().withMessage('Debe ingresar una cantidad númerica')
     ], (req, res) => {
-        controller.create(req, res);
+        let vehicle_id = req.body;
+        if (vehicle_id) {
+            controller.create(req, res);
+        } else {
+            controller.create(req, res);
+        }
     });
 
 /*POST Add a car */
