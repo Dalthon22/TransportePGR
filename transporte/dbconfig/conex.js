@@ -24,7 +24,7 @@ const Sequelize = require('sequelize');
   dialect: 'mssql',
 });*/
 //
-const dbConex = new Sequelize('sigestran', 'ms15050', 'ms15050', {
+const dbConex = new Sequelize('sigestran', 'dm15012', 'Cdalton2019', {
   host: 'localhost',
   dialect: 'mssql',
   dialectOptions: {
