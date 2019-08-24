@@ -23,7 +23,7 @@ const Sequelize = require('sequelize');
   host: 'localhost',
   dialect: 'mssql',
 });*/
-
+//
 const dbConex = new Sequelize('sigestran', 'ms15050', 'ms15050', {
   host: 'localhost',
   dialect: 'mssql',
