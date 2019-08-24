@@ -124,24 +124,25 @@ $(function () {
         var today = new Date();
 
         $('#standard_calendar').calendar({
-            monthFirst: false,
+            //yearFirst: true,
             type: 'date',
             //minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
             onHide: function () {
                 $(".ui.form").form('validate field', 'date_entry_bill');
             },
             formatter: {
-                /*  date: function (date, settings) {
-                     if (!date) return '';
-                     var day = date.getDate();
-                     var month = date.getMonth() + 1;
-                     var year = date.getFullYear();
-                     return day + '/' + month + '/' + year;
-                 } */
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+                    //return (year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2));
+                    return (('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year);
+                }
             },
             text: {
-                /* days: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-                months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], */
+                days: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+                months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             }
         });
     });

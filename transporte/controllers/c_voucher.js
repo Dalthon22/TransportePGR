@@ -17,6 +17,17 @@ class voucher_controllers {
         //var migrate = new Migration();
     }
 
+    static async ifExist(numVoucher) {
+        var b = false;
+        let v = await models.Voucher.count({
+            where: {
+                num_voucher: numVoucher
+            }
+        }).then(count => {
+            return (count > 0) ? true : false
+        });
+    }
+
     //Metodo find por id
     static async findById(num_voucher) {
         let voucher = await Car.findByPk(num_voucher);
@@ -25,6 +36,8 @@ class voucher_controllers {
 
     async createVoucher(req, res) {
         var primer, ultimo;
+        var date;
+
         try {
             const errors = validationResult(req);
             let {
@@ -33,14 +46,15 @@ class voucher_controllers {
                 provider,
                 price,
                 first_voucher,
-                last_voucher
+                last_voucher,
             } = req.body;
             console.log(date_entry_bill);
-            console.log(price);
+            //Conversion al formato permitido por sequelize YYYY-MM-DD
+            date = new Date(date_entry_bill.slice(-4) + '-' +
+                date_entry_bill.substring(3, 5) + '-' + date_entry_bill.substring(0, 2));
+            console.log(date);
             primer = parseInt(first_voucher);
             ultimo = parseInt(last_voucher);
-            console.log(primer);
-            console.log(ultimo);
             console.log(errors.array());
             if (!errors.isEmpty()) {} else {
                 try {
@@ -49,10 +63,10 @@ class voucher_controllers {
                             num_voucher: primer,
                             price,
                             condition: "Disponible",
-                            date_entry: date_entry_bill,
+                            date_entry: date,
                             voucher_provider: provider,
                             num_entry_bill: bill_num,
-                            date_entry_bill
+                            date_entry_bill: date,
                         });
                         primer++;
                     }

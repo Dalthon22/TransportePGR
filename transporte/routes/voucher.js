@@ -5,9 +5,7 @@ router.get('/agregar_vales', (req, res) => {
     res.render('./voucher/add_voucher.html');
 });
 router.post('/agregar_vales/add', (req, res) => {
-    console.log("Mande");
     controller.createVoucher(req, res);
-
 });
 
 module.exports = router;
