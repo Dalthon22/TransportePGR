@@ -3,12 +3,3 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0
 }
-
-.dataTables_scrollBody {
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-}
-
-.dataTables_wrapper {
-    overflow: auto;
-}
