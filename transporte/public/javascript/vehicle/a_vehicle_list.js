@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    $('#vehiculos').DataTable({
+$(function () {
+    $('#vehiculos_table').DataTable({
         /* "scrollY": "500px",
         "scrollCollapse": true, */
     });

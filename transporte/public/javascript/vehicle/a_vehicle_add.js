@@ -1,6 +1,5 @@
 /*Validacion del lado del cliente */
 $(function () {
-    //Validacion de formulario
     $('.ui.form')
         .form({
             inline: true,
@@ -75,4 +74,8 @@ $(function () {
                 }
             }
         });
+});
+
+$(".close.icon").click(function () {
+    $(this).parent().hide();
 });

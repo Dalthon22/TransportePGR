@@ -56,9 +56,11 @@ class Vehicle_controller {
                 plate: _plate
             }
         });
+        console.log(vehicle);
         if (vehicle) {
             is_registered = true;
         }
+        console.log(is_registered);
         return is_registered;
     }
 
@@ -88,7 +90,7 @@ class Vehicle_controller {
         try {
             const errors = validationResult(req);
             const states = this.getStateList();
-            let vehicle = {
+            let {
                 brand,
                 chassis,
                 model,
@@ -97,10 +99,11 @@ class Vehicle_controller {
                 state,
                 seats,
             } = req.body;
+            let vehicle = req.body;
             if (errors.isEmpty()) {
                 const created_at = new Date();
-                if (!this.existByPlate(plate)) {
-                    Vehicle.create({
+                if (this.existByPlate(plate) === false) {
+                    await Vehicle.create({
                         brand,
                         chassis,
                         model,
@@ -126,7 +129,7 @@ class Vehicle_controller {
                 })
             }
         } catch (error) {
-            console.log('This is the error when creating: ' + error);
+            console.log(error);
         }
     }
 

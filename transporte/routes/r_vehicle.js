@@ -1,9 +1,9 @@
 const express = require('express')
+const router = express.Router();
+const controller = require('../controllers/c_vehicle');
 const {
     body
 } = require('express-validator');
-const router = express.Router();
-const controller = require('../controllers/c_vehicle');
 
 /*GET List*/
 router.get('/', (req, res) => {
@@ -23,14 +23,14 @@ router.post('/gestionar',
         body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
         body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
         body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
-        .not().isAlphanumeric()
         .isLength({
             min: 10
         }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
         body('state', 'Debe ingresar el estado del vehículo').not().isEmpty(),
-        body('seats', 'Debe ingresar la cantidad de asientos').not().isEmpty()
-        .not().toInt().withMessage('Debe ingresar una cantidad númerica')
+        body('seats', 'Debe ingresar la cantidad de asientos de forma númerica').isInt()
+        .not().isEmpty().withMessage('Debe ingresar la cantidad de asientos')
     ], (req, res) => {
+        console.log(req.body);
         let vehicle_id = req.body;
         if (vehicle_id) {
             controller.create(req, res);

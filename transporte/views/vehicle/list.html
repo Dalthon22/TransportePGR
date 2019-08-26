@@ -6,7 +6,7 @@
     <p>¡Registro guardado correctamente!</p>
 </div>
 
-<div id="lista_vehiculos" class="ui container">
+<div class="ui container">
     <h1 id="title" class="ui header">Listado de vehículos</h1>
     <a href="/vehiculos/gestionar">
         <div id="nuevo" class="ui right floated animated blue button" style="margin-bottom:1em" tabindex="0">
@@ -17,7 +17,7 @@
         </div>
     </a>
 
-    <table class="ui celled table datatable" id="vehiculos" name="vehiculos" style="width: 70 em">
+    <table class="ui selectable table datatable" id="vehiculos_table" name="vehiculos" style="width: 70 em">
         <thead>
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -65,5 +65,13 @@
 
 <link rel="stylesheet" href="/stylesheets/vehicle.css">
 <link rel="stylesheet" href="/stylesheets/datatablefix.css">
-<script src="/javascript/vehicle/a_vehicle_list.js"></script>
+<!-- <script src="/javascript/vehicle/a_vehicle_list.js"></script> -->
+<script>
+    $(document).ready(function () {
+        $('#vehiculos_table').DataTable({
+            /* "scrollY": "500px",
+            "scrollCollapse": true, */
+        });
+    });
+</script>
 {% endblock %}
