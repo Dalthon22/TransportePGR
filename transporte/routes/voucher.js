@@ -1,20 +1,40 @@
 const router = require('../middleware/router');
 const controller = require('../controllers/c_voucher');
-
-router.get('/agregar_vales', (req, res) => {
-    res.render('./voucher/add_voucher.html');
-});
-router.post('/agregar_vales/add', (req, res) => {
-    controller.createVoucher(req, res);
-});
-
-module.exports = router;
 const express = require('express')
 const {
     body,
     check,
     validationResult
 } = require('../middleware/expresse-validator');
+
+router.get('/', (req, res) => {
+    res.render('./voucher/add_voucher.html');
+});
+
+router.post('/add',
+    [
+        body('first_voucher', "Debe ingresar el numero del voucher").not().isEmpty()
+        .isInt().withMessage('Debe ser un numero'),
+        //Valida que el numero de vale no se repita
+        check('first_voucher').custom((value, ) => {
+            console.log("Ya te lo mando a busqueda");
+            controller.ifExist(value).then(b => {
+                console.log("B es igual: " + b)
+                if (b === true) {
+                    console.log("Si we la rego la doña");
+                    res.send('Ya existe!');
+                } else {
+                    res.send('No existe!');
+                }
+            })
+        })
+    ], (req, res) => {
+        // Handle the request somehow
+        controller.createVoucher(req, res);
+    });
+
+module.exports = router;
+
 
 /*GET List*/
 router.get('/', (req, res) => {

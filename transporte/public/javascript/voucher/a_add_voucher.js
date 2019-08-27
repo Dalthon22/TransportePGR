@@ -19,7 +19,6 @@ $.fn.form.settings.rules.minor = function (value, minor) {
     if (parseInt($("#last_voucher").val()) <= parseInt($("#first_voucher").val())) {
         valido = false;
     }
-    console.log(valido);
     return (valido)
 };
 //VALIDACION FORMULARIO
@@ -112,9 +111,10 @@ $(function () {
                 onApprove: function () {
                     $('.ui.form').form('validate form');
                     if ($('.ui.form').form('is valid')) {
-                        $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()));
+                        $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1);
                         alert("Se ingresaran " + $('#voucher_cant').val());
                         $('.ui.form').form('submit');
+                        return false;
                     } else {
                         return false;
                     }

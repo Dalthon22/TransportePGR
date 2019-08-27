@@ -12,7 +12,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-validator": "^6.1.1",
-    "fomantic-ui": "^2.7.6",
+    "fomantic-ui": "^2.7.7",
     "http-errors": "~1.6.3",
     "jquery": "^3.4.1",
     "morgan": "~1.9.1",

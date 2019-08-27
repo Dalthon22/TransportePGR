@@ -17,15 +17,18 @@ class voucher_controllers {
         //var migrate = new Migration();
     }
 
-    static async ifExist(numVoucher) {
+    async ifExist(numVoucher) {
         var b = false;
+        console.log("Voy a buscar")
         let v = await models.Voucher.count({
             where: {
                 num_voucher: numVoucher
             }
-        }).then(count => {
-            return (count > 0) ? true : false
-        });
+        }) //.then(count => {
+        console.log("Ya busque we, y me salen: " + " //" + v);
+        b = (v >= 1) ? true : false;
+        return b;
+        // });
     }
 
     //Metodo find por id
@@ -40,6 +43,7 @@ class voucher_controllers {
 
         try {
             const errors = validationResult(req);
+
             let {
                 date_entry_bill,
                 bill_num,
@@ -56,7 +60,18 @@ class voucher_controllers {
             primer = parseInt(first_voucher);
             ultimo = parseInt(last_voucher);
             console.log(errors.array());
-            if (!errors.isEmpty()) {} else {
+
+            if (!errors.isEmpty()) {
+                res.render('../views/frequent_places/add.html', {
+                    date_entry_bill,
+                    bill_num,
+                    provider,
+                    price,
+                    first_voucher,
+                    last_voucher,
+                    errors: errors.array()
+                });
+            } else {
                 try {
                     do {
                         models.Voucher.create({
