@@ -52,15 +52,12 @@ class voucher_controllers {
                 first_voucher,
                 last_voucher,
             } = req.body;
-            console.log(date_entry_bill);
             //Conversion al formato permitido por sequelize YYYY-MM-DD
             date = new Date(date_entry_bill.slice(-4) + '-' +
                 date_entry_bill.substring(3, 5) + '-' + date_entry_bill.substring(0, 2));
-            console.log(date);
             primer = parseInt(first_voucher);
             ultimo = parseInt(last_voucher);
             console.log(errors.array());
-
             if (!errors.isEmpty()) {
                 res.render('../views/frequent_places/add.html', {
                     date_entry_bill,

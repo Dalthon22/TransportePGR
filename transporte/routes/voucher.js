@@ -7,11 +7,11 @@ const {
     validationResult
 } = require('../middleware/expresse-validator');
 
-router.get('/', (req, res) => {
+router.get('/vales', (req, res) => {
     res.render('./voucher/add_voucher.html');
 });
 
-router.post('/add',
+router.post('/vales/add',
     [
         body('first_voucher', "Debe ingresar el numero del voucher").not().isEmpty()
         .isInt().withMessage('Debe ser un numero'),
