@@ -1,3 +1,5 @@
+//Var para verificar que el formulario esta listo para guardar
+var clear = true;
 //HABILITA EL INPUT DEL ULTIMO VALE 
 $("#first_voucher").change(function () {
     if ($("#first_voucher").val() != "") {
@@ -97,6 +99,7 @@ $(function () {
     });
 });
 
+//Control del Modal para agregar vales
 $(function () {
     $("#show_add_form_btn").click(function () {
         $('#add_modal').modal('show');
@@ -106,16 +109,31 @@ $(function () {
                 closable: false,
                 onDeny: function () {
                     $('.ui.form').form('reset');
+                    $('.ui.toast').remove();
+                    noAnimateAddButton();
                     return true;
                 },
                 onApprove: function () {
+                    animateAddButton();
                     $('.ui.form').form('validate form');
                     if ($('.ui.form').form('is valid')) {
                         $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1);
                         alert("Se ingresaran " + $('#voucher_cant').val());
-                        $('.ui.form').form('submit');
+                        //GET para verificar que el número de vale no haya existido con anterioridad
+                        buscar_vale($("#first_voucher").val());
+                        buscar_vale($("#last_voucher").val());
+
+                        $('.ui.form').form('validate form');
+                        if ($('.ui.form').form('is valid') && clear) {
+                            //Para borrar todos los errores
+                            $('.ui.toast').remove();
+                            agregarVales();
+
+                        }
                         return false;
                     } else {
+                        //Si el formulario no es válido
+                        noAnimateAddButton()
                         return false;
                     }
                 }
@@ -123,6 +141,7 @@ $(function () {
             .modal('show');
         var today = new Date();
 
+        //Da formato e inicializa el calendario
         $('#standard_calendar').calendar({
             //yearFirst: true,
             type: 'date',
@@ -147,3 +166,147 @@ $(function () {
         });
     });
 });
+
+
+function buscar_vale(num) {
+    const url_request_vale = 'vales/' + num;
+    console.log("Ajax buscará en: " + url_request_vale);
+    $.ajax({
+        url: url_request_vale,
+        type: 'GET',
+        dataType: 'json',
+        success: (data) => {
+            //Manejo del resultado enviado por ajax
+            if (data.message) {
+                clear = false;
+                noAnimateAddButton()
+                if (num == $("#first_voucher").val()) {
+                    console.log("Error en el primero");
+                    $('#add_modal')
+                        .toast({
+                            title: 'Error: número duplicado',
+                            class: 'error',
+                            showIcon: false,
+                            position: 'top right',
+                            displayTime: 0,
+                            closeIcon: true,
+                            message: 'El vale número: ' + num + ' Ya ha sido registrado',
+                            /* className: {
+                                toast: 'ui message'
+                            } */
+                        });
+                } else {
+                    console.log("Error en el segundo");
+
+                    $('#add_modal')
+                        .toast({
+                            title: 'Error: número duplicado',
+                            showIcon: false,
+                            class: 'error',
+                            position: 'top right',
+                            displayTime: 0,
+                            closeIcon: true,
+                            message: 'El vale número: ' + num + ' Ya ha sido registrado',
+                            /* className: {
+                                toast: 'ui message'
+                            } */
+                        });
+                }
+                /*  var modal = document.getElementById("add_modal");
+                 var html_messaje = "<div class=" + '"ui negative message"> <i class="close icon"></i><div class="header">' + data.message + '</div> <p>Intente con otro numero de vale</p></div>';
+                 modal.insertAdjacentHTML("beforebegin", html_messaje); */
+            } else {
+                clear = true;
+                console.log("Si ya te oi esta limpio");
+            }
+        }
+    });
+}
+
+function animateAddButton() {
+    $('.approve.button')
+        .api('set loading');
+}
+
+function noAnimateAddButton() {
+    {
+        $('.approve.button')
+            .api('remove loading');
+    }
+}
+
+//Para poder enviar el formulario de agregar vales
+function agregarVales() {
+    $(this).serializeArray()
+    $.ajax({
+        type: "POST",
+        url: '/vales/add',
+        dataType: 'json',
+        data: $(".ui.form").serializeArray(),
+        success: (data) => {
+            successAddToast();
+            if (data.type === 1) {
+                console.log("Exito we");
+                successAddToast();
+            } else {
+                console.log(data.message);
+            }
+        },
+    });
+    //$('#add_btn_hide').trigger("click");
+}
+
+
+/* $('.form .submit.button')
+    .api({
+        url: '/vales',
+        action: 'create voucher',
+        serializeForm: true,
+        data: {
+            foo: 'baz'
+        },
+        beforeSend: function (settings) {
+
+            // open console to inspect object
+            console.log(settings.data);
+            return settings;
+        },
+        onSuccess: function (response, element, xhr) {
+            if (response.type === 1) {
+                console.log("Exito we");
+                successAddToast();
+            } else {
+                console.log(response.message);
+            }
+        },
+        onComplete: function (response, element, xhr) {
+            if (response.type === 1) {
+                console.log("Exito we");
+                successAddToast();
+            } else {
+                console.log(response.message);
+            }
+        }
+    }); */
+
+function successAddToast() {
+    $('.body')
+        .toast({
+            //title: 'Error: número duplicado',
+            showIcon: true,
+            class: 'success',
+            position: 'top right',
+            displayTime: 2000,
+            closeIcon: true,
+            message: 'Vales registrados con exito',
+            /* className: {
+                toast: 'ui message'
+            } */
+            transition: {
+                showMethod: 'zoom',
+                showDuration: 100,
+                hideMethod: 'fade',
+                hideDuration: 500
+            }
+        });
+}

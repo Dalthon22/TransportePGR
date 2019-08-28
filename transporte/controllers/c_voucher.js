@@ -17,17 +17,35 @@ class voucher_controllers {
         //var migrate = new Migration();
     }
 
-    async ifExist(numVoucher) {
+    async ifExist(numVoucher, req, res) {
+        console.log("Desde router recibi este numero de vale: " + numVoucher);
         var b = false;
-        console.log("Voy a buscar")
-        let v = await models.Voucher.count({
-            where: {
-                num_voucher: numVoucher
+        var num = parseInt(numVoucher);
+        console.log("Numero de vale que se buscara: " + num);
+        try {
+            console.log("Voy a buscar")
+            let v = await models.Voucher.count({
+                where: {
+                    num_voucher: num
+                }
+            }) //.then(count => {
+            console.log("Ya busque we, y me salen: " + " //" + v);
+            b = (v >= 1) ? true : false;
+            console.log("Ya te mando a buscar desde router el vale: " + num);
+            console.log("B es igual: " + b)
+            if (b === true) {
+                console.log("Si we la rego la doña");
+                res.send({
+                    message: "El vale numero: " + num + " ya ha sido registrado"
+                });
+                throw new Error('El numero de vale ya ha se registro');
+            } else {
+                console.log("Esta limpio, por esta vez...");
+                res.send({});
             }
-        }) //.then(count => {
-        console.log("Ya busque we, y me salen: " + " //" + v);
-        b = (v >= 1) ? true : false;
-        return b;
+        } catch (err) {
+            console.log(err);
+        }
         // });
     }
 
@@ -59,6 +77,7 @@ class voucher_controllers {
             ultimo = parseInt(last_voucher);
             console.log(errors.array());
             if (!errors.isEmpty()) {
+                console.log("Aqui vengo con mi flow");
                 res.render('../views/frequent_places/add.html', {
                     date_entry_bill,
                     bill_num,
@@ -85,19 +104,27 @@ class voucher_controllers {
                     while (primer <= ultimo);
                     console.log(primer);
                     console.log(ultimo);
-                    /*  let Mstate2 = true;
-                     let Departamentos = await department_controller.getList(); */
+                    let message = "Datos agregados con exito";
+                    console.log(message);
+                    let type = 1;
                     res.render('./voucher/add_voucher.html', {
-                        //Departamentos
-                    })
+                        message,
+                        type
+                    });
+                    //Departamento
                 } catch (error) {
                     console.log(error);
                     /*   let Mstate = true;
                       let Departamentos = await department_controller.getList(); */
-                    res.render('./voucher/add_voucher.html', {
-                        /* Departamentos,
-                        Mstate */
+                    res.send({
+                        message: "Ocurrio un error mientras se guardaban los datos",
+                        type: 1
                     });
+
+                    /* res.render('./voucher/add_voucher.html', {
+                        /* Departamentos,
+                        Mstate
+                    }); */
                 }
             }
         } catch (error) {

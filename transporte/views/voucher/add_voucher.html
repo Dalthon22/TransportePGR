@@ -23,7 +23,7 @@
     <div class="content">
         <div class="ui container grid stackable">
             <div class="sixteen wide column">
-                <form class="ui form" id="add_voucher_form" method="POST" name="add_voucher" action="/vales/list">
+                <form class="ui form" id="add_voucher_form" method="POST" name="add_voucher">
                     <div class="four wide field">
                         <!-- Calendario para fecha de facturacion -->
                         <label for="date_entry_bill">Fecha de facturacion</label>
@@ -68,6 +68,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="voucher_cant" id="voucher_cant" value="">
+                    <div class="ui submit button" id="add_btn_hide" style="display: none;">Agregar oculto</div>
                     <div class="ui error message"></div>
                     <!--button class="ui primary submit green button" id="add_btn">Agregar</button> -->
                 </form>
@@ -82,5 +83,6 @@
 
 <script src="/javascript/voucher/a_add_voucher.js"></script>
 <link rel="stylesheet" href="/stylesheets/add_voucher.css">
+
 
 {%endblock%}
