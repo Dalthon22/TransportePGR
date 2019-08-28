@@ -14,6 +14,7 @@
     </div>
     {% include '../address/add.html' %}
     <input type="hidden" id="procu_id" name="procu_id" value="{{ Procu.id }}">
+    <input type="hidden" id="address_id" name="address_id" value="{{ Procu.address_id }}">
     <button class="ui positive button" type="submit">Guardar</button>
   </form>
   {% if errors %}

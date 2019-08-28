@@ -9,8 +9,13 @@ router.get('/', (req, res) => {
 });
 
 // Display create procuradurías form
-router.get('/gestionar', (req, res) => {
-    controller.getGestionar(req, res);
+router.get('/add', (req, res) => {
+    controller.getCreate(req, res);
+});
+
+// Display update procuradurías form
+router.get('/update', (req, res) => {
+    controller.getUpdate(req, res);
 });
 
 //Saves edited procuraduría
