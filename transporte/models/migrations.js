@@ -5,6 +5,7 @@ const Procuraduria = require('../models/m_procuraduria');
 const Address = require('../models/m_address');
 //const Route = require('../models/m_route');
 const Frequent_Place = require('../models/m_frequent_place');
+const Places_Container = require('../models/m_places_container');
 
 class Migration {
     constructor() {
@@ -15,6 +16,7 @@ class Migration {
         Vehicle.sync();
         Frequent_Place.sync();
         /* Route.sync(); */
+        Places_Container.sync();
     }
 }
 
