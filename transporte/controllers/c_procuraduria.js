@@ -5,7 +5,7 @@ const {
   validationResult
 } = require('express-validator');
 
-class procuraduria_services {
+class Procuraduria_controller {
   constructor() {}
   //Gets procuradurías list
 
@@ -148,4 +148,4 @@ class procuraduria_services {
   };
 };
 
-module.exports = new procuraduria_services();
+module.exports = new Procuraduria_controller();

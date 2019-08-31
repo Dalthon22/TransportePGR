@@ -1,6 +1,6 @@
 const Departamento = require('../models/m_department');
 
-class department_services {
+class Department_controller {
   constructor() {}
   //Gets departments list
   async getList() {
@@ -12,4 +12,4 @@ class department_services {
   };
 };
 
-module.exports = new department_services();
+module.exports = new Department_controller();

@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 //const Routes = require('./m_route');
-//const Cars = require('./m_car');
+const Vehicles = require('./m_vehicle');
 const Address = require('./m_address');
-//const Frequent_Place = require('./m_frequent_place');
+const Frequent_Place = require('./m_frequent_place');
 
 const Procuraduria = db.define('procuraduria', {
     name: {
@@ -29,13 +29,13 @@ const Procuraduria = db.define('procuraduria', {
 
 /* Procuraduria.hasMany(Routes, {
     foreignKey: 'procuraduria_id'
-});
+}); */
 Procuraduria.hasMany(Frequent_Place, {
     foreignKey: 'frequent_place_id'
 });
-Procuraduria.hasMany(Cars, {
+Procuraduria.hasMany(Vehicles, {
     foreignKey: 'procuraduria_id'
-}); */
+});
 Procuraduria.belongsTo(Address, {
     foreignKey: 'address_id'
 });
