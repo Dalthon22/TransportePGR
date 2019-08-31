@@ -1,5 +1,5 @@
 //Var para verificar que el formulario esta listo para guardar
-var clear = true;
+var unique_num1, unique_num2;
 //HABILITA EL INPUT DEL ULTIMO VALE 
 $("#first_voucher").change(function () {
     if ($("#first_voucher").val() != "") {
@@ -15,6 +15,7 @@ document.getElementById("add_btn")
     .addEventListener("click", function () {
         $(".ui.form").form('validate field', 'last_voucher');
     });
+
 //AGREGA REGLA PARA VERIFICAR QUE EL ULTIMO VALE SEA MAYOR QUE EL PRIMERO
 $.fn.form.settings.rules.minor = function (value, minor) {
     var valido = true;
@@ -111,31 +112,13 @@ $(function () {
                     $('.ui.form').form('reset');
                     $('.ui.toast').remove();
                     noAnimateAddButton();
+                    $('.ui.form').form('reset');
                     return true;
                 },
                 onApprove: function () {
-                    animateAddButton();
-                    $('.ui.form').form('validate form');
-                    if ($('.ui.form').form('is valid')) {
-                        $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1);
-                        alert("Se ingresaran " + $('#voucher_cant').val());
-                        //GET para verificar que el número de vale no haya existido con anterioridad
-                        buscar_vale($("#first_voucher").val());
-                        buscar_vale($("#last_voucher").val());
-
-                        $('.ui.form').form('validate form');
-                        if ($('.ui.form').form('is valid') && clear) {
-                            //Para borrar todos los errores
-                            $('.ui.toast').remove();
-                            agregarVales();
-
-                        }
-                        return false;
-                    } else {
-                        //Si el formulario no es válido
-                        noAnimateAddButton()
-                        return false;
-                    }
+                    //buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
+                    ingresar_vales();
+                    return false;
                 }
             })
             .modal('show');
@@ -167,75 +150,102 @@ $(function () {
     });
 });
 
-
-function buscar_vale(num) {
-    const url_request_vale = 'vales/' + num;
+//Se detona en el método approve del modal
+function ingresar_vales() {
+    //unique_num = true;
+    animateAddButton();
+    $('.ui.toast').remove();
+    $('.ui.form').form('validate form');
+    if ($('.ui.form').form('is valid')) {
+        $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1);
+        alert("Se ingresaran " + $('#voucher_cant').val());
+        //GET para verificar que el número de vale no haya existido con anterioridad
+        buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
+        // $('.ui.form').form('validate form');
+        console.log("Valor de regla de valor unico1: " + unique_num1 + " Y unico 2: " + unique_num2);
+        if ($('.ui.form').form('is valid') && unique_num1 && unique_num2) {
+            //Para borrar todos los errores
+            $('.ui.toast').remove();
+            agregarVales();
+        }
+    } else {
+        //Si el formulario no es válido
+        noAnimateAddButton()
+    }
+}
+///Verifica que los vales que se vayan a ingresar no hayan sido previamente registrados
+function buscar_vale(num1, num2) {
+    var err1, err2;
+    const url_request_vale = 'vales/' + num1;
     console.log("Ajax buscará en: " + url_request_vale);
+    const url_request_vale2 = 'vales/' + num2;
+    console.log("Ajax buscará en: " + url_request_vale2);
+
     $.ajax({
         url: url_request_vale,
+        async: false,
         type: 'GET',
         dataType: 'json',
         success: (data) => {
             //Manejo del resultado enviado por ajax
-            if (data.message) {
-                clear = false;
-                noAnimateAddButton()
-                if (num == $("#first_voucher").val()) {
-                    console.log("Error en el primero");
-                    $('#add_modal')
-                        .toast({
-                            title: 'Error: número duplicado',
-                            class: 'error',
-                            showIcon: false,
-                            position: 'top right',
-                            displayTime: 0,
-                            closeIcon: true,
-                            message: 'El vale número: ' + num + ' Ya ha sido registrado',
-                            /* className: {
-                                toast: 'ui message'
-                            } */
-                        });
-                } else {
-                    console.log("Error en el segundo");
-
-                    $('#add_modal')
-                        .toast({
-                            title: 'Error: número duplicado',
-                            showIcon: false,
-                            class: 'error',
-                            position: 'top right',
-                            displayTime: 0,
-                            closeIcon: true,
-                            message: 'El vale número: ' + num + ' Ya ha sido registrado',
-                            /* className: {
-                                toast: 'ui message'
-                            } */
-                        });
-                }
-                /*  var modal = document.getElementById("add_modal");
-                 var html_messaje = "<div class=" + '"ui negative message"> <i class="close icon"></i><div class="header">' + data.message + '</div> <p>Intente con otro numero de vale</p></div>';
-                 modal.insertAdjacentHTML("beforebegin", html_messaje); */
+            console.log("DATA DEL GET NUM VALE 1" + data.type)
+            if (data.type === 1) {
+                noAnimateAddButton();
+                //errorUnique1(false);
+                unique_num1 = false;
+                console.log("Error en el primero" + "Unique1");
+                $('#add_modal')
+                    .toast({
+                        title: 'Error: número duplicado',
+                        class: 'error',
+                        showIcon: false,
+                        position: 'top right',
+                        displayTime: 0,
+                        closeIcon: true,
+                        message: data.message,
+                    });
+                return false;
             } else {
-                clear = true;
-                console.log("Si ya te oi esta limpio");
+                unique_num1 = true;
+
+                //unique_num1 = true;
+                //errorUnique1(true);
+                console.log("Si ya te oi el primero esta limpio");
             }
         }
     });
+    $.ajax({
+        url: url_request_vale2,
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+    }).done(function (data) {
+        if (data.type === 1) {
+            noAnimateAddButton();
+            unique_num2 = false;
+            console.log("Error en el segundo" + "Unique2" + unique_num2);
+            //unique_num2 = false;
+            //errorUnique2(false);
+            $('#add_modal')
+                .toast({
+                    title: 'Error: número duplicado',
+                    showIcon: false,
+                    class: 'error',
+                    position: 'top right',
+                    displayTime: 0,
+                    closeIcon: true,
+                    message: data.message,
+                });
+        } else {
+
+            unique_num2 = true;
+
+            //unique_num2 = true;
+            console.log("Si ya te oi el ultimo esta limpio");
+        }
+    })
 }
 
-function animateAddButton() {
-    $('.approve.button')
-        .api('set loading');
-}
-
-function noAnimateAddButton() {
-    {
-        $('.approve.button')
-            .api('remove loading');
-    }
-}
-
-//Para poder enviar el formulario de agregar vales
 function agregarVales() {
     $(this).serializeArray()
     $.ajax({
@@ -244,53 +254,66 @@ function agregarVales() {
         dataType: 'json',
         data: $(".ui.form").serializeArray(),
         success: (data) => {
-            successAddToast();
-            if (data.type === 1) {
-                console.log("Exito we");
-                successAddToast();
-            } else {
+            console.log("data.type es:" + typeof (data.type));
+            if (data.type == 1) {
+                //Si hay error
                 console.log(data.message);
+                console.log("Ocurrio un Error en el ingreso de los vales");
+                $('#add_modal')
+                    .toast({
+                        title: data.title,
+                        showIcon: false,
+                        class: 'error',
+                        position: 'top right',
+                        displayTime: 0,
+                        closeIcon: true,
+                        message: data.message,
+                    });
+                noAnimateAddButton();
+            } else {
+                //Si se ingreso con exito
+                console.log("Exito we");
+                noAnimateAddButton();
+                $('#add_modal').modal("hide");
+                successAddToast();
             }
         },
     });
     //$('#add_btn_hide').trigger("click");
 }
 
+function animateAddButton() {
+    $('.approve.button').api('set loading');
 
-/* $('.form .submit.button')
-    .api({
-        url: '/vales',
-        action: 'create voucher',
-        serializeForm: true,
-        data: {
-            foo: 'baz'
-        },
-        beforeSend: function (settings) {
+    /*     $('.ui.modal').api('set loading');
+     */
+}
 
-            // open console to inspect object
-            console.log(settings.data);
-            return settings;
-        },
-        onSuccess: function (response, element, xhr) {
-            if (response.type === 1) {
-                console.log("Exito we");
-                successAddToast();
-            } else {
-                console.log(response.message);
-            }
-        },
-        onComplete: function (response, element, xhr) {
-            if (response.type === 1) {
-                console.log("Exito we");
-                successAddToast();
-            } else {
-                console.log(response.message);
-            }
-        }
-    }); */
+function noAnimateAddButton() {
+    {
+        $('.approve.button')
+            .api('remove loading');
+        /* $('.ui.modal')
+            .api('remove loading'); */
+    }
+}
+
+function errorUnique1(value) {
+    unique_num1 = value;
+    console.log("Me dicen que le pase: " + value + " a unique 1");
+    console.log("A unique1 le mando" + unique_num1);
+}
+
+function errorUnique2(value) {
+    unique_num2 = value;
+    console.log("Me dicen que le pase: " + value + " a unique 2");
+    console.log("A unique2 le mando" + unique_num2);
+}
+//Para poder enviar el formulario de agregar vales
+
 
 function successAddToast() {
-    $('.body')
+    $('body')
         .toast({
             //title: 'Error: número duplicado',
             showIcon: true,

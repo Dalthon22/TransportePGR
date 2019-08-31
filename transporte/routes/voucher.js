@@ -12,37 +12,23 @@ router.get('/vales', (req, res) => {
 });
 
 router.post('/vales/add',
-    /*   [
-          body('first_voucher', "Debe ingresar el numero del voucher").not().isEmpty(),
-          body('first_voucher').isInt().withMessage('Debe ser un numero'),
-          //Valida que el numero de vale no se repita
-          check('first_voucher').custom((value, {
-              req
-          }) => {
-              try {
-                  console.log("Ya te lo mando a busqueda");
-                  controller.ifExist(value).then(b => {
-                      console.log("B es igual: " + b)
-                      if (b === true) {
-                          console.log("Si we la rego la doña");
-                          throw new Error('El numero de vale ingresado ya existe');
-                      }
-                  })
-              } catch (error) {
-                  console.log(error);
-
-              }
-          })
-      ], */
+    /*  [
+         body('first_voucher', "Debe ingresar el numero del voucher").not().isEmpty(),
+         body('first_voucher').isInt().withMessage('Debe ser un numero'),
+     ], */
     (req, res) => {
         // Handle the request somehow
         controller.createVoucher(req, res);
     });
+
+
+
 router.get('/vales/:num',
     (req, res) => {
         const num = req.params.num;
         controller.ifExist(num, req, res);
     });
+
 module.exports = router;
 
 

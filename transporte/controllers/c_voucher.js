@@ -23,30 +23,33 @@ class voucher_controllers {
         var num = parseInt(numVoucher);
         console.log("Numero de vale que se buscara: " + num);
         try {
+
             console.log("Voy a buscar")
             let v = await models.Voucher.count({
                 where: {
                     num_voucher: num
                 }
-            }) //.then(count => {
-            console.log("Ya busque we, y me salen: " + " //" + v);
+            });
+            console.log("Ya busque we, y me salen: " + v);
             b = (v >= 1) ? true : false;
             console.log("Ya te mando a buscar desde router el vale: " + num);
             console.log("B es igual: " + b)
             if (b === true) {
                 console.log("Si we la rego la doña");
                 res.send({
+                    type: 1,
                     message: "El vale numero: " + num + " ya ha sido registrado"
                 });
                 throw new Error('El numero de vale ya ha se registro');
             } else {
                 console.log("Esta limpio, por esta vez...");
-                res.send({});
+                res.send({
+                    type: 0,
+                });
             }
         } catch (err) {
             console.log(err);
         }
-        // });
     }
 
     //Metodo find por id
@@ -104,20 +107,16 @@ class voucher_controllers {
                     while (primer <= ultimo);
                     console.log(primer);
                     console.log(ultimo);
-                    let message = "Datos agregados con exito";
-                    console.log(message);
-                    let type = 1;
-                    res.render('./voucher/add_voucher.html', {
-                        message,
-                        type
+                    res.json({
+                        message: "Datos agregados con exito",
+                        type: 0
                     });
                     //Departamento
-                } catch (error) {
-                    console.log(error);
-                    /*   let Mstate = true;
-                      let Departamentos = await department_controller.getList(); */
-                    res.send({
-                        message: "Ocurrio un error mientras se guardaban los datos",
+                } catch (err) {
+                    console.log("Ocurre ingresando los vales en la BD" + err);
+                    res.json({
+                        title: "Error al guardar los datos",
+                        message: "Ocurrio un error mientras se guardaban los datos, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
                         type: 1
                     });
 
@@ -127,8 +126,8 @@ class voucher_controllers {
                     }); */
                 }
             }
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.log("Ocurrio en el método create" + err);
         }
     }
 
