@@ -6,6 +6,7 @@ const Address = require('../models/m_address');
 //const Route = require('../models/m_route');
 const Frequent_Place = require('../models/m_frequent_place');
 const Places_Container = require('../models/m_places_container');
+const Folo_06 = require('../models/m_folo06');
 
 class Migration {
     constructor() {
@@ -17,6 +18,7 @@ class Migration {
         Frequent_Place.sync();
         /* Route.sync(); */
         Places_Container.sync();
+        Folo_06.sync();
     }
 }
 
