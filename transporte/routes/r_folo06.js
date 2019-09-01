@@ -14,3 +14,5 @@ router.get('/', (req, res) => {
 router.get('/add', (req, res) => {
     controller.getDepartmentList(req, res);
 });
+
+module.exports = router;

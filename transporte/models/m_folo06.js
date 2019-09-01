@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Places_Container = require('../models/m_places_container');
 
 const Folo_06 = db.define('folo06', {
     date_of_done: {
