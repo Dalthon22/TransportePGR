@@ -91,49 +91,41 @@ class voucher_controllers {
                     errors: errors.array()
                 });
             } else {
-                try {
-                    do {
-                        models.Voucher.create({
-                            num_voucher: primer,
-                            price,
-                            condition: "Disponible",
-                            date_entry: date,
-                            voucher_provider: provider,
-                            num_entry_bill: bill_num,
-                            date_entry_bill: date,
-                        });
-                        primer++;
-                    }
-                    while (primer <= ultimo);
-                    console.log(primer);
-                    console.log(ultimo);
-                    res.json({
-                        message: "Datos agregados con exito",
-                        type: 0
+                console.log("Estoy en el else del create");
+                do {
+                    await models.Voucher.create({
+                        num_voucher: primer,
+                        price,
+                        condition: "Disponible",
+                        date_entry: date,
+                        voucher_provider: provider,
+                        num_entry_bill: bill_num,
+                        date_entry_bill: date,
                     });
-                    //Departamento
-                } catch (err) {
-                    console.log("Ocurre ingresando los vales en la BD" + err);
-                    res.json({
-                        title: "Error al guardar los datos",
-                        message: "Ocurrio un error mientras se guardaban los datos, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
-                        type: 1
-                    });
-
-                    /* res.render('./voucher/add_voucher.html', {
-                        /* Departamentos,
-                        Mstate
-                    }); */
+                    primer++;
                 }
+                while (primer <= ultimo);
+                console.log(primer);
+                console.log(ultimo);
+                //Departamento
+                console.log("sali del create");
+
+                res.json({
+                    message: "Datos agregados con exito",
+                    type: 0
+                });
             }
         } catch (err) {
             console.log("Ocurrio en el método create" + err);
+            res.send({
+                title: "Error al guardar los datos",
+                message: "Ocurrio un error mientras se guardaban los datos, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
+                message1: "Error al ingresar el vale No: " + primer,
+                type: 1
+            });
+            //throw new Error(" Ocurre ingresando los vales en la BD " + err);
         }
     }
-
-
-
-
 };
 
 module.exports = new voucher_controllers();

@@ -194,6 +194,7 @@ function buscar_vale(num1, num2) {
                 //errorUnique1(false);
                 unique_num1 = false;
                 console.log("Error en el primero" + "Unique1");
+                //Muestra el mensaje de error en el primer vale
                 $('#add_modal')
                     .toast({
                         title: 'Error: número duplicado',
@@ -223,9 +224,8 @@ function buscar_vale(num1, num2) {
         if (data.type === 1) {
             noAnimateAddButton();
             unique_num2 = false;
-            console.log("Error en el segundo" + "Unique2" + unique_num2);
-            //unique_num2 = false;
-            //errorUnique2(false);
+            console.log("Error en el último" + "Unique2" + unique_num2);
+            //Muestra el mensaje de error en ultimo vale
             $('#add_modal')
                 .toast({
                     title: 'Error: número duplicado',
@@ -237,10 +237,7 @@ function buscar_vale(num1, num2) {
                     message: data.message,
                 });
         } else {
-
             unique_num2 = true;
-
-            //unique_num2 = true;
             console.log("Si ya te oi el ultimo esta limpio");
         }
     })
@@ -250,11 +247,12 @@ function agregarVales() {
     $(this).serializeArray()
     $.ajax({
         type: "POST",
+        async: false,
         url: '/vales/add',
         dataType: 'json',
         data: $(".ui.form").serializeArray(),
         success: (data) => {
-            console.log("data.type es:" + typeof (data.type));
+            console.log("data.type es:" + typeof (data.type) + " y trae: " + data.type);
             if (data.type == 1) {
                 //Si hay error
                 console.log(data.message);
@@ -269,6 +267,16 @@ function agregarVales() {
                         closeIcon: true,
                         message: data.message,
                     });
+                $('#add_modal')
+                    .toast({
+                        title: data.title,
+                        showIcon: false,
+                        class: 'error',
+                        position: 'top right',
+                        displayTime: 0,
+                        closeIcon: true,
+                        message: data.message1,
+                    });
                 noAnimateAddButton();
             } else {
                 //Si se ingreso con exito
@@ -279,7 +287,6 @@ function agregarVales() {
             }
         },
     });
-    //$('#add_btn_hide').trigger("click");
 }
 
 function animateAddButton() {
