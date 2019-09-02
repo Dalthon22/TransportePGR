@@ -75,15 +75,12 @@
             <h4 class="ui blue dividing header">Lugar de destino</h4>
             {% include '../address/add.html' %}
             <div class="field">
-                <select class="ui fluid dropdown" name="place_ls">
+                <select class="ui fluid dropdown" id="fplaces" name="fplaces">
                     <option value="">Seleccione el lugar de destino</option>
-                    <option value="1">Aeropuerto Internacional de El Salvador San Óscar Arnulfo
-                                Romero y
-                                Galdámez</option>
-                    <option value="2">Alcaldía Municipal de Apopa</option>
-                    <option value="3">Centro Judicial de Santa Tecla</option>
-                    <option value="3">Otro</option>
+                    <option value="0">Otro</option>
+
                 </select>
+                <input id="idfplace" type="hidden" value="{{fplace}}">
             </div>
             <div class="field">
                 <label>Lugar de destino</label>
@@ -94,7 +91,7 @@
                 <textarea rows="3" name="direction_txt" disabled="disabled"
                             placeholder="Calle x, pasaje y, local...."></textarea>
             </div>
-            <button class="ui button">Agregar dirección</button>
+            <button class="ui positive button">Agregar dirección</button>
             <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
                 <thead>
                     <tr>
@@ -103,11 +100,7 @@
                         <th>Municipio</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-label="Destino"></td>
-                            <td data-label="Departamento"></td>
-                            <td data-label="Municipio"></td>
-                        </tr>
+
                     </tbody>
                 </table>
                 <h4 class="ui blue dividing header">Misión</h4>

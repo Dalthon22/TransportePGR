@@ -134,3 +134,7 @@ $('#time_calendar1')
             $(".ui.form").form('validate field', 'time1');
         }
     });
+
+/* $('#addressTable tbody').click(function() {
+    var selectedPlace = $('#')
+}) */

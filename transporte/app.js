@@ -7,8 +7,6 @@ var nunjucks = require('nunjucks');
 const db = require('./dbconfig/conex.js');
 var app = express();
 
-
-
 // Test DB
 db.authenticate()
   .then(() => console.log('Database connected...'))
@@ -16,7 +14,7 @@ db.authenticate()
 
 //Migracion de tablas
 /* var Migrate = require('./models/migrations');
-var migration = new Migrate(); */
+var migration = new Migrate( */);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
