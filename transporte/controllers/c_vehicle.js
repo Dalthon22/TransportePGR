@@ -27,11 +27,8 @@ class Vehicle_controller {
     //Encuentra el registro y devuelve true si existe
     //Parametro: _id Llave primaria de la tabla
     async existById(_id) {
-        let exist = false;
         let vehicle = await Vehicle.findByPk(_id);
-        if (vehicle) {
-            exist = true;
-        }
+        let exist = (vehicle) ? true : false;
         return exist;
     }
 
@@ -49,19 +46,34 @@ class Vehicle_controller {
     //Encuentra el registro y devuelve true si existe
     //Parametro: _plate Campo único en la tabla
     async existByPlate(_plate) {
-        let is_registered = false;
-        let vehicle = await Vehicle.findOne({
-            attributes: ['id'],
+        let vehicle = await Vehicle.count({
             where: {
                 plate: _plate
             }
         });
         console.log(vehicle);
-        if (vehicle) {
-            is_registered = true;
-        }
+        let is_registered = (vehicle >= 1) ? true : false;
         console.log(is_registered);
         return is_registered;
+    }
+
+    //Valida la existencia de un vehiculo por su placa y envia una respuesta
+    async existsResponse(_plate, req, res) {
+        try {
+            if (!await this.existByPlate(_plate)) {
+                res.send({
+                    type: 0,
+                });
+            } else {
+                console.log('Error. Ya existe la placa: ' + _plate);
+                res.send({
+                    type: 1,
+                    message: "El número de matrícula: " + _plate + " ya está asociada a un vehículo."
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     //Obtiene todos los reguistros almacenados en la tabla
@@ -102,25 +114,17 @@ class Vehicle_controller {
             let vehicle = req.body;
             if (errors.isEmpty()) {
                 const created_at = new Date();
-                if (this.existByPlate(plate) === false) {
-                    await Vehicle.create({
-                        brand,
-                        chassis,
-                        model,
-                        engine,
-                        plate,
-                        state,
-                        seats,
-                        created_at
-                    });
-                    res.redirect('/vehiculos');
-                } else {
-                    res.render('../views/vehicle/create.html', {
-                        plate_error: "El número de placa ya existe!",
-                        states,
-                        vehicle
-                    })
-                }
+                await Vehicle.create({
+                    brand,
+                    chassis,
+                    model,
+                    engine,
+                    plate,
+                    state,
+                    seats,
+                    created_at
+                });
+                res.redirect('/vehiculos');
             } else {
                 res.render('../views/vehicle/create.html', {
                     errors: errors.array(),

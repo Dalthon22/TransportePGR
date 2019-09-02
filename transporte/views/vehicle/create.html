@@ -25,8 +25,8 @@
                 <input id="engine" name="engine" type="text" placeholder="64EKT931230" value="{{ vehicle.engine }}">
             </div>
             <div class="required field">
-                <label for="plate">Placa</label>
-                <input id="plate_form" name="plate" type="text" placeholder="AA236963" value="{{ vehicle.plate }}">
+                <label for="plate">Matrícula</label>
+                <input id="vplate" name="plate" type="text" placeholder="AA236963" value="{{ vehicle.plate }}">
             </div>
         </div>
         <div class="sixteen wide field">
@@ -45,7 +45,8 @@
                 </div>
                 <div class="four wide required field">
                     <label for="seats">Asientos</label>
-                    <input id="seats" name="seats" type="number" placeholder="2-40" value="{{ vehicle.seats }}">
+                    <input id="seats" name="seats" min="2" max="40" type="number" placeholder="2-40"
+                        value="{{ vehicle.seats }}">
                 </div>
             </div>
         </div>
@@ -57,9 +58,10 @@
                 <div class="hidden content"><i class="left arrow icon"></i></div>
             </div>
         </a>
-        <button id="submit_form" class="ui positive submit enter button" type="submit">Guardar</button>
+        <div class="ui positive button" id="add_btn">Guardar</div>
+        <!-- <button id="add_btn" class="ui positive submit enter button" type="submit">Guardar</button> -->
     </form>
-    {% if plate_error %}
+    <!--     {% if plate_error %}
     <div class="ui warning message" style="width:30em">
         <div class="header">
             Advertencia
@@ -67,7 +69,7 @@
         <i class="close icon"></i>
         <li> {{ plate_error}} </li>
     </div>
-    {% endif %}
+    {% endif %} -->
     {% if errors %}
     <div class="ui error message" style="width:30em">
         <i class="close icon"></i>

@@ -1,3 +1,9 @@
+//Rutas para ajax
+var url_request_plate_exist = 'matricula_';
+var url_post_create = 'vehiculos/gestionar';
+var current_plate;
+
+
 /*Validacion del lado del cliente */
 $(function () {
     $('.ui.form')
@@ -79,3 +85,89 @@ $(function () {
 $(".close.icon").click(function () {
     $(this).parent().hide();
 });
+
+$("#add_btn").click(function () {
+    //successAddToast();
+    //AddToast('Error con la Matricula', 'warning', 'Matricula ya existe');
+    insert_vehicle();
+});
+
+//Inicializa el proceso de insercion con su respectivas validaciones
+function insert_vehicle() {
+    $('.ui.toast').remove();
+    $('.ui.form').form('validate form');
+    if ($('.ui.form').form('is valid')) {
+        url_request_plate_exist += $('#vplate').val();
+        $.ajax({
+            url: url_request_plate_exist,
+            async: false,
+            type: 'GET',
+            dataType: 'json',
+            success: (data) => {
+                if (data.type == 0) {
+                    create_vehicle();
+                } else {
+                    AddToast('Error con la Matricula', 'warning', data.message);
+                }
+            }
+        });
+    }
+}
+
+//Metodo Post de insercion.
+function create_vehicle() {
+    $.ajax({
+        url: url_post_create,
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        data: $('.ui.form').serializeArray(),
+        success: (data) => {
+            if (data.type == 0) {
+                create_vehicle();
+            } else {
+                AddToast('Error con la Matricula', 'warning', data.message);
+            }
+        }
+    });
+
+    successAddToast();
+}
+
+function successAddToast() {
+    $('body')
+        .toast({
+            title: 'Guarado exitoso',
+            showIcon: true,
+            class: 'success',
+            position: 'top right',
+            displayTime: 3000,
+            closeIcon: true,
+            message: 'Vehículo registrado',
+            transition: {
+                showMethod: 'zoom',
+                showDuration: 100,
+                hideMethod: 'fade',
+                hideDuration: 500
+            }
+        });
+}
+
+function AddToast(_title, _class, _message) {
+    $('body')
+        .toast({
+            title: _title,
+            showIcon: true,
+            class: _class,
+            position: 'top right',
+            displayTime: 0,
+            closeIcon: true,
+            message: _message,
+            transition: {
+                showMethod: 'zoom',
+                showDuration: 100,
+                hideMethod: 'fade',
+                hideDuration: 500
+            }
+        });
+}

@@ -8,7 +8,6 @@ const {
 /*GET List*/
 router.get('/', (req, res) => {
     controller.getList(req, res);
-
 });
 
 /*GET Create*/
@@ -37,6 +36,12 @@ router.post('/gestionar',
         } else {
             controller.create(req, res);
         }
+    });
+
+router.get('/matricula_:plate',
+    (req, res) => {
+        const plate = req.params.plate;
+        controller.existsResponse(plate, req, res);
     });
 
 /*POST Add a car */
