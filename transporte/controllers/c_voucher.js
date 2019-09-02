@@ -1,7 +1,6 @@
 const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
-//const Vouchers = require('../models/voucher');
-var models = require('../models');
+const Voucher = require('../models/m_voucher');
 
 /* const Migration = require('../models/migrations');
  */
@@ -93,7 +92,7 @@ class voucher_controllers {
             } else {
                 console.log("Estoy en el else del create");
                 do {
-                    await models.Voucher.create({
+                    await Voucher.create({
                         num_voucher: primer,
                         price,
                         condition: "Disponible",
