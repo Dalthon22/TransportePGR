@@ -4,25 +4,21 @@ const {
     body
 } = require('express-validator');
 
-
-
-router.get('/lugares_frecuentes', (req, res) => {
+router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 
-router.get('/lugares_frecuentes/add', (req, res) => {
+router.get('/add', (req, res) => {
     controller.getAdd(req, res);
 });
 router.get('/getMunicipios', (req, res) => {
     controller.getMunicipiosByDepartamento(req, res);
 });
-router.get('/lugares_frecuentes/edit', (req, res) => {
+router.get('/edit', (req, res) => {
     controller.getUpdate(req, res);
 });
 
-
-
-router.post('/lugares_frecuentes/add', [
+router.post('/add', [
     //Validations
     body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
         max: 150
@@ -45,12 +41,14 @@ router.post('/lugares_frecuentes/add', [
     } else {
         controller.createFrequentPlace(req, res);
     }
-
-
 });
 
-router.get('/lugares_frecuentes/delete', (req, res) => {
+router.get('/delete', (req, res) => {
     controller.deleteFrequentPlace(req, res);
 });
 
+
+router.get('/getPlaces', (req, res) => {
+    controller.getPlacesByMunicipio(req, res);
+});
 module.exports = router;

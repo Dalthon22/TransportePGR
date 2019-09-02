@@ -14,7 +14,7 @@ db.authenticate()
 
 //Migracion de tablas
 /* var Migrate = require('./models/migrations');
-var migration = new Migrate( */);
+var migration = new Migrate(); */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 
 //routes
 app.use(require('./routes/index'));
-app.use('/', require('./routes/r_frequent_places'));
+app.use('/lugares_frecuentes', require('./routes/r_frequent_places'));
 app.use('/direccion', require('./routes/r_address'));
 app.use('/instituciones', require('./routes/r_procuraduria'));
 app.use('/vehiculos', require('./routes/r_vehicle'));
