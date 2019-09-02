@@ -3,20 +3,21 @@ $(function () {
         /* "scrollY": "500px",
         "scrollCollapse": true, */
     });
+
+    alert(_data);
 });
 
 
-
-function successAddToast() {
+function successAddToast(_title, _class, _message) {
     $('body')
         .toast({
-            title: 'Guarado exitoso',
+            title: _title,
             showIcon: true,
-            class: 'success',
+            class: _class,
             position: 'top right',
             displayTime: 3000,
             closeIcon: true,
-            message: 'Vehículo registrado',
+            message: _message,
             transition: {
                 showMethod: 'zoom',
                 showDuration: 100,

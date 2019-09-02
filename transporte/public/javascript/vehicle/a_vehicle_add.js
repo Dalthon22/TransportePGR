@@ -1,6 +1,7 @@
 //Rutas para ajax
 var url_request_plate_exist = 'matricula_';
 var url_post_create = 'vehiculos/gestionar';
+var url_get_lis = 'vehiculos';
 var current_plate;
 
 
@@ -104,7 +105,7 @@ function insert_vehicle() {
             type: 'GET',
             dataType: 'json',
             success: (data) => {
-                if (data.type == 0) {
+                if (data.type === 0) {
                     create_vehicle();
                 } else {
                     AddToast('Error con la Matricula', 'warning', data.message);
@@ -123,10 +124,16 @@ function create_vehicle() {
         dataType: 'json',
         data: $('.ui.form').serializeArray(),
         success: (data) => {
-            if (data.type == 0) {
-                create_vehicle();
+            if (data.type === 0) {
+                $.ajax({
+                    url: url_get_lis,
+                    async: false,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: data.serializeArray()
+                });
             } else {
-                AddToast('Error con la Matricula', 'warning', data.message);
+                AddToast(data.title, 'error', data.message);
             }
         }
     });

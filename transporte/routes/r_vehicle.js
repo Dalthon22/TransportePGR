@@ -7,7 +7,8 @@ const {
 
 /*GET List*/
 router.get('/', (req, res) => {
-    controller.getList(req, res);
+    let data = rep.params.data;
+    controller.getList(req, res, data);
 });
 
 /*GET Create*/

@@ -77,14 +77,15 @@ class Vehicle_controller {
     }
 
     //Obtiene todos los reguistros almacenados en la tabla
-    async getList(req, res) {
+    async getList(req, res, _data) {
         try {
             var vehicles = await Vehicle.findAll({
                 order: Sequelize.literal('plate DESC')
             });
             console.log(vehicles)
             return res.render('../views/vehicle/list.html', {
-                vehicles
+                vehicles,
+                _data
             });
         } catch (Error) {
             console.log(Error)
@@ -124,7 +125,12 @@ class Vehicle_controller {
                     seats,
                     created_at
                 });
-                res.redirect('/vehiculos');
+                res.json({
+                    title: "Guarado exitoso",
+                    message: "Vehículo registrado",
+                    type: 0
+                });
+                //res.redirect('/vehiculos');
             } else {
                 res.render('../views/vehicle/create.html', {
                     errors: errors.array(),
@@ -134,6 +140,11 @@ class Vehicle_controller {
             }
         } catch (error) {
             console.log(error);
+            res.send({
+                type: 1,
+                title: "Error al guardar",
+                message: "El vehículo no pudo ser guardado. " + error,
+            });
         }
     }
 
