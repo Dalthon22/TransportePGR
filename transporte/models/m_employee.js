@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Folo6 = require('./m_folo6');
+const Procuraduria = require('./m_procuraduria');
 
 const Employee = db.define('employee', {
     first_name: {
@@ -55,5 +56,7 @@ const Employee = db.define('employee', {
 });
 
 Employee.hasMany(Folo6);
-
+Employee.belongsTo(Procuraduria, {
+    foreignKey: 'procuraduria_id'
+});
 module.exports = Employee;

@@ -5,6 +5,7 @@ const Procuraduria = require('../models/m_procuraduria');
 const Address = require('../models/m_address');
 const Voucher = require('./m_voucher');
 const Voucher_procu_assign = require('./m_voucher_procu_assign');
+const Voucher_folo6_assign = require('./m_voucher_folo6_assign');
 const Folo6 = require('./m_folo6');
 const Employee = require('./m_employee');
 const Unit = require('./m_unit');
@@ -24,6 +25,7 @@ class Migration {
         Frequent_Place.sync();
         Voucher.sync();
         Voucher_procu_assign.sync();
+        Voucher_folo6_assign.sync();
         Folo6.sync();
         Employee.sync();
         Unit.sync();

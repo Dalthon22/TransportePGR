@@ -31,14 +31,14 @@ const Procuraduria = db.define('procuraduria', {
     foreignKey: 'procuraduria_id'
 }); */
 Procuraduria.hasMany(Frequent_Place, {
-    foreignKey: 'frequent_place_id'
+    foreignKey: 'procuraduria_id'
 });
 Procuraduria.hasMany(Vehicles, {
     foreignKey: 'procuraduria_id'
 });
-Procuraduria.belongsTo(Address, {
-    foreignKey: 'address_id'
+Procuraduria.hasMany(Address, {
+    as: 'address',
+    foreignKey: 'procuraduria_id'
 });
-
 
 module.exports = Procuraduria;

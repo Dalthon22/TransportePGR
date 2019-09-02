@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Procuraduria = require('./m_procuraduria');
+const Voucher_folo6_assign = require('./m_voucher_folo6_assign');
 
 const Folo6 = db.define('folo6', {
     request_unit: {
@@ -80,6 +82,14 @@ const Folo6 = db.define('folo6', {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     freezeTableName: true,
+});
+
+Folo6.belongsTo(Procuraduria, {
+    foreignKey: 'procuraduria_id'
+});
+
+Folo6.hasMany(Voucher_folo6_assign, {
+    foreignKey: 'folo6_id'
 });
 
 module.exports = Folo6;

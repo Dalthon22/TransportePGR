@@ -336,7 +336,6 @@ function showDimmer() {
         loaderText: "Agregando Vales...",
         closable: false,
     }).dimmer('show');
-
 }
 
 /* function disable_elements() {
