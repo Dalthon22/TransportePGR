@@ -42,7 +42,7 @@ Procuraduria.belongsTo(Address, {
 });
 //Para permitir tener un registro de los vales que son adjudicados a una procuraduria
 Procuraduria.belongsToMany(Voucher, {
-    through: "m_voucher_procu_assign",
+    through: "voucher_procu_assign",
     as: "voucher",
     foreignKey: "procuraduria_id"
 });

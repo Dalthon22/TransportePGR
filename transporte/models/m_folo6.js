@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Address = require('./m_address');
 
 const Folo6 = db.define('folo6', {
     request_unit: {
@@ -83,15 +82,4 @@ const Folo6 = db.define('folo6', {
     freezeTableName: true,
 });
 
-Folo6.belongsToMany(Address, {
-    through: "Places_container",
-    as: "address",
-    foreignKey: "folo6_id"
-});
-
-Folo6.belongsToMany(Frequent_Place, {
-    through: "Places_container",
-    as: "frequent_Place",
-    foreignKey: "folo6_id"
-});
 module.exports = Folo6;

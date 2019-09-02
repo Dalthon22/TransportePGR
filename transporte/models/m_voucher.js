@@ -62,10 +62,12 @@ const Voucher = db.define('voucher', {
     allowNull: true,
   },
   created_by: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: true,
   },
   updated_by: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: true,
   },
 }, {
   underscored: true,

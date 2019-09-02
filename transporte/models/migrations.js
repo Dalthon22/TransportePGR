@@ -27,6 +27,7 @@ class Migration {
         Folo6.sync();
         Employee.sync();
         Unit.sync();
+        Places_container.sync();
     }
 }
 
