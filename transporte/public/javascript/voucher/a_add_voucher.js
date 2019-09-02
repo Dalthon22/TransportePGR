@@ -99,10 +99,11 @@ $(function () {
         },
     });
 });
-
 //Control del Modal para agregar vales
 $(function () {
     $("#show_add_form_btn").click(function () {
+        //$('.segment').dimmer('set disabled');
+
         $('#add_modal').modal('show');
         $('.ui.form').form('reset');
         $('#add_modal')
@@ -116,6 +117,7 @@ $(function () {
                     return true;
                 },
                 onApprove: function () {
+                    animateAddButton();
                     //buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
                     ingresar_vales();
                     return false;
@@ -173,9 +175,9 @@ function ingresar_vales() {
         noAnimateAddButton()
     }
 }
+
 ///Verifica que los vales que se vayan a ingresar no hayan sido previamente registrados
 function buscar_vale(num1, num2) {
-    var err1, err2;
     const url_request_vale = 'vales/' + num1;
     console.log("Ajax buscará en: " + url_request_vale);
     const url_request_vale2 = 'vales/' + num2;
@@ -191,7 +193,6 @@ function buscar_vale(num1, num2) {
             console.log("DATA DEL GET NUM VALE 1" + data.type)
             if (data.type === 1) {
                 noAnimateAddButton();
-                //errorUnique1(false);
                 unique_num1 = false;
                 console.log("Error en el primero" + "Unique1");
                 //Muestra el mensaje de error en el primer vale
@@ -208,9 +209,6 @@ function buscar_vale(num1, num2) {
                 return false;
             } else {
                 unique_num1 = true;
-
-                //unique_num1 = true;
-                //errorUnique1(true);
                 console.log("Si ya te oi el primero esta limpio");
             }
         }
@@ -242,12 +240,12 @@ function buscar_vale(num1, num2) {
         }
     })
 }
-
+//Manda al controller los datos que seran almaceados en la BD
 function agregarVales() {
     $(this).serializeArray()
     $.ajax({
         type: "POST",
-        async: false,
+        async: true,
         url: '/vales/add',
         dataType: 'json',
         data: $(".ui.form").serializeArray(),
@@ -289,44 +287,33 @@ function agregarVales() {
     });
 }
 
+//Para poder animar los elementos cuando se envía un ingreso de vales
 function animateAddButton() {
     $('.approve.button').api('set loading');
-
-    /*     $('.ui.modal').api('set loading');
-     */
+    showDimmer();
 }
 
 function noAnimateAddButton() {
     {
         $('.approve.button')
             .api('remove loading');
-        /* $('.ui.modal')
-            .api('remove loading'); */
+        //$('.segment').dimmer('set disabled');
+        $('.segment').dimmer('hide');
+        //enable_elements();
     }
 }
 
-function errorUnique1(value) {
-    unique_num1 = value;
-    console.log("Me dicen que le pase: " + value + " a unique 1");
-    console.log("A unique1 le mando" + unique_num1);
-}
-
-function errorUnique2(value) {
-    unique_num2 = value;
-    console.log("Me dicen que le pase: " + value + " a unique 2");
-    console.log("A unique2 le mando" + unique_num2);
-}
-//Para poder enviar el formulario de agregar vales
-
-
 function successAddToast() {
+    $('.segment').dimmer('hide');
+    // $('.segment').dimmer('set disabled');
+
     $('body')
         .toast({
             //title: 'Error: número duplicado',
             showIcon: true,
             class: 'success',
             position: 'top right',
-            displayTime: 2000,
+            displayTime: 4000,
             closeIcon: true,
             message: 'Vales registrados con exito',
             /* className: {
@@ -340,3 +327,32 @@ function successAddToast() {
             }
         });
 }
+
+function showDimmer() {
+    // $('.segment').dimmer('set active');
+    $('.segment').dimmer({
+        displayLoader: true,
+        loaderVariation: 'slow blue medium elastic',
+        loaderText: "Agregando Vales...",
+        closable: false,
+    }).dimmer('show');
+
+}
+
+/* function disable_elements() {
+    $('#date_entry_bill').prop('disabled', true);
+    $('#last_voucher').prop('disabled', true);
+    $('#bill_num').prop('disabled', true);
+    $('#provider').prop('disabled', true);
+    $('#price').prop('disabled', true);
+    $('#first_voucher').prop('disabled', true);
+}
+
+function enable_elements() {
+    $('#date_entry_bill').prop('disabled', false);
+    $('#last_voucher').prop('disabled', false);
+    $('#bill_num').prop('disabled', false);
+    $('#provider').prop('disabled', false);
+    $('#price').prop('disabled', false);
+    $('#first_voucher').prop('disabled', false);
+} */

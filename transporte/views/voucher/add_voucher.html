@@ -15,11 +15,14 @@
                 class="plus icon"></i>Agregar vales</button>
     </div>
 </div>
-<div class="ui modal" id="add_modal">
+<div class="ui modal segment dimmable" id="add_modal">
     <div class="header">
         <h2 class="ui centered blue header">Ingreso de vales de combustible</h2>
     </div>
-    <div class="content">
+    <div class="content ">
+        <!-- <div class="ui disabled dimmer">
+                <div class="ui mini text loader">Agregando vales</div>
+            </div> -->
         <div class="ui container grid stackable">
             <div class="sixteen wide column">
                 <form class="ui form" id="add_voucher_form" method="POST" name="add_voucher">
@@ -67,7 +70,6 @@
                         </div>
                     </div>
                     <input type="hidden" name="voucher_cant" id="voucher_cant" value="">
-                    <div class="ui submit button" id="add_btn_hide" style="display: none;">Agregar oculto</div>
                     <div class="ui error message"></div>
                     <!--button class="ui primary submit green button" id="add_btn">Agregar</button> -->
                 </form>

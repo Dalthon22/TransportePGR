@@ -21,8 +21,6 @@ router.post('/vales/add',
         controller.createVoucher(req, res);
     });
 
-
-
 router.get('/vales/:num',
     (req, res) => {
         const num = req.params.num;

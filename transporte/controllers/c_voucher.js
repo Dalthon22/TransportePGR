@@ -22,9 +22,8 @@ class voucher_controllers {
         var num = parseInt(numVoucher);
         console.log("Numero de vale que se buscara: " + num);
         try {
-
             console.log("Voy a buscar")
-            let v = await models.Voucher.count({
+            let v = await Voucher.count({
                 where: {
                     num_voucher: num
                 }
