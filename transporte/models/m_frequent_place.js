@@ -14,7 +14,7 @@ const Frequent_Place = db.define('frequent_place', {
     },
     detail: {
         type: Sequelize.STRING(250),
-        allowNull: false,
+        /* allowNull: false, */
         validate: {
             notEmpty: true,
         }
