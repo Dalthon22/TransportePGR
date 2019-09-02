@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Address = require('./m_address');
 const Frequent_Place = require('./m_frequent_place');
-const Folo_06 = require('../models/m_folo6');
+const Folo_06 = require('./m_folo6');
 
 const Places_container = db.define('places_container', {
     date_of_visit: {
@@ -28,15 +28,15 @@ const Places_container = db.define('places_container', {
     freezeTableName: true,
 });
 
-Address.hasOne(Places_Container, {
-    foreignKey: 'address_id',
+Places_container.belongsTo(Address, {
+    foreignKey: 'address_id'
 });
-
-Frequent_Place.hasOne(Places_Container, {
+Places_container.belongsTo(Frequent_Place, {
     foreignKey: 'frequent_place_id'
 });
 
-Folo_06.hasOne(Places_Container, {
-    foreignKey: 'folo6_id'
+Places_container.belongsTo(Folo_06, {
+    foreignKey: 'folo06_id'
 });
+
 module.exports = Places_container;

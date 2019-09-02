@@ -4,7 +4,6 @@ const db = require('../dbconfig/conex');
 const Vehicles = require('./m_vehicle');
 const Address = require('./m_address');
 const Frequent_Place = require('./m_frequent_place');
-const Voucher = require('./m_voucher');
 
 const Procuraduria = db.define('procuraduria', {
     name: {
@@ -40,11 +39,6 @@ Procuraduria.hasMany(Vehicles, {
 Procuraduria.belongsTo(Address, {
     foreignKey: 'address_id'
 });
-//Para permitir tener un registro de los vales que son adjudicados a una procuraduria
-Procuraduria.belongsToMany(Voucher, {
-    through: "voucher_procu_assign",
-    as: "voucher",
-    foreignKey: "procuraduria_id"
-});
+
 
 module.exports = Procuraduria;

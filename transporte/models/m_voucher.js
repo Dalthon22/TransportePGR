@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Procuraduria = require('./m_procuraduria');
 
 const Voucher = db.define('voucher', {
   num_voucher: {
@@ -75,12 +74,6 @@ const Voucher = db.define('voucher', {
   createdAt: 'created_at',
   updatedAt: 'updated_at',
   freezeTableName: true,
-});
-
-Voucher.belongsToMany(Procuraduria, {
-  through: "Voucher_procu_assign",
-  as: "procuraduria",
-  foreignKey: "num_voucher"
 });
 
 module.exports = Voucher;
