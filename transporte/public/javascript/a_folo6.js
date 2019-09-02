@@ -118,6 +118,9 @@
          endCalendar: $('#time_calendar1'),
          onHide: function (date, text, mode) {
              $(".ui.form").form('validate field', 'time');
+         },
+         onchange: function (date, text, mode) {
+             console.log("Hora de salida: " + date + " Formato string" + text + " y mode:" + mode);
          }
      });
  $('#time_calendar1')
