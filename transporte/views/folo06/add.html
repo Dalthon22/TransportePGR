@@ -11,7 +11,7 @@
                 <label>Unidad solicitante: </label>
                 <label id="unidad_lb">Unidad ---</label>
             </div>
-            <div class="three wide field">
+            <div class="three wide required field">
                 <label for="calendar1">Fecha de salida: </label>
                 <div class="ui calendar" id="standard_calendar">
                     <div class="ui input left icon">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="three wide field">
+            <div class="three wide required field">
                 <label>Hora de salida: </label>
                 <!-- TIMER -->
                 <div class="ui calendar" id="time_calendar">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="three wide field">
+            <div class="three wide required field">
                 <label>Hora de retorno: </label>
                 <!-- TIMER -->
                 <div class="ui calendar" id="time_calendar1">
@@ -47,7 +47,7 @@
                         <input type="checkbox" name="driver_i" checked="checked" tabindex="0" class="hidden">
                         <label for="driver_i">Motorista</label>
                     </div>
-                    <div class="one wide field"></div>
+                    <div class="one wide required field"></div>
                     <label>Cantidad de pasajeros: </label>
                     <div class="two wide field">
                         <input type="number" name="passengers_i" min="0" value="0">
@@ -73,25 +73,52 @@
             </div>
             <!-- área de rutas -->
             <h4 class="ui blue dividing header">Lugar de destino</h4>
-            {% include '../address/add.html' %}
-            <div class="field">
+            <div class="two fields">
+                <div class="field">
+                    <div class="twelve wide field ">
+                        <div class="required field">
+                            <label>Departamento:</label>
+                            <select class="ui fluid dropdown" id="departamento" name="departamento">
+                                <option value="">--Seleccione un departamento--</option>
+                                {% for dep in Departamentos %}
+                                    {% if (dep.id == departamento) %}
+                                        <option value="{{ dep.id }}" selected>{{ dep.name }}</option>
+                                    {% else %}
+                                        <option value="{{ dep.id }}">{{ dep.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="twelve wide field">
+                        <div class="required field">
+                            <label>Municipio:</label>
+                            <select class="ui fluid dropdown" id="municipio" name="municipio">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <input id="idmun" type="hidden" value="{{municipio}}">
+                    </div>
+                </div>
+            </div>
+            <div class="required field">
+                <label>Lugar de destino:</label>
                 <select class="ui fluid dropdown" id="fplaces" name="fplaces">
-                    <option value="">Seleccione el lugar de destino</option>
-                    <option value="0">Otro</option>
-
                 </select>
                 <input id="idfplaces" type="hidden" value="{{fplaces}}">
             </div>
-            <div class="field">
-                <label>Lugar de destino</label>
+            <div class="required field">
+                <label>Nombre del destino:</label>
                 <input type="text" name="destiny_place_i" disabled="disabled">
             </div>
-            <div class="field">
-                <label>Detalle de dirección</label>
+            <div class="required field">
+                <label>Detalle de dirección:</label>
                 <textarea rows="3" name="direction_txt" disabled="disabled"
                             placeholder="Calle x, pasaje y, local...."></textarea>
             </div>
-            <button class="ui positive button">Agregar dirección</button>
+            <button class="ui positive button" id="addAddress" name="addAddress">Agregar dirección</button>
             <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
                 <thead>
                     <tr>
@@ -99,18 +126,16 @@
                         <th>Departamento</th>
                         <th>Municipio</th>
                     </thead>
-                    <tbody>
-
-                    </tbody>
+                    <tbody></tbody>
                 </table>
                 <h4 class="ui blue dividing header">Misión</h4>
-                <div class="field">
-                    <label>Misión o motivo del viaje</label>
+                <div class="required field">
+                    <label>Misión o motivo del viaje:</label>
                     <input type="text" name="mision_i" placeholder="Auditoria al área laboral..." maxlength="150"
                             id="mision_i_id">
                 </div>
-                <div class="field">
-                    <label>Observaciones (Opcional)</label>
+                <div class="required field">
+                    <label>Observaciones (Opcional):</label>
                     <input type="text" name="details_i"
                             placeholder="Llevaremos cajas pesadas, esperamos al motorista en la entrada del edificio central"
                             maxlength="150">
@@ -122,11 +147,12 @@
             </form>
         </section>
         <!--Validaciones-->
-{#         <script src="/javascript/a_folo6.js"></script>
-        <style>
+        <script src="/javascript/a_folo6.js"></script>
+        {#         <style>
             .ui.container {
                 overflow: visible;
             }
         </style> #}
+        <script src="/javascript/a_address.js"></script>
         <script src="/javascript/a_load_dropdown_fplaces.js"></script>
     {% endblock %}

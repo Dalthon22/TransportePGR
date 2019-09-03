@@ -24,8 +24,21 @@ function fillPlaces() {
                             value: place.id,
                             text: place.name,
                         }))
-                    }
+                    };
                 });
+                placesSelect.append($('<option/>', {
+                    value: 10000,
+                    text: "Otro",
+                }));
+            } else {
+                placesSelect.append($('<option/>', {
+                    value: null,
+                    text: "--Seleccione un lugar--",
+                }));            
+                placesSelect.append($('<option/>', {
+                    value: 10000,
+                    text: "Otro",
+                }));
             };
         });
     };

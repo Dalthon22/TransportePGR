@@ -135,6 +135,23 @@ $('#time_calendar1')
         }
     });
 
-/* $('#addressTable tbody').click(function() {
-    var selectedPlace = $('#')
-}) */
+    //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar Dirección"
+$('#addAddress').click(function() {
+    //Obtiene los valores de los combobox
+    var selectedPlace = $('#fplaces option:selected').text();
+    var selectedDepartamento = $('#departamento option:selected').text();
+    var selectedMunicipio = $('#municipio option:selected').text();
+    //Si alguno llega a ser nulo o está vacío, no lo introduce a la tabla
+    if(selectedPlace != null && selectedPlace != '' && selectedDepartamento != null && selectedDepartamento != '' && selectedMunicipio != null && selectedMunicipio != ''){
+        //Inserción de elementos a la tabla
+        $('#addressTable tbody').append("<tr>" +
+        "<td>" + selectedPlace + "</td>" +
+        "<td>" + selectedDepartamento + "</td>" +
+        "<td>" + selectedMunicipio + "</td>" +
+      "</tr>");
+      //Reinicia los combobox
+      $('#fplaces').val("");
+      $('#departamento').val("");
+      $('#municipio').val("");
+    };
+});
