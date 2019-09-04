@@ -56,7 +56,5 @@ const Employee = db.define('employee', {
 });
 
 Employee.hasMany(Folo6);
-Employee.belongsTo(Procuraduria, {
-    foreignKey: 'procuraduria_id'
-});
+
 module.exports = Employee;

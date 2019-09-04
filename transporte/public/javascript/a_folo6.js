@@ -1,3 +1,22 @@
+ /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+ var id_employee = 2;
+ var motorista;
+ var emp;
+ const url_request_employee = 'empleado/' + id_employee;
+
+ $.ajax({
+     url: url_request_employee,
+     async: false,
+     type: 'GET',
+     dataType: 'json',
+     success: (data) => {
+         console.log(typeof (data.emp));
+         emp = data.emp;
+         console.log(emp);
+     }
+ });
+
+ //VALIDACION DEL FORM
  $('.ui.form').form({
      //revalidate: true,
      inline: true,
@@ -62,7 +81,9 @@
  var today = new Date();
  var month_lb = today.getMonth() + 1;
  //Para setting de los labels
- $("#date_lb").text('' + today.getDate() + '/' + month_lb + '/' + today.getFullYear());
+ $("#date_lb").text(('0' + today.getDate()).slice(-2) + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear());
+ $("#name_lb").text(emp.first_name + ", " + emp.last_name);
+
  $("#unidad_lb").text('Unidad de familia');
  $('#standard_calendar').calendar({
      monthFirst: false,
@@ -71,20 +92,44 @@
      onHide: function () {
          $(".ui.form").form('validate field', 'calendar1');
      },
+     text: {
+         days: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+         months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+     },
      formatter: {
          date: function (date, settings) {
              if (!date) return '';
              var day = date.getDate();
              var month = date.getMonth() + 1;
              var year = date.getFullYear();
-             return day + '/' + month + '/' + year;
+             // return day + '/' + month + '/' + year;
+             return (('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year);
+         }
+     },
+     onSelect: function (date, mode) {
+         //Verifica que la fecha de salida sea con 3 días de anticipación a partir de la fecha actual(día en que estamos)
+         var days = date.getDate() - today.getDate();
+         var months = (date.getMonth() + 1) - (today.getMonth() + 1);
+         var years = date.getFullYear() - today.getFullYear();
+         //Controlará si la fecha de salida es menor a tres días del día en que se llena y mes-año actual
+         if (days < 3 && months === 0 && years === 0) {
+             console.log("Solicitó con: " + days + " días hábiles, Tendrá que manejar por su cuenta");
+             $('#driver_cb').checkbox('uncheck');
+             $('.ui.checkbox').checkbox('disable');
+             motorista = 0;
+         } else {
+             console.log("Solicitó con:" + days + " días hábiles, Puede solicitar motorista al área e logistica");
+             $('#driver_cb').checkbox('check');
+             $('.ui.checkbox').checkbox('enable');
+             motorista = 1;
          }
      }
- });
+ }).calendar('focus');
  /*--Checkbox motorista--*/
  $('.ui.checkbox').checkbox('enable');
  $('#driver_cb').checkbox({
      onChecked: function () {
+         motorista = 1;
          $('#n_driver_i').prop('disabled', true);
          $('#license_ls_id').prop('disabled', true);
          $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
@@ -94,6 +139,7 @@
          $('#n_driver_i').val('');
      },
      onUnchecked: function () {
+         motorista = 0;
          $('#n_driver_i').prop('disabled', false);
          $('#license_ls_id').prop('disabled', false);
          $('.ui.form').form('add rule', 'name_driver_i', {
@@ -137,3 +183,83 @@
              $(".ui.form").form('validate field', 'time1');
          }
      });
+ /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+
+ $('#save_print_btn').on('click', function () {
+     event.preventDefault();
+     if ($('.ui.form').form('is valid')) {
+         showDimmer();
+         guardarFolo6();
+     }
+ });
+
+ function showDimmer() {
+     $('body').dimmer({
+         displayLoader: true,
+         loaderVariation: 'slow blue medium elastic',
+         loaderText: "Ingresando solicitud...",
+         closable: false,
+     }).dimmer('show');
+ }
+
+ function guardarFolo6() {
+     //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
+     //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
+     var form = $(".ui.form").serializeArray().reduce(function (a, z) {
+         a[z.name] = z.value;
+         return a;
+     }, {});
+     //Valores del json que serán enviados en el ajax para guardar el folo6
+     var jsonReq = {
+         form: JSON.stringify(form),
+         emp: JSON.stringify(emp)
+     }
+     console.log("Enviará:" +
+         "form:" + JSON.stringify(form) +
+         " emp:" + JSON.stringify(emp));
+     console.log("Empaquetado" + typeof (jsonReq));
+
+     $.ajax({
+         type: "POST",
+         async: true,
+         url: '/solicitud_nueva/add',
+         dataType: 'json',
+         data: jsonReq,
+         success: (data) => {
+             console.log("data.type es:" + typeof (data.type) + " y trae: " + data);
+             /* console.log("data.type es:" + typeof (data.type) + " y trae: " + data.type);
+             if (data.type == 1) {
+                 //Si hay error
+                 console.log(data.message);
+                 console.log("Ocurrio un Error en el ingreso de los vales");
+                 $('#add_modal')
+                     .toast({
+                         title: data.title,
+                         showIcon: false,
+                         class: 'error',
+                         position: 'top right',
+                         displayTime: 0,
+                         closeIcon: true,
+                         message: data.message,
+                     });
+                 $('#add_modal')
+                     .toast({
+                         title: data.title,
+                         showIcon: false,
+                         class: 'error',
+                         position: 'top right',
+                         displayTime: 0,
+                         closeIcon: true,
+                         message: data.message1,
+                     });
+                 noAnimateAddButton();
+             } else {
+                 //Si se ingreso con exito
+                 console.log("Exito we");
+                 noAnimateAddButton();
+                 $('#add_modal').modal("hide");
+                 successAddToast();
+             } */
+         },
+     });
+ }

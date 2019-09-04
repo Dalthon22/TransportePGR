@@ -6,6 +6,7 @@ var logger = require('morgan');
 var nunjucks = require('nunjucks');
 const db = require('./dbconfig/conex.js');
 var app = express();
+var bodyParser = require('body-parser');
 
 
 
@@ -32,19 +33,22 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+//app.use(bodyParser());
+
 
 //archivos estaticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 //routes
-app.use(require('./routes/folo6'));
-app.use('/', require('./routes/voucher'));
+app.use(require('./routes/r_folo6'));
+app.use('/', require('./routes/r_voucher'));
 app.use(require('./routes/index'));
 app.use('/', require('./routes/r_frequent_places'));
 app.use('/direccion', require('./routes/r_address'));
 app.use('/instituciones', require('./routes/r_procuraduria'));
 app.use('/vehiculos', require('./routes/r_vehicle'));
+app.use('/', require('./routes/r_employee'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

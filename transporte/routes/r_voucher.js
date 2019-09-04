@@ -18,6 +18,7 @@ router.post('/vales/add',
      ], */
     (req, res) => {
         // Handle the request somehow
+        console.log(req.body);
         controller.createVoucher(req, res);
     });
 

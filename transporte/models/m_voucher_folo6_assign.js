@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Voucher = require('./m_voucher');
-const Procuraduria = require('./m_procuraduria');
 
 const Voucher_folo6_assign = db.define('voucher_folo6_assign', {
     date_voucher_f6: {

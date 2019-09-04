@@ -103,7 +103,6 @@ $(function () {
 $(function () {
     $("#show_add_form_btn").click(function () {
         //$('.segment').dimmer('set disabled');
-
         $('#add_modal').modal('show');
         $('.ui.form').form('reset');
         $('#add_modal')

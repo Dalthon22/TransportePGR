@@ -4,6 +4,8 @@ const db = require('../dbconfig/conex');
 const Vehicles = require('./m_vehicle');
 const Address = require('./m_address');
 const Frequent_Place = require('./m_frequent_place');
+const Employee = require('./m_employee');
+const Folo6 = require('./m_folo6');
 
 const Procuraduria = db.define('procuraduria', {
     name: {
@@ -40,5 +42,10 @@ Procuraduria.hasMany(Address, {
     as: 'address',
     foreignKey: 'procuraduria_id'
 });
+
+Procuraduria.hasMany(Folo6, {
+    foreignKey: 'procuraduria_id'
+});
+
 
 module.exports = Procuraduria;
