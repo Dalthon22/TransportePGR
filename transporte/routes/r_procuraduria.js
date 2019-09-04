@@ -25,12 +25,12 @@ router.post('/gestionar', [
     body('name', 'El nombre debe ser menor a 250 caracteres.').isLength({
         max: 250
     }),
-    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9 ]+$/i),
+    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9. ]+$/i),
     body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 250 caracteres.').isLength({
         max: 250
     }),
-    body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9 ]+$/i),
+    body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9. ]+$/i),
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
