@@ -3,12 +3,12 @@
 {% block views %}
   <section class="ui container" id="add" style="width: 750px; margin-left: 0px;">
     <br>
-    <form class="ui form" action="/instituciones" method="GET">
-      <button class="ui right labeled icon button" type="submit">
+    <a href="/instituciones">
+      <button class="ui right labeled primary icon button">
         <i class="left arrow icon"></i>
           Volver al listado
       </button>
-    </form>
+    </a>
     <br>
     {% if Procu %}
       <h1 class="ui header">Editar procuraduría</h1>
