@@ -7,8 +7,8 @@ const {
 
 /*GET List*/
 router.get('/', (req, res) => {
-    let data = rep.params.data;
-    controller.getList(req, res, data);
+    //const success = req.params.success;
+    controller.getList(req, res);
 });
 
 /*GET Create*/

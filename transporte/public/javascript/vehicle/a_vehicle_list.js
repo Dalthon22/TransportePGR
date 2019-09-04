@@ -4,7 +4,8 @@ $(function () {
         "scrollCollapse": true, */
     });
 
-    alert(_data);
+    let success = false;
+    alert(success);
 });
 
 
