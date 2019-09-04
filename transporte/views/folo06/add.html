@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% block views %}
     <section class="ui container">
-        <form class="ui form" id="folo6_form" method="POST">
+        <form class="ui form" id="folo6_form" method="POST" autocomplete="off">
             <h3 class="ui blue dividing header">Solicitud de transporte FOLO-6</h3>
             <div class="labels">
                 <label>Fecha de solicitud: </label>
@@ -109,20 +109,21 @@
                 </select>
                 <input id="idfplaces" type="hidden" value="{{fplaces}}">
             </div>
-            <div class="required field">
+            <div class="field">
                 <label>Nombre del destino:</label>
-                <input type="text" name="destiny_place_i" disabled="disabled">
+                <input type="text" id="destiny_place_i" name="destiny_place_i" disabled="disabled">
             </div>
-            <div class="required field">
+            <div class="field">
                 <label>Detalle de dirección:</label>
-                <textarea rows="3" name="direction_txt" disabled="disabled"
+                <textarea rows="3" id="direction_txt" name="direction_txt" disabled="disabled"
                             placeholder="Calle x, pasaje y, local...."></textarea>
             </div>
             <button class="ui positive button" id="addAddress" name="addAddress">Agregar dirección</button>
             <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
                 <thead>
                     <tr>
-                        <th>Destino</th>
+                        <th>Nombre del destino</th>
+                        <th>Detalle de la dirección</th>
                         <th>Departamento</th>
                         <th>Municipio</th>
                     </thead>

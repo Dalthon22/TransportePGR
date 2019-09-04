@@ -135,23 +135,49 @@ $('#time_calendar1')
         }
     });
 
-    //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar Dirección"
+    //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
 $('#addAddress').click(function() {
     //Obtiene los valores de los combobox
     var selectedPlace = $('#fplaces option:selected').text();
     var selectedDepartamento = $('#departamento option:selected').text();
     var selectedMunicipio = $('#municipio option:selected').text();
-    //Si alguno llega a ser nulo o está vacío, no lo introduce a la tabla
-    if(selectedPlace != null && selectedPlace != '' && selectedDepartamento != null && selectedDepartamento != '' && selectedMunicipio != null && selectedMunicipio != ''){
+    var destinyPlace = $('#destiny_place_i').val();
+    var direction = $('#direction_txt').val();
+    //Si el usuario elige la opción "Otro" del combobox de lugares frecuentes
+    if(selectedPlace=="Otro"){
         //Inserción de elementos a la tabla
         $('#addressTable tbody').append("<tr>" +
-        "<td>" + selectedPlace + "</td>" +
+        "<td>" + destinyPlace + "</td>" +
+        "<td>" + direction + "</td>" +
         "<td>" + selectedDepartamento + "</td>" +
         "<td>" + selectedMunicipio + "</td>" +
       "</tr>");
-      //Reinicia los combobox
-      $('#fplaces').val("");
-      $('#departamento').val("");
-      $('#municipio').val("");
+        //Reinicia los combobox
+        $('#fplaces').val("");
+        $('#departamento').val("");
+        $('#municipio').val("");
+        $('#destiny_place_i').val("");
+        $('#direction_txt').val("");
+    } else { //Si el usuario selecciona un lugar frecuente
+        //Inserción de elementos a la tabla
+        $('#addressTable tbody').append("<tr>" +
+        "<td>" + selectedPlace + "</td>" +
+        "<td></td>" +
+        "<td>" + selectedDepartamento + "</td>" +
+        "<td>" + selectedMunicipio + "</td>" +
+      "</tr>");
+        //Reinicia los combobox
+        $('#fplaces').val("");
+        $('#departamento').val("");
+        $('#municipio').val("");
+    };
+});
+
+/*Función que habilita los campos "Nombre del destino" y "Detalle de dirección"
+si el usuario seleccionó la opción "Otro" del combobox de lugares frecuentes.*/
+$('#fplaces').change(function(){
+    if($('#fplaces').val() == 10000){
+        $('#destiny_place_i').prop('disabled', false);
+        $('#direction_txt').prop('disabled', false);
     };
 });
