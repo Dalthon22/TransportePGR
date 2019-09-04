@@ -102,6 +102,7 @@ class frequent_place_controller {
             let departamento = place.department_id;
             let edit = true;
             let Departamentos = await department_controller.getList();
+            console.log(name);
             return res.render('../views/frequent_places/add.html', {
                 name,
                 detail,
@@ -125,10 +126,9 @@ class frequent_place_controller {
                 detail,
                 departamento,
                 municipio,
+                true_name,
                 fplace_id
             } = req.body;
-            console.log(errors.array());
-            console.log(fplace_id);
             if (!errors.isEmpty()) {
                 let Departamentos = await department_controller.getList();
                 res.render('../views/frequent_places/add.html', {
@@ -142,22 +142,31 @@ class frequent_place_controller {
                 });
             } else {
                 try {
-                    frequent_place.update({
+                    await frequent_place.update({
                         name: name,
                         detail: detail,
                         city_id: municipio,
-                        department_id: departamento,
-                        updated_at: new Date()
+                        department_id: departamento
                     }, {
                         where: {
                             id: fplace_id
                         }
                     });
-                    res.redirect('../lugares_frecuentes')
+                    this.getList(req, res);
                 } catch (error) {
                     console.log(error);
-                    erros = 'Error con la base de Datos'
-                    this.getUpdate(req, res);
+                    error = 'El nombre ingresado ya existe.';
+                    let Departamentos = await department_controller.getList();
+                    name = true_name;
+                    res.render('../views/frequent_places/add.html', {
+                        name,
+                        detail,
+                        departamento,
+                        Departamentos,
+                        municipio,
+                        fplace_id,
+                        error
+                    });
                 }
 
             }

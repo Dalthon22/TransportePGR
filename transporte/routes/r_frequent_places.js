@@ -30,7 +30,6 @@ router.post('/lugares_frecuentes/add', [
     body('name', 'Ingrese el nombre de la dirección.').not().isEmpty(),
 
     /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
-    body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 150 caracteres.').isLength({
         max: 200
     }),
