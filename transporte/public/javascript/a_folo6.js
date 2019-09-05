@@ -186,13 +186,14 @@
  /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
 
  $('#save_print_btn').on('click', function () {
-     event.preventDefault();
      if ($('.ui.form').form('is valid')) {
+         event.preventDefault();
+
          showDimmer();
          guardarFolo6();
      }
  });
-
+ //Animación patanlla negra y muestra el loader: "guardando..."
  function showDimmer() {
      $('body').dimmer({
          displayLoader: true,
@@ -203,6 +204,7 @@
  }
 
  function guardarFolo6() {
+
      //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
      //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
      var form = $(".ui.form").serializeArray().reduce(function (a, z) {
@@ -212,13 +214,13 @@
      //Valores del json que serán enviados en el ajax para guardar el folo6
      var jsonReq = {
          form: JSON.stringify(form),
-         emp: JSON.stringify(emp)
+         emp: JSON.stringify(emp),
+         motorista: JSON.stringify(motorista)
      }
      console.log("Enviará:" +
          "form:" + JSON.stringify(form) +
          " emp:" + JSON.stringify(emp));
      console.log("Empaquetado" + typeof (jsonReq));
-
      $.ajax({
          type: "POST",
          async: true,
@@ -227,11 +229,11 @@
          data: jsonReq,
          success: (data) => {
              console.log("data.type es:" + typeof (data.type) + " y trae: " + data);
-             /* console.log("data.type es:" + typeof (data.type) + " y trae: " + data.type);
+             console.log("data.type es:" + typeof (data.type) + " y trae: " + data.type);
              if (data.type == 1) {
                  //Si hay error
                  console.log(data.message);
-                 console.log("Ocurrio un Error en el ingreso de los vales");
+                 console.log("Ocurrio un Error mientras se guardaban los datos");
                  $('#add_modal')
                      .toast({
                          title: data.title,
@@ -242,24 +244,47 @@
                          closeIcon: true,
                          message: data.message,
                      });
-                 $('#add_modal')
-                     .toast({
-                         title: data.title,
-                         showIcon: false,
-                         class: 'error',
-                         position: 'top right',
-                         displayTime: 0,
-                         closeIcon: true,
-                         message: data.message1,
-                     });
-                 noAnimateAddButton();
+                 hideDimmer();
              } else {
                  //Si se ingreso con exito
-                 console.log("Exito we");
-                 noAnimateAddButton();
-                 $('#add_modal').modal("hide");
-                 successAddToast();
-             } */
+                 successAddToast(data.message);
+                 setTimeout(window.location.href = data.redirect, 30000);
+             }
          },
-     });
+     }).done();
+ }
+ //Para poder animar los elementos cuando se envía un ingreso de vales
+
+ function hideDimmer() {
+     {
+         //$('.segment').dimmer('set disabled');
+         $('body').dimmer('hide');
+         //enable_elements();
+     }
+ }
+
+ function successAddToast(message) {
+     hideDimmer();
+     $('body').dimmer({
+         displayLoader: true,
+         loaderVariation: 'slow green medium elastic',
+         loaderText: "Redireccionando...",
+         closable: false,
+     }).dimmer('create').dimmer('set active').dimmer('show').dimmer('set page dimmer');
+     $('body')
+         .toast({
+             showIcon: true,
+             class: 'success',
+             showProgress: true,
+             position: 'top right',
+             displayTime: 25000,
+             closeIcon: true,
+             message: message,
+             transition: {
+                 showMethod: 'zoom',
+                 showDuration: 100,
+                 hideMethod: 'fade',
+                 hideDuration: 500
+             }
+         });
  }

@@ -15,8 +15,8 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err))
 
-/* //Migracion de tablas
-var Migrate = require('./models/migrations');
+//Migracion de tablas
+/* var Migrate = require('./models/migrations');
 var migration = new Migrate(); */
 
 // view engine setup

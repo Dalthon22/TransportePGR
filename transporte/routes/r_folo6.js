@@ -14,8 +14,5 @@ router.post('/solicitud_nueva/add', (req, res) => {
     } catch (err) {
         console.log(err);
     }
-    res.send({
-        message: "hola"
-    });
 });
 module.exports = router;

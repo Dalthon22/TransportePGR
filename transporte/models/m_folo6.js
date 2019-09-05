@@ -62,10 +62,7 @@ const Folo6 = db.define('folo6', {
     },
     observation: {
         type: Sequelize.STRING(150),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
+        allowNull: true,
     },
     created_by: {
         type: Sequelize.INTEGER,
