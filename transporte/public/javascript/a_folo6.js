@@ -1,7 +1,7 @@
  /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
  var id_employee = 6;
  var motorista;
- var emp;
+ var emp, unit;
  const url_request_employee = 'empleado/' + id_employee;
 
  $.ajax({
@@ -12,7 +12,9 @@
      success: (data) => {
          console.log(typeof (data.emp));
          emp = data.emp;
+         unit = data.unit
          console.log(emp);
+         console.log(unit);
      }
  });
 
@@ -84,7 +86,7 @@
  $("#date_lb").text(('0' + today.getDate()).slice(-2) + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear());
  $("#name_lb").text(emp.first_name + ", " + emp.last_name);
 
- $("#unidad_lb").text('Unidad de familia');
+ $("#unidad_lb").text(unit.name_unit);
  $('#standard_calendar').calendar({
      monthFirst: false,
      type: 'date',
