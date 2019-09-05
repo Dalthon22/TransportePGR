@@ -1,5 +1,5 @@
  /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
- var id_employee = 2;
+ var id_employee = 6;
  var motorista;
  var emp;
  const url_request_employee = 'empleado/' + id_employee;

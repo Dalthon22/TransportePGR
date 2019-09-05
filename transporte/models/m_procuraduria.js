@@ -2,10 +2,11 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 //const Routes = require('./m_route');
 const Vehicles = require('./m_vehicle');
-const Address = require('./m_address');
-const Frequent_Place = require('./m_frequent_place');
 const Employee = require('./m_employee');
 const Folo6 = require('./m_folo6');
+const Address = require('./m_address');
+const Frequent_Place = require('./m_frequent_place');
+Voucher_procu_assign = require('./m_voucher_procu_assign');
 
 const Procuraduria = db.define('procuraduria', {
     name: {
@@ -38,14 +39,18 @@ Procuraduria.hasMany(Frequent_Place, {
 Procuraduria.hasMany(Vehicles, {
     foreignKey: 'procuraduria_id'
 });
-Procuraduria.hasMany(Address, {
-    as: 'address',
+Procuraduria.belongsTo(Address, {
+    foreignKey: 'address_id'
+});
+Procuraduria.hasMany(Employee, {
     foreignKey: 'procuraduria_id'
 });
-
 Procuraduria.hasMany(Folo6, {
     foreignKey: 'procuraduria_id'
 });
 
+Procuraduria.hasMany(Voucher_procu_assign, {
+    foreignKey: 'procuraduria_id'
+});
 
 module.exports = Procuraduria;

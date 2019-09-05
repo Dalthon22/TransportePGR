@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Place_container = require('./m_places_container');
 const Voucher_folo6_assign = require('./m_voucher_folo6_assign');
 
 const Folo6 = db.define('folo6', {
@@ -80,6 +81,12 @@ const Folo6 = db.define('folo6', {
     freezeTableName: true,
 });
 
-Folo6.hasMany(Voucher_folo6_assign);
+Folo6.hasMany(Place_container, {
+    foreignKey: 'folo_id'
+});
+
+Folo6.hasMany(Voucher_folo6_assign, {
+    foreignKey: 'folo6_id'
+});
 
 module.exports = Folo6;

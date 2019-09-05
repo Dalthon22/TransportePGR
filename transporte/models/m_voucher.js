@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+Voucher_folo6_assign = require('./m_voucher_folo6_assign');
+Voucher_procu_assign = require('./m_voucher_procu_assign');
 
 const Voucher = db.define('voucher', {
   num_voucher: {
@@ -20,6 +22,7 @@ const Voucher = db.define('voucher', {
   condition: {
     type: Sequelize.STRING,
     allowNull: false,
+    defaultValue: 'disponible',
     validate: {
       notEmpty: true,
     }
@@ -74,6 +77,14 @@ const Voucher = db.define('voucher', {
   createdAt: 'created_at',
   updatedAt: 'updated_at',
   freezeTableName: true,
+});
+
+Voucher.hasMany(Voucher_folo6_assign, {
+  foreignKey: 'num_voucher'
+});
+
+Voucher.hasMany(Voucher_procu_assign, {
+  foreignKey: 'num_voucher'
 });
 
 module.exports = Voucher;

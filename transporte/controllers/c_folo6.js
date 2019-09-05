@@ -105,7 +105,8 @@ class voucher_controllers {
                         license_type: null,
                         mission: form.mision_i,
                         observation: form.details_i,
-                        employee_id: emp.id
+                        employee_id: emp.id,
+                        // procuraduria_id: emp.procuraduria_id
                     });
                 } else {
                     console.log("Estoy en el else del create");
@@ -121,7 +122,8 @@ class voucher_controllers {
                         license_type: form.license_ls_id,
                         mission: form.mision_i,
                         observation: form.details_i,
-                        employee_id: emp.id
+                        employee_id: emp.id,
+                        //procuraduria_id: emp.procuraduria_id
                     });
                 }
 

@@ -55,6 +55,11 @@ const Employee = db.define('employee', {
     freezeTableName: true,
 });
 
-Employee.hasMany(Folo6);
+Employee.hasMany(Folo6, {
+    foreignKey: 'employee_id'
+});
 
+Employee.belongsTo(Employee, {
+    foreignKey: 'id_boss'
+});
 module.exports = Employee;

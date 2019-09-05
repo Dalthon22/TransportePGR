@@ -35,8 +35,8 @@ Places_container.belongsTo(Frequent_Place, {
     foreignKey: 'frequent_place_id'
 });
 
-Places_container.belongsTo(Folo_06, {
+/* Places_container.belongsTo(Folo_06, {
     foreignKey: 'folo6_id'
-});
+}); */
 
 module.exports = Places_container;
