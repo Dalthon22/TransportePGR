@@ -1,8 +1,10 @@
 var title, message, clss, query1;
+var current_plate;
 
 $(function () {
     /* $('#vehiculos_table').DataTable({}); */
 
+    //Verifica si el registro fue guardado con exito
     title = getParameterByName('title');
     message = getParameterByName('message');
     clss = getParameterByName('class');
@@ -14,6 +16,15 @@ $(function () {
     if (title && message && clss) {
         successAddToast(title, clss, message);
     }
+
+    $(".edit.yellow.icon").click(function () {
+        var index = $(this).closest("tr")[0].rowIndex;
+        var tr = $('#vehiculos_table').find("tr").eq(index);
+        current_plate = tr.find("td").eq(1).text();
+        console.log(tr);
+        alert('You click plate: ' + current_plate + " and the id is: " + index);
+    });
+
 });
 
 /* function getParameterByName(name, url) {
@@ -36,6 +47,8 @@ function getParameterByName(name) {
     else
         return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+//Editar vehiculo
 
 
 function successAddToast(_title, _class, _message) {
