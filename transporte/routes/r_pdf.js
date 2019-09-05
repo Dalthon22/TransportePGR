@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const pdfPrinter = require('pdfmake/src/printer');
+const pdfPrinter = require('pdfmake/src/printer'); //Copiar esto
 
 router.get('/', (req, res) => {
+  //Copiar desde aquí
   try {
     const fonts = {
       Roboto: {
@@ -13,6 +14,7 @@ router.get('/', (req, res) => {
       }
     };
     const printer = new pdfPrinter(fonts);
+    const texto = "Texto de prueba."
     var docDefinition = {
       pageSize: 'LETTER',
       content: [
@@ -32,14 +34,15 @@ router.get('/', (req, res) => {
         {
           text: '\n\nFOLO-06', alignment: 'right', bold: true, italics: true
         },
-        {
-          text: 'Fecha de solicitud:\n',
+        {//Aquí ponés la fecha que recuperaste del req.body
+          text: 'Fecha de solicitud:', //text: 'Fecha de solicitud:' + variable,
         },
-        {
-          text: '\nFecha de salida:                              Hora de salida:                           Hora de regreso:        ',
+        { //Aquí sería "Fecha de salida:"+ variable +                             "Hora de salida:" + otraVariable
+        //respetando los espacios que hay
+          text: '\nFecha de salida:                               Hora de salida:                           Hora de regreso:        ',
           preserveLeadingSpaces: true
         },
-        {
+        {//Y así sucesivamente para todos los demás. Más abajo podés ver un ejemplo en uso
           text: '\nMotorista:                                        Cantidad de pasajeros:',
           preserveLeadingSpaces: true
         },
@@ -52,7 +55,7 @@ router.get('/', (req, res) => {
         {
           text: '\nMisión: '
         },
-        {
+        { //Este es el ejemplo
           text: '\nObservación: '+ texto
         },
         {
@@ -113,7 +116,7 @@ router.get('/', (req, res) => {
     doc.end();
   } catch (err) {
     console.log(err)
-  }
+  } //Hasta aquí
 });
 
 module.exports = router;

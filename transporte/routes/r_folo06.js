@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/c_folo06');
-const {
+/* const {
     body
-} = require('express-validator');
+} = require('express-validator'); */
 
 //get folo06 list
 router.get('/', (req, res) => {
@@ -14,5 +14,9 @@ router.get('/', (req, res) => {
 router.get('/add', (req, res) => {
     controller.getDepartmentList(req, res);
 });
+
+router.post('/add', (req, res) => {
+    controller.createFolo6(req, res);
+})
 
 module.exports = router;

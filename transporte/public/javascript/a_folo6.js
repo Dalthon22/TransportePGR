@@ -181,3 +181,26 @@ $('#fplaces').change(function(){
         $('#direction_txt').prop('disabled', false);
     };
 });
+
+$('#save_print_btn').click(function(){
+    event.preventDefault();
+    var dirs = document.getElementById('addressTable');
+    for(var i=0, row; row=table.rows[i]; i++){
+        for (var j=0, col; col = row.cells[j]; j++){
+            dirs.rows[row].cells[col].innerHTML;
+        }
+    }
+/*     var dirs = [];
+    $('#addressTable tr').each(function () {
+        $(this).find('td').each(function () {
+            dirs = $(this);
+        });
+    }); */
+    console.log(dirs);
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: "/add",
+        data: dirs,
+    });
+});
