@@ -10,6 +10,9 @@ const {
 router.get('/vales', (req, res) => {
     res.render('./voucher/add_voucher.html');
 });
+router.get('/vales/list', (req, res) => {
+    controller.getList(req, res);
+});
 
 router.post('/vales/add',
     /*  [

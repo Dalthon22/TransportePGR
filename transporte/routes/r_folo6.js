@@ -15,4 +15,8 @@ router.post('/solicitud_nueva/add', (req, res) => {
         console.log(err);
     }
 });
+router.get('/folos', (req, res) => {
+    controller.getList(req, res);
+
+});
 module.exports = router;

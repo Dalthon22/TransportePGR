@@ -9,7 +9,14 @@ const {
     check,
     validationResult
 } = require('../middleware/expresse-validator');
-
+/*  < td > num_voucher < /td> <
+     td > price < /td> <
+     td > condition < /td> <
+     td > voucher_provider < /td> <
+     td > num_entry_bill < /td> <
+     td > date_entry_bill < /td> <
+     td > num_close_bill < /td> <
+     td > date_close_bill < /td> */
 
 class voucher_controllers {
     constructor() {
@@ -55,6 +62,21 @@ class voucher_controllers {
         let voucher = await Car.findByPk(num_voucher);
         return voucher;
     }
+
+    async getList(req, res) {
+        try {
+            var data = await Voucher.findAll({
+                attributes: ['num_voucher', 'price', 'condition', 'voucher_provider', 'num_entry_bill', 'date_entry_bill', 'num_close_bill', 'date_close_bill'],
+            });
+            res.send({
+                data: data
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
 
     async createVoucher(req, res) {
         var primer, ultimo;

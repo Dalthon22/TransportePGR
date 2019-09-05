@@ -12,10 +12,23 @@ const {
 } = require('../middleware/expresse-validator');
 
 
-class voucher_controllers {
+class folo6_controllers {
     constructor() {
         //var migrate = new Migration();
     }
+    async getList(req, res) {
+        try {
+            var data = await Folo6.findAll({
+                attributes: ['off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver'],
+            });
+            console.dir(data)
+            res.send({
+                data: data
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     /*  async ifExist(numVoucher, req, res) {
         console.log("Desde router recibi este numero de vale: " + numVoucher);
@@ -151,4 +164,4 @@ class voucher_controllers {
     }
 };
 
-module.exports = new voucher_controllers();
+module.exports = new folo6_controllers();

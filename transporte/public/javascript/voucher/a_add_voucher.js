@@ -1,5 +1,6 @@
 //Var para verificar que el formulario esta listo para guardar
-var unique_num1, unique_num2;
+var unique_num1, unique_num2, data, tab;
+
 //HABILITA EL INPUT DEL ULTIMO VALE 
 $("#first_voucher").change(function () {
     if ($("#first_voucher").val() != "") {
@@ -10,6 +11,47 @@ $("#first_voucher").change(function () {
     }
 });
 
+//Serializa la tabla
+$(document).ready(function () {
+    fillTable();
+});
+
+//llenar tabla
+function fillTable() {
+    //Llenar el data table
+    tab = $('#mytable').DataTable({
+        "scrollY": "500px",
+        "scrollCollapse": true,
+        ajax: {
+            url: '/vales/list',
+            type: 'GET',
+        },
+        "columns": [{
+                "data": "num_voucher"
+            },
+            {
+                "data": "price"
+            },
+            {
+                "data": "condition"
+            },
+            {
+                "data": "voucher_provider"
+            },
+            {
+                "data": "num_entry_bill"
+            },
+            {
+                "data": "date_entry_bill"
+            },
+            {
+                "data": "num_close_bill"
+            }, {
+                "data": "date_close_bill"
+            }
+        ]
+    });
+}
 //REVALIDA EL CAMPO DEL ULTIMO VALE
 document.getElementById("add_btn")
     .addEventListener("click", function () {
@@ -281,6 +323,8 @@ function agregarVales() {
                 noAnimateAddButton();
                 $('#add_modal').modal("hide");
                 successAddToast();
+                tab.ajax.reload();
+
             }
         },
     });
