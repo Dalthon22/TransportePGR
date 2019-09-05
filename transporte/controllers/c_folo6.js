@@ -94,7 +94,7 @@ class voucher_controllers {
                 if (motorista) {
                     console.log("Estoy en el true del create");
 
-                    await Folo6.create({
+                    let f = await Folo6.create({
                         request_unit: emp.unit_id,
                         off_date: date,
                         off_hour: t,
@@ -108,10 +108,12 @@ class voucher_controllers {
                         employee_id: emp.id,
                         // procuraduria_id: emp.procuraduria_id
                     });
+                    console.dir("Folo creado" + f);
+
                 } else {
                     console.log("Estoy en el else del create");
 
-                    await Folo6.create({
+                    let f = await Folo6.create({
                         request_unit: emp.unit_id,
                         off_date: date,
                         off_hour: t,
@@ -125,6 +127,7 @@ class voucher_controllers {
                         employee_id: emp.id,
                         //procuraduria_id: emp.procuraduria_id
                     });
+                    console.dir("Folo creado" + f);
                 }
 
                 //Departamento
