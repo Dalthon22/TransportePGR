@@ -1,5 +1,6 @@
 const Vehicle = require('../models/m_vehicle');
 const Sequelize = require('sequelize');
+const querystring = require('querystring');
 const {
     validationResult
 } = require('express-validator');
@@ -83,10 +84,10 @@ class Vehicle_controller {
                 order: Sequelize.literal('plate ASC')
             });
             console.log(vehicles);
-            let success = true;
+            var query = querystring.parse(req.originalUrl);
+            console.log(query);
             return res.render('../views/vehicle/list.html', {
                 vehicles,
-                success
             });
         } catch (Error) {
             console.log(Error)
@@ -126,13 +127,17 @@ class Vehicle_controller {
                     seats,
                     created_at
                 });
-                let successData = {
+                //const query = querystring.
+                /* res.render('./vehicle/list.html',{
+
+                }); */
+                const query = querystring.stringify({
                     title: "Guardado exitoso",
-                    message: "Vehículo registrado",
+                    message: "Vehiculo registrado",
                     class: "success"
-                };
+                });
                 res.send({
-                    redirect: "/vehiculos",
+                    redirect: "/vehiculos?&" + query,
                     status: 200
                 });
             } else {

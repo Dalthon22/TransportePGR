@@ -7,7 +7,6 @@ const {
 
 /*GET List*/
 router.get('/', (req, res) => {
-    //const success = req.params.success;
     controller.getList(req, res);
 });
 

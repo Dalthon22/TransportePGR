@@ -119,14 +119,13 @@ function insert_vehicle() {
 function create_vehicle() {
     $.ajax({
         url: "/vehiculos/gestionar",
-        async: false,
+        async: true,
         type: 'POST',
         dataType: 'json',
         data: $('.ui.form').serializeArray(),
         success: (data) => {
             if (data.redirect) {
-                alert(data.redirect + true);
-                window.location.href = data.redirect + true;
+                window.location.href = data.redirect;
             } else {
                 AddToast(data.title, 'error', data.message);
             }
