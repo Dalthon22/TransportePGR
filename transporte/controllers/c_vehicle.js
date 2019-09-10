@@ -84,20 +84,31 @@ class Vehicle_controller {
                 order: Sequelize.literal('plate ASC')
             });
             console.log(vehicles);
+            var test = {
+                t: "this is a test",
+                list: vehicles
+            };
             var query = querystring.parse(req.originalUrl);
             console.log(query);
             return res.render('../views/vehicle/list.html', {
-                vehicles,
+                vehicles
             });
         } catch (Error) {
             console.log(Error)
         }
     }
 
-    getCreate(req, res) {
+    async getCreate(req, res) {
         const states = this.getStateList();
+        var plate = querystring.parse(req.originalUrl);
+        var vehicle;
+        if (plate) {
+            vehicle = await this.findByPlate(plate);
+        }
+        console.log(plate);
         return res.render('../views/vehicle/create.html', {
-            states
+            states,
+            vehicle
         })
     }
 

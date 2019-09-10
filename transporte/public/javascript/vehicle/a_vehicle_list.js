@@ -23,7 +23,13 @@ $(function () {
         current_plate = tr.find("td").eq(1).text();
         console.log(tr);
         alert('You click plate: ' + current_plate + " and the id is: " + index);
+
+        location.href = encodeURI('vehiculos/gestionar?' + "matricula=" + current_plate);
     });
+
+
+
+
 
 });
 
