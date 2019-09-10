@@ -14,7 +14,7 @@ $(function () {
     console.log(clss);
 
     if (title && message && clss) {
-        successAddToast(title, clss, message);
+        addToast(title, clss, message);
     }
 
     $(".edit.yellow.icon").click(function () {
@@ -22,14 +22,11 @@ $(function () {
         var tr = $('#vehiculos_table').find("tr").eq(index);
         current_plate = tr.find("td").eq(1).text();
         console.log(tr);
-        alert('You click plate: ' + current_plate + " and the id is: " + index);
-
-        location.href = encodeURI('vehiculos/gestionar?' + "matricula=" + current_plate);
+        //alert('You click plate: ' + current_plate + " and the id is: " + index);
+        url_list = encodeURI('vehiculos/gestionar?' + "matricula=" + current_plate);
+        console.log(url_list);
+        location.href = url_list;
     });
-
-
-
-
 
 });
 
@@ -57,7 +54,7 @@ function getParameterByName(name) {
 //Editar vehiculo
 
 
-function successAddToast(_title, _class, _message) {
+function addToast(_title, _class, _message) {
     $('body')
         .toast({
             title: _title,

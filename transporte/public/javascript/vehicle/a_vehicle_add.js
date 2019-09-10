@@ -109,6 +109,8 @@ function insert_vehicle() {
                     create_vehicle();
                 } else {
                     AddToast('Error con la Matricula', 'warning', data.message);
+                    $('#add_btn').addClass('disabled');
+
                 }
             }
         });
@@ -131,25 +133,6 @@ function create_vehicle() {
             }
         }
     });
-}
-
-function successAddToast() {
-    $('body')
-        .toast({
-            title: 'Guarado exitoso',
-            showIcon: true,
-            class: 'success',
-            position: 'top right',
-            displayTime: 3000,
-            closeIcon: true,
-            message: 'Vehículo registrado',
-            transition: {
-                showMethod: 'zoom',
-                showDuration: 100,
-                hideMethod: 'fade',
-                hideDuration: 500
-            }
-        });
 }
 
 function AddToast(_title, _class, _message) {

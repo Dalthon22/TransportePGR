@@ -4,7 +4,11 @@
 
 <div class="ui container">
     <form class="ui form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/gestionar" method="POST">
+        {% if vehicle %}
+        <h1 class="ui dividing header left aligned blue">Editar Vehículo</h1>
+        {% else %}
         <h1 class="ui dividing header left aligned blue">Agregar Vehículo</h1>
+        {% endif %}
         <div class="two fields">
             <div class="required  field">
                 <label for="brand">Marca</label>
@@ -59,6 +63,7 @@
             </div>
         </a>
         <div class="ui positive button" id="add_btn">Guardar</div>
+        <div class="ui yellow hiden hidden button" id="validate_plate">Validar matrícula</div>
         <!-- <button id="add_btn" class="ui positive submit enter button" type="submit">Guardar</button> -->
     </form>
     <!--     {% if plate_error %}

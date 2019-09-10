@@ -1,6 +1,7 @@
 const Vehicle = require('../models/m_vehicle');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
+const url = require('url');
 const {
     validationResult
 } = require('express-validator');
@@ -84,12 +85,6 @@ class Vehicle_controller {
                 order: Sequelize.literal('plate ASC')
             });
             console.log(vehicles);
-            var test = {
-                t: "this is a test",
-                list: vehicles
-            };
-            var query = querystring.parse(req.originalUrl);
-            console.log(query);
             return res.render('../views/vehicle/list.html', {
                 vehicles
             });
@@ -99,17 +94,21 @@ class Vehicle_controller {
     }
 
     async getCreate(req, res) {
-        const states = this.getStateList();
-        var plate = querystring.parse(req.originalUrl);
-        var vehicle;
-        if (plate) {
-            vehicle = await this.findByPlate(plate);
+        try {
+            const states = this.getStateList();
+            var plate = req.query.matricula;
+            var vehicle;
+            console.log(plate);
+            if (plate) {
+                vehicle = await this.findByPlate(plate);
+            }
+            return res.render('../views/vehicle/create.html', {
+                states,
+                vehicle
+            })
+        } catch (error) {
+            console.log("Error en getCreate" + error)
         }
-        console.log(plate);
-        return res.render('../views/vehicle/create.html', {
-            states,
-            vehicle
-        })
     }
 
     async create(req, res) {

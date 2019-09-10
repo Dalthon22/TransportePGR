@@ -30,9 +30,10 @@ router.post('/gestionar',
         .not().isEmpty().withMessage('Debe ingresar la cantidad de asientos')
     ], (req, res) => {
         console.log(req.body);
-        let vehicle_id = req.body;
+        let vehicle_id = req.body.vehicle_id;
+        console.log(vehicle_id);
         if (vehicle_id) {
-            controller.create(req, res);
+            controller.update(req, res);
         } else {
             controller.create(req, res);
         }
