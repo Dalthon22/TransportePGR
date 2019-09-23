@@ -119,6 +119,9 @@
                             placeholder="Calle x, pasaje y, local...."></textarea>
             </div>
             <button class="ui positive button" id="addAddress" name="addAddress">Agregar dirección</button>
+            <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
+                <option value=""></option>
+            </select>
             <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
                 <thead>
                     <tr>
@@ -135,7 +138,7 @@
                     <input type="text" name="mision_i" placeholder="Auditoria al área laboral..." maxlength="150"
                             id="mision_i_id">
                 </div>
-                <div class="required field">
+                <div class="field">
                     <label>Observaciones (Opcional):</label>
                     <input type="text" name="details_i"
                             placeholder="Llevaremos cajas pesadas, esperamos al motorista en la entrada del edificio central"

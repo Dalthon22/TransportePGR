@@ -135,7 +135,42 @@ $('#time_calendar1')
         }
     });
 
-    //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
+$('#createdAddress').hide();
+
+//Función que guarda las direcciones que se van ingresando a la tabla.
+$('#addAddress').click(function () {
+    //Este código será usado para mostrar la tabla en el pdf del folo-06.
+        /*event.preventDefault();
+        var dirs = document.getElementById('addressTable');
+        var t;
+        for(var i=1; i < dirs.rows.length; i++){
+            for (var j=2; j < dirs.rows[i].cells.length; j++){
+                t=dirs.rows[i].cells[j].innerHTML;
+                console.log(t);
+            };
+        }; */
+    var idSelDepto = $('#departamento').val();
+    var idSelMun = $('#municipio').val();
+    var selectedPlace = $('#fplaces').val();
+    var destinyPlace = $('#destiny_place_i').val();  //Obtengo todos los valores
+    var direction = $('#direction_txt').val();
+    var selectedPlaceTxt = $('#fplaces option:selected').text();
+    var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
+    $.post('/direccion/add', { //Hago la petición post
+        idSelDepto, idSelMun, selectedPlace, destinyPlace, direction, selectedPlaceTxt
+    }, //Agrego al dropdown el id de la dirección creada
+        function (dir) {
+            if (dir != null && !jQuery.isEmptyObject(dir)) {
+                dirCreadas.append($('<option/>', {
+                    value: dir.id,
+                    text: dir.id
+                }));
+            };
+        });
+    console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+});
+
+//Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
 $('#addAddress').click(function() {
     //Obtiene los valores de los combobox
     var selectedPlace = $('#fplaces option:selected').text();
@@ -182,25 +217,3 @@ $('#fplaces').change(function(){
     };
 });
 
-$('#save_print_btn').click(function(){
-    event.preventDefault();
-    var dirs = document.getElementById('addressTable');
-    for(var i=0, row; row=table.rows[i]; i++){
-        for (var j=0, col; col = row.cells[j]; j++){
-            dirs.rows[row].cells[col].innerHTML;
-        }
-    }
-/*     var dirs = [];
-    $('#addressTable tr').each(function () {
-        $(this).find('td').each(function () {
-            dirs = $(this);
-        });
-    }); */
-    console.log(dirs);
-    $.ajax({
-        type: "POST",
-        async: true,
-        url: "/add",
-        data: dirs,
-    });
-});

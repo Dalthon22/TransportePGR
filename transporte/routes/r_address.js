@@ -10,9 +10,9 @@ router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 
-// Show add form and Get Departamentos list
-router.get('/add', (req, res) => {
-    controller.getDepartmentList(req, res);
+//Crea dirección en la base de datos.
+router.post('/add', (req, res) => {
+    controller.createAddress(req, res);
 });
 
 //Gets Municipios depending on the selected Departamento
