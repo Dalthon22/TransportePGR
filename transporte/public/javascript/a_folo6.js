@@ -134,8 +134,9 @@ $('#time_calendar1')
             $(".ui.form").form('validate field', 'time1');
         }
     });
-
+//Esconde los dropdown.
 $('#createdAddress').hide();
+$('#selectedFPlace').hide();
 
 //Función que guarda las direcciones que se van ingresando a la tabla.
 $('#addAddress').click(function () {
@@ -156,6 +157,7 @@ $('#addAddress').click(function () {
     var direction = $('#direction_txt').val();
     var selectedPlaceTxt = $('#fplaces option:selected').text();
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
+    var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     $.post('/direccion/add', { //Hago la petición post
         idSelDepto, idSelMun, selectedPlace, destinyPlace, direction, selectedPlaceTxt
     }, //Agrego al dropdown el id de la dirección creada
@@ -167,7 +169,12 @@ $('#addAddress').click(function () {
                 }));
             };
         });
+    selectedFPlace.append($('<option/>', {
+        value: selectedPlace,
+        text: selectedPlaceTxt,
+    })); //Agrego el lugar frecuente seleccionado al dropdown
     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+    console.log(selectedFPlace);
 });
 
 //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
