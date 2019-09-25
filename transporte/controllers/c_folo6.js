@@ -2,7 +2,7 @@ const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
 const Folo6 = require('../models/m_folo6');
 var moment = require('moment');
-
+moment.locale("Es-SV")
 /* const Migration = require('../models/migrations');
  */
 const {
@@ -18,10 +18,23 @@ class folo6_controllers {
     }
     async getList(req, res) {
         try {
-            var data = await Folo6.findAll({
-                attributes: ['off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver'],
+            var d = await Folo6.findAll({
+                attributes: ['off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver']
             });
-            console.dir(data)
+            console.log(d);
+            var data = [];
+            d.forEach((row, i) => {
+                var el = new Object();
+                el.off_date = moment.utc(row.off_date).format("DD MMMM YYYY");
+                el.off_hour = moment.utc(row.off_hour).format("h:mm A");
+                el.return_hour = moment.utc(row.return_hour).format("h:mm A");
+                el.passengers_number = row.passengers_number;
+                el.with_driver = row.with_driver;
+                el.buttons = '<div class="ui buttons"><form action="/lugares_frecuentes/edit" method="GET"><input type="hidden" id="fplace_id" name="fplace_id" value={{fplace.id}}> <button class="ui icon button" data-content="Editar Lugar Frecuente"><i class="black edit icon"></i></button></form><button type="submit" class="ui icon button" id="btnDeleteFplace" data-content="Editar Lugar Frecuente" onclick=""> <i class="black window close icon"></i></button></div>';
+                data.push(el);
+            });
+            // console.dir(data);
+
             res.send({
                 data: data
             });

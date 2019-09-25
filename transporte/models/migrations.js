@@ -12,9 +12,11 @@ const Folo6 = require('./m_folo6');
 const Employee = require('./m_employee');
 const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
+const Car = require('./car');
 
 class Migration {
     constructor() {
+        Car.sync();
         Department.sync();
         City.sync();
         Address.sync({

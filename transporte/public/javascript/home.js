@@ -29,11 +29,11 @@ function fillTable() {
             },
             {
                 "data": "with_driver"
-            },
-            {
-                "data": "actions"
-
+            }, {
+                "data": "buttons"
             }
         ]
     });
+
+
 }
