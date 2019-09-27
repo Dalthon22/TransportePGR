@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+{% block views %}
+<section class="ui segment" id="Address">
+    <h1 id="title" class="ui header">Aprobacion de Requerimientos.</h1>
+    <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Fecha Salida:</th>
+                <th>Solicitante:</th>
+                <th>Pasajeros:</th>
+                <th>Mision:</th>
+                <th>Opciones:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
+            {% for folo in folos %}
+            <tr>
+                <td>{{ folo.off_date }}</td>
+                <td>{{ folo.employee.first_name }} {{ folo.employee.last_name }}</td>
+                <td>{{ folo.passengers_number }}</td>
+                <td>{{ folo.mission }}</td>
+                <td>
+                    <div class="ui buttons">
+
+                        <button type="submit" class="ui icon button" data-content="Aprobar Requerimiento">
+                            <i class="check circle outline icon"></i>
+                        </button>
+                        <button type="submit" class="ui icon button" data-content="Mostrar Requerimiento">
+                            <i class="file alternate outline icon"></i>
+                        </button>
+                        <button type="submit" class="ui icon button" data-content="Denegar Requerimiento">
+                            <i class="black window close icon"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <p>No hay Requerimientos que Aprobar.</p>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+<script src="/javascript/a_approve_panel.js"></script>
+{% endblock %}

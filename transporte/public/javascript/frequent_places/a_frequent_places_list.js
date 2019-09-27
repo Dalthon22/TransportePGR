@@ -8,11 +8,21 @@ var table = $('#example').DataTable();
 
 $('#container').css('display', 'block');
 
-function showDeleteModal() {
-    var fplace_id = $(this).data('fplace_id');
-    $("#deleteModal").modal('show');
-    $("#deleteModal").modal({
-        closable: true
+
+function fillDeleteButtons() {
+    $(".button.btnDeleteFplace").click(function (e) {
+        var idchange = $(e.currentTarget).closest('td.btnDelete').find("input[name='fplace_id']").val();
+        console.log(idchange);
+        $('#deleteModal').modal('show');
+        $('.ui.form').form('reset');
+        document.getElementById("fplace_id_dmodal").value = idchange;
     });
-    $('#fplace_id_dmodal').val(fplace_id);
 };
+
+$(function () {
+    fillDeleteButtons();
+});
+
+/* $('#mytable').on("DOMSubtreeModified", function () {
+    fillDeleteButtons();
+}); */

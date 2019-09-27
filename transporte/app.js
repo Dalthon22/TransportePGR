@@ -43,6 +43,7 @@ app.use('/', require('./routes/r_frequent_places'));
 app.use('/direccion', require('./routes/r_address'));
 app.use('/instituciones', require('./routes/r_procuraduria'));
 app.use('/vehiculos', require('./routes/r_vehicle'));
+app.use('/', require('./routes/r_approve_panel'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
