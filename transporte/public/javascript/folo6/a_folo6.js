@@ -211,6 +211,7 @@
      //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
      var form = $(".ui.form").serializeArray().reduce(function (a, z) {
          a[z.name] = z.value;
+         console.log(a);
          return a;
      }, {});
      //Valores del json que serán enviados en el ajax para guardar el folo6
@@ -235,8 +236,7 @@
              if (data.type == 1) {
                  //Si hay error
                  console.log(data.message);
-                 console.log("Ocurrio un Error mientras se guardaban los datos");
-                 $('#add_modal')
+                 $('body')
                      .toast({
                          title: data.title,
                          showIcon: false,
