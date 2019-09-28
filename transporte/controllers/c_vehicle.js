@@ -1,3 +1,8 @@
+/*
+21062019_DD
+Controlador del modelo Vehicle
+*/
+
 const Vehicle = require('../models/m_vehicle');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');

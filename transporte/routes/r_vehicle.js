@@ -10,7 +10,13 @@ router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 
-/*GET Create*/
+/*GET Create
+Descripcion: Obtiene la pagina que lista los vehiculos
+Parametros: 
+    req: Objecto de tipo request
+    res: Objecto de tipo response
+20062019_DD
+*/
 router.get('/gestionar', (req, res) => {
     controller.getCreate(req, res);
 });
