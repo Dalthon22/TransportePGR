@@ -78,7 +78,41 @@ class folo6_controllers {
             console.log(error);
         }
     };
+    async foloToString(req, res) {
+        try {
+            var folo = await Folo6.findAll({
+                where: {
+                    id: req.params.id
+                },
+                attributes: ['id', 'off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver', 'person_who_drive', 'license_type', 'mission', 'observation', 'created_at', 'employee_id']
+            });
+            console.dir(folo);
+            var el = new Object();
+            folo.forEach((folo, i) => {
+                el.id = folo.id;
+                el.off_date = moment.utc(folo.off_date).format("DD/MM/YYYY");
+                el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
+                el.return_hour = moment.utc(folo.return_hour).format("h:mm A");
+                el.passengers_number = folo.passengers_number;
+                el.with_driver = folo.with_driver ? 1 : 0;
+                el.person_who_drive = folo.person_who_drive;
+                el.license_type = folo.license_type;
+                el.mission = folo.mission;
+                el.observation = folo.observation;
+                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
+                el.employee_id = folo.employee_id;
+            });
 
+            console.log(el);
+            // console.dir(data);
+            res.send({
+                folo: el
+            });
+            //return folo;
+        } catch (error) {
+            console.log(error);
+        }
+    };
     async createFolo6(req, res) {
         var form, emp, date, motorista;
         motorista = JSON.parse(req.body.motorista);
@@ -264,7 +298,28 @@ class folo6_controllers {
             //throw new Error(" Ocurre ingresando los vales en la BD " + err);
         }
     }
+    async deleteFolo(req, res) {
+        try {
+            var folo = await Folo6.destroy({
+                where: {
+                    id: req.params.id
+                },
+            });
+            res.send({
+                    type: 0,
+                    title: "Datos eliminados con éxito",
+                    message: "Folo" + req.params.id + " eliminado con exito",
+                }
 
-};
+            );
+        } catch (err) {
+            res.send({
+                title: "Error al eliminar los datos",
+                message: "Ocurrio un error mientras se eliminaban los datos, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
+                type: 1
+            });
+        }
+    }
+}
 
 module.exports = new folo6_controllers();
