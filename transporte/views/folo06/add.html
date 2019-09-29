@@ -44,20 +44,20 @@
             <div class="field">
                 <div class="fields">
                     <div class="ui toggle checkbox" id="driver_cb">
-                        <input type="checkbox" name="driver_i" checked="checked" tabindex="0" class="hidden">
+                        <input type="checkbox" id="driver_i" name="driver_i" checked="checked" tabindex="0" class="hidden">
                         <label for="driver_i">Motorista</label>
                     </div>
                     <div class="one wide required field"></div>
                     <label>Cantidad de pasajeros: </label>
                     <div class="two wide field">
-                        <input type="number" name="passengers_i" min="0" value="0">
+                        <input type="number" id="passengers_i" name="passengers_i" min="0" value="0">
                     </div>
                 </div>
             </div>
             <div class="fields">
                 <div class="eight wide field" id="name_driver_f">
                     <label for="name_driver_i">Nombre:</label>
-                    <input type="text" placeholder="Perona que va a coducir" name="name_driver_i"
+                    <input type="text" placeholder="Persona que va a coducir" name="n_driver_i"
                                 id="n_driver_i" disabled="true" maxlength="100">
                 </div>
                 <div class="field" id="type_license_f">
@@ -143,12 +143,12 @@
                 </div>
                 <div class="field">
                     <label>Observaciones (Opcional):</label>
-                    <input type="text" name="details_i"
+                    <input type="text" name="details_i" id="details_i"
                             placeholder="Llevaremos cajas pesadas, esperamos al motorista en la entrada del edificio central"
                             maxlength="150">
                 </div>
                 <div class="ui error message"></div>
-                <button class="ui right aligned primary green button" type="submit" id="save_print_btn">Guardar e
+                <button class="ui right aligned positive button" type="submit" id="save_print_btn" name="save_print_btn">Guardar e
                         imprimir</button>
                 <br>
             </form>

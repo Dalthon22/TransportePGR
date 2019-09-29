@@ -17,6 +17,10 @@ router.get('/add', (req, res) => {
 
 router.post('/add', (req, res) => {
     controller.createFolo6(req, res);
-})
+});
+
+router.post('/createPDF', (req, res) => {
+    controller.createPDF(req, res);
+});
 
 module.exports = router;

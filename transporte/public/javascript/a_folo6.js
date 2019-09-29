@@ -96,7 +96,7 @@ $('#driver_cb').checkbox({
     onUnchecked: function () {
         $('#n_driver_i').prop('disabled', false);
         $('#license_ls_id').prop('disabled', false);
-        $('.ui.form').form('add rule', 'name_driver_i', {
+        $('.ui.form').form('add rule', 'n_driver_i', {
             rules: [{
                 type: 'empty',
                 prompt: 'Ingrese el nombre de la persona que conducirá'
@@ -145,7 +145,7 @@ $('#addAddress').click(function () {
         var dirs = document.getElementById('addressTable');
         var t;
         for(var i=1; i < dirs.rows.length; i++){
-            for (var j=2; j < dirs.rows[i].cells.length; j++){
+            for (var j=0; j < dirs.rows[i].cells.length; j++){
                 t=dirs.rows[i].cells[j].innerHTML;
                 console.log(t);
             };
@@ -222,5 +222,66 @@ $('#fplaces').change(function(){
         $('#destiny_place_i').prop('disabled', false);
         $('#direction_txt').prop('disabled', false);
     };
+});
+
+$('#save_print_btn').click(function () {
+    event.preventDefault();
+    fechaSolicitud = $('#date_lb').text();
+    unidadSolicitante = $('#unidad_lb').text();
+    fechaSalida = $('#calendar1_id').val();
+    horaSalida = $('#time').val();
+    horaRetorno = $('#time1').val();
+    var motorista; //1 = no ; 0 = sí
+     if($('#driver_i').is(":checked")){
+         motorista = 0;
+     } else {
+         motorista = 1;
+     }
+    cantidadPasajeros = $('#passengers_i').val();  
+    personaConducir = $('#n_driver_i').val();
+    tipoLicencia = $('#license_ls_id option:selected').text();
+    tablaDirecciones = document.getElementById('addressTable');
+    mision = $('#mision_i_id').val();
+    observaciones = $('#details_i').val();
+    var c1, c2, c3, c4, direccion, longitud;
+    var direcciones = [];
+    longitud = tablaDirecciones.rows.length;
+    if(tablaDirecciones.rows.length == 2){
+        c1=tablaDirecciones.rows[1].cells[0].innerHTML;
+        c2=tablaDirecciones.rows[1].cells[1].innerHTML;
+        c3=tablaDirecciones.rows[1].cells[2].innerHTML;
+        c4=tablaDirecciones.rows[1].cells[3].innerHTML;
+        direccion = c1 + ', ' + c2 + ', ' + c3 + ',' + c4;
+    } else {
+        direccion = "Ver listado de direcciones en página anexo.";
+    };
+    for(var i=1; i < longitud; i++){
+        c1=tablaDirecciones.rows[i].cells[0].innerHTML;
+        c2=tablaDirecciones.rows[i].cells[1].innerHTML;
+        c3=tablaDirecciones.rows[i].cells[2].innerHTML;
+        c4=tablaDirecciones.rows[i].cells[3].innerHTML;
+        direcciones.push("\n"+i+" - "+c1 + ', ' + c2 + ', ' + c3 + ',' + c4+".");
+    };
+    console.log(tablaDirecciones.rows.length)
+    console.log(direccion);
+    direcciones = direcciones.toString();
+    $.post('/solicitud/createPDF', {
+        fechaSolicitud, 
+        unidadSolicitante, 
+        fechaSalida, 
+        horaSalida, 
+        horaRetorno, 
+        motorista, 
+        cantidadPasajeros,
+        personaConducir,
+        tipoLicencia,
+        direccion,
+        direcciones,
+        mision,
+        observaciones,
+    },
+    function (result) {
+       window.open(result);
+    });
 });
 
