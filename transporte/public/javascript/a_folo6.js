@@ -51,7 +51,7 @@ $("#license_ls_id").change(function () {
     $(".ui.form").form('validate field', 'license_ls');
 });
 $("#n_driver_i").change(function () {
-    $(".ui.form").form('validate field', 'name_driver_i');
+    $(".ui.form").form('validate field', 'n_driver_i');
 });
 //
 //valida input de misión
@@ -224,8 +224,10 @@ $('#fplaces').change(function(){
     };
 });
 
+//Función para crear el PDF del Folo-06.
 $('#save_print_btn').click(function () {
     event.preventDefault();
+    //Recolección de datos.
     fechaSolicitud = $('#date_lb').text();
     unidadSolicitante = $('#unidad_lb').text();
     fechaSalida = $('#calendar1_id').val();
@@ -243,29 +245,35 @@ $('#save_print_btn').click(function () {
     tablaDirecciones = document.getElementById('addressTable');
     mision = $('#mision_i_id').val();
     observaciones = $('#details_i').val();
-    var c1, c2, c3, c4, direccion, longitud;
+    var c1, c2, c3, c4, direccion, b;
     var direcciones = [];
-    longitud = tablaDirecciones.rows.length;
+    /*La propiedad 'length' en JS comienza en 1.
+    La primera fila es el encabezado, a partir de la segunda van direcciones.
+    Si solo hay una dirección, se asigna a la variable 'dirección'.
+    Si hay más se asignan al array 'direcciones'. */
     if(tablaDirecciones.rows.length == 2){
-        c1=tablaDirecciones.rows[1].cells[0].innerHTML;
-        c2=tablaDirecciones.rows[1].cells[1].innerHTML;
-        c3=tablaDirecciones.rows[1].cells[2].innerHTML;
-        c4=tablaDirecciones.rows[1].cells[3].innerHTML;
-        direccion = c1 + ', ' + c2 + ', ' + c3 + ',' + c4;
+        //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
+        //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
+        c1 = tablaDirecciones.rows[1].cells[0].innerHTML;
+        c2 = tablaDirecciones.rows[1].cells[1].innerHTML;
+        c3 = tablaDirecciones.rows[1].cells[2].innerHTML;
+        c4 = tablaDirecciones.rows[1].cells[3].innerHTML;
+        direccion = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".";
+        b = 0; //No crea listado de direcciones
     } else {
         direccion = "Ver listado de direcciones en página anexo.";
+        b = 1; //Crea listado de direcciones
     };
-    for(var i=1; i < longitud; i++){
-        c1=tablaDirecciones.rows[i].cells[0].innerHTML;
-        c2=tablaDirecciones.rows[i].cells[1].innerHTML;
-        c3=tablaDirecciones.rows[i].cells[2].innerHTML;
-        c4=tablaDirecciones.rows[i].cells[3].innerHTML;
-        direcciones.push("\n"+i+" - "+c1 + ', ' + c2 + ', ' + c3 + ',' + c4+".");
+    for(var i=1; i < tablaDirecciones.rows.length; i++){
+        c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
+        c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
+        c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
+        c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
+        direcciones.push("\n"+i+" - "+c1 + ', ' + c2 + ', ' + c3 + ',' + c4 + ".");
     };
-    console.log(tablaDirecciones.rows.length)
-    console.log(direccion);
+    //Convierto el array en un string.
     direcciones = direcciones.toString();
-    $.post('/solicitud/createPDF', {
+    $.post('/solicitud/createPDF', { //Petición ajax post.
         fechaSolicitud, 
         unidadSolicitante, 
         fechaSalida, 
@@ -279,9 +287,14 @@ $('#save_print_btn').click(function () {
         direcciones,
         mision,
         observaciones,
+        b
     },
+    //Abre el pdf en una nueva ventana.
     function (result) {
        window.open(result);
     });
+    /* Solo funciona en Mozilla Firefox, en Google Chrome se abre una pestaña en blanco.
+    En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
+    Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
 });
 
