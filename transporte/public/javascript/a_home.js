@@ -10,9 +10,10 @@ $(document).ready(function () {
 
 //llenar tabla
 function fillTable() {
-    //Llenar el data table
+    //Llenar el data table con los datos de todos los folos correspondientes al usuario
     tab = $('#mytable').DataTable({
         "scrollCollapse": false,
+        //Este AJAX hace referencia al controller, c_folo6.js método getList(req, res)
         ajax: {
             url: '/folos',
             type: 'GET',
@@ -33,6 +34,7 @@ function fillTable() {
                 "data": "with_driver"
             }, {
                 "data": "buttons",
+                //Indicarle que lo que se renderizará son los iconos que trae data del controlador 
                 "render": function (data, type, row, meta) {
                     return data;
                 }

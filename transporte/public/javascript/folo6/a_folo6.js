@@ -104,7 +104,7 @@
              var day = date.getDate();
              var month = date.getMonth() + 1;
              var year = date.getFullYear();
-             // return day + '/' + month + '/' + year;
+             // return day + '/' + month + '/' + year; DD/MM/YYYY
              return (('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year);
          }
      },
@@ -113,6 +113,7 @@
          var days = date.getDate() - today.getDate();
          var months = (date.getMonth() + 1) - (today.getMonth() + 1);
          var years = date.getFullYear() - today.getFullYear();
+
          //Controlará si la fecha de salida es menor a tres días del día en que se llena y mes-año actual
          if (days < 3 && months === 0 && years === 0) {
              console.log("Solicitó con: " + days + " días hábiles, Tendrá que manejar por su cuenta");
