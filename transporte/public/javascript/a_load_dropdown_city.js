@@ -4,7 +4,7 @@ function fillMunicipio() {
     var municipiosSelect = $('#municipio');
     municipiosSelect.empty();
     if (selectedDepartamento != null && selectedDepartamento != '') {
-        $.getJSON('http://localhost:3000/direccion/getMunicipios', {
+        $.getJSON('/direccion/getMunicipios', {
             selectedDepartamento
         }, function (municipios) {
             if (municipios != null && !jQuery.isEmptyObject(municipios)) {

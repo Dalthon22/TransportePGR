@@ -4,7 +4,7 @@ function fillPlaces() {
     var placesSelect = $('#fplaces');
     placesSelect.empty();
     if (selectedMunicipio != null && selectedMunicipio != '') {
-        $.getJSON('http://localhost:3000/lugares_frecuentes/getPlaces', {
+        $.getJSON('/lugares_frecuentes/getPlaces', {
             selectedMunicipio
         }, function (places) {
             if (places != null && !jQuery.isEmptyObject(places)) {

@@ -35,7 +35,7 @@ $('.ui.form').form({
                 }
             ]
         },
-        mision_i: {
+        mision_i_id: {
             identifier: 'mision_i',
             rules: [{
                 type: 'empty',
@@ -56,7 +56,7 @@ $("#n_driver_i").change(function () {
 //
 //valida input de misión
 $("#mision_i_id").keyup(function () {
-    $(".ui.form").form('validate field', 'mision_i');
+    $(".ui.form").form('validate field', 'mision_i_id');
 });
 /*--Formato y setting de fecha--*/
 var today = new Date();
@@ -140,16 +140,7 @@ $('#selectedFPlace').hide();
 
 //Función que guarda las direcciones que se van ingresando a la tabla.
 $('#addAddress').click(function () {
-    //Este código será usado para mostrar la tabla en el pdf del folo-06.
-        /*event.preventDefault();
-        var dirs = document.getElementById('addressTable');
-        var t;
-        for(var i=1; i < dirs.rows.length; i++){
-            for (var j=0; j < dirs.rows[i].cells.length; j++){
-                t=dirs.rows[i].cells[j].innerHTML;
-                console.log(t);
-            };
-        }; */
+    event.preventDefault();
     var idSelDepto = $('#departamento').val();
     var idSelMun = $('#municipio').val();
     var selectedPlace = $('#fplaces').val();
