@@ -28,7 +28,7 @@
                 <label for="engine">Motor</label>
                 <input id="engine" name="engine" type="text" placeholder="64EKT931230" value="{{ vehicle.engine }}">
             </div>
-            <div class="required field">
+            <div id="fPlate" class="required field">
                 <label for="plate">Matrícula</label>
                 <input id="vplate" name="plate" type="text" placeholder="AA236963" value="{{ vehicle.plate }}">
             </div>
@@ -63,10 +63,10 @@
             </div>
         </a>
         <div class="ui positive button" id="add_btn">Guardar</div>
-        <div class="ui yellow hiden hidden button" id="validate_plate">Validar matrícula</div>
+        <div class="ui right floated yellow hiden hidden button" id="validate_plate">Validar matrícula</div>
         <!-- <button id="add_btn" class="ui positive submit enter button" type="submit">Guardar</button> -->
     </form>
-    <!--     {% if plate_error %}
+    {% if plate_error %}
     <div class="ui warning message" style="width:30em">
         <div class="header">
             Advertencia
@@ -74,7 +74,7 @@
         <i class="close icon"></i>
         <li> {{ plate_error}} </li>
     </div>
-    {% endif %} -->
+    {% endif %}
     {% if errors %}
     <div class="ui error message" style="width:30em">
         <i class="close icon"></i>

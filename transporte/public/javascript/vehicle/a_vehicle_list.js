@@ -14,7 +14,7 @@ $(function () {
     console.log(clss);
 
     if (title && message && clss) {
-        addToast(title, clss, message);
+        AddToast(title, clss, message);
     }
 
     $(".edit.yellow.icon").click(function () {
@@ -30,16 +30,10 @@ $(function () {
 
 });
 
-/* function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-} */
-
+/*
+Obtienes los parametro del querystring por nombre
+25092019_DD 
+*/
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regexS = "[\\?&]" + name + "=([^&#]*)";
@@ -51,10 +45,11 @@ function getParameterByName(name) {
         return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-//Editar vehiculo
-
-
-function addToast(_title, _class, _message) {
+/*
+Funcion que muestra un mensaje a lado superior derecho
+27092019_DD 
+*/
+function AddToast(_title, _class, _message) {
     $('body')
         .toast({
             title: _title,
@@ -72,3 +67,34 @@ function addToast(_title, _class, _message) {
             }
         });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Funciones recicladas 
+
+//Obtiene los parametros del url dado
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+*/

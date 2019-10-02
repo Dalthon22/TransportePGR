@@ -18,6 +18,7 @@ class Vehicle_controller {
 
     }
 
+    //Metodo que inicializa el los estados de los vehiculos
     getStateList() {
         let states_map = new Map();
         states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
@@ -65,11 +66,13 @@ class Vehicle_controller {
     }
 
     //Valida la existencia de un vehiculo por su placa y envia una respuesta
+    //Parametro: _plate (matircula)
     async existsResponse(_plate, req, res) {
         try {
             if (!await this.existByPlate(_plate)) {
                 res.send({
                     type: 0,
+                    message: "El número de matrícula: " + _plate + " es valido"
                 });
             } else {
                 console.log('Error. Ya existe la placa: ' + _plate);
@@ -98,6 +101,8 @@ class Vehicle_controller {
         }
     }
 
+    //Renderiza el formulario de ingreso de vehiculo
+    //Para editar o ingresar un nuevo vehiculo
     async getCreate(req, res) {
         try {
             const states = this.getStateList();
@@ -116,6 +121,8 @@ class Vehicle_controller {
         }
     }
 
+    //Metodo que inserta el nuevo vehiculo. Post gestionar
+    //Recibe los parametros request y response, respectivamente
     async create(req, res) {
         try {
             const errors = validationResult(req);
@@ -130,7 +137,7 @@ class Vehicle_controller {
                 seats,
             } = req.body;
             let vehicle = req.body;
-            if (errors.isEmpty()) {
+            if (errors.isEmpty() && !await this.existByPlate(plate)) {
                 const created_at = new Date();
                 await Vehicle.create({
                     brand,
@@ -142,10 +149,6 @@ class Vehicle_controller {
                     seats,
                     created_at
                 });
-                //const query = querystring.
-                /* res.render('./vehicle/list.html',{
-
-                }); */
                 const query = querystring.stringify({
                     title: "Guardado exitoso",
                     message: "Vehiculo registrado",
@@ -159,7 +162,8 @@ class Vehicle_controller {
                 res.render('../views/vehicle/create.html', {
                     errors: errors.array(),
                     states,
-                    vehicle
+                    vehicle,
+                    plate_error: "El número de placa ya ha sido vinculada a otro vehículo"
                 })
             }
         } catch (error) {
@@ -172,22 +176,63 @@ class Vehicle_controller {
         }
     }
 
-    update(id, ...seats) {
-        const updated_at = new Date();
-        return Vehicle.update({
-            brand,
-            chassis,
-            state,
-            model,
-            engine,
-            plate,
-            seats,
-            updated_at
-        }, {
-            where: {
-                id: id
+    //Metodo que actualiza el nuevo vehiculo. Post gestionar
+    //Recibe los parametros request y response, respectivamente
+    async update(req, res) {
+        try {
+            const errors = validationResult(req);
+            const states = this.getStateList();
+            let {
+                brand,
+                chassis,
+                model,
+                engine,
+                plate,
+                state,
+                seats,
+                vehicle_id,
+            } = req.body;
+            let vehicle = req.body;
+            if (errors.isEmpty()) {
+                const updated_at = new Date();
+                await Vehicle.update({
+                    brand,
+                    chassis,
+                    model,
+                    engine,
+                    plate,
+                    state,
+                    seats,
+                    updated_at
+                }, {
+                    where: {
+                        id: vehicle_id
+                    }
+                });
+                const query = querystring.stringify({
+                    title: "Guardado exitoso",
+                    message: "Vehiculo actualizado",
+                    class: "success"
+                });
+                res.send({
+                    redirect: "/vehiculos?&" + query,
+                    status: 200
+                });
+            } else {
+                res.render('../views/vehicle/create.html', {
+                    errors: errors.array(),
+                    states,
+                    vehicle,
+                })
             }
-        })
+        } catch (error) {
+            console.log(error);
+            res.send({
+                type: 1,
+                title: "Error al actualizar",
+                message: "El vehículo no pudo ser guardado. " + error,
+            });
+        }
     }
 };
 
