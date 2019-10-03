@@ -16,7 +16,7 @@ class approve_panel_controller {
                 ]
             });
             console.log(folos);
-            return res.render('../views/folo06_approve_panel.html', {
+            return res.render('../views/folo06_approve_panel_boss_unit.html', {
                 folos
             });
         } catch (error) {
