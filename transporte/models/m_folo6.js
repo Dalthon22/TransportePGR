@@ -85,13 +85,6 @@ const Folo6 = db.define('folo6', {
     freezeTableName: true,
 });
 
-Folo6.belongsTo(Procuraduria, {
-    foreignKey: 'procuraduria_id'
-});
-Folo6.belongsTo(Employee, {
-    foreignKey: 'employeeId'
-});
-
 Folo6.hasMany(Voucher_folo6_assign, {
     foreignKey: 'folo6_id'
 });

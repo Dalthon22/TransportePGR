@@ -5,7 +5,11 @@ const {
 } = require('express-validator');
 
 router.get('/panel_de_aprobacion', (req, res) => {
-    controller.getList(req, res);
+    controller.getListUnit(req, res);
+});
+
+router.get('/nuevos_Requerimientos', (req, res) => {
+    controller.getListAllNew(req, res);
 });
 
 module.exports = router;

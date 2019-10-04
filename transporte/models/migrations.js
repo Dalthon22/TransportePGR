@@ -7,6 +7,7 @@ const Route = require('../models/m_route');
 const Frequent_Place = require('../models/m_frequent_place');
 const Employee = require('../models/m_employee');
 const Folo6 = require('../models/m_folo6');
+const Folo6_Approve_State = require('../models/m_folo6_approve_state');
 const Places_Containter = require('../models/m_places_container');
 const unit = require('../models/m_unit');
 const voucher_folo6_assign = require('../models/m_voucher_folo6_assign');
@@ -23,6 +24,7 @@ class Migration {
         Frequent_Place.sync();
         Employee.sync();
         Folo6.sync();
+        Folo6_Approve_State.sync();
         Places_Containter.sync();
         unit.sync();
         voucher_folo6_assign.sync();

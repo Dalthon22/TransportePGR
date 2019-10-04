@@ -8,7 +8,7 @@ const {
 } = require('express-validator');
 class approve_panel_controller {
 
-    async getList(req, res) {
+    async getListUnit(req, res) {
         try {
             var folos = await folo6.findAll({
                 include: [
@@ -17,6 +17,22 @@ class approve_panel_controller {
             });
             console.log(folos);
             return res.render('../views/folo06_approve_panel_boss_unit.html', {
+                folos
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    async getListAllNew(req, res) {
+        try {
+            var folos = await folo6.findAll({
+                include: [
+                    employee
+                ]
+            });
+            console.log(folos);
+            return res.render('../views/folo06_approve_panel_transport.html', {
                 folos
             });
         } catch (error) {
