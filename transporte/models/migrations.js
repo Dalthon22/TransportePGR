@@ -5,32 +5,58 @@ const Procuraduria = require('../models/m_procuraduria');
 const Address = require('../models/m_address');
 const Route = require('../models/m_route');
 const Frequent_Place = require('../models/m_frequent_place');
-const Employee = require('../models/m_employee');
-const Folo6 = require('../models/m_folo6');
+const Voucher = require('./m_voucher');
+const Voucher_procu_assign = require('./m_voucher_procu_assign');
+const Voucher_folo6_assign = require('./m_voucher_folo6_assign');
+const Folo6 = require('./m_folo6');
+const Employee = require('./m_employee');
+const Unit = require('./m_unit');
+const Places_container = require('./m_places_container');
+const Car = require('./car');
 const Folo6_Approve_State = require('../models/m_folo6_approve_state');
-const Places_Containter = require('../models/m_places_container');
-const unit = require('../models/m_unit');
-const voucher_folo6_assign = require('../models/m_voucher_folo6_assign');
-const voucher_procu_assign = require('../models/m_voucher_procu_assign');
-const voucher = require('../models/m_voucher');
 
 class Migration {
     constructor() {
+        Car.sync();
         Department.sync();
         City.sync();
-        Address.sync();
-        Procuraduria.sync();
-        Vehicle.sync();
-        Frequent_Place.sync();
-        Employee.sync();
-        Folo6.sync();
-        Folo6_Approve_State.sync();
-        Places_Containter.sync();
-        unit.sync();
-        voucher_folo6_assign.sync();
-        voucher_procu_assign.sync();
-        voucher.sync();
-        Route.sync();
+        Address.sync({
+            alter: false
+        });
+        Procuraduria.sync({
+            alter: false
+        });
+        Vehicle.sync({
+            alter: false
+        });
+        Frequent_Place.sync({
+            alter: false
+        });
+        Voucher.sync({
+            alter: false
+        });
+        Unit.sync({
+            alter: false
+        });
+        Employee.sync({
+            alter: false
+        });
+        Folo6.sync({
+            alter: false
+        });
+        Places_container.sync({
+            alter: false
+        });
+        Voucher_procu_assign.sync({
+            alter: false
+        });
+        Voucher_folo6_assign.sync({
+            alter: false
+        });
+        Folo6_Approve_State.sync({
+          alter:false
+        });
+        /* Route.sync(); */
     }
 }
 

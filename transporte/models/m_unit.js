@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Employee = require('./m_employee');
+const Employees = require('./m_employee');
 
 const Unit = db.define('unit', {
     name_unit: {
@@ -26,6 +26,8 @@ const Unit = db.define('unit', {
     freezeTableName: true,
 });
 
-Unit.hasMany(Employee);
+Unit.hasMany(Employees, {
+    foreignKey: 'unit_id'
+});
 
 module.exports = Unit;
