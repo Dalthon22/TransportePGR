@@ -1,8 +1,8 @@
 #bad {
     overflow: visible;
-    height: 40em;
+    height: auto;
 }
 
 .ui.fluid.container.pushable {
-    height: 77em;
+    height: auto;
 }

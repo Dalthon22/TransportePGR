@@ -1,11 +1,12 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const folo6 = require('./m_folo6');
+
 
 const Folo6_Approve_State = db.define('folo6_approve_state', {
     request_unit_approve: {
         type: Sequelize.BOOLEAN,
         allowNull: true,
+        defaultValue: 0
     },
     unit_cancel_detail: {
         type: Sequelize.STRING(250),
@@ -30,10 +31,5 @@ const Folo6_Approve_State = db.define('folo6_approve_state', {
     updatedAt: 'updated_at',
     freezeTableName: true,
 });
-
-Folo6_Approve_State.belongsTo(folo6, {
-    foreignKey: 'folo_id',
-});
-
 
 module.exports = Folo6_Approve_State;
