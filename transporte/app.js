@@ -56,7 +56,8 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send('error');
+  //res.send('error');
+  res.render('404.html');
 });
 
 module.exports = app;
