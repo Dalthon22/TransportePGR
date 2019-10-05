@@ -57,7 +57,10 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send('error' + __dirname);
+  //res.send('error' + __dirname);
+  res.render('404.html', {
+    __dirname
+  });
 });
 
 module.exports = app;
