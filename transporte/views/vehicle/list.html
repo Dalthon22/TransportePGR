@@ -17,7 +17,7 @@
         </div>
     </a>
 
-    <table class="ui celled table datatable" id="vehiculos" name="vehiculos" style="width: 70 em">
+    <table class="ui celled table" id="vehiculos" name="vehiculos" style="width: 70 em">
         <thead>
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -58,6 +58,49 @@
             {% endfor %}
             {% else %}
             <td colspan="7">No hay registros disponibles</td>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <table id="testtable" class="ui celled table">
+        <thead>
+            <tr style="text-align: center">
+                <th>Placa</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Asientos</th>
+                <th>Chasis</th>
+                <th>Motor</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if vehicles.length > 0 %}
+            {% for c in vehicles %}
+            <tr>
+                <td style="display: none">{{c.id}}</td>
+                <td class="aligned">{{c.plate}}</td>
+                <td class="center aligned">{{c.brand}}</td>
+                <td class="center aligned">{{c.model}}</td>
+                <td class="center aligned">{{c.seats}}</td>
+                <td class="center aligned">{{c.chassis}}</td>
+                <td class="center aligned">{{c.engine}}</td>
+                <!-- {% set state = c.state %}
+                <td id="state_table">
+                    class={{"positive" if state == "funcional" else ("warning" if state == "mantenimiento" else "error")}}>
+                    {% if state == "funcional" %}
+                    <i class="check icon"></i>
+                    {% elif state == "mantenimiento" %}
+                    <i class="exclamation icon"></i>
+                    {% else %}
+                    <i class="x icon"></i>
+                    {% endif %}
+                    {{c.state | capitalize}}
+                </td> -->
+                <td><a href=""><i class="pencil yellow alternate icon"></i></a></td>
+            </tr>
+            {% endfor %}
             {% endif %}
         </tbody>
     </table>
