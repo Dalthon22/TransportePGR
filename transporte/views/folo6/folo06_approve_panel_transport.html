@@ -1,45 +1,119 @@
 {% extends 'index.html' %}
 {% block views %}
-<section class="ui segment" id="Address">
-    <h1 id="title" class="ui header">Aprobacion de Requerimientos.</h1>
-    <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
-        <thead>
-            <tr>
-                <th>Fecha Salida:</th>
-                <th>Solicitante:</th>
-                <th>Pasajeros:</th>
-                <th>Mision:</th>
-                <th>Opciones:</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
-            {% for folo in folos %}
-            <tr>
-                <td>{{ folo.off_date }}</td>
-                <td>{{ folo.employee.first_name }} {{ folo.employee.last_name }}</td>
-                <td>{{ folo.passengers_number }}</td>
-                <td>{{ folo.mission }}</td>
-                <td>
-                    <div class="ui buttons">
+<div class="ui container" id="bad">
+    <div class="ui vertically divided grid">
+        <div class="sixteen wide column">
+            <br>
+            <input type="hidden" id="messagetype" value="{{atype}}">
+            <input type="hidden" id="messageinfo" value="{{message}}">
+            <h1 id="title" class="ui header">Aprobacion de Requerimientos.</h1>
+            <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Fecha Salida:</th>
+                        <th>Hora Salida:</th>
+                        <th>Solicitante:</th>
+                        <th>Pasajeros:</th>
+                        <th>Conductor:</th>
+                        <th>Mision:</th>
+                        <th>Opciones:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
+                    {% for folo in data %}
+                    <tr>
+                        <td>{{ folo.off_date }}</td>
+                        <td>{{ folo.off_hour }}</td>
+                        <td>{{ folo.first_name }} {{ folo.last_name }}</td>
+                        <td>{{ folo.passengers_number }}</td>
+                        <td>{{ folo.wDriver }}</td>
+                        <td>{{ folo.mission }}</td>
+                        <td class="btnDelete">
+                            <div class="ui buttons">
+                                <!-- <input type="hidden" id="folo_Aid" name="Afolo_id" value="{{folo.folo6id}}"> -->
+                                <form action="/folo6/show" method="GET">
+                                    <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo.folo6id}}">
+                                    <button type="submit" class="ui icon button" title="Mostrar Requerimiento">
+                                        <i class="file alternate outline icon"></i>
+                                    </button>
+                                </form>
+                                <button class="ui icon button btnAprobe" title="Aprobar Requerimiento" id='btnAprobe'
+                                    name="btnAprobe" type="submit">
+                                    <i class="check circle outline icon"></i>
+                                </button>
+                                <button class="ui icon button btnCancel" title="Denegar Requerimiento" id="btnCancel"
+                                    name="btnCancel" type="submit">
+                                    <i class="black window close icon"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <p>No hay Requerimientos que Aprobar.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                        <button type="submit" class="ui icon button" data-content="Aprobar Requerimiento">
-                            <i class="check circle outline icon"></i>
-                        </button>
-                        <button type="submit" class="ui icon button" data-content="Mostrar Requerimiento">
-                            <i class="file alternate outline icon"></i>
-                        </button>
-                        <button type="submit" class="ui icon button" data-content="Denegar Requerimiento">
-                            <i class="black window close icon"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            {% else %}
-            <p>No hay Requerimientos que Aprobar.</p>
-            {% endfor %}
-        </tbody>
-    </table>
-</section>
+<div class="ui basic modal" id="AprobeModal">
+    <div class="ui icon header">
+        <i class="checkmark icon big"></i>
+        Aprobar Folo
+    </div>
+    <input type="hidden" name="foloAid" id="foloAid" value="">
+    <div class="content">
+        <p>¿Esta seguro de aprobar el folo?</p>
+    </div>
+    <form class="ui form" action="/nuevos_requerimientos" method="POST">
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <button class="ui right aligned green button" id="modal_btnAprove">
+                <input type="hidden" id="folo6_id_Amodal" name="folo6_id_Amodal" value="">
+                <input type="hidden" id="aprobacion" name="aprobacion" value="1">
+                <i class="checkmark icon"></i>
+                Aceptar
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="ui basic modal" id="CancelModal">
+    <div class="ui icon header">
+        <i class="exclamation triangle icon big"></i>
+        Cancelar folo
+    </div>
+    <input type="hidden" name="foloAid" id="foloAid" value="">
+    <div class="content">
+        <p>¿Esta seguro de Cancelar el folo?</p>
+    </div>
+    <form class="ui form" action="/nuevos_requerimientos" method="POST">
+        <div class="field">
+            <label style="color: aliceblue">Motivo(Opcional)</label>
+            <input type="text" name="motivo" placeholder="No cumple con la..." maxlength="150" id="motivo"
+                autocomplete="off">
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <button class="ui right aligned green button" id="modal_btnAprove">
+                <input type="hidden" id="folo6_id_Cmodal" name="folo6_id_Cmodal" value="">
+                <input type="hidden" id="aprobacion" name="aprobacion" value="0">
+                <i class="checkmark icon"></i>
+                Aceptar
+            </button>
+        </div>
+    </form>
+</div>
+
 <script src="/javascript/a_approve_panel.js"></script>
+<link rel="stylesheet" href="/stylesheets/frequent_places/frequent_places_list.css">
+
 {% endblock %}

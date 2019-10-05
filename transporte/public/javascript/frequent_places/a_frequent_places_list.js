@@ -1,6 +1,5 @@
 $(window).on('load', function () {
     console.log('window loaded');
-    alert("si muestra");
     this.enviarToast();
 });
 
