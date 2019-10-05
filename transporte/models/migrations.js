@@ -12,12 +12,11 @@ const Folo6 = require('./m_folo6');
 const Employee = require('./m_employee');
 const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
-const Vehicle = require('./Vehicle');
 const Folo6_Approve_State = require('../models/m_folo6_approve_state');
 
 class Migration {
     constructor() {
-        Vehicle.sync();
+        /* Vehicle.sync(); */
         Department.sync();
         City.sync();
         Address.sync({
@@ -54,7 +53,7 @@ class Migration {
             alter: false
         });
         Folo6_Approve_State.sync({
-          alter:false
+            alter: false
         });
         /* Route.sync(); */
     }
