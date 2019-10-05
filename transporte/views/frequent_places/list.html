@@ -7,7 +7,7 @@
     <p>¡Registro guardado correctamente!</p>
 </div>
 
-<div class="ui container">
+<div class="ui container" id="bad">
     <div class="ui vertically divided grid">
         <div class="sixteen wide column">
             <br>
@@ -15,6 +15,7 @@
             <a href="/lugares_frecuentes/add"><button class="ui primary button" type="submit">Agregar
                     lugar frecuente</button></a>
             <br>
+            <input type="hidden" id="messages" name="messages" value="{{messages}}">
             <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
                 <thead>
                     <tr>
@@ -26,23 +27,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for fplace in fplaces %}
                     <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
-                    <tr>
+                    {% for fplace in fplaces %}
+                    <tr class="btnDelete" data-id="{{fplace.id}}">
                         <td>{{ fplace.name}}</td>
                         <td>{{ fplace.detail }}</td>
                         <td>{{ fplace.department.name }}</td>
                         <td>{{ fplace.city.name }}</td>
-                        <td>
+                        <td class="btnDelete">
                             <div class="ui buttons">
                                 <form action="/lugares_frecuentes/edit" method="GET">
-                                    <input type="hidden" id="fplace_id" name="fplace_id" value={{fplace.id}}>
+                                    <input type="hidden" id="fplace_id" name="fplace_id" value="{{fplace.id}}">
                                     <button type="submit" class="ui icon button" data-content="Editar Lugar Frecuente">
                                         <i class="black edit icon"></i>
                                     </button>
                                 </form>
-                                <button type="submit" class="ui icon button" id="btnDeleteFplace"
-                                    data-content="Editar Lugar Frecuente" onclick="showDeleteModal()">
+                                <button class="ui icon button btnDeleteFplace" id="btnDeleteFplace"
+                                    name="btnDeleteFplace" type="submit">
                                     <i class="black window close icon"></i>
                                 </button>
                             </div>
@@ -56,6 +57,7 @@
         </div>
     </div>
 </div>
+
 <div class="ui basic modal" id="deleteModal">
     <div class="ui icon header">
         <i class="trash alternate outline icon"></i>
@@ -64,22 +66,25 @@
     <div class="content">
         <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
     </div>
+
     <div class="actions">
         <div class="ui red basic cancel inverted button">
             <i class="remove icon"></i>
-            No
+            Cancelar
         </div>
-        <form>
+        <a href="/lugares_frecuentes/delete">
             <div class="ui green ok inverted button" type="submit">
-                <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal">
+                <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal" value="">
                 <i class="checkmark icon"></i>
-                Yes
+                Aceptar
             </div>
-        </form>
         </a>
     </div>
 </div>
+
 <script src="/javascript/frequent_places/a_frequent_places_list.js"></script>
-<script src="/stylesheets/datatablefix.css"></script>
+<link rel="stylesheet" href="/stylesheets/datatablefix.css">
+</link>
+<link rel="stylesheet" href="/stylesheets/frequent_places/frequent_places_list.css">
 
 {% endblock %}

@@ -36,6 +36,6 @@ $(function () {
     fillMunicipio();
 });
 
-$('#departamento').change(function () {
+/* $('#departamento').change(function () {
     fillMunicipio();
-});
+}); */

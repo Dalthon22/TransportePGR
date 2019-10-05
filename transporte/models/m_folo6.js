@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Procuraduria = require('./m_procuraduria');
 const Place_container = require('./m_places_container');
 const Voucher_folo6_assign = require('./m_voucher_folo6_assign');
+const Folo6_Approve = require('./m_folo6_approve_state');
 
 const Folo6 = db.define('folo6', {
     request_unit: {
-        type: Sequelize.STRING(150),
+        type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
             notEmpty: true,
@@ -64,10 +64,7 @@ const Folo6 = db.define('folo6', {
     },
     observation: {
         type: Sequelize.STRING(150),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
+        allowNull: true,
     },
     created_by: {
         type: Sequelize.INTEGER,
@@ -91,6 +88,10 @@ Folo6.hasMany(Place_container, {
 
 Folo6.hasMany(Voucher_folo6_assign, {
     foreignKey: 'folo6_id'
+});
+
+Folo6.hasOne(Folo6_Approve, {
+    foreignKey: 'folo06_id',
 });
 
 module.exports = Folo6;

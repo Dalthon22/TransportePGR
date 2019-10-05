@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Folo6 = require('./m_folo6');
-const Procuraduria = require('./m_procuraduria');
+//const Procuraduria = require('./m_procuraduria');
 
 const Employee = db.define('employee', {
     first_name: {

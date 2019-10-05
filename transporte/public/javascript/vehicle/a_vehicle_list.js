@@ -36,7 +36,7 @@ $(function () {
 
 /*
 Obtienes los parametro del querystring por nombre
-25092019_DD 
+25092019_DD
 */
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -51,7 +51,7 @@ function getParameterByName(name) {
 
 /*
 Funcion que muestra un mensaje a lado superior derecho
-27092019_DD 
+27092019_DD
 */
 function AddToast(_title, _class, _message) {
     $('body')
@@ -88,7 +88,7 @@ function AddToast(_title, _class, _message) {
 
 
 
-/*Funciones recicladas 
+/*Funciones recicladas
 
 //Obtiene los parametros del url dado
 function getParameterByName(name, url) {

@@ -3,7 +3,7 @@ const City = require('../models/m_city');
 const Vehicle = require('../models/m_vehicle');
 const Procuraduria = require('../models/m_procuraduria');
 const Address = require('../models/m_address');
-//const Route = require('../models/m_route');
+const Route = require('../models/m_route');
 const Frequent_Place = require('../models/m_frequent_place');
 const Voucher = require('./m_voucher');
 const Voucher_procu_assign = require('./m_voucher_procu_assign');
@@ -12,9 +12,12 @@ const Folo6 = require('./m_folo6');
 const Employee = require('./m_employee');
 const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
+const Vehicle = require('./Vehicle');
+const Folo6_Approve_State = require('../models/m_folo6_approve_state');
 
 class Migration {
     constructor() {
+        Vehicle.sync();
         Department.sync();
         City.sync();
         Address.sync({
@@ -49,6 +52,9 @@ class Migration {
         });
         Voucher_folo6_assign.sync({
             alter: false
+        });
+        Folo6_Approve_State.sync({
+          alter:false
         });
         /* Route.sync(); */
     }

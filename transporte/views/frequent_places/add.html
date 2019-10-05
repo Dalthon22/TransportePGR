@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 {% block views %}
-<div class="ui container">
+<div class="ui container" id="bad">
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
@@ -21,7 +21,7 @@
                     <div class="required field">
                         <label>Lugar de Destino:</label>
                         <input type="text" autocomplete="off" name="name" id="name" placeholder="Nombre del Destino"
-                            maxlength="150" value={{name}}>
+                            maxlength="150" value="{{name}}">
                     </div>
                     {% include '../address/add.html' %}
 
@@ -31,6 +31,7 @@
                     <button class="ui positive button" type="submit">Guardar Direccion</button>
                     {% endif %}
                     <input id="fplace_id" name="fplace_id" type="hidden" value="{{fplace_id}}">
+                    <input id="true_name" name="true_name" type="hidden" value="{{true_name}}">
                 </form>
                 {% if errors %}
                 <div class="ui error message" style="width:30em">
@@ -45,9 +46,21 @@
                     </ul>
                 </div>
                 {% endif %}
+                {% if error %}
+                <div class="ui error message" style="width:30em">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Errores al Insertar
+                    </div>
+                    <ul class="list">
+                        <li>{{error}}</li>
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
 <script src="/javascript/frequent_places/a_frequent_places_add.js"></script>
+<link rel="stylesheet" href="/stylesheets/frequent_places/frequent_places_add.css">
 {% endblock %}

@@ -30,7 +30,6 @@ router.post('/lugares_frecuentes/add', [
     body('name', 'Ingrese el nombre de la dirección.').not().isEmpty(),
 
     /* body('name', 'El nombre debe contener solo caracteres alfanuméricos.').not().isAlphanumeric(), */
-    body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 150 caracteres.').isLength({
         max: 200
     }),
@@ -38,19 +37,22 @@ router.post('/lugares_frecuentes/add', [
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
-    let fplace_id = req.body;
-    console.log(fplace_id);
+    let fplace_id = req.body.aprobacion;
     if (fplace_id) {
         controller.updateFrequentPlace(req, res);
     } else {
         controller.createFrequentPlace(req, res);
     }
-
-
 });
 
 router.get('/lugares_frecuentes/delete', (req, res) => {
     controller.deleteFrequentPlace(req, res);
+});
+
+//PARA LOS PLACES DEL FOLO 6
+router.get('/lugares_frecuentes/getPlaces', (req, res) => {
+    console.log("Encontre la ruta")
+    controller.getPlacesByMunicipio(req, res);
 });
 
 module.exports = router;
