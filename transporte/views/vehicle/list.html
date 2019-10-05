@@ -9,15 +9,14 @@
 <div class="ui container">
     <h1 id="title" class="ui header">Listado de vehículos</h1>
     <a href="/vehiculos/gestionar">
-        <div id="nuevo" class="ui right floated animated blue button" style="margin-bottom:1em" tabindex="0">
+        <div id="nuevo" class="ui right floated animated blue button" tabindex="0">
             <div class="visible content">Nuevo</div>
             <div class="hidden content">
                 <i class="plus icon"></i>
             </div>
         </div>
     </a>
-
-    <table class="ui selectable table datatable" id="vehiculos_table" name="vehiculos" style="width: 70 em">
+    <table id="vehiculos" class="ui selectable table">
         <thead>
             <tr style="text-align: center">
                 <th>Placa</th>
@@ -34,7 +33,6 @@
             {% if vehicles.length > 0 %}
             {% for c in vehicles %}
             <tr>
-                <td style="display: none">{{c.id}}</td>
                 <td class="aligned">{{c.plate}}</td>
                 <td class="center aligned">{{c.brand}}</td>
                 <td class="center aligned">{{c.model}}</td>
@@ -42,7 +40,7 @@
                 <td class="center aligned">{{c.chassis}}</td>
                 <td class="center aligned">{{c.engine}}</td>
                 {% set state = c.state %}
-                <td id="state_table"
+                <td
                     class={{"positive" if state == "Funcional" else ("warning" if state == "Mantenimiento" else "error")}}>
                     {% if state == "Funcional" %}
                     <i class="check icon"></i>
@@ -58,8 +56,6 @@
                 </td>
             </tr>
             {% endfor %}
-            {% else %}
-            <td colspan="7">No hay registros disponibles</td>
             {% endif %}
         </tbody>
     </table>

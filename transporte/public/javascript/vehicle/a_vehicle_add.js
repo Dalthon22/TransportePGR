@@ -126,6 +126,9 @@ $("#add_btn").click(function () {
 $('#validate_plate').click(function () {
     if (current_plate === $('#vplate').val() && $('#vehicle_id').val()) {
         $('#add_btn').removeClass('disabled');
+    } else if (!$('#vplate').val()) {
+        $('#fPlate').addClass('error');
+        AddToast("Valor Nulo", "error", "Debe ingresar un matricula valida para poder validar");
     } else {
         validate_plate();
     }

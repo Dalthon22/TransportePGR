@@ -2,7 +2,11 @@ var title, message, clss, query1;
 var current_plate;
 
 $(function () {
-    /* $('#vehiculos_table').DataTable({}); */
+
+    //Da formato a la tabla de vehiculos
+    $('#vehiculos').DataTable({
+        "scrollCollapse": true,
+    });
 
     //Verifica si el registro fue guardado con exito
     title = getParameterByName('title');
@@ -19,8 +23,8 @@ $(function () {
 
     $(".edit.yellow.icon").click(function () {
         var index = $(this).closest("tr")[0].rowIndex;
-        var tr = $('#vehiculos_table').find("tr").eq(index);
-        current_plate = tr.find("td").eq(1).text();
+        var tr = $('#vehiculos').find("tr").eq(index);
+        current_plate = tr.find("td").eq(0).text();
         console.log(tr);
         //alert('You click plate: ' + current_plate + " and the id is: " + index);
         url_list = encodeURI('vehiculos/gestionar?' + "matricula=" + current_plate);
