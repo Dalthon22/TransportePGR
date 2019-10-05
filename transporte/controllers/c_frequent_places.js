@@ -169,8 +169,20 @@ class frequent_place_controller {
     async deleteFrequentPlace(req, res) {
 
     }
-
-
+    //Gets frequent places list based on the selected municipio
+    async getPlacesByMunicipio(req, res) {
+        try {
+            let selectedMunicipio = req.query.selectedMunicipio;
+            let places = await frequent_place.findAll({
+                where: {
+                    city_id: selectedMunicipio
+                }
+            });
+            res.send(places);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new frequent_place_controller();

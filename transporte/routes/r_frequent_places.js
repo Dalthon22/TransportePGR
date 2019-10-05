@@ -45,12 +45,16 @@ router.post('/lugares_frecuentes/add', [
     } else {
         controller.createFrequentPlace(req, res);
     }
-
-
 });
 
 router.get('/lugares_frecuentes/delete', (req, res) => {
     controller.deleteFrequentPlace(req, res);
+});
+
+//PARA LOS PLACES DEL FOLO 6
+router.get('/lugares_frecuentes/getPlaces', (req, res) => {
+    console.log("Encontre la ruta")
+    controller.getPlacesByMunicipio(req, res);
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ const controller = require('../controllers/c_folo6');
 
 //Dirección para mostrar el formulario donde se llena una nueva solicitud de folo 6
 router.get('/solicitud_nueva', (req, res) => {
-    res.render('./folo6/folo6.html');
+    controller.getDepartmentList(req, res);
 });
 //Cuando se hace refrencia a esta dirección, está redirecciona a la pantalla del folo con la posibilidad de editar los datos que el usuario ha ingresado previamente 
 router.get('/solicitud_nueva/:id', (req, res) => {
@@ -16,6 +16,16 @@ router.get('/solicitud_nueva/:id', (req, res) => {
 router.get('/solicitud_nueva/get/:id', (req, res) => {
     console.log("Solicito información el folo con id: " + req.params.id);
     controller.foloToString(req, res);
+});
+//****ESTA PENDIENTE DE AGREGAR EL ENVIO DE LAS DIRECCIONES Y LUGARES FRECUENTES
+router.post('/solicitud_nueva/getinfo', (req, res) => {
+    console.log("Solicito información el folo con id: " + req.body.id_folo);
+    controller.foloInfo(req).then(folo => {
+        console.dir(folo)
+        res.send({
+            folo: folo
+        });
+    });
 });
 //Ruta para guardar los datos del folo sin incluir los datos de las direcciones y lugares frecuentes. 
 //Con respecto a las direcciones y lugares, acá se envían: 
@@ -64,4 +74,15 @@ router.get('/folos', (req, res) => {
     controller.getList(req, res);
 });
 
+//RUTAS PARA DIRECCIONES Y PDF
+router.get('/add', (req, res) => {
+    controller.getDepartmentList(req, res);
+});
+//Dirección que genera el pdf
+router.post('/solicitud/createPDF', (req, res) => {
+    controller.createPDF(req, res);
+});
+router.post('/solicitud/showPDF', (req, res) => {
+    controller.showAndcreatePDF(req, res);
+});
 module.exports = router;

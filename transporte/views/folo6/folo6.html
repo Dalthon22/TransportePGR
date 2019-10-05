@@ -69,7 +69,7 @@
                             <div class="one wide field"></div>
                             <label>Cantidad de pasajeros: </label>
                             <div class="two wide field">
-                                <input type="number" name="passengers_i" min="1" max="40" value="1">
+                                <input type="number" name="passengers_i" min="1" max="40" value="1" id="passengers_i">
                             </div>
                         </div>
                     </div>
@@ -96,26 +96,34 @@
                         <div class="two fields">
                             <div class="field">
                                 <label>Departamento</label>
-                                <select class="ui fluid dropdown" name="departamento_ls">
+                                <!-- <select class="ui fluid dropdown" name="departamento_ls">
                                     <option value="">Seleccione el Departamento</option>
                                     <option value="1">Santa Ana</option>
                                     <option value="2">San Salvador</option>
                                     <option value="3">La Union</option>
+                                </select> -->
+                                <select class="ui fluid dropdown" id="departamento" name="departamento">
+                                    <option value="">--Seleccione un departamento--</option>
+                                    {% for dep in Departamentos %}
+                                    {% if (dep.id == departamento) %}
+                                    <option value="{{ dep.id }}" selected>{{ dep.name }}</option>
+                                    {% else %}
+                                    <option value="{{ dep.id }}">{{ dep.name }}</option>
+                                    {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="field">
                                 <label>Municipio</label>
-                                <select class="ui fluid dropdown" name="municipio_ls">
-                                    <option value="">Seleccione el Departamento</option>
-                                    <option value="1">Ciudad Delgado</option>
-                                    <option value="2">Soyapango</option>
-                                    <option value="3">Apopa</option>
+                                <select class="ui fluid dropdown" id="municipio" name="municipio">
+                                    <option value=""></option>
                                 </select>
                             </div>
+                            <input id="idmun" type="hidden" value="{{municipio}}">
                         </div>
                     </div>
-                    <div class="field">
-                        <select class="ui fluid dropdown" name="place_ls">
+                    <!-- <div class="field">
+                         <select class="ui fluid dropdown" name="place_ls">
                             <option value="">Seleccione el lugar de destino</option>
                             <option value="1">Aeropuerto Internacional de El Salvador San Óscar Arnulfo
                                 Romero y
@@ -123,20 +131,40 @@
                             <option value="2">Alcaldía Municipal de Apopa</option>
                             <option value="3">Centro Judicial de Santa Tecla</option>
                             <option value="3">Otro</option>
-                        </select>
-                    </div>
-                    <div class="field">
+                        </select> 
+                    </div> -->
+                    <!-- <div class="field">
                         <label>Lugar de destino</label>
                         <input type="text" name="destiny_place_i" disabled="disabled">
+                    </div> -->
+                    <div class="required field">
+                        <label>Lugar de destino:</label>
+                        <select class="ui fluid dropdown" id="fplaces" name="fplaces">
+                        </select>
+                        <input id="idfplaces" type="hidden" value="{{fplaces}}">
                     </div>
-                    <div class="field">
+                    <!-- <div class="field">
                         <label>Detalle de dirección</label>
                         <textarea rows="3" name="direction_txt" disabled="disabled"
                             placeholder="Calle x, pasaje y, local...."></textarea>
+                    </div> -->
+                    <div class="field">
+                        <label>Nombre del destino:</label>
+                        <input type="text" id="destiny_place_i" name="destiny_place_i" disabled="disabled">
                     </div>
-                    <button class="ui labeled icon button"><i class="plus icon"></i>Agregar
+                    <div class="field">
+                        <label>Detalle de dirección:</label>
+                        <textarea rows="3" id="direction_txt" name="direction_txt" disabled="disabled"
+                            placeholder="Calle x, pasaje y, local...."></textarea>
+                    </div>
+                    <button class="ui labeled icon button" id="addAddress" name="addAddress"><i
+                            class="plus icon"></i>Agregar
                         dirección</button>
-                    <table class="ui celled table tablet stackable">
+                    <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
+                    </select>
+                    <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace">
+                    </select>
+                    <!--   <table class="ui celled table tablet stackable">
                         <thead>
                             <tr>
                                 <th>Destino</th>
@@ -148,6 +176,18 @@
                                 <td data-label="Dir">24, calle Leonardo Azgunaga</td>
                             </tr>
                         </tbody>
+                    </table> -->
+                    <!--                     <input type="hidden" id="n_dir" name="n_dir">
+ -->
+                    <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
+                        <thead>
+                            <tr>
+                                <th>Nombre del destino</th>
+                                <th>Detalle de la dirección</th>
+                                <th>Departamento</th>
+                                <th>Municipio</th>
+                        </thead>
+                        <tbody></tbody>
                     </table>
                     <h4 class="ui blue dividing header">Misión</h4>
                     <div class="field">
@@ -176,5 +216,6 @@
         overflow: visible;
     }
 </style>
-
+<script src="/javascript/a_address.js"></script>
+<script src="/javascript/a_load_dropdown_fplaces.js"></script>
 {% endblock %}

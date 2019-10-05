@@ -187,13 +187,100 @@
          }
      });
  /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+ //Funciones para crear el PDF del Folo-06.
+ function printPDF() {
+     event.preventDefault();
+
+
+     //Recolección de datos.
+     fechaSolicitud = $('#date_lb').text();
+     unidadSolicitante = $('#unidad_lb').text();
+     fechaSalida = $('#calendar1').val();
+     horaSalida = $('#time').val();
+     horaRetorno = $('#time1').val();
+     var motorista; //1 = no ; 0 = sí
+     if ($('#driver_i').is(":checked")) {
+         motorista = 0;
+     } else {
+         motorista = 1;
+     }
+     cantidadPasajeros = $('#passengers_i').val();
+     personaConducir = $('#n_driver_i').val();
+     tipoLicencia = $('#license_ls_id option:selected').text();
+     tablaDirecciones = document.getElementById('addressTable');
+     mision = $('#mision_i_id').val();
+     observaciones = $('#details_i').val();
+     var c1, c2, c3, c4, direccion, b;
+     var direcciones = [];
+     /*La propiedad 'length' en JS comienza en 1.
+     La primera fila es el encabezado, a partir de la segunda van direcciones.
+     Si solo hay una dirección, se asigna a la variable 'dirección'.
+     Si hay más se asignan al array 'direcciones'. */
+     if (tablaDirecciones.rows.length == 2) {
+         //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
+         //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
+         c1 = tablaDirecciones.rows[1].cells[0].innerHTML;
+         c2 = tablaDirecciones.rows[1].cells[1].innerHTML;
+         c3 = tablaDirecciones.rows[1].cells[2].innerHTML;
+         c4 = tablaDirecciones.rows[1].cells[3].innerHTML;
+         direccion = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".";
+         b = 0; //No crea listado de direcciones
+     } else {
+         direccion = "Ver listado de direcciones en página anexo.";
+         b = 1; //Crea listado de direcciones
+     };
+     for (var i = 1; i < tablaDirecciones.rows.length; i++) {
+         c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
+         c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
+         c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
+         c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
+         direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ',' + c4 + ".");
+     };
+     //Convierto el array en un string.
+     direcciones = direcciones.toString();
+
+     $.post('/solicitud/createPDF', { //Petición ajax post.
+             fechaSolicitud,
+             unidadSolicitante,
+             fechaSalida,
+             horaSalida,
+             horaRetorno,
+             motorista,
+             cantidadPasajeros,
+             personaConducir,
+             tipoLicencia,
+             direccion,
+             direcciones,
+             mision,
+             observaciones,
+             b
+         },
+         //Abre el pdf en una nueva ventana.
+         function (result) {
+             // e.g This will open an image in a new window
+             console.log("voy a imprimir el folo")
+             debugBase64(result);
+             // window.open(result);
+         });
+
+
+     /* Solo funciona en Mozilla Firefox, en Google Chrome se abre una pestaña en blanco.
+     En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
+     Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
+ }
+
+ function debugBase64(base64URL) {
+     var win = window.open();
+     win.document.write('<iframe src="' + base64URL + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+     win.document.close()
+ }
 
  $('#save_print_btn').on('click', function () {
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
-
          showDimmer();
-         guardarFolo6();
+         $.when(printPDF()).then(guardarFolo6());
+         // setTimeout(guardarFolo6(), 30000);
      }
  });
  //Animación patanlla negra y muestra el loader: "guardando..."
@@ -215,15 +302,32 @@
          console.log(a);
          return a;
      }, {});
+     var fplaces = [];
+     var address = [];
+     if ($('#createdAddress').length) {
+         $('#createdAddress').each(function () {
+             address.push($(this).val());
+         });
+     } else {
+         console.log("No se enviara direcciones")
+     }
+     if ($('#selectedFPlace').length) {
+         $('#selectedFPlace').each(function () {
+             fplaces.push($(this).val());
+         });
+     } else {
+         console.log("No se enviara lugares frecuentes")
+     }
      //Valores del json que serán enviados en el ajax para guardar el folo6
      var jsonReq = {
          form: JSON.stringify(form),
          emp: JSON.stringify(emp),
-         motorista: JSON.stringify(motorista)
+         motorista: JSON.stringify(motorista),
+         fplaces: JSON.stringify(fplaces),
+         address: JSON.stringify(address)
      }
      console.log("Enviará:" +
-         "form:" + JSON.stringify(form) +
-         " emp:" + JSON.stringify(emp));
+         "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
      console.log("Empaquetado" + typeof (jsonReq));
      $.ajax({
          type: "POST",
@@ -266,6 +370,7 @@
      }
  }
 
+ //Muestra mensaje de exito
  function successAddToast(message) {
      hideDimmer();
      $('body').dimmer({
@@ -291,3 +396,105 @@
              }
          });
  }
+
+ //MANEJO DE DIRECCIONES EN EL FOLO 6
+ //Esconde los dropdown.
+ $('#createdAddress').hide();
+ $('#selectedFPlace').hide();
+
+ //Función que guarda las direcciones que se van ingresando a la tabla.
+ $('#addAddress').click(function () {
+     //Este código será usado para mostrar la tabla en el pdf del folo-06.
+     /*event.preventDefault();
+     var dirs = document.getElementById('addressTable');
+     var t;
+     for(var i=1; i < dirs.rows.length; i++){
+         for (var j=0; j < dirs.rows[i].cells.length; j++){
+             t=dirs.rows[i].cells[j].innerHTML;
+             console.log(t);
+         };
+     }; */
+     event.preventDefault();
+     var idSelDepto = $('#departamento').val();
+     var idSelMun = $('#municipio').val();
+     var selectedPlace = $('#fplaces').val();
+     var destinyPlace = $('#destiny_place_i').val(); //Obtengo todos los valores
+     var direction = $('#direction_txt').val();
+     var selectedPlaceTxt = $('#fplaces option:selected').text();
+     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
+     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
+     $.post('/direccion/add', { //Hago la petición post
+             idSelDepto,
+             idSelMun,
+             selectedPlace,
+             destinyPlace,
+             direction,
+             selectedPlaceTxt
+         }, //Agrego al dropdown el id de la dirección creada
+         function (dir) {
+             if (dir != null && !jQuery.isEmptyObject(dir)) {
+                 dirCreadas.append($('<option/>', {
+                     value: dir.id,
+                     text: dir.id
+                 }));
+             };
+         });
+     if (selectedPlaceTxt != 'Otro') {
+         selectedFPlace.append($('<option/>', {
+             value: selectedPlace,
+             text: selectedPlaceTxt,
+         }));
+     }
+     //Agrego el lugar frecuente seleccionado al dropdown
+     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+     console.log(selectedFPlace);
+ });
+
+ //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
+ $('#addAddress').click(function () {
+     event.preventDefault();
+     $('#n_dir').text("Si");
+     //Obtiene los valores de los combobox
+     var selectedPlace = $('#fplaces option:selected').text();
+     var selectedDepartamento = $('#departamento option:selected').text();
+     var selectedMunicipio = $('#municipio option:selected').text();
+     var destinyPlace = $('#destiny_place_i').val();
+     var direction = $('#direction_txt').val();
+     //Si el usuario elige la opción "Otro" del combobox de lugares frecuentes
+     if (selectedPlace == "Otro") {
+         //Inserción de elementos a la tabla
+         $('#addressTable tbody').append("<tr>" +
+             "<td>" + destinyPlace + "</td>" +
+             "<td>" + direction + "</td>" +
+             "<td>" + selectedDepartamento + "</td>" +
+             "<td>" + selectedMunicipio + "</td>" +
+             "</tr>");
+         //Reinicia los combobox
+         $('#fplaces').val("");
+         $('#departamento').val("");
+         $('#municipio').val("");
+         $('#destiny_place_i').val("");
+         $('#direction_txt').val("");
+     } else { //Si el usuario selecciona un lugar frecuente
+         //Inserción de elementos a la tabla
+         $('#addressTable tbody').append("<tr>" +
+             "<td>" + selectedPlace + "</td>" +
+             "<td></td>" +
+             "<td>" + selectedDepartamento + "</td>" +
+             "<td>" + selectedMunicipio + "</td>" +
+             "</tr>");
+         //Reinicia los combobox
+         $('#fplaces').val("");
+         $('#departamento').val("");
+         $('#municipio').val("");
+     };
+ });
+
+ /*Función que habilita los campos "Nombre del destino" y "Detalle de dirección"
+ si el usuario seleccionó la opción "Otro" del combobox de lugares frecuentes.*/
+ $('#fplaces').change(function () {
+     if ($('#fplaces').val() == 10000) {
+         $('#destiny_place_i').prop('disabled', false);
+         $('#direction_txt').prop('disabled', false);
+     };
+ });
