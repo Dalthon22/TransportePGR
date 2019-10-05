@@ -27,7 +27,7 @@
                         <td>{{ folo.mission }}</td>
                         <td class="btnDelete">
                             <div class="ui buttons">
-                                <!-- <input type="hidden" id="folo_Aid" name="Afolo_id" value="{{folo.folo6id}}"> -->
+
                                 <form action="/folo6/show" method="GET">
                                     <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo.folo6id}}">
                                     <button type="submit" class="ui icon button" title="Mostrar Requerimiento">
@@ -53,7 +53,7 @@
         </div>
     </div>
 </div>
-
+<!-- Modal de aprobacion -->
 <div class="ui basic modal" id="AprobeModal">
     <div class="ui icon header">
         <i class="checkmark icon big"></i>
@@ -78,7 +78,7 @@
         </div>
     </form>
 </div>
-
+<!-- Modal de Cancelacion -->
 <div class="ui basic modal" id="CancelModal">
     <div class="ui icon header">
         <i class="exclamation triangle icon big"></i>

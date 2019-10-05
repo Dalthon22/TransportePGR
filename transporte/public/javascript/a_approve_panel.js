@@ -83,3 +83,17 @@ $('#AprobeModal')
 
 $('#CancelModal')
     .modal('attach events', '.btnCancel.button', 'show');
+
+$('.ui.form').form({
+    //revalidate: true,
+    inline: true,
+    fields: {
+        motivo: {
+            identifier: 'motivo',
+            rules: [{
+                type: 'empty',
+                prompt: 'Debe ingresar un motivo'
+            }]
+        }
+    }
+});

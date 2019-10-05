@@ -12,6 +12,7 @@ class approve_panel_controller {
         try {
             let id_unidad = 1;
             /* Traemos todos los folos de la unidad correspondiente haciendo Joins con las tablas empleado y estado del folo */
+            /* Se hace un join de Empleados,Folo6 y folo6_state */
             var folos = await employee.findAll({
                 include: [{
                     model: folo6,
@@ -29,14 +30,14 @@ class approve_panel_controller {
                     unit_id: id_unidad
                 }
             });
-            var data = [];
-            /*  */
+            var data = []; /* La data que se enviara al front */
+            /* recorremos todos los empleados y ademas recorremos por cada uno de sus folos */
             folos.forEach((employee, i) => {
                 employee.folo6s.forEach((employeeFolos, i) => {
-                    var el = new Object();
+                    var el = new Object(); /* sera lo que ingresaremos a la data */
                     el.first_name = employee.first_name;
                     el.last_name = employee.last_name;
-                    var formatted_date = moment.utc(employeeFolos.off_date).format("DD MMMM YYYY");
+                    var formatted_date = moment.utc(employeeFolos.off_date).format("DD MMMM YYYY"); /* Damos Formato correcto a la fecha */
                     el.off_date = formatted_date;
                     el.passengers_number = employeeFolos.passengers_number;
                     el.mission = employeeFolos.mission;
@@ -44,7 +45,7 @@ class approve_panel_controller {
                     data.push(el);
                 })
             });
-
+            /* Renderizamos y enviamos la data  */
             return res.render('../views/folo6/folo06_approve_panel_boss_unit.html', {
                 data,
                 message,
@@ -55,33 +56,39 @@ class approve_panel_controller {
         }
     };
 
+    /* Aprobar folo por el jefe de la unidad correspondiente */
     async AprobarFoloUnidad(req, res) {
         try {
-            let folo06id = await req.body.folo6_id_Amodal;
+            let folo06id = await req.body.folo6_id_Amodal; /* Conseguimos el id del folo a aprobar */
             await folo6_approve.update({
+                /* Hacemos update en el estado del folo */
                 request_unit_approve: 1
             }, {
                 where: {
                     folo06_id: folo06id
                 }
             });
+            /* Asignamos los mensajes que se enviaran */
             let message = 'true';
             let atype = 'true';
             this.getListUnit(req, res, message, atype);
         } catch {
+            /* Error al hacer el update que regresara a la pagina con  */
             console.log(error);
             error = 'No se actualizo el estado del folo BD ERROR.';
+            /* Asignamos los mensajes que se enviaran */
             let message = 'false';
             let atype = 'true';
             this.getListUnit(req, res, message, atype);
         }
     };
-
+    /* Cancelar el folo 6 por cada jefe de unidad */
     async CancelarFoloUnidad(req, res) {
         try {
+            /* Conseguimos el id del folo y ademas la razon por la que se cancela */
             let folo06id = await req.body.folo6_id_Cmodal;
             let motivoC = await req.body.motivo;
-            console.log(folo06id);
+            /* Hacemos el update a la tabla */
             await folo6_approve.update({
                 request_unit_approve: 0,
                 unit_cancel_detail: motivoC
@@ -90,22 +97,27 @@ class approve_panel_controller {
                     folo06_id: folo06id
                 }
             });
+            /* Asignamos los mensajes que se enviaran */
             let message = 'true';
             let atype = 'false';
+            /* Renderizamos la pagina con los mensajes */
             this.getListUnit(req, res, message, atype);
         } catch {
+            /* Si hay error se hara saber a la persona */
             console.log(error);
             error = 'No se actualizo el estado del folo BD ERROR.';
+            /* se envian los mensajes correspondientes */
             let message = 'false';
             let atype = 'false';
             this.getListUnit(req, res, message, atype);
         }
     };
 
-    /* con getListAllNew se utiliza para los jefes de transporte, mostrara solo los folos que no se han aprobado */
+    /* con getListAllNew se utiliza para el jefe de transporte, mostrara solo los folos que no se han aprobado */
     async getListAllNew(req, res, message, atype) {
         try {
-            let id_unidad = 1;
+            /* Se buscan todos los folos que hayan sido aprobados por cada unidad */
+            /* Se hace un join de Empleados,Folo6 y folo6_apporve */
             var folos = await employee.findAll({
                 include: [{
                     model: folo6,
@@ -114,20 +126,19 @@ class approve_panel_controller {
                     include: [{
                         model: folo6_approve,
                         where: {
-                            request_unit_approve: 1,
-                            transport_unit_approve: 0,
-                            cancel_tunit_detail: null
+                            request_unit_approve: 1, //Aprobado por Unidad
+                            transport_unit_approve: 0, //Sin Aprobar por Transporte
+                            cancel_tunit_detail: null //Que no haya sido cancelado
                         }
                     }]
-                }],
-                where: {
-                    unit_id: id_unidad
-                }
+                }]
             });
-            console.log(folos);
+            /* Se enviara un array con todos los folos con los datos a mostrar */
             var data = [];
+            /* Recorremos cada empleado y luego por todos los folos que tienen */
             folos.forEach((employee, i) => {
                 employee.folo6s.forEach((employeeFolos, i) => {
+                    /* Se asignara a una variable el para luego ñadirla a la data */
                     var el = new Object();
                     el.first_name = employee.first_name;
                     el.last_name = employee.last_name;
@@ -136,10 +147,13 @@ class approve_panel_controller {
                     el.passengers_number = employeeFolos.passengers_number;
                     el.mission = employeeFolos.mission;
                     el.folo6id = employeeFolos.id;
+                    el.wDriver = employeeFolos.with_driver;
+                    el.off_hour = moment.utc(employeeFolos.off_hour).format("h:mm A");
+
                     data.push(el);
                 })
             });
-            console.log(data);
+            /* Se renderiza la pagina con la data y si llevase algun mensaje */
             return res.render('../views/folo6/folo06_approve_panel_transport.html', {
                 data,
                 message,
@@ -149,9 +163,12 @@ class approve_panel_controller {
             console.log(error);
         }
     };
-    async AprobarFoloTransporte(req, res) {
+
+    /* Metodo para aprobar el folo y pase a la siguiente asignación */
+    async AprobeFoloTransport(req, res) {
         try {
-            let folo06id = await req.body.folo6_id_Amodal;
+            let folo06id = await req.body.folo6_id_Amodal; /* se consigue el id del folo */
+            /* se actualiza la tabla de estados del folo correspondiente */
             await folo6_approve.update({
                 transport_unit_approve: 1
             }, {
@@ -159,22 +176,29 @@ class approve_panel_controller {
                     folo06_id: folo06id
                 }
             });
+            /* Se asignan los mensajes para mostrar */
             let message = 'true';
             let atype = 'true';
+            /* Se renderiza la pagina con mensaje */
             this.getListAllNew(req, res, message, atype);
         } catch {
             console.log(error);
             error = 'No se actualizo el estado del folo BD ERROR.';
+            /* Se asignan los mensajes para mostrar el error */
             let message = 'false';
             let atype = 'true';
+            /* se renderiza la pagina con mensaje */
             this.getListAllNew(req, res, message, atype);
         }
     };
+
+    /* Metodo para cancelar el folo si tiene discrepancia */
     async CancelarFoloTransporte(req, res) {
         try {
+            /* se consiguen el id del folo y el motivo de la cancelacion */
             let folo06id = await req.body.folo6_id_Cmodal;
             let motivoC = await req.body.motivo;
-            console.log(folo06id);
+            /* se actualiza la tabla de estados del folo correspondiente */
             await folo6_approve.update({
                 request_unit_approve: 0,
                 unit_cancel_detail: motivoC
@@ -183,14 +207,18 @@ class approve_panel_controller {
                     folo06_id: folo06id
                 }
             });
+            /* Se asignan los mensajes a enviar */
             let message = 'true';
             let atype = 'false';
+            /* se renderiza la pagina con mensaje de aprobación */
             this.getListAllNew(req, res, message, atype);
         } catch {
             console.log(error);
             error = 'No se actualizo el estado del folo BD ERROR.';
+            /* se asignan los mensajes de error */
             let message = 'false';
             let atype = 'false';
+            /* se renderiza la pagina con mensaje de error */
             this.getListAllNew(req, res, message, atype);
         }
     };

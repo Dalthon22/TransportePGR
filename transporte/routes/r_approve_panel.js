@@ -24,7 +24,7 @@ router.get('/nuevos_requerimientos', (req, res) => {
 router.post('/nuevos_requerimientos', (req, res) => {
     let aod = req.body.aprobacion;
     if (aod == 1) {
-        controller.AprobarFoloTransporte(req, res);
+        controller.AprobeFoloTransport(req, res);
     } else {
         controller.CancelarFoloTransporte(req, res);
     }
