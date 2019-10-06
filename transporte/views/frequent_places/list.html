@@ -16,6 +16,8 @@
                     lugar frecuente</button></a>
             <br>
             <input type="hidden" id="messages" name="messages" value="{{messages}}">
+            <br>
+            <br>
             <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
                 <thead>
                     <tr>
@@ -26,37 +28,12 @@
                         <th>Acciones:</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
-                    {% for fplace in fplaces %}
-                    <tr class="btnDelete" data-id="{{fplace.id}}">
-                        <td>{{ fplace.name}}</td>
-                        <td>{{ fplace.detail }}</td>
-                        <td>{{ fplace.department.name }}</td>
-                        <td>{{ fplace.city.name }}</td>
-                        <td class="btnDelete">
-                            <div class="ui buttons">
-                                <form action="/lugares_frecuentes/edit" method="GET">
-                                    <input type="hidden" id="fplace_id" name="fplace_id" value="{{fplace.id}}">
-                                    <button type="submit" class="ui icon button" data-content="Editar Lugar Frecuente">
-                                        <i class="black edit icon"></i>
-                                    </button>
-                                </form>
-                                <button class="ui icon button btnDeleteFplace" id="btnDeleteFplace"
-                                    name="btnDeleteFplace" type="submit">
-                                    <i class="black window close icon"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <p>No hay direcciones disponibles.</p>
-                    {% endfor %}
-                </tbody>
+
             </table>
         </div>
     </div>
 </div>
+<br>
 
 <div class="ui basic modal" id="deleteModal">
     <div class="ui icon header">
