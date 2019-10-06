@@ -72,6 +72,84 @@ function fillApproveButton() {
         $('.ui.form').form('reset');
         document.getElementById("folo6_id_Cmodal").value = idchange;
     });
+
+    $('.button.btnShow').click(function (event) {
+        showLoadingDimmer();
+        var id_folo = parseInt($(event.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val()); /* se busca el id y se asigna al form */
+        console.log("Usted desea Mostrar el folo:" + id_folo);
+        //$('.segment').dimmer('set disabled');
+
+        //$('#delete_modal').modal('show');
+        $('#show_modal')
+            .modal({
+                closable: false,
+                onShow: function () {
+                    $('.segment').dimmer('hide');
+                    console.log("Voy a mostrar el folo" + id_folo);
+                    //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
+                    $.ajax({
+                        url: 'solicitud_nueva/getinfo',
+                        async: false,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id_folo: JSON.stringify(id_folo)
+                        },
+                        success: (data) => {
+                            console.log("Folo que van a eliminar" + data.folo.id);
+                            //Para setting de los labels
+                            $("#off_date_lb1").text(data.folo.off_date);
+                            $("#off_hour_lb1").text(data.folo.off_hour);
+                            $("#return_hour_lb1").text(data.folo.return_hour);
+                            $("#Passenger_number_lb1").text(data.folo.passengers_number);
+                            $("#with_driver_lb1").text((data.folo.with_driver ? "Si" : "No"));
+                            if (data.folo.with_driver) {
+                                $("#driver_name_lb1").text("------");
+                                $("#license_type_lb1").text("------");
+                            } else {
+                                $("#driver_name_lb1").text(data.folo.person_who_drive);
+                                $("#license_type_lb1").text(data.folo.license_type);
+                            }
+                            $("#mission_lb1").text(data.folo.mission);
+                            if ((data.folo.observation).length > 1) {
+                                $("#observation_lb1").text(data.folo.observation);
+                            } else {
+                                $("#observation_lb1").text("Sin observaciones");
+                            }
+                            $("#created_at_lb1").text(data.folo.created_at);
+                            //Limpiar la tabla
+                            $('#addressTable1').find('tbody').detach();
+                            $('#addressTable1').append($('<tbody>'));
+                            if (data.folo.fplaces.length) {
+                                data.folo.fplaces.forEach(ele => {
+                                    //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
+                                    //Inserción de elementos a la tabla
+                                    $('#addressTable1 tbody').append("<tr>" +
+                                        "<td>" + ele.name + "</td>" +
+                                        "<td>" + ele.detail + "</td>" +
+                                        "<td>" + ele.city.name + "</td>" +
+                                        "<td>" + ele.department.name + "</td>" +
+                                        "</tr>");
+                                })
+                            }
+                            if (data.folo.address.length) {
+                                data.folo.address.forEach(ele => {
+                                    //direcciones.push("\n" + i + " - " /* + ele.name + ', ' */ + ele.detail + ', ' + ele.city.name + ',' + ele.department.name + ".");
+                                    //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
+                                    //Inserción de elementos a la tabla
+                                    $('#addressTable1 tbody').append("<tr>" +
+                                        "<td></td>" +
+                                        "<td>" + ele.detail + "</td>" +
+                                        "<td>" + ele.city.name + "</td>" +
+                                        "<td>" + ele.department.name + "</td>" +
+                                        "</tr>");
+                                })
+                            }
+                        }
+                    })
+                }
+            }).modal('show')
+    });
 };
 
 $(function () {
@@ -83,6 +161,10 @@ $('#AprobeModal')
 
 $('#CancelModal')
     .modal('attach events', '.btnCancel.button', 'show');
+
+/* $('#show_modal')
+    .modal('attach events', '.btnShow.button', 'show'); */
+
 
 $('.ui.form').form({
     //revalidate: true,
@@ -97,3 +179,13 @@ $('.ui.form').form({
         }
     }
 });
+
+function showLoadingDimmer() {
+    // $('.segment').dimmer('set active');
+    $('.segment').dimmer({
+        displayLoader: true,
+        loaderVariation: 'slow blue medium elastic',
+        loaderText: "Cargando los datos...",
+        closable: false,
+    }).dimmer('show');
+};
