@@ -1715,7 +1715,7 @@ class folo6_controllers {
                 attributes: ['address_id'],
                 include: [Address]
             }).then(Dirs => {
-                // console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
+                console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
                 Dirs.forEach(row => {
                     if (row.address) {
                         //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
@@ -1723,8 +1723,7 @@ class folo6_controllers {
                         dir.city = new Object();
                         dir.department = new Object();
                         dir.id = row.address.id;
-                        //CORREGIR MODELOS PARA PERMITIR NOMBRE
-                        //dir.name = row.address.name;
+                        dir.name = row.address.name;
                         dir.detail = row.address.detail;
                         dir.city.id = row.address.city_id;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO
@@ -1746,9 +1745,9 @@ class folo6_controllers {
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
-            /* console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
-            console.dir("Direcciones: " + JSON.stringify(el.address)); */
+            console.dir("Direcciones: " + JSON.stringify(el.address));
             // console.dir(data);
             //Envía los datos de 'el' a la vista. En ella se debe acceder a sus atributos en forma: data.folo.x; x es cualquier atributo del folo enviado
             return el;
