@@ -7,13 +7,16 @@ const {
     validationResult
 } = require('../middleware/expresse-validator');
 
+//Muestra el listado de vales y permite el ingreso de vales
 router.get('/vales', (req, res) => {
-    res.render('./voucher/add_voucher.html');
+    res.render('./voucher/area_combustible_voucher.html');
+
 });
+//MAndar a traer la data que llenara el datatable con los vales ingresados
 router.get('/vales/list', (req, res) => {
     controller.getList(req, res);
 });
-
+//Manda los datos para agregar del vale "n" al vale "m"; n y m son cualquier número donde m > n
 router.post('/vales/add',
     /*  [
          body('first_voucher', "Debe ingresar el numero del voucher").not().isEmpty(),
@@ -24,43 +27,11 @@ router.post('/vales/add',
         console.log(req.body);
         controller.createVoucher(req, res);
     });
-
+//Ruta donde se manda a verificar si un número de vales existe
 router.get('/vales/:num',
     (req, res) => {
         const num = req.params.num;
         controller.ifExist(num, req, res);
     });
-
-module.exports = router;
-
-
-/*GET List*/
-router.get('/', (req, res) => {
-    controller.getList(req, res);
-
-});
-
-/*GET Create*/
-router.get('/create', (req, res) => {
-    controller.getCreate(req, res);
-});
-
-/*POST Create*/
-/* router.post('/create',
-    [
-        body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
-        body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
-        body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
-        body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
-        .not().isAlphanumeric()
-        .isLength({
-            min: 10
-        }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
-        body('state', 'Debe ingresar el estado del vehículo').not().isEmpty(),
-        body('seats', 'Debe ingresar la cantidad de asientos').not().isEmpty()
-        .not().toInt().withMessage('Debe ingresar una cantidad númerica')
-    ], (req, res) => {
-        controller.create(req, res);
-    }); */
 
 module.exports = router
