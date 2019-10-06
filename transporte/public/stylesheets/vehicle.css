@@ -22,9 +22,3 @@ input[type=number]::-webkit-outer-spin-button {
 .ui.grid>.row {
     padding-bottom: 2em
 }
-
-#vehiculos_wrapper {
-    padding-top: 0.5em;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}

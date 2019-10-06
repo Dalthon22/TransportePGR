@@ -1,4 +1,10 @@
 .pusher {
     max-height: max-content;
-    height: fit-content+10em;
+    height: fit-content + 10em;
+}
+
+#mytable_wrapper {
+    /* padding-top: 0.5em; */
+    overflow-x: hidden;
+    overflow-y: hidden;
 }

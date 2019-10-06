@@ -4,7 +4,7 @@ var current_plate;
 $(function () {
 
     //Da formato a la tabla de vehiculos
-    $('#vehiculos').DataTable({
+    $('#mytable').DataTable({
         "scrollCollapse": true,
     });
 
