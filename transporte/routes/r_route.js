@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../services/s_route');
+const controller = require('../controllers/c_route');
 const {
     body
 } = require('express-validator');
 
 // Get route list
-router.get('/rutas', (req, res) => {
+router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 

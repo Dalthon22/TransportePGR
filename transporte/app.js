@@ -48,6 +48,7 @@ app.use('/', require('./routes/r_frequent_places'));
 app.use('/', require('./routes/r_address'));
 app.use('/', require('./routes/r_procuraduria'));
 app.use('/vehiculos', require('./routes/r_vehicle'));
+app.use('/rutas', require('./routes/r_route'));
 app.use('/', require('./routes/r_employee'));
 app.use('/', require('./routes/r_approve_panel'));
 
