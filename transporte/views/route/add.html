@@ -3,10 +3,11 @@
 {% block views %}
 <div class="ui container" id="add">
   <h1 class="ui blue dividing header">Crear ruta</h1>
-  <form class="ui form" action="/rutas/gestionar" method="POST">
+  <form class="ui form" action="/rutas/registrar" method="POST">
     <div class="required field">
       <label>Nombre de la ruta:</label>
-      <input type="text" name="name" id="name" placeholder="Nombre de la ruta estándar" value="{{name}}">
+      <input type="text" name="name" id="name" autocomplete="off" placeholder="Nombre de la ruta estándar"
+        value="{{name}}">
     </div>
     <a href="/rutas">
       <div class="ui left floated animated button" type="button">
@@ -18,6 +19,7 @@
     </a>
     <button class="ui positive button" type="submit">Guardar</button>
   </form>
+  <br>
   {% if errors %}
   <div class="ui error message">
     {% for error in errors %}
@@ -27,4 +29,6 @@
   {% endif %}
 </div>
 </div>
+
+<script src="/javascript/route/a_route.js"></script>
 {% endblock %}

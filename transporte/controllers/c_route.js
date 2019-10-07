@@ -14,7 +14,9 @@ class Route_controller {
   //Gets routes list
   async getList(req, res) {
     try {
-      var Routes = await Route.findAll();
+      var Routes = await Route.findAll({
+        order: Sequelize.literal('id ASC')
+      });
       return res.render('../views/route/list.html', {
         Routes
       });
@@ -66,10 +68,8 @@ class Route_controller {
       let route_id = req.query.route_id;
       console.log(route_id);
       let Ruta = await Route.findByPk(route_id);
-      let Departamentos = await department_controller.getList();
       return res.render('../views/route/edit.html', {
-        Ruta,
-        Departamentos
+        Ruta
       });
     } catch (error) {
       console.log(error);
@@ -83,25 +83,19 @@ class Route_controller {
       let {
         route_id,
         name,
-        departamento,
-        municipio,
       } = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new route in the DB.
         let Ruta = await Route.findByPk(route_id);
-        let Departamentos = await department_controller.getList();
         res.render('../views/route/edit.html', {
           Ruta,
-          Departamentos,
           errors: errors.array()
         });
       } else {
         console.log(req.body);
         Route.update({
           name: name,
-          city_id: municipio,
-          department_id: departamento
         }, {
           where: {
             id: route_id

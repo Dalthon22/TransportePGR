@@ -11,12 +11,12 @@ router.get('/', (req, res) => {
 });
 
 // Show add form and Get Departamentos list
-router.get('/gestionar', (req, res) => {
+router.get('/registrar', (req, res) => {
     controller.getAdd(req, res);
 });
 
 //Save route
-router.post('/gestionar', [
+router.post('/registrar', [
         //Validations
         body('name', 'Ingrese el nombre de la ruta estándar.').not().isEmpty(),
         body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({
@@ -36,15 +36,13 @@ router.get('/actualizar', (req, res) => {
 
 
 //Saves edited route
-router.post('/update', [
+router.post('/actualizar', [
     //Validations
     body('name', 'Ingrese el nombre de la ruta estándar.').not().isEmpty(),
     body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({
         max: 40
     }),
-    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9 ]+$/i),
-    body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
-    body('municipio', 'No seleccionó un municipio').not().isEmpty()
+    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9 ]+$/i)
 ], (req, res) => {
     controller.updateRoute(req, res);
 });

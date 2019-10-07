@@ -6,7 +6,7 @@
     <div class="ui vertically divided grid">
         <div class="sixteen wide column">
             <h1 id="title" class="ui blue dividing header"><i class="route icon"></i>Lista de rutas estándar</h1>
-            <a href="/rutas/gestionar">
+            <a href="/rutas/registrar">
                 <button class="ui labeled icon right floated primary button" id="nuevo" tabindex="0">
                     <i class="plus icon"></i>Agregar</button>
             </a>
@@ -22,7 +22,8 @@
                     <tr>
                         <td class="center aligned">{{ route.name }}</td>
                         <td class="center aligned">
-                            <i class="edit big yellow icon"></i><input type="hidden" value={{ route.id }}>
+                            <i class="edit big yellow icon" value={{ route.id }}></i><input name="route_id"
+                                type="hidden" value={{ route.id }}>
                         </td>
                     </tr>
                     {% endfor %}
