@@ -285,7 +285,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
         .modal({
             closable: false,
             onShow: function () {
-                $('.segment').dimmer('hide');
+
                 console.log("Voy a mostrar el folo" + id_folo);
                 //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
                 $.ajax({
@@ -315,7 +315,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                         $("#license_type_lb1").text(data.folo.license_type);
                     }
                     $("#mission_lb1").text(data.folo.mission);
-                    if ((data.folo.observation).length > 1) {
+                    if (data.folo.observation) {
                         $("#observation_lb1").text(data.folo.observation);
                     } else {
                         $("#observation_lb1").text("Sin observaciones");
@@ -351,7 +351,8 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                     }
                 })
             }
-        }).modal('show')
+        }).modal('show');
+    $('.segment').dimmer('hide');
 });
 
 function successAddToast(title, message) {
