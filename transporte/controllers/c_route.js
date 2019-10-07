@@ -24,12 +24,9 @@ class Route_controller {
   };
 
   //Gets departments list and renders add form
-  async getDepartmentList(req, res) {
+  async getAdd(req, res) {
     try {
-      let Departamentos = await department_controller.getList();
-      return res.render('../views/route/add.html', {
-        Departamentos
-      });
+      return res.render('../views/route/add.html');
     } catch (error) {
       console.log(error);
     }
@@ -41,15 +38,12 @@ class Route_controller {
       const errors = validationResult(req);
       let {
         name,
-        departamento,
-        municipio
       } = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new route in the DB.
         let Departamentos = await department_controller.getList();
         res.render('../views/route/add.html', {
-          Departamentos,
           name,
           errors: errors.array()
         });
@@ -57,9 +51,7 @@ class Route_controller {
       } else {
         console.log(req.body);
         Route.create({
-          name,
-          city_id: municipio,
-          department_id: departamento
+          name
         });
         res.redirect('/rutas');
       }

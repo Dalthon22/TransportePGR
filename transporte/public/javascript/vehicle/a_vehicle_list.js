@@ -23,7 +23,7 @@ $(function () {
 
     $(".edit.yellow.icon").click(function () {
         var index = $(this).closest("tr")[0].rowIndex;
-        var tr = $('#vehiculos').find("tr").eq(index);
+        var tr = $('#mytable').find("tr").eq(index);
         current_plate = tr.find("td").eq(0).text();
         console.log(tr);
         //alert('You click plate: ' + current_plate + " and the id is: " + index);
