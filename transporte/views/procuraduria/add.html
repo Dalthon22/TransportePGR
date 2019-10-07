@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block views %}
-<section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
+<div class="ui container" id="add" style="width: 750px; margin-left: 0px;">
   {% if Procu %}
   <h1 class="ui header">Crear procuraduría</h1>
   {% else %}
@@ -23,5 +23,5 @@
     {% endfor %}
   </div>
   {% endif %}
-</section>
+</div>
 {% endblock %}
