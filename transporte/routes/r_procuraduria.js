@@ -17,6 +17,8 @@ router.get('/gestionar', (req, res) => {
 
 
 //Saves edited procuraduría
+//Daba error por longitud 40
+//06102019_DD
 router.post('/gestionar', [
     //Validations
     body('name', 'Ingrese el nombre de la procuraduría.').not().isEmpty(),

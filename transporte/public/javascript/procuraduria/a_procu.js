@@ -1,3 +1,8 @@
+/*
+Animaciones del Front del formulario de ingresar Procu 
+06102019_DD
+*/
+
 $(function () {
 
     $('#mytable').DataTable({

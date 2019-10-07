@@ -49,6 +49,8 @@ class Procuraduria_controller {
       let {
         name,
       } = req.body;
+      //Para enviar si hay error
+      //06102019_DD
       var Procu = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
