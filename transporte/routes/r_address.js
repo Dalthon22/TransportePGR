@@ -6,7 +6,7 @@ const {
 } = require('express-validator');
 
 //get addresses list
-router.get('/direccion', (req, res) => {
+router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 

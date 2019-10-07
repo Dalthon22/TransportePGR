@@ -138,7 +138,6 @@ class Vehicle_controller {
             } = req.body;
             let vehicle = req.body;
             if (errors.isEmpty() && !await this.existByPlate(plate)) {
-                const created_at = new Date();
                 await Vehicle.create({
                     brand,
                     chassis,
@@ -147,7 +146,6 @@ class Vehicle_controller {
                     plate,
                     state,
                     seats,
-                    created_at
                 });
                 const query = querystring.stringify({
                     title: "Guardado exitoso",
@@ -194,7 +192,6 @@ class Vehicle_controller {
             } = req.body;
             let vehicle = req.body;
             if (errors.isEmpty()) {
-                const updated_at = new Date();
                 await Vehicle.update({
                     brand,
                     chassis,
@@ -203,7 +200,6 @@ class Vehicle_controller {
                     plate,
                     state,
                     seats,
-                    updated_at
                 }, {
                     where: {
                         id: vehicle_id

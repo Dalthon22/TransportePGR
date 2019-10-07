@@ -44,7 +44,6 @@ class Route_controller {
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new route in the DB.
-        let Departamentos = await department_controller.getList();
         res.render('../views/route/add.html', {
           name,
           errors: errors.array()
