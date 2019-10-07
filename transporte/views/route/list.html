@@ -3,33 +3,33 @@
 {% block views %}
 
 <div id="mytable" class="ui container">
-    <h1 id="title" class="ui blue dividing header">Lista de rutas estándar.</h1>
-    <table id="mytable" class="ui selectable table">
-        <thead>
-            <tr class="ui green table">
-                <th class="center aligned">Nombre:</th>
-                <th class="center aligned">Departamento:</th>
-                <th class="center aligned">Municipio:</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for route in Routes %}
-            <tr>
-                <td>{{ route.name }}</td>
-                <td>{{ route.department.name }}</td>
-                <td>{{ route.city.name }}</td>
-                <td>
-                    <form action="/rutas/update" method="GET">
-                        <button type="submit" class="huge basic black ui icon button">
-                            <i class="black edit icon">
-                                <input type="hidden" id="route_id" name="route_id" value={{ route.id }}></i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="ui vertically divided grid">
+        <div class="sixteen wide column">
+            <h1 id="title" class="ui blue dividing header"><i class="route icon"></i>Lista de rutas estándar</h1>
+            <table id="mytable" class="ui celled selectable table">
+                <thead>
+                    <tr class="ui green table">
+                        <th class="center aligned">Nombre:</th>
+                        <th class="center aligned">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for route in Routes %}
+                    <tr>
+                        <td>{{ route.name }}</td>
+                        <td>
+                            <form action="/rutas/update" method="GET">
+                                <button type="submit" class="huge basic black ui icon button">
+                                    <i class="black edit icon">
+                                        <input type="hidden" id="route_id" name="route_id" value={{ route.id }}></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
