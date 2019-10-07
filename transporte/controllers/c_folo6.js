@@ -1946,6 +1946,7 @@ class folo6_controllers {
                 });
             } else {
                 console.log("Estoy en el create");
+                //CREATE para los estados de aprobacion del folo
                 //Si en el folo 6 selecciono motorista se llenará con estos datos la BD
                 if (motorista) {
                     folo = await Folo6.create({
@@ -1984,6 +1985,21 @@ class folo6_controllers {
                     });
                     console.dir("Folo creado" + folo);
                 }
+                //Si es jefe, se auto-aprobara a si mismo
+                if (emp.is_unit_boss) {
+                    Apanel.create({
+                        request_unit_approve: 1,
+                        aprove_boss_id: emp.id,
+                        transport_unit_approve: 0,
+                        folo06_id: folo.id
+                    });
+                } else {
+                    Apanel.create({
+                        request_unit_approve: 0,
+                        transport_unit_approve: 0,
+                        folo06_id: folo.id
+                    });
+                }
                 //CREATE para places container, esta tabla relaciona ya sean lugares frecuentes o direcciones con un folo 
                 if (fplaces.length) {
                     fplaces.forEach(id => {
@@ -2006,23 +2022,7 @@ class folo6_controllers {
                     })
                 } else {
                     console.log("No hay direcciones que relacionar");
-
                 }
-                if (employee_controller.isBoss(emp.id)) {
-                    Apanel.create({
-                        request_unit_approve: true,
-
-                        transport_unit_approve: false,
-                        folo06_id: folo.id
-                    });
-                } else {
-                    Apanel.create({
-                        request_unit_approve: false,
-                        transport_unit_approve: false,
-                        folo06_id: folo.id
-                    });
-                }
-
                 console.log("sali del create");
                 //Datos que se envían a la vista 
                 res.send({

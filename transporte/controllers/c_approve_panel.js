@@ -60,12 +60,15 @@ class approve_panel_controller {
     async AprobarFoloUnidad(req, res) {
         try {
             let folo06id = await req.body.folo6_id_Amodal; /* Conseguimos el id del folo a aprobar */
+            /* var idboss = session.getActual.idemployee(); */
+            var idboss = 1;
             await folo6_approve.update({
                 /* Hacemos update en el estado del folo */
-                request_unit_approve: 1
+                request_unit_approve: 1,
+                aprove_boss_id: idboss
             }, {
                 where: {
-                    folo06_id: folo06id
+                    folo06_id: folo06id,
                 }
             });
             /* Asignamos los mensajes que se enviaran */
@@ -168,9 +171,12 @@ class approve_panel_controller {
     async AprobeFoloTransport(req, res) {
         try {
             let folo06id = await req.body.folo6_id_Amodal; /* se consigue el id del folo */
-            /* se actualiza la tabla de estados del folo correspondiente */
+            /* se actualiza la tabla de estados del folo correspondie   nte */
+            /* var idboss = session.getActual.idemployee(); */
+            var idboss = 7;
             await folo6_approve.update({
-                transport_unit_approve: 1
+                transport_unit_approve: 1,
+                aprove_tunit_boss_id: idboss
             }, {
                 where: {
                     folo06_id: folo06id
