@@ -6,7 +6,7 @@ const {
 } = require('express-validator');
 
 // Get procuradurías list
-router.get('/', (req, res) => {
+router.get('/instituciones', (req, res) => {
     controller.getList(req, res);
 });
 

@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Folo6 = require('./m_folo6');
+const Unit = require('./m_unit');
 const Folo6_Approve = require('./m_folo6_approve_state');
-//const Procuraduria = require('./m_procuraduria');
 
 const Employee = db.define('employee', {
     first_name: {
@@ -70,4 +70,8 @@ Employee.hasMany(Folo6_Approve, {
 Employee.belongsTo(Employee, {
     foreignKey: 'id_boss'
 });
+
+Employee.belongsTo(Unit, {
+    foreignKey: 'unit_id'
+})
 module.exports = Employee;

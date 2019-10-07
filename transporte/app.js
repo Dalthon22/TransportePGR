@@ -41,13 +41,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 //routes
-app.use(require('./routes/r_folo6'));
+app.use('/', require('./routes/index'));
+app.use('/', require('./routes/r_folo6'));
 app.use('/', require('./routes/r_voucher'));
-app.use(require('./routes/index'));
 app.use('/', require('./routes/r_frequent_places'));
-app.use('/direccion', require('./routes/r_address'));
-app.use('/instituciones', require('./routes/r_procuraduria'));
+app.use('/', require('./routes/r_address'));
+app.use('/', require('./routes/r_procuraduria'));
 app.use('/vehiculos', require('./routes/r_vehicle'));
+app.use('/rutas', require('./routes/r_route'));
 app.use('/', require('./routes/r_employee'));
 app.use('/', require('./routes/r_approve_panel'));
 
@@ -64,7 +65,8 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send('error');
+  //res.send('error' + __dirname);
+  res.render('404.html');
 });
 
 module.exports = app;

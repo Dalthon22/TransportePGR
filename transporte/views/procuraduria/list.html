@@ -2,12 +2,15 @@
 {% block views %}
 
 <section id="lista_procuradurias">
-    <h1 id="title" class="ui header">Lista de procuradurías</h1>
+    <h1 id="title" class="ui blue dividing header"><i class="building outline icon"></i>Lista de procuradurías</h1>
+    <a href="/instituciones/gestionar">
+        <button class="ui labeled icon right floated primary button”><i class=" plus icon"></i>Agregar</button>
+    </a>
     <table class="ui collapsing table">
         <thead>
             <tr class="ui green table">
                 <th class="center aligned">Nombre</th>
-                <th></th>
+                <th class="center aligned">Acción</th>
             </tr>
         </thead>
         <tbody>
@@ -15,12 +18,7 @@
             <tr>
                 <td>{{ procu.name }}</td>
                 <td>
-                    <form action="/instituciones/update" method="GET">
-                        <button type="submit" class="huge basic black ui icon button">
-                            <i class="black edit icon">
-                                <input type="hidden" id="procu_id" name="procu_id" value={{ procu.id }}></i>
-                        </button>
-                    </form>
+
                 </td>
             </tr>
             {% else %}

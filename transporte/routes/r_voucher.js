@@ -34,4 +34,4 @@ router.get('/vales/:num',
         controller.ifExist(num, req, res);
     });
 
-module.exports = router
+module.exports = router;

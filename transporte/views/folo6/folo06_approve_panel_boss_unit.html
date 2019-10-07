@@ -6,7 +6,8 @@
             <br>
             <input type="hidden" id="messagetype" value="{{atype}}">
             <input type="hidden" id="messageinfo" value="{{message}}">
-            <h1 id="title" class="ui header">Aprobacion de Requerimientos.</h1>
+            <h1 id="title" class="ui blue dividing header"><i class="clipboard check icon"></i>Aprobacion de
+                Requerimientos</h1>
             <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
                 <thead>
                     <tr>
@@ -43,8 +44,6 @@
                             </div>
                         </td>
                     </tr>
-                    {% else %}
-                    <p>No hay Requerimientos que Aprobar.</p>
                     {% endfor %}
                 </tbody>
             </table>
@@ -146,5 +145,6 @@
 
 <script src="/javascript/a_approve_panel.js"></script>
 <link rel="stylesheet" href="/stylesheets/frequent_places/frequent_places_list.css">
+<link rel="stylesheet" href="/stylesheets/datatablefix.css">
 
 {% endblock %}
