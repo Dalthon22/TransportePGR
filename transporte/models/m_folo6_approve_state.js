@@ -11,9 +11,12 @@ const Folo6_Approve_State = db.define('folo6_approve_state', {
     unit_cancel_detail: {
         type: Sequelize.STRING(250),
     },
-    transport_unit_approve: {
-        type: Sequelize.BOOLEAN,
+    boss_id: {
+        type: Sequelize.INTEGER,
         allowNull: true,
+        validate: {
+            notEmpty: true,
+        }
     },
     cancel_tunit_detail: {
         type: Sequelize.STRING(250),

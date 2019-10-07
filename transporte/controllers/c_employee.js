@@ -34,6 +34,25 @@ class employee_controllers {
         }
     }
 
+    async isBoss(id, req, res) {
+        try {
+            let emp = await Employee.findByPk(id, {
+                attributes: ['is_unit_boss']
+            });
+            console.log("El empleado recibido" + emp);
+            if (emp.is_unit_boss == 1) {
+                var isUnitBoss = true;
+            } else {
+                var isUnitBoss = false;
+            }
+            res.send({
+                isUnitBoss
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 
     async findById1(id) {
         try {

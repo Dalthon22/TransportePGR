@@ -6,6 +6,7 @@ const FPlace = require('../models/m_frequent_place');
 const Address = require('../models/m_address');
 const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
+const Apanel = require('../models/m_folo6_approve_state');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -2007,6 +2008,21 @@ class folo6_controllers {
                     console.log("No hay direcciones que relacionar");
 
                 }
+                if (employee_controller.isBoss(emp.id)) {
+                    Apanel.create({
+                        request_unit_approve: true,
+
+                        transport_unit_approve: false,
+                        folo06_id: folo.id
+                    });
+                } else {
+                    Apanel.create({
+                        request_unit_approve: false,
+                        transport_unit_approve: false,
+                        folo06_id: folo.id
+                    });
+                }
+
                 console.log("sali del create");
                 //Datos que se envían a la vista 
                 res.send({

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Folo6 = require('./m_folo6');
+const Folo6_Approve = require('./m_folo6_approve_state');
 //const Procuraduria = require('./m_procuraduria');
 
 const Employee = db.define('employee', {
@@ -57,6 +58,13 @@ const Employee = db.define('employee', {
 
 Employee.hasMany(Folo6, {
     foreignKey: 'employee_id'
+});
+
+Employee.hasMany(Folo6_Approve, {
+    foreignKey: 'aprove_boss_id'
+});
+Employee.hasMany(Folo6_Approve, {
+    foreignKey: 'aprove_tunit_boss_id'
 });
 
 Employee.belongsTo(Employee, {
