@@ -23,3 +23,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
 }
+
+#fix_center {
+    padding-left: 20.5em
+}

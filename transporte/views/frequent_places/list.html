@@ -65,22 +65,23 @@
         <i class="trash alternate outline icon"></i>
         Eliminar Destino Frecuente.
     </div>
-    <div class="content">
-        <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
-    </div>
-
-    <div class="actions">
-        <div class="ui red basic cancel inverted button">
-            <i class="remove icon"></i>
-            Cancelar
+    <div id="fix_center">
+        <div class="content">
+            <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
         </div>
-        <a href="/lugares_frecuentes/delete">
-            <div class="ui green ok inverted button" type="submit">
-                <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal" value="">
-                <i class="checkmark icon"></i>
-                Aceptar
+        <form class="ui form" action="/lugares_frecuentes" method="POST">
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    Cancelar
+                </div>
+                <div class="ui right aligned green button" id="modal_btnAprove">
+                    <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal" value="">
+                    <i class="checkmark icon"></i>
+                    Aceptar
+                </div>
             </div>
-        </a>
+        </form>
     </div>
 </div>
 

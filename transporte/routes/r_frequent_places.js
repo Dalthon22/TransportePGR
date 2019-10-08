@@ -45,7 +45,9 @@ router.post('/lugares_frecuentes/add', [
     }
 });
 
-router.get('/lugares_frecuentes/delete', (req, res) => {
+router.post('/lugares_frecuentes', (req, res) => {
+    let aod = req.body.fplace_id;
+    console.log(aod);
     controller.deleteFrequentPlace(req, res);
 });
 
