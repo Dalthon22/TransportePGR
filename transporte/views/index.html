@@ -14,7 +14,11 @@
     <div class="ui secondary menu" id="user_menu">
         <a class="browse item" id="user">
             <i class="user tie icon"></i>
+            {% if username %}
+            {{username}}
+            {% else %}
             Usuario Fulanito
+            {% endif %}
             <i class="dropdown icon"></i>
         </a>
         <!-- Contenido del menu del usuario -->
