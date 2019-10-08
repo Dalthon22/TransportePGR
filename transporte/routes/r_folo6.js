@@ -9,7 +9,8 @@ router.get('/solicitud_nueva', (req, res) => {
 //Cuando se hace refrencia a esta dirección, está redirecciona a la pantalla del folo con la posibilidad de editar los datos que el usuario ha ingresado previamente 
 router.get('/solicitud_nueva/:id', (req, res) => {
     console.log("Solicito editar el folo con id: " + req.params.id);
-    controller.getOne(req, res);
+    var id = parseInt(req.params.id);
+    controller.foloInfoById(req, res);
 });
 //Esta información muestra como texto cada uno de los atributos del folo
 //****ESTA PENDIENTE DE AGREGAR EL ENVIO DE LAS DIRECCIONES Y LUGARES FRECUENTES
