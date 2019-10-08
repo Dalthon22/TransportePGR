@@ -1,4 +1,5 @@
-const router = require('../middleware/router');
+const express = require('express')
+const router = express.Router();
 const controller = require('../controllers/c_approve_panel');
 const {
     body

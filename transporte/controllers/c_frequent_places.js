@@ -143,7 +143,7 @@ class frequent_place_controller {
                 });
             } else {
                 try {
-                    console.log(fplace_id);
+                    console.log(req.body.detail);
                     await frequent_place.update({
                         name: name,
                         detail: detail,
@@ -154,7 +154,7 @@ class frequent_place_controller {
                             id: fplace_id
                         }
                     });
-                    this.getList(req, res);
+                    res.redirect('/lugares_frecuentes');
                 } catch (error) {
                     console.log(error);
                     error = 'El Lugar de Destino ingresado ya existe.';
@@ -179,7 +179,7 @@ class frequent_place_controller {
 
     async deleteFrequentPlace(req, res) {
         try {
-            let fplace_id = await req.body.fplace_id_dmodal;
+            let fplace_id = req.query.fplace_id;
             console.log(fplace_id);
             await frequent_place.destroy({
                 where: {

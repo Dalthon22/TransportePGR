@@ -9,6 +9,14 @@
       <input type="text" name="name" id="name" value="{{Ruta.name}}">
     </div>
     <input type="hidden" id="route_id" autocomplete="off" name="route_id" value={{ Ruta.id }}>
+    <a href="/rutas">
+      <div class="ui left floated animated button" type="button">
+        <div class="visible content">Volver</div>
+        <div class="hidden content">
+          <i class="left arrow icon"></i>
+        </div>
+      </div>
+    </a>
     <button class="ui positive button" type="submit">Guardar</button>
   </form>
   <br>

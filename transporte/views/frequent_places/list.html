@@ -32,24 +32,14 @@
                 <tbody>
                     <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
                     {% for fplace in fplaces %}
-                    <tr class="btnDelete" data-id="{{fplace.id}}">
+                    <tr data-id="{{fplace.id}}">
                         <td>{{ fplace.name}}</td>
                         <td>{{ fplace.detail }}</td>
                         <td>{{ fplace.department.name }}</td>
                         <td>{{ fplace.city.name }}</td>
-                        <td class="btnDelete">
-                            <div class="ui buttons">
-                                <form action="/lugares_frecuentes/edit" method="GET">
-                                    <input type="hidden" id="fplace_id" name="fplace_id" value="{{fplace.id}}">
-                                    <button type="submit" class="ui icon button" data-content="Editar Lugar Frecuente">
-                                        <i class="black edit icon"></i>
-                                    </button>
-                                </form>
-                                <button class="ui icon button btnDeleteFplace" id="btnDeleteFplace"
-                                    name="btnDeleteFplace" type="submit">
-                                    <i class="black window close icon"></i>
-                                </button>
-                            </div>
+                        <td>
+                            <i class="yellow edit icon" value={{fplace.id}}></i>
+                            <i class="red window close icon" value="{{fplace.id}}"></i>
                         </td>
                     </tr>
                     {% endfor %}
@@ -69,19 +59,10 @@
         <div class="content">
             <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
         </div>
-        <form class="ui form" action="/lugares_frecuentes" method="POST">
-            <div class="actions">
-                <div class="ui red basic cancel inverted button">
-                    <i class="remove icon"></i>
-                    Cancelar
-                </div>
-                <div class="ui right aligned green button" id="modal_btnAprove">
-                    <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal" value="">
-                    <i class="checkmark icon"></i>
-                    Aceptar
-                </div>
-            </div>
-        </form>
+        <div class="ui green ok inverted button" type="submit">
+            <i class="checkmark icon"></i>
+            Aceptar
+        </div>
     </div>
 </div>
 

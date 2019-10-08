@@ -49,21 +49,35 @@ function enviarToast() {
     }
 };
 
-$('#container').css('display', 'block');
-
-
-function fillDeleteButtons() {
-    $(".button.btnDeleteFplace").click(function (e) {
-        var idchange = $(e.currentTarget).closest('td.btnDelete').find("input[name='fplace_id']").val(); /* se busca el id y se asigna al form */
-        console.log(idchange);
-        $('.ui.form').form('reset');
-        document.getElementById("fplace_id_dmodal").value = idchange;
+function editar() {
+    var url_list = '';
+    $(".edit.yellow.icon").click(function () {
+        var id = $(this).attr("value");
+        url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
+        console.log(url_list);
+        location.href = url_list;
     });
-};
+}
 
-$(function () {
-    fillDeleteButtons();
-});
+function eliminar() {
+    var url_list = '';
+    $(".red.window.close.icon").click(function () {
+        var id = $(this).attr("value");
+        $('.ui.modal')
+            .modal({
+                closable: true,
+                onApprove: function () {
+                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                    console.log(url_list);
+                    location.href = url_list;
+                }
+            })
+            .modal('show');
+    });
+}
 
-$('#deleteModal')
-    .modal('attach events', '.btnDeleteFplace.button', 'show');
+
+
+
+
+$('#container').css('display', 'block');
