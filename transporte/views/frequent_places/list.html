@@ -42,14 +42,11 @@
                                 <form action="/lugares_frecuentes/edit" method="GET">
                                     <input type="hidden" id="fplace_id" name="fplace_id" value="{{fplace.id}}">
                                     <button type="submit" class="ui icon button" data-content="Editar Lugar Frecuente">
-                                        <i class="black edit icon"></i>
+                                        <i class="yellow edit icon"></i>
                                     </button>
                                 </form>
-                                <button class="ui icon button btnDeleteFplace" id="btnDeleteFplace"
-                                    name="btnDeleteFplace" type="submit">
-                                    <i class="black window close icon"></i>
-                                </button>
                             </div>
+                            <i class="red window close icon" value="{{fplace.id}}"></i>
                         </td>
                     </tr>
                     {% endfor %}
@@ -74,13 +71,10 @@
             <i class="remove icon"></i>
             Cancelar
         </div>
-        <a href="/lugares_frecuentes/delete">
-            <div class="ui green ok inverted button" type="submit">
-                <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal" value="">
-                <i class="checkmark icon"></i>
-                Aceptar
-            </div>
-        </a>
+        <div class="ui green ok inverted button" type="submit">
+            <i class="checkmark icon"></i>
+            Aceptar
+        </div>
     </div>
 </div>
 

@@ -14,6 +14,7 @@ const Folo6_Approve_State = db.define('folo6_approve_state', {
     transport_unit_approve: {
         type: Sequelize.BOOLEAN,
         allowNull: true,
+        defaultValue: 0
     },
     cancel_tunit_detail: {
         type: Sequelize.STRING(250),

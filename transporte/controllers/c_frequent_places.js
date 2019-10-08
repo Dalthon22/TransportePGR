@@ -178,7 +178,7 @@ class frequent_place_controller {
 
     async deleteFrequentPlace(req, res) {
         try {
-            let fplace_id = req.body.fplace_id;
+            let fplace_id = req.query.fplace_id;
             console.log(fplace_id);
             await frequent_place.destroy({
                 where: {

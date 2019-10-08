@@ -43,6 +43,20 @@ $(document).ready(function () {
         }
     };
     enviarToast();
+
+    $(".red.window.close.icon").click(function () {
+        var id = $(this).attr("value");
+        $('.ui.modal')
+            .modal({
+                closable: true,
+                onApprove: function () {
+                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                    console.log(url_list);
+                    location.href = url_list;
+                }
+            })
+            .modal('show');
+    });
 });
 
 function enviarToast() {
@@ -82,23 +96,3 @@ function enviarToast() {
 };
 
 $('#container').css('display', 'block');
-
-
-function fillDeleteButtons() {
-    $(".button.btnDeleteFplace").click(function (e) {
-        var idchange = $(e.currentTarget).closest('td.btnDelete').find("input[name='fplace_id']").val();
-        console.log(idchange);
-        $('#deleteModal').modal('show');
-        $('.ui.form').form('reset');
-        document.getElementById("fplace_id_dmodal").value = idchange;
-    });
-};
-
-$(function () {
-    fillDeleteButtons();
-});
-$('.ui.modal')
-    .modal('attach events', '.btnDeleteFplace.button', 'show');
-/* $('#mytable').on("DOMSubtreeModified", function () {
-    fillDeleteButtons();
-}); */
