@@ -6,6 +6,7 @@ const FPlace = require('../models/m_frequent_place');
 const Address = require('../models/m_address');
 const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
+const Apanel = require('../models/m_folo6_approve_state');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -2068,6 +2069,7 @@ class folo6_controllers {
                 });
             } else {
                 console.log("Estoy en el create");
+                //CREATE para los estados de aprobacion del folo
                 //Si en el folo 6 selecciono motorista se llenará con estos datos la BD
                 if (motorista) {
                     folo = await Folo6.create({
@@ -2106,6 +2108,21 @@ class folo6_controllers {
                     });
                     console.dir("Folo creado" + folo);
                 }
+                //Si es jefe, se auto-aprobara a si mismo
+                if (emp.is_unit_boss) {
+                    Apanel.create({
+                        request_unit_approve: 1,
+                        aprove_boss_id: emp.id,
+                        transport_unit_approve: 0,
+                        folo06_id: folo.id
+                    });
+                } else {
+                    Apanel.create({
+                        request_unit_approve: 0,
+                        transport_unit_approve: 0,
+                        folo06_id: folo.id
+                    });
+                }
                 //CREATE para places container, esta tabla relaciona ya sean lugares frecuentes o direcciones con un folo 
                 if (fplaces.length) {
                     fplaces.forEach(id => {
@@ -2128,7 +2145,6 @@ class folo6_controllers {
                     })
                 } else {
                     console.log("No hay direcciones que relacionar");
-
                 }
                 console.log("sali del create");
                 //Datos que se envían a la vista 

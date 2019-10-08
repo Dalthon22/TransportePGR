@@ -49,36 +49,39 @@ $(document).ready(function () {
     eliminar();
 });
 
+
 function enviarToast() {
     var type = $('input#messagetype').val();
-    var info = $('input#messageinfo').val();
-    console.log(type);
-    console.log(info);
-    if (type == 1) {
-        if (info == 1) {
+    var info = $('input#messageinfo').val(); /* Tomamos los valores de los input en el HTML */
+    if (type == 'true') {
+        if (info == 'true') {
             $('body')
                 .toast({
                     class: 'success',
-                    message: `El Requerimiento fue aprobado`
+                    message: `El Requerimiento fue aprobado`,
+                    position: 'top right'
                 });
-        } else if (info == 0) {
+        } else if (info == 'false') {
             $('body')
                 .toast({
                     class: 'error',
+                    position: 'top right',
                     message: `Error al modificar la base de Datos.`
                 });
         }
-    } else if (type == 0) {
-        if (info == 1) {
+    } else if (type == 'false') {
+        if (info == 'true') {
             $('body')
                 .toast({
                     class: 'warning',
+                    position: 'top right',
                     message: `El Requerimiento fue cancelado`
                 });
-        } else if (info == 0) {
+        } else if (info == 'false') {
             $('body')
                 .toast({
                     class: 'error',
+                    position: 'top right',
                     message: `Error al modificar la base de Datos.`
                 });
         }

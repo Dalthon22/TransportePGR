@@ -34,7 +34,7 @@ function fillTable() {
                 "data": "with_driver"
             }, {
                 "data": "buttons",
-                //Indicarle que lo que se renderizará son los iconos que trae data del controlador 
+                //Indicarle que lo que se renderizará son los iconos que trae data del controlador
                 "render": function (data, type, row, meta) {
                     return data;
                 }
@@ -285,6 +285,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
         .modal({
             closable: false,
             onShow: function () {
+
                 console.log("Voy a mostrar el folo" + id_folo);
                 //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
                 $.ajax({
@@ -352,7 +353,6 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
             }
         }).modal('show');
     $('.segment').dimmer('hide');
-
 });
 
 function successAddToast(title, message) {
