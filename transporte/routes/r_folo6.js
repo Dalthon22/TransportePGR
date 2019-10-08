@@ -1,4 +1,5 @@
-const router = require('../middleware/router');
+const express = require('express')
+const router = express.Router();
 //var bodyParser = require('body-parser');
 const controller = require('../controllers/c_folo6');
 

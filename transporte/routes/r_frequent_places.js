@@ -9,17 +9,17 @@ router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 
-router.get('/add', (req, res) => {
+router.get('/nuevo', (req, res) => {
     controller.getAdd(req, res);
 });
 router.get('/getMunicipios', (req, res) => {
     controller.getMunicipiosByDepartamento(req, res);
 });
-router.get('/edit', (req, res) => {
+router.get('/editar', (req, res) => {
     controller.getUpdate(req, res);
 });
 
-router.post('/add', [
+router.post('/gestionar', [
     //Validations
     body('name', 'El nombre debe ser menor a 100 caracteres.').isLength({
         max: 150

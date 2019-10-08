@@ -44,19 +44,9 @@ $(document).ready(function () {
     };
     enviarToast();
 
-    $(".red.window.close.icon").click(function () {
-        var id = $(this).attr("value");
-        $('.ui.modal')
-            .modal({
-                closable: true,
-                onApprove: function () {
-                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
-                    console.log(url_list);
-                    location.href = url_list;
-                }
-            })
-            .modal('show');
-    });
+    editar();
+
+    eliminar();
 });
 
 function enviarToast() {
@@ -94,5 +84,36 @@ function enviarToast() {
         }
     }
 };
+
+function editar() {
+    var url_list = '';
+    $(".edit.yellow.icon").click(function () {
+        var id = $(this).attr("value");
+        url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
+        console.log(url_list);
+        location.href = url_list;
+    });
+}
+
+function eliminar() {
+    var url_list = '';
+    $(".red.window.close.icon").click(function () {
+        var id = $(this).attr("value");
+        $('.ui.modal')
+            .modal({
+                closable: true,
+                onApprove: function () {
+                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                    console.log(url_list);
+                    location.href = url_list;
+                }
+            })
+            .modal('show');
+    });
+}
+
+
+
+
 
 $('#container').css('display', 'block');
