@@ -38,6 +38,7 @@ router.post('/lugares_frecuentes/add', [
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
     let fplace_id = req.body.fplace_id;
+    console.log(fplace_id);
     if (fplace_id) {
         controller.updateFrequentPlace(req, res);
     } else {

@@ -56,24 +56,26 @@
         <i class="checkmark icon big"></i>
         Aprobar Folo
     </div>
-    <input type="hidden" name="foloAid" id="foloAid" value="">
-    <div class="content">
-        <p>¿Esta seguro de aprobar el folo?</p>
-    </div>
-    <form class="ui form" action="/panel_de_aprobacion" method="POST">
-        <div class="actions">
-            <div class="ui red basic cancel inverted button">
-                <i class="remove icon"></i>
-                Cancelar
-            </div>
-            <button class="ui right aligned green button" id="modal_btnAprove">
-                <input type="hidden" id="folo6_id_Amodal" name="folo6_id_Amodal" value="">
-                <input type="hidden" id="aprobacion" name="aprobacion" value="1">
-                <i class="checkmark icon"></i>
-                Aceptar
-            </button>
+    <div>
+        <input type="hidden" name="foloAid" id="foloAid" value="">
+        <div class="content">
+            <p>¿Esta seguro de aprobar el folo?</p>
         </div>
-    </form>
+        <form class="ui form" action="/panel_de_aprobacion" method="POST">
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    Cancelar
+                </div>
+                <button class="ui right aligned green button" id="modal_btnAprove">
+                    <input type="hidden" id="folo6_id_Amodal" name="folo6_id_Amodal" value="">
+                    <input type="hidden" id="aprobacion" name="aprobacion" value="1">
+                    <i class="checkmark icon"></i>
+                    Aceptar
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 <!-- Modal de Cancelacion -->
 <div class="ui basic modal" id="CancelModal">
@@ -81,29 +83,31 @@
         <i class="exclamation triangle icon big"></i>
         Cancelar folo
     </div>
-    <input type="hidden" name="foloAid" id="foloAid" value="">
-    <div class="content">
-        <p>¿Esta seguro de Cancelar el folo?</p>
-    </div>
-    <form class="ui form" action="/panel_de_aprobacion" method="POST">
-        <div class="field">
-            <label style="color: aliceblue">Motivo</label>
-            <input type="text" name="motivo" placeholder="No cumple con la..." maxlength="150" id="motivo"
-                autocomplete="off">
+    <div class="fixCenter">
+        <input type="hidden" name="foloAid" id="foloAid" value="">
+        <div class="content">
+            <p>¿Esta seguro de Cancelar el folo?</p>
         </div>
-        <div class="actions">
-            <div class="ui red basic cancel inverted button">
-                <i class="remove icon"></i>
-                Cancelar
+        <form class="ui form" action="/panel_de_aprobacion" method="POST">
+            <div class="field">
+                <label style="color: aliceblue">Motivo</label>
+                <input type="text" name="motivo" placeholder="No cumple con la..." maxlength="150" id="motivo"
+                    autocomplete="off">
             </div>
-            <button class="ui right aligned green button" id="modal_btnAprove">
-                <input type="hidden" id="folo6_id_Cmodal" name="folo6_id_Cmodal" value="">
-                <input type="hidden" id="aprobacion" name="aprobacion" value="0">
-                <i class="checkmark icon"></i>
-                Aceptar
-            </button>
-        </div>
-    </form>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    Cancelar
+                </div>
+                <button class="ui right aligned green button" id="modal_btnAprove">
+                    <input type="hidden" id="folo6_id_Cmodal" name="folo6_id_Cmodal" value="">
+                    <input type="hidden" id="aprobacion" name="aprobacion" value="0">
+                    <i class="checkmark icon"></i>
+                    Aceptar
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 <!-- Modal para ver todo el folo -->
 <div class="ui modal segment dimmable" id="show_modal">

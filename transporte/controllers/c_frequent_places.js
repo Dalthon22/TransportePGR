@@ -143,6 +143,7 @@ class frequent_place_controller {
                 });
             } else {
                 try {
+                    console.log(fplace_id);
                     await frequent_place.update({
                         name: name,
                         detail: detail,
