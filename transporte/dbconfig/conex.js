@@ -19,11 +19,6 @@ const Sequelize = require('sequelize');
 });*/
 
 //Local db connection
-/*const dbConex = new Sequelize('sigestran', 'dm15012', 'Cdalton2019', {
-  host: 'localhost',
-  dialect: 'mssql',
-});*/
-//
 const dbConex = new Sequelize('sigestran', 'dm15012', 'Cdalton2019', {
   host: 'localhost',
   dialect: 'mssql',
