@@ -1,0 +1,93 @@
+{% extends "index.html" %}
+{% block views %}
+
+
+
+<div>
+    <h1>Configuración Calendario</h1>
+
+    <table class="ui celled table datatable" id="selectroutes" name="selectroutes" style="width: 70 em">
+        <thead>
+            <tr>
+                <th> Morotista </th>
+                {% for ruta in rutas %}
+                <th>{{ ruta }} <input type="checkbox"> </th>
+                {% else %}
+                <th>No se encuentran rutas</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+    </table>
+
+
+    <div>
+        <button class="ui left labeled icon button">
+            Atras
+            <i class="arrow alternate circle left icon"></i>
+        </button>
+        <button class="ui button btnCancelar">
+            Cancelar
+        </button>
+        <button class="ui right labeled icon button btnContinuar">
+            Continuar
+            <i class="arrow alternate circle right icon"></i>
+        </button>
+    </div>
+
+
+    <div class="ui basic modal" id="modalCancelar">
+        <div class="ui icon header">
+            <i class="exclamation triangle icon"></i>
+            Advertencia
+        </div>
+        <div class="content">
+            <p>¿Desea cancelar?<br></br>Se perderá la infromación seleccionada</p>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <div class="ui green ok inverted button">
+                <i class="checkmark icon"></i>
+                Aceptar
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ui basic modal" id="modalContinuar">
+        <div class="ui icon header">
+            <i class="info icon"></i>
+            Información
+        </div>
+        <div class="content">
+            <p>¿Datos correctos?</p>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                No
+            </div>
+
+            <button class="ui green ok inverted button" id="btnInfoAceptar">
+                <i class="checkmark icon"></i>
+                Aceptar
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="/javascript/a_route_selection.js"></script>
+
+
+
+{% endblock %}
