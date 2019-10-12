@@ -3,36 +3,59 @@
 
 
 
-<div>
-    <h1>Configuración Calendario</h1>
+<div class="ui container">
+
+    <h1 id="tittle" class="ui blue dividing header"><i class="calendar alternate icon"></i>Configuración Calendario</h1>
+
 
     <table class="ui celled table datatable" id="selectroutes" name="selectroutes" style="width: 70 em">
+
         <thead>
             <tr>
-                <th> Morotista </th>
+                <th class="center aligned"> Morotista </th>
                 {% for ruta in rutas %}
-                <th>{{ ruta }} <input type="checkbox"> </th>
+                <th class="center aligned">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="rutas">
+                        <label>{{ruta}}</label>
+                    </div>
+                </th>
                 {% else %}
-                <th>No se encuentran rutas</th>
+                <th class="center aligned">
+                    No se encuentran rutas
+                </th>
                 {% endfor %}
             </tr>
         </thead>
 
         <tbody>
+            {% for motorista in motoristas %}
+            <tr>
+                <td class="center aligned">{{motorista}}</td>
+                {% for ruta1 in rutas %}
+                <td class="center aligned">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="motorista_rutas">
+                        <label></label>
+                    </div>
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
 
         </tbody>
     </table>
 
 
-    <div>
-        <button class="ui left labeled icon button">
+    <div class="botonera">
+        <button class="ui left labeled icon button ui blue button">
             Atras
             <i class="arrow alternate circle left icon"></i>
         </button>
-        <button class="ui button btnCancelar">
+        <button class="ui button btnCancelar ui blue button">
             Cancelar
         </button>
-        <button class="ui right labeled icon button btnContinuar">
+        <button class="ui right labeled icon button btnContinuar ui green button ">
             Continuar
             <i class="arrow alternate circle right icon"></i>
         </button>
@@ -45,7 +68,7 @@
             Advertencia
         </div>
         <div class="content">
-            <p>¿Desea cancelar?<br></br>Se perderá la infromación seleccionada</p>
+            <p>¿Desea cancelar?<br></br>Se perderá la infromación seleccionada.</p>
         </div>
         <div class="actions">
             <div class="ui red basic cancel inverted button">
@@ -81,13 +104,14 @@
 
         </div>
     </div>
+
 </div>
 
 
 
 
 <script src="/javascript/a_route_selection.js"></script>
-
+<link rel="stylesheet" href="/stylesheets/route_selection.css">
 
 
 {% endblock %}

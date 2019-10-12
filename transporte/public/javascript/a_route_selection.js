@@ -15,6 +15,7 @@ document.getElementById("btnInfoAceptar").addEventListener('click', function () 
 })
 
 
+/* para utilizar data table */
 
 $(document).ready(function () {
     $('#selectroutes').DataTable({

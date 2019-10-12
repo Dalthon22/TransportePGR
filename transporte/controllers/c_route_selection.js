@@ -1,5 +1,5 @@
 /*Arreglos para simular datos en la BD*/
-var rutas = ['Aeropuerto', 'San Salvador', 'Ciudad Delgado', 'San Marcos'];
+var rutas = ['Aeropuerto', 'San Salvador', 'Ciudad Delgado', 'San Marcos', 'Olocuilta'];
 var motoristas = ['José Hernández', 'José Martinez', 'José Gonzales', 'José Cortez'];
 
 class route_selection_controller {
@@ -10,7 +10,7 @@ class route_selection_controller {
         try {
             /* var ruta = await routes.findAll();  agregar motorista*/
 
-            return res.render('../views/route_assign.html', {
+            return res.render('../views/route_selection.html', {
                 rutas,
                 motoristas
                 /* Procuradurias */
