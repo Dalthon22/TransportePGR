@@ -58,6 +58,16 @@ class address_services {
       console.log(error);  //Muestra errores.
     };
   };
+
+  async deleteAddress (req, res){
+    let {id_address} = req.body;
+    await Address.destroy({
+      where: {
+        id: id_address,
+      }
+    });
+    console.log("Sí se eliminó.");
+  };
 };
 
 module.exports = new address_services();

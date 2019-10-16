@@ -166,6 +166,10 @@ $('#addAddress').click(function () {
                     "on": {
                         "click": function (){
                             console.log("Funciona.");
+                            $(this).parents('tr').remove();
+                            address = $(this).toArray();
+                            id_address = address[0].attributes.value.value;
+                            $.post('/direccion/delete', {id_address});
                         },
                     },
                 }).appendTo('#addressTable tbody tr td:last');

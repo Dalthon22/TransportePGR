@@ -20,4 +20,8 @@ router.get('/getMunicipios', (req, res) => {
     controller.getMunicipiosByDepartamento(req, res);
 });
 
+router.post('/delete', (req, res) => {
+    controller.deleteAddress(req, res);
+});
+
 module.exports = router;
