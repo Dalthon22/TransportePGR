@@ -138,7 +138,7 @@ $('#time_calendar1')
 $('#createdAddress').hide();
 $('#selectedFPlace').hide();
 
-//Función que guarda las direcciones que se van ingresando a la tabla.
+//Función que guarda en la BD las direcciones que se van ingresando a la tabla.
 $('#addAddress').click(function () {
     event.preventDefault();
     var idSelDepto = $('#departamento').val();
@@ -151,19 +151,31 @@ $('#addAddress').click(function () {
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     $.post('/direccion/add', { //Hago la petición post
         idSelDepto, idSelMun, selectedPlace, destinyPlace, direction, selectedPlaceTxt
-    }, //Agrego al dropdown el id de la dirección creada
+    }, 
         function (dir) {
+            //Agrego al dropdown el id de la dirección creada
             if (dir != null && !jQuery.isEmptyObject(dir)) {
                 dirCreadas.append($('<option/>', {
                     value: dir.id,
                     text: dir.id
                 }));
+                $('<i></i>', {
+                    class: "red big center window close icon",
+                    value: dir.id,
+                    id: "delAddress",
+                    "on": {
+                        "click": function (){
+                            console.log("Funciona.");
+                        },
+                    },
+                }).appendTo('#addressTable tbody tr td:last');
             };
         });
+    //Agrego el lugar frecuente seleccionado al dropdown
     selectedFPlace.append($('<option/>', {
         value: selectedPlace,
         text: selectedPlaceTxt,
-    })); //Agrego el lugar frecuente seleccionado al dropdown
+    })); 
     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
     console.log(selectedFPlace);
 });
@@ -184,6 +196,7 @@ $('#addAddress').click(function() {
         "<td>" + direction + "</td>" +
         "<td>" + selectedDepartamento + "</td>" +
         "<td>" + selectedMunicipio + "</td>" +
+        "<td></td>" +
       "</tr>");
         //Reinicia los combobox
         $('#fplaces').val("");
@@ -198,6 +211,7 @@ $('#addAddress').click(function() {
         "<td></td>" +
         "<td>" + selectedDepartamento + "</td>" +
         "<td>" + selectedMunicipio + "</td>" +
+        "<td></td>" +
       "</tr>");
         //Reinicia los combobox
         $('#fplaces').val("");
@@ -288,4 +302,3 @@ $('#save_print_btn').click(function () {
     En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
     Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
 });
-
