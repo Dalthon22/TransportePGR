@@ -12,12 +12,18 @@
 
         <thead>
             <tr>
-                <th class="center aligned"> Morotista </th>
+                <th class="center aligned">
+                    Rutas <br>\<br> Motoristas
+                </th>
+
                 {% for ruta in rutas %}
                 <th class="center aligned">
+                    {{ruta}}
+                    <br>
+                    <br>
                     <div class="ui checkbox">
                         <input type="checkbox" name="rutas">
-                        <label>{{ruta}}</label>
+                        <label></label>
                     </div>
                 </th>
                 {% else %}
@@ -46,13 +52,13 @@
         </tbody>
     </table>
 
-
+    <br>
     <div class="botonera">
         <button class="ui left labeled icon button ui blue button">
             Atras
             <i class="arrow alternate circle left icon"></i>
         </button>
-        <button class="ui button btnCancelar ui blue button">
+        <button class="ui button btnCancelar ui red button">
             Cancelar
         </button>
         <button class="ui right labeled icon button btnContinuar ui green button ">
@@ -61,7 +67,7 @@
         </button>
     </div>
 
-
+    <!-- modal cancelar -->
     <div class="ui basic modal" id="modalCancelar">
         <div class="ui icon header">
             <i class="exclamation triangle icon"></i>
@@ -71,18 +77,22 @@
             <p>¿Desea cancelar?<br></br>Se perderá la infromación seleccionada.</p>
         </div>
         <div class="actions">
-            <div class="ui red basic cancel inverted button">
+
+            <a href="/home">
+                <button class="ui green deny button">
+                    <i class="checkmark icon"></i>
+                    Aceptar
+                </button>
+            </a>
+            <div class="ui red deny button">
                 <i class="remove icon"></i>
                 Cancelar
             </div>
-            <div class="ui green ok inverted button">
-                <i class="checkmark icon"></i>
-                Aceptar
-            </div>
+
 
         </div>
     </div>
-
+    <!-- modal continuar -->
     <div class="ui basic modal" id="modalContinuar">
         <div class="ui icon header">
             <i class="info icon"></i>
@@ -91,15 +101,18 @@
         <div class="content">
             <p>¿Datos correctos?</p>
         </div>
-        <div class="actions">
-            <div class="ui red basic cancel inverted button">
-                <i class="remove icon"></i>
-                No
-            </div>
 
-            <button class="ui green ok inverted button" id="btnInfoAceptar">
+        <div class="actions">
+
+
+            <button class="ui green deny button" id="btnInfoAceptar">
                 <i class="checkmark icon"></i>
                 Aceptar
+            </button>
+
+            <button class="ui red deny button">
+                <i class="remove icon"></i>
+                No
             </button>
 
         </div>
