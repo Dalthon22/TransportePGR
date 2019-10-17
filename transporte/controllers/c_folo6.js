@@ -1281,7 +1281,9 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -1450,7 +1452,10 @@ class folo6_controllers {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
                     }); */
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    //res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -1629,7 +1634,9 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };

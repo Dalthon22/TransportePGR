@@ -66,6 +66,7 @@ function eliminar() {
         $('.ui.modal')
             .modal({
                 closable: true,
+                S
                 onApprove: function () {
                     url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
                     console.log(url_list);
