@@ -159,19 +159,20 @@ $('#addAddress').click(function () {
                     value: dir.id,
                     text: dir.id
                 }));
+            //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
                 $('<i></i>', {
-                    class: "red big center window close icon",
+                    class: "red big window close icon",
                     value: dir.id,
                     id: "delAddress",
-                    "on": {
+                    "on": { //Cada ícono se crea con un evento onclick.
                         "click": function (){
-                            console.log("Funciona.");
-                            $(this).parents('tr').remove();
-                            address = $(this).toArray();
-                            id_address = address[0].attributes.value.value;
-                            $.post('/direccion/delete', {id_address});
+                            $(this).parents('tr').remove(); //Elimina la dirección de la tabla.
+                            address = $(this).toArray(); //Convierto las propiedades del ícono a array.
+                            id_address = address[0].attributes.value.value; //Obtengo el id de la dirección que está en la propiedad value.
+                            $.post('/direccion/delete', {id_address}); //Elimina la dirección de la BD.
                         },
                     },
+                    //Cada ícono se agrega a la última celda de cada fila de la tabla.
                 }).appendTo('#addressTable tbody tr td:last');
             };
         });
@@ -208,6 +209,11 @@ $('#addAddress').click(function() {
         $('#municipio').val("");
         $('#destiny_place_i').val("");
         $('#direction_txt').val("");
+        //Deshabilita los campos para nombre y detalle de la dirección si seleccionó "Otro".
+        if($('#destiny_place_i').is(':enabled') && $('#direction_txt').is(':enabled')){
+            $('#destiny_place_i').prop('disabled', true);
+            $('#direction_txt').prop('disabled', true);
+        };
     } else { //Si el usuario selecciona un lugar frecuente
         //Inserción de elementos a la tabla
         $('#addressTable tbody').append("<tr>" +
@@ -305,4 +311,15 @@ $('#save_print_btn').click(function () {
     /* Solo funciona en Mozilla Firefox, en Google Chrome se abre una pestaña en blanco.
     En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
     Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
+});
+
+//Función para eliminar todas las direcciones creadas si el usuario se sale del Folo06.
+$('#backBtn').click(function () {
+    var dirCreadas = []; 
+    //Recorro cada elemento del dropdrown, obtengo su propiedad value y la inserto en el array.
+    $('#createdAddress option').each(function () {
+        dirCreadas.push($(this).val());
+    });
+    $.post('/direccion/deleteList', { dirCreadas }); //Petición post para eliminar las direcciones.
+    console.log(dirCreadas);
 });

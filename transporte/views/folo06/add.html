@@ -105,8 +105,7 @@
             </div>
             <div class="required field">
                 <label>Lugar de destino:</label>
-                <select class="ui fluid dropdown" id="fplaces" name="fplaces">
-                </select>
+                <select class="ui fluid dropdown" id="fplaces" name="fplaces"></select>
                 <input id="idfplaces" type="hidden" value="{{fplaces}}">
             </div>
             <div class="field">
@@ -120,10 +119,8 @@
             </div>
             <button class="ui positive button" id="addAddress" name="addAddress">Agregar dirección</button>
             <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
-                <option value=""></option>
             </select>
             <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace">
-                <option value=""></option>
             </select>
             <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
                 <thead>
@@ -148,8 +145,10 @@
                             placeholder="Llevaremos cajas pesadas, esperamos al motorista en la entrada del edificio central"
                             maxlength="150">
                 </div>
-                <div class="ui error message"></div>
-                <button class="ui right aligned positive button" type="submit" id="save_print_btn" name="save_print_btn">Guardar e
+                <a href='/'> {# Cambiar esta línea al listado de folo06. #}
+                <button class=" ui left labeled icon left floated blue button" type="button" id="backBtn" name="backBtn">
+                    <i class="left arrow icon"></i>Volver</button></a>
+                <button class="ui right floated positive button" type="submit" id="save_print_btn" name="save_print_btn">Guardar e
                         imprimir</button>
                 <br>
             </form>

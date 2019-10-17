@@ -20,8 +20,14 @@ router.get('/getMunicipios', (req, res) => {
     controller.getMunicipiosByDepartamento(req, res);
 });
 
+//Elimina la dirección a través del ícono.
 router.post('/delete', (req, res) => {
     controller.deleteAddress(req, res);
+});
+
+//Elimina todas las direcciones creadas al salirse del folo.
+router.post('/deleteList', (req, res) => {
+    controller.deleteAddressList(req, res);
 });
 
 module.exports = router;
