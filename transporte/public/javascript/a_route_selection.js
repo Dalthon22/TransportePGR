@@ -14,6 +14,22 @@ document.getElementById("btnInfoAceptar").addEventListener('click', function () 
         });
 })
 
+$('.col-master').click(function () {
+    var idx = $(this).parent().index();
+    console.log(idx);
+    $('table td:nth-child(' + (idx + 1) + ') input.child').prop('checked', this.checked)
+});
+
+$('.child').change(function () {
+    var $tr = $(this).closest('tr')
+    $tr.find('input.row-master').prop('checked', $tr.find('.child').not(':checked').length == 0);
+
+    var idx = $(this).parent().index(),
+        $tds = $('table td:nth-child(' + (idx + 1) + ')');
+    $tds.find('input.col-master').prop('checked', $tds.find('input.child').not(':checked').length == 0)
+});
+
+
 
 /* para la seleccion de los checkbox */
 
