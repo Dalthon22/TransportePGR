@@ -8,6 +8,45 @@ $(document).ready(function () {
         "scrollY": "500px",
         "scrollCollapse": true,
     });
+    var type = $('input#messagetype').val();
+    var info = $('input#messageinfo').val();
+    console.log(type);
+    console.log(info);
+    if (type == 1) {
+        if (info == 1) {
+            $('body')
+                .toast({
+                    class: 'success',
+                    onclick: 'null',
+                    message: `El Requerimiento fue aprobado`
+                });
+        } else if (info == 0) {
+            $('body')
+                .toast({
+                    class: 'error',
+                    message: `Error al modificar la base de Datos.`
+                });
+        }
+    } else if (type == 0) {
+        if (info == 1) {
+            $('body')
+                .toast({
+                    class: 'warning',
+                    message: `El Requerimiento fue cancelado`
+                });
+        } else if (info == 0) {
+            $('body')
+                .toast({
+                    class: 'error',
+                    message: `Error al modificar la base de Datos.`
+                });
+        }
+    };
+    enviarToast();
+
+    editar();
+
+    eliminar();
 });
 
 

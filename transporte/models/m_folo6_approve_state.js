@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+//const Employee = require('./m_employee');
 
 
 const Folo6_Approve_State = db.define('folo6_approve_state', {
@@ -32,5 +33,13 @@ const Folo6_Approve_State = db.define('folo6_approve_state', {
     updatedAt: 'updated_at',
     freezeTableName: true,
 });
+
+/* Folo6_Approve_State.belongsTo(Employee, {
+    foreignKey: 'aprove_boss_id'
+});
+
+Folo6_Approve_State.belongsTo(Employee, {
+    foreignKey: 'aprove_tunit_boss_id'
+}); */
 
 module.exports = Folo6_Approve_State;
