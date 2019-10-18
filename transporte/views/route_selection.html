@@ -10,19 +10,16 @@
 
     <table class="ui celled table datatable" id="selectroutes" name="selectroutes" style="width: 70 em">
         <tbody>
-            <tr class="top">
+            <tr class="top colorthead">
                 <td class="center aligned">
-                    Rutas <br>\<br> Motoristas
+                    <b>Rutas <br>\<br> Motoristas</b>
                 </td>
-
                 {% for ruta in rutas %}
                 <td class="center aligned">
-                    {{ruta}}
+                    <b>{{ruta}}</b>
                     <br>
                     <br>
-
                     <input type="checkbox" class="master col-master" />
-
                 </td>
                 {% else %}
                 <td class="center aligned">
@@ -35,14 +32,11 @@
                 <td class="center aligned">{{motorista}}</td>
                 {% for ruta1 in rutas %}
                 <td class="center aligned">
-
-                    <input type="checkbox" name="motorista_rutas" class="child"> <label></label>
-
+                    <input type="checkbox" name="motorista_rutas" class="child">
                 </td>
                 {% endfor %}
             </tr>
             {% endfor %}
-
         </tbody>
     </table>
 
