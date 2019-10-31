@@ -11,11 +11,14 @@
     <div class="ui vertically divided grid">
         <div class="sixteen wide column">
             <br>
-            <h1 id="title" class="ui header">Lista de lugares frecuentes.</h1>
-            <a href="/lugares_frecuentes/add"><button class="ui primary button" type="submit">Agregar
-                    lugar frecuente</button></a>
+            <h1 id="title" class="ui blue dividing header"><i class="map icon"></i>Lista de lugares frecuentes</h1>
+            <a href="/lugares_frecuentes/nuevo"><button class="ui ui labeled icon  right floated blue button"
+                    type="submit"><i class="plus icon"></i>Agregar
+                </button></a>
             <br>
             <input type="hidden" id="messages" name="messages" value="{{messages}}">
+            <br>
+            <br>
             <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
                 <thead>
                     <tr>
@@ -29,56 +32,37 @@
                 <tbody>
                     <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
                     {% for fplace in fplaces %}
-                    <tr class="btnDelete" data-id="{{fplace.id}}">
+                    <tr data-id="{{fplace.id}}">
                         <td>{{ fplace.name}}</td>
                         <td>{{ fplace.detail }}</td>
                         <td>{{ fplace.department.name }}</td>
                         <td>{{ fplace.city.name }}</td>
-                        <td class="btnDelete">
-                            <div class="ui buttons">
-                                <form action="/lugares_frecuentes/edit" method="GET">
-                                    <input type="hidden" id="fplace_id" name="fplace_id" value="{{fplace.id}}">
-                                    <button type="submit" class="ui icon button" data-content="Editar Lugar Frecuente">
-                                        <i class="black edit icon"></i>
-                                    </button>
-                                </form>
-                                <button class="ui icon button btnDeleteFplace" id="btnDeleteFplace"
-                                    name="btnDeleteFplace" type="submit">
-                                    <i class="black window close icon"></i>
-                                </button>
-                            </div>
+                        <td>
+                            <i class="yellow big edit icon" value={{fplace.id}}></i>
+                            <i class="red big window close icon" value="{{fplace.id}}"></i>
                         </td>
                     </tr>
-                    {% else %}
-                    <p>No hay direcciones disponibles.</p>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<br>
 
 <div class="ui basic modal" id="deleteModal">
     <div class="ui icon header">
         <i class="trash alternate outline icon"></i>
         Eliminar Destino Frecuente.
     </div>
-    <div class="content">
-        <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
-    </div>
-
-    <div class="actions">
-        <div class="ui red basic cancel inverted button">
-            <i class="remove icon"></i>
-            Cancelar
+    <div id="fix_center">
+        <div class="content">
+            <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
         </div>
-        <a href="/lugares_frecuentes/delete">
-            <div class="ui green ok inverted button" type="submit">
-                <input type="hidden" id="fplace_id_dmodal" name="fplace_id_dmodal" value="">
-                <i class="checkmark icon"></i>
-                Aceptar
-            </div>
-        </a>
+        <div class="ui green ok inverted button" type="submit">
+            <i class="checkmark icon"></i>
+            Aceptar
+        </div>
     </div>
 </div>
 

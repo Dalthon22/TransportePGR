@@ -6,6 +6,7 @@ const FPlace = require('../models/m_frequent_place');
 const Address = require('../models/m_address');
 const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
+const Apanel = require('../models/m_folo6_approve_state');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -1653,7 +1654,7 @@ class folo6_controllers {
 
                 el.id = folo.id;
                 //La BD envia las fechas y horas en formato utc por ello se debe convertir al formato especificado en el método format(). Revisar documentación de moment.js
-                el.off_date = moment.utc(folo.off_date).format("DD/MM/YYYY");
+                el.off_date = moment.utc(folo.off_date).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
                 el.return_hour = moment.utc(folo.return_hour).format("h:mm A");
                 el.passengers_number = folo.passengers_number;
@@ -1662,7 +1663,7 @@ class folo6_controllers {
                 el.license_type = folo.license_type;
                 el.mission = folo.mission;
                 el.observation = folo.observation;
-                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
+                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
 
@@ -1715,7 +1716,7 @@ class folo6_controllers {
                 attributes: ['address_id'],
                 include: [Address]
             }).then(Dirs => {
-                // console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
+                console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
                 Dirs.forEach(row => {
                     if (row.address) {
                         //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
@@ -1723,8 +1724,7 @@ class folo6_controllers {
                         dir.city = new Object();
                         dir.department = new Object();
                         dir.id = row.address.id;
-                        //CORREGIR MODELOS PARA PERMITIR NOMBRE
-                        //dir.name = row.address.name;
+                        dir.name = row.address.name;
                         dir.detail = row.address.detail;
                         dir.city.id = row.address.city_id;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO
@@ -1746,12 +1746,135 @@ class folo6_controllers {
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
-            /* console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
-            console.dir("Direcciones: " + JSON.stringify(el.address)); */
+            console.dir("Direcciones: " + JSON.stringify(el.address));
             // console.dir(data);
             //Envía los datos de 'el' a la vista. En ella se debe acceder a sus atributos en forma: data.folo.x; x es cualquier atributo del folo enviado
             return el;
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    async foloInfoById(req, res) {
+        try {
+            let Departamentos = await department_controller.getList();
+
+            console.log("FOLO QUE VOY A VERIFICAR" + req.params.id)
+            var folo = await Folo6.findAll({
+                where: {
+                    id: req.params.id
+                },
+                attributes: ['id', 'off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver', 'person_who_drive', 'license_type', 'mission', 'observation', 'created_at', 'employee_id']
+            });
+            //console.dir(folo);
+            var el = new Object();
+            folo.forEach((folo, i) => {
+                console.log("FOLO QUE VOY RECIBI" + folo.id)
+
+                el.id = folo.id;
+                //La BD envia las fechas y horas en formato utc por ello se debe convertir al formato especificado en el método format(). Revisar documentación de moment.js
+                el.off_date = moment.utc(folo.off_date).utcOffset("-06:00").format("DD/MM/YYYY");
+                el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
+                el.return_hour = moment.utc(folo.return_hour).format("h:mm A");
+                el.passengers_number = folo.passengers_number;
+                el.with_driver = folo.with_driver ? 1 : 0;
+                el.person_who_drive = folo.person_who_drive;
+                el.license_type = folo.license_type;
+                el.mission = folo.mission;
+                el.observation = folo.observation;
+                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
+                el.employee_id = folo.employee_id;
+            });
+
+            //Contador de lugares frecuentes y direcciones
+            el.b = 0
+            //Contendra el total de direcciones que se han creaddo para el folo que se solicita
+            el.fplaces = [];
+            //Para traer todos los lugares frecuentes ligados a ese folo
+            await place_container.findAll({
+                where: {
+                    folo_id: req.params.id
+                },
+                attributes: ['frequent_place_id'],
+                include: [FPlace]
+            }).then(Fplaces => {
+                //console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces))
+                Fplaces.forEach(row => {
+                    if (row.frequent_place) {
+                        //console.dir("Datos del lugar:" + JSON.stringify(row.frequent_place.name));
+                        var f = new Object();
+                        f.city = new Object();
+                        f.department = new Object();
+
+                        f.id = row.frequent_place.id;
+                        f.name = row.frequent_place.name;
+                        f.detail = row.frequent_place.detail;
+                        //SE GUARDA EL NOMBRE DEL MUNICIPIO  
+                        f.city.id = row.frequent_place.city_id;
+                        municipio_controller.getName(row.frequent_place.city_id).then(name => {
+                            f.city.name = name;
+                        });
+                        //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
+                        f.department.id = row.frequent_place.department_id;
+                        department_controller.getName(row.frequent_place.department_id).then(name => {
+                            f.department.name = name;
+                        });
+                        f.procu_id = row.frequent_place.procuraduria_id;
+                        el.fplaces.push(f);
+                        el.b++;
+                    }
+                })
+            });
+            //Contendra el total de direcciones que se han creaddo para el folo que se solicita
+            el.address = [];
+            //Para traer todos las direcciones ligados a ese folo
+            await place_container.findAll({
+                where: {
+                    folo_id: req.params.id
+                },
+                attributes: ['address_id'],
+                include: [Address]
+            }).then(Dirs => {
+                console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
+                Dirs.forEach(row => {
+                    if (row.address) {
+                        //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
+                        var dir = new Object();
+                        dir.city = new Object();
+                        dir.department = new Object();
+                        dir.id = row.address.id;
+                        dir.name = row.address.name;
+                        dir.detail = row.address.detail;
+                        dir.city.id = row.address.city_id;
+                        //SE GUARDA EL NOMBRE DEL MUNICIPIO
+                        municipio_controller.getName(row.address.city_id).then(name => {
+                            dir.city.name = name;
+                        });
+                        dir.department.id = row.address.department_id
+                        //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
+                        department_controller.getName(row.address.department_id).then(name => {
+                            dir.department.name = name;
+                        });
+                        //dir.procu_id = row.address.procuraduria_id;
+
+                        el.address.push(dir);
+                        el.b++;
+                    }
+                })
+            });
+            el.emp = new Object();
+            el.emp = await employee_controller.findById1(el.employee_id);
+
+            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
+            console.dir("Direcciones: " + JSON.stringify(el.address));
+            // console.dir(data);
+            //Envía los datos de 'el' a la vista. En ella se debe acceder a sus atributos en forma: data.folo.x; x es cualquier atributo del folo enviado
+            res.render('./folo6/folo6_edit.html', {
+                folo: el,
+                Departamentos
+            });
         } catch (error) {
             console.log(error);
         }
@@ -1820,7 +1943,7 @@ class folo6_controllers {
                 el.license_type = folo.license_type;
                 el.mission = folo.mission;
                 el.observation = folo.observation;
-                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
+                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
 
@@ -1946,6 +2069,7 @@ class folo6_controllers {
                 });
             } else {
                 console.log("Estoy en el create");
+                //CREATE para los estados de aprobacion del folo
                 //Si en el folo 6 selecciono motorista se llenará con estos datos la BD
                 if (motorista) {
                     folo = await Folo6.create({
@@ -1984,6 +2108,21 @@ class folo6_controllers {
                     });
                     console.dir("Folo creado" + folo);
                 }
+                //Si es jefe, se auto-aprobara a si mismo
+                if (emp.is_unit_boss) {
+                    Apanel.create({
+                        request_unit_approve: 1,
+                        aprove_boss_id: emp.id,
+                        transport_unit_approve: 0,
+                        folo06_id: folo.id
+                    });
+                } else {
+                    Apanel.create({
+                        request_unit_approve: 0,
+                        transport_unit_approve: 0,
+                        folo06_id: folo.id
+                    });
+                }
                 //CREATE para places container, esta tabla relaciona ya sean lugares frecuentes o direcciones con un folo 
                 if (fplaces.length) {
                     fplaces.forEach(id => {
@@ -2006,7 +2145,6 @@ class folo6_controllers {
                     })
                 } else {
                     console.log("No hay direcciones que relacionar");
-
                 }
                 console.log("sali del create");
                 //Datos que se envían a la vista 

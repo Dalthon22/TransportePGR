@@ -60,21 +60,24 @@ class approve_panel_controller {
     async AprobarFoloUnidad(req, res) {
         try {
             let folo06id = await req.body.folo6_id_Amodal; /* Conseguimos el id del folo a aprobar */
+            /* var idboss = session.getActual.idemployee(); */
+            var idboss = 1;
             await folo6_approve.update({
                 /* Hacemos update en el estado del folo */
-                request_unit_approve: 1
+                request_unit_approve: 1,
+                aprove_boss_id: idboss
             }, {
                 where: {
-                    folo06_id: folo06id
+                    folo06_id: folo06id,
                 }
             });
             /* Asignamos los mensajes que se enviaran */
             let message = 'true';
             let atype = 'true';
             this.getListUnit(req, res, message, atype);
-        } catch (error) {
+        } catch (err) {
             /* Error al hacer el update que regresara a la pagina con  */
-            console.log(error);
+            console.log(err);
             error = 'No se actualizo el estado del folo BD ERROR.';
             /* Asignamos los mensajes que se enviaran */
             let message = 'false';
@@ -102,9 +105,9 @@ class approve_panel_controller {
             let atype = 'false';
             /* Renderizamos la pagina con los mensajes */
             this.getListUnit(req, res, message, atype);
-        } catch (error) {
+        } catch (err) {
             /* Si hay error se hara saber a la persona */
-            console.log(error);
+            console.log(err);
             error = 'No se actualizo el estado del folo BD ERROR.';
             /* se envian los mensajes correspondientes */
             let message = 'false';
@@ -168,9 +171,12 @@ class approve_panel_controller {
     async AprobeFoloTransport(req, res) {
         try {
             let folo06id = await req.body.folo6_id_Amodal; /* se consigue el id del folo */
-            /* se actualiza la tabla de estados del folo correspondiente */
+            /* se actualiza la tabla de estados del folo correspondie   nte */
+            /* var idboss = session.getActual.idemployee(); */
+            var idboss = 7;
             await folo6_approve.update({
-                transport_unit_approve: 1
+                transport_unit_approve: 1,
+                aprove_tunit_boss_id: idboss
             }, {
                 where: {
                     folo06_id: folo06id
@@ -183,7 +189,7 @@ class approve_panel_controller {
             this.getListAllNew(req, res, message, atype);
         } catch (error) {
             console.log(error);
-            error = 'No se actualizo el estado del folo BD ERROR.';
+            //error = 'No se actualizo el estado del folo BD ERROR.';
             /* Se asignan los mensajes para mostrar el error */
             let message = 'false';
             let atype = 'true';

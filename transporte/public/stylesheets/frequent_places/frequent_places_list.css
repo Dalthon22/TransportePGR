@@ -13,7 +13,17 @@
     overflow-x: hidden;
 }
 
+.dataTables_scrollBody {
+    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 #mytable_wrapper {
     overflow-x: hidden;
     overflow-y: hidden;
+}
+
+#fix_center {
+    padding-left: 20.5em
 }

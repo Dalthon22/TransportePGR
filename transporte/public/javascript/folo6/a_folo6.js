@@ -1,12 +1,12 @@
  /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
- var id_employee = 6;
+ var id_employee = 3;
  var motorista;
  var emp, unit;
  const url_request_employee = 'empleado/' + id_employee;
 
  $.ajax({
      url: url_request_employee,
-     async: false,
+     async: true,
      type: 'GET',
      dataType: 'json',
      success: (data) => {
@@ -16,6 +16,9 @@
          console.log(emp);
          console.log(unit);
      }
+ }).done(function () {
+     $("#name_lb").text(emp.first_name + ", " + emp.last_name);
+     $("#unidad_lb").text(unit.name_unit);
  });
 
  //VALIDACION DEL FORM
@@ -84,9 +87,7 @@
  var month_lb = today.getMonth() + 1;
  //Para setting de los labels
  $("#date_lb").text(('0' + today.getDate()).slice(-2) + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear());
- $("#name_lb").text(emp.first_name + ", " + emp.last_name);
 
- $("#unidad_lb").text(unit.name_unit);
  $('#standard_calendar').calendar({
      monthFirst: false,
      type: 'date',
@@ -304,20 +305,22 @@
      }, {});
      var fplaces = [];
      var address = [];
-     if ($('#createdAddress').length) {
-         $('#createdAddress').each(function () {
+     if ($('#createdAddress option').length) {
+         $('#createdAddress option').each(function () {
              address.push($(this).val());
          });
      } else {
          console.log("No se enviara direcciones")
      }
-     if ($('#selectedFPlace').length) {
-         $('#selectedFPlace').each(function () {
+     if ($('#selectedFPlace option').length) {
+         $('#selectedFPlace option').each(function () {
              fplaces.push($(this).val());
          });
      } else {
          console.log("No se enviara lugares frecuentes")
      }
+
+     console.log("Se enviaran estos lugares: " + fplaces + " Direcciones: " + address)
      //Valores del json que serán enviados en el ajax para guardar el folo6
      var jsonReq = {
          form: JSON.stringify(form),
@@ -404,16 +407,7 @@
 
  //Función que guarda las direcciones que se van ingresando a la tabla.
  $('#addAddress').click(function () {
-     //Este código será usado para mostrar la tabla en el pdf del folo-06.
-     /*event.preventDefault();
-     var dirs = document.getElementById('addressTable');
-     var t;
-     for(var i=1; i < dirs.rows.length; i++){
-         for (var j=0; j < dirs.rows[i].cells.length; j++){
-             t=dirs.rows[i].cells[j].innerHTML;
-             console.log(t);
-         };
-     }; */
+
      event.preventDefault();
      var idSelDepto = $('#departamento').val();
      var idSelMun = $('#municipio').val();
@@ -423,22 +417,24 @@
      var selectedPlaceTxt = $('#fplaces option:selected').text();
      var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
      var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
-     $.post('/direccion/add', { //Hago la petición post
-             idSelDepto,
-             idSelMun,
-             selectedPlace,
-             destinyPlace,
-             direction,
-             selectedPlaceTxt
-         }, //Agrego al dropdown el id de la dirección creada
-         function (dir) {
-             if (dir != null && !jQuery.isEmptyObject(dir)) {
-                 dirCreadas.append($('<option/>', {
-                     value: dir.id,
-                     text: dir.id
-                 }));
-             };
-         });
+     if (selectedPlaceTxt == 'Otro') {
+         $.post('/direccion/add', { //Hago la petición post
+                 idSelDepto,
+                 idSelMun,
+                 selectedPlace,
+                 destinyPlace,
+                 direction,
+                 selectedPlaceTxt
+             }, //Agrego al dropdown el id de la dirección creada
+             function (dir) {
+                 if (dir != null && !jQuery.isEmptyObject(dir)) {
+                     dirCreadas.append($('<option/>', {
+                         value: dir.id,
+                         text: dir.id
+                     }));
+                 };
+             });
+     }
      if (selectedPlaceTxt != 'Otro') {
          selectedFPlace.append($('<option/>', {
              value: selectedPlace,
@@ -446,8 +442,8 @@
          }));
      }
      //Agrego el lugar frecuente seleccionado al dropdown
-     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
-     console.log(selectedFPlace);
+     //console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+     //console.log(selectedFPlace);
  });
 
  //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
