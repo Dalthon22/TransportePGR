@@ -11,6 +11,13 @@ const {
 class Route_controller {
   constructor() {}
 
+  async getRouteList() {
+    return await Route.findAll({
+      order: Sequelize.literal('id ASC')
+    });
+  }
+
+
   //Gets routes list
   async getList(req, res) {
     try {

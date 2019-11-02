@@ -14,30 +14,36 @@
                 <td class="center aligned">
                     <b>Rutas.</b>
                 </td>
-                {% for ruta in rutas %}
+                {% if route_list %}
+                {% for ruta in route_list %}
                 <td rowspan="2" class="center aligned">
-                    <b>{{ruta}}</b>
+                    <b>{{ruta.name}}</b>
                     <br>
                     <br>
                     <input type="checkbox" class="master col-master chk" />
                 </td>
                 {% endfor %}
+                {% endif %}
             </tr>
             <tr class="top colorthead">
                 <td class="center aligned">
                     <b>Motoristas.</b>
                 </td>
             </tr>
+            {% if motoristas %}
             {% for motorista in motoristas %}
             <tr>
                 <td class="center aligned">{{motorista}}</td>
-                {% for ruta1 in rutas %}
+                {% if route_list %}
+                {% for ruta1 in route_list %}
                 <td class="center aligned">
                     <input type="checkbox" name="motorista_rutas" class="child chk">
                 </td>
                 {% endfor %}
+                {% endif %}
             </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
     <!-- fin de tabla -->
