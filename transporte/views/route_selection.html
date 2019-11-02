@@ -23,7 +23,7 @@
                 </td>
                 {% else %}
                 <td class="center aligned">
-                    No se encuentran rutas
+                    No se encuentran rutas.
                 </td>
                 {% endfor %}
             </tr>
@@ -65,19 +65,16 @@
             <p>¿Desea cancelar?<br></br>Se perderá la infromación seleccionada.</p>
         </div>
         <div class="actions">
-
             <a href="/home">
-                <button class="ui green deny button">
+                <div class="ui green ok inverted button">
                     <i class="checkmark icon"></i>
                     Aceptar
-                </button>
+                </div>
             </a>
             <div class="ui red deny button">
                 <i class="remove icon"></i>
                 Cancelar
             </div>
-
-
         </div>
     </div>
     <!-- modal continuar -->
@@ -91,28 +88,20 @@
         </div>
 
         <div class="actions">
-
-
-            <button class="ui green deny button" id="btnInfoAceptar">
+            <div class="ui green ok inverted button" id="btnInfoAceptar">
                 <i class="checkmark icon"></i>
                 Aceptar
-            </button>
-
-            <button class="ui red deny button">
+            </div>
+            <div class="ui red deny button">
                 <i class="remove icon"></i>
                 No
-            </button>
-
+            </div>
         </div>
+
     </div>
 
-</div>
+    <script src="/javascript/a_route_selection.js"></script>
+    <link rel="stylesheet" href="/stylesheets/route_selection.css">
 
 
-
-
-<script src="/javascript/a_route_selection.js"></script>
-<link rel="stylesheet" href="/stylesheets/route_selection.css">
-
-
-{% endblock %}
+    {% endblock %}
