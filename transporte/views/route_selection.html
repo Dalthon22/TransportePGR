@@ -7,7 +7,7 @@
 
     <h1 id="tittle" class="ui blue dividing header"><i class="calendar alternate icon"></i>Configuración Calendario</h1>
 
-
+    <!-- tabla -->
     <table class="ui celled table datatable" id="selectroutes" name="selectroutes" style="width: 70 em">
         <tbody>
             <tr class="top colorthead">
@@ -19,7 +19,7 @@
                     <b>{{ruta}}</b>
                     <br>
                     <br>
-                    <input type="checkbox" class="master col-master" />
+                    <input type="checkbox" class="master col-master chk" />
                 </td>
                 {% else %}
                 <td class="center aligned">
@@ -32,15 +32,17 @@
                 <td class="center aligned">{{motorista}}</td>
                 {% for ruta1 in rutas %}
                 <td class="center aligned">
-                    <input type="checkbox" name="motorista_rutas" class="child">
+                    <input type="checkbox" name="motorista_rutas" class="child chk">
                 </td>
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <!-- fin de tabla -->
 
     <br>
+    <!-- botonera -->
     <div class="botonera">
         <button class="ui left labeled icon button ui blue button">
             Atras
@@ -49,11 +51,12 @@
         <button class="ui button btnCancelar ui red button">
             Cancelar
         </button>
-        <button class="ui right labeled icon button btnContinuar ui green button ">
+        <button class="ui right labeled icon button btnContinuar ui green button " id="btnContinuar">
             Continuar
             <i class="arrow alternate circle right icon"></i>
         </button>
     </div>
+    <!-- fin botonera -->
 
     <!-- modal cancelar -->
     <div class="ui basic modal" id="modalCancelar">
@@ -77,6 +80,8 @@
             </div>
         </div>
     </div>
+    <!-- fin modal cancelar -->
+
     <!-- modal continuar -->
     <div class="ui basic modal" id="modalContinuar">
         <div class="ui icon header">
@@ -99,6 +104,7 @@
         </div>
 
     </div>
+    <!-- fin modal continuar -->
 
     <script src="/javascript/a_route_selection.js"></script>
     <link rel="stylesheet" href="/stylesheets/route_selection.css">
