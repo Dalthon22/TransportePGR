@@ -12,20 +12,21 @@
         <tbody>
             <tr class="top colorthead">
                 <td class="center aligned">
-                    <b>Rutas <br>\<br> Motoristas</b>
+                    <b>Rutas.</b>
                 </td>
                 {% for ruta in rutas %}
-                <td class="center aligned">
+                <td rowspan="2" class="center aligned">
                     <b>{{ruta}}</b>
                     <br>
                     <br>
                     <input type="checkbox" class="master col-master chk" />
                 </td>
-                {% else %}
-                <td class="center aligned">
-                    No se encuentran rutas.
-                </td>
                 {% endfor %}
+            </tr>
+            <tr class="top colorthead">
+                <td class="center aligned">
+                    <b>Motoristas.</b>
+                </td>
             </tr>
             {% for motorista in motoristas %}
             <tr>
