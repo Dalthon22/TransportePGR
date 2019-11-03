@@ -845,9 +845,11 @@ class folo6_controllers {
             var cantidadPasajeros = folo.passengers_number;
             var personaConducir = folo.person_who_drive;
             var tipoLicencia = folo.license_type;
+            //B es un contador definido por la cantidad de direcciones que posee una solicitud
             var b = folo.b
             var direccion;
             var direcciones = [];
+            console.log("cantidad de direcciones: " + b + " Y MOTORISTA: " + motorista);
             if (b === 1) {
                 //Si existe lugar frecuente si no lo ingresado es una dirección
                 if (folo.fplaces.length) {
@@ -882,7 +884,8 @@ class folo6_controllers {
             //direcciones = direcciones.replace('.,\n', '.\n');
 
             //Sí quiere motorista y hay más de una dirección.
-            if (motorista == "si" && b >= 1) {
+            if (motorista == "si" && b > 1) {
+                console.log("CON MOTORISTA Y MÁS UNA DIRECCION");
                 //Definición de fuentes a usar en el documento.
                 const fonts = {
                     Roboto: {
@@ -1085,7 +1088,9 @@ class folo6_controllers {
             };
             //La misma documentación de arriba se aplica para todos los casos posteriores.
             //NO quiere motorista y hay más de una dirección.
-            if (motorista == "no" && b >= 1) {
+            if (motorista == "no" && b > 1) {
+                console.log("SIN MOTORISTA Y MÁS DE UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1280,13 +1285,17 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
 
             //Sí quiere motorista y solo es una dirección.
             if (motorista == "si" && b == 1) {
+                console.log("CON MOTORISTA Y UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1449,13 +1458,18 @@ class folo6_controllers {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
                     }); */
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    //delete req.headers;
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
 
             //No quiere motorista y solo es una dirección.
             if (motorista == "no" && b == 1) {
+                console.log("SIN MOTORISTA Y UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1628,7 +1642,9 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
