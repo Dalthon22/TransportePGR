@@ -1,6 +1,6 @@
-const router = require('../middleware/router');
-const controller = require('../controllers/c_voucher');
 const express = require('express')
+const router = express.Router();;
+const controller = require('../controllers/c_voucher');
 const {
     body,
     check,
@@ -34,4 +34,4 @@ router.get('/vales/:num',
         controller.ifExist(num, req, res);
     });
 
-module.exports = router
+module.exports = router;
