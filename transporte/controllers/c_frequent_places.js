@@ -64,25 +64,24 @@ class frequent_place_controller {
                 });
             } else {
                 try {
-                    await frequent_place.create({
+                    frequent_place.create({
                         name,
                         detail,
                         city_id: municipio,
                         department_id: departamento
                     });
-                    /* let Mstate2 = true;
-                    let Departamentos = await department_controller.getList(); */
-                    /* res.render('../views/frequent_places/add.html', {
-                        Departamentos,
-                        Mstate2
-                    }) */
-                    res.redirect('/lugares_frecuentes');
-                } catch (error) {
-                    error = 'El Lugar de Destino ingresado ya existe.';
+                    let Mstate2 = true;
                     let Departamentos = await department_controller.getList();
                     res.render('../views/frequent_places/add.html', {
                         Departamentos,
-                        error
+                        Mstate2
+                    })
+                } catch (error) {
+                    errors = error;
+                    let Departamentos = await department_controller.getList();
+                    res.render('../views/frequent_places/add.html', {
+                        Departamentos,
+                        errors: errors.array()
                     });
                 }
 
@@ -103,7 +102,6 @@ class frequent_place_controller {
             let departamento = place.department_id;
             let edit = true;
             let Departamentos = await department_controller.getList();
-            console.log(name);
             return res.render('../views/frequent_places/add.html', {
                 name,
                 detail,
@@ -127,9 +125,10 @@ class frequent_place_controller {
                 detail,
                 departamento,
                 municipio,
-                true_name,
                 fplace_id
             } = req.body;
+            console.log(errors.array());
+            console.log(fplace_id);
             if (!errors.isEmpty()) {
                 let Departamentos = await department_controller.getList();
                 res.render('../views/frequent_places/add.html', {
@@ -143,32 +142,22 @@ class frequent_place_controller {
                 });
             } else {
                 try {
-                    console.log(req.body.detail);
-                    await frequent_place.update({
+                    frequent_place.update({
                         name: name,
                         detail: detail,
                         city_id: municipio,
-                        department_id: departamento
+                        department_id: departamento,
+                        updated_at: new Date()
                     }, {
                         where: {
                             id: fplace_id
                         }
                     });
-                    res.redirect('/lugares_frecuentes');
+                    res.redirect('../lugares_frecuentes')
                 } catch (error) {
                     console.log(error);
-                    error = 'El Lugar de Destino ingresado ya existe.';
-                    let Departamentos = await department_controller.getList();
-                    name = true_name;
-                    res.render('../views/frequent_places/add.html', {
-                        name,
-                        detail,
-                        departamento,
-                        Departamentos,
-                        municipio,
-                        fplace_id,
-                        error
-                    });
+                    erros = 'Error con la base de Datos'
+                    this.getUpdate(req, res);
                 }
 
             }
@@ -178,18 +167,7 @@ class frequent_place_controller {
     }
 
     async deleteFrequentPlace(req, res) {
-        try {
-            let fplace_id = req.query.fplace_id;
-            console.log(fplace_id);
-            await frequent_place.destroy({
-                where: {
-                    id: fplace_id
-                }
-            });
-            res.redirect('/lugares_frecuentes');
-        } catch (error) {
-            res.redirect('/lugares_frecuentes');
-        }
+
     }
     //Gets frequent places list based on the selected municipio
     async getPlacesByMunicipio(req, res) {

@@ -1,6 +1,5 @@
  /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
- var id_employee = 3,
-     motorista, emp, unit;
+ var id_employee, motorista, emp, unit;
 
  $(document).ready(function () {
      console.log("Usted va a editar el folo No:" + $('#folo_id').val())

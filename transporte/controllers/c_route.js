@@ -1,22 +1,17 @@
 const db = require('../dbconfig/conex');
 const Route = require('../models/m_route');
-const department_controller = require('../controllers/c_department');
+const department_controller = require('../services/s_department');
 const express = require('express');
 const Sequelize = require('sequelize');
-const {
-  validationResult
-} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 
-class Route_controller {
-  constructor() {}
-
+class route_services {
+  constructor() { }
   //Gets routes list
   async getList(req, res) {
     try {
-      var Routes = await Route.findAll({
-        order: Sequelize.literal('id ASC')
-      });
+      var Routes = await Route.findAll({ include: ['city', 'department'] });
       return res.render('../views/route/list.html', {
         Routes
       });
@@ -26,9 +21,12 @@ class Route_controller {
   };
 
   //Gets departments list and renders add form
-  async getAdd(req, res) {
+  async getDepartmentList(req, res) {
     try {
-      return res.render('../views/route/add.html');
+      let Departamentos = await department_controller.getList();
+      return res.render('../views/route/add.html', {
+        Departamentos
+      });
     } catch (error) {
       console.log(error);
     }
@@ -39,21 +37,20 @@ class Route_controller {
     try {
       const errors = validationResult(req);
       let {
-        name,
+        name, departamento, municipio
       } = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new route in the DB.
+        let Departamentos = await department_controller.getList();
         res.render('../views/route/add.html', {
-          name,
-          errors: errors.array()
+          Departamentos, name, errors: errors.array()
         });
 
-      } else {
+      }
+      else {
         console.log(req.body);
-        Route.create({
-          name
-        });
+        Route.create({ name, city_id: municipio, department_id: departamento });
         res.redirect('/rutas');
       }
     } catch (error) {
@@ -67,8 +64,9 @@ class Route_controller {
       let route_id = req.query.route_id;
       console.log(route_id);
       let Ruta = await Route.findByPk(route_id);
+      let Departamentos = await department_controller.getList();
       return res.render('../views/route/edit.html', {
-        Ruta
+        Ruta, Departamentos
       });
     } catch (error) {
       console.log(error);
@@ -80,26 +78,21 @@ class Route_controller {
     try {
       const errors = validationResult(req);
       let {
-        route_id,
-        name,
+        route_id, name, departamento, municipio,
       } = req.body;
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new route in the DB.
         let Ruta = await Route.findByPk(route_id);
+        let Departamentos = await department_controller.getList();
         res.render('../views/route/edit.html', {
-          Ruta,
-          errors: errors.array()
+          Ruta, Departamentos, errors: errors.array()
         });
-      } else {
+      }
+      else {
         console.log(req.body);
-        Route.update({
-          name: name,
-        }, {
-          where: {
-            id: route_id
-          }
-        });
+        Route.update({ name: name, city_id: municipio, department_id: departamento },
+          { where: { id: route_id } });
         res.redirect('/rutas');
       }
     } catch (error) {
@@ -108,4 +101,4 @@ class Route_controller {
   };
 };
 
-module.exports = new Route_controller();
+module.exports = new route_services();

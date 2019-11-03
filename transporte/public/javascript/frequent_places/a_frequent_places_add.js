@@ -19,6 +19,9 @@ $(function () {
             detail: {
                 identifier: 'detail',
                 rules: [{
+                    type: 'empty',
+                    prompt: 'Ingrese un Detalle de Direccion.'
+                }, {
                     type: 'maxLength[200]',
                     prompt: 'Longitud Maxima del detalle 200 caracteres'
                 }]

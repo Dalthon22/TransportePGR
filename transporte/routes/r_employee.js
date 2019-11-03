@@ -1,6 +1,6 @@
-const express = require('express')
-const router = express.Router();
+const router = require('../middleware/router');
 const controller = require('../controllers/c_employee');
+const express = require('express')
 const {
     body,
     check,

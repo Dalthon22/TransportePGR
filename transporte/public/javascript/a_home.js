@@ -34,7 +34,7 @@ function fillTable() {
                 "data": "with_driver"
             }, {
                 "data": "buttons",
-                //Indicarle que lo que se renderizará son los iconos que trae data del controlador
+                //Indicarle que lo que se renderizará son los iconos que trae data del controlador 
                 "render": function (data, type, row, meta) {
                     return data;
                 }
@@ -285,7 +285,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
         .modal({
             closable: false,
             onShow: function () {
-
+                $('.segment').dimmer('hide');
                 console.log("Voy a mostrar el folo" + id_folo);
                 //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
                 $.ajax({
@@ -315,7 +315,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                         $("#license_type_lb1").text(data.folo.license_type);
                     }
                     $("#mission_lb1").text(data.folo.mission);
-                    if (data.folo.observation) {
+                    if ((data.folo.observation).length > 1) {
                         $("#observation_lb1").text(data.folo.observation);
                     } else {
                         $("#observation_lb1").text("Sin observaciones");
@@ -351,8 +351,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                     }
                 })
             }
-        }).modal('show');
-    $('.segment').dimmer('hide');
+        }).modal('show')
 });
 
 function successAddToast(title, message) {

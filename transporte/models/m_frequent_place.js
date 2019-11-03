@@ -14,6 +14,10 @@ const Frequent_Place = db.define('frequent_place', {
     },
     detail: {
         type: Sequelize.STRING(250),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     },
     created_by: {
         type: Sequelize.INTEGER

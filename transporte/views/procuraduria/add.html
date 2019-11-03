@@ -1,27 +1,19 @@
 {% extends 'index.html' %}
 
 {% block views %}
-<div class="ui container" id="add">
+<section class="ui segment" id="add" style="width: 750px; margin-left: 0px;">
   {% if Procu %}
-  <h1 class="ui blue dividing header">Editar procuraduría</h1>
+  <h1 class="ui header">Crear procuraduría</h1>
   {% else %}
-  <h1 class="ui blue dividing header">Crear procuraduría</h1>
+  <h1 class="ui header">Editar procuraduría</h1>
   {% endif %}
-  <form class="ui form" action="/instituciones/gestionar" method="POST">
+  <form class="ui form" action="/instituciones/update" method="POST">
     <div class="required field">
       <label>Nombre procuraduría:</label>
       <input type="text" name="name" id="name" value="{{Procu.name}}">
     </div>
-    <!-- {% include '../address/add.html' %} -->
+    {% include '../address/add.html' %}
     <input type="hidden" id="procu_id" name="procu_id" value={{ Procu.id }}>
-    <a href="/instituciones">
-      <div class="ui left floated animated button" type="button">
-        <div class="visible content">Volver</div>
-        <div class="hidden content">
-          <i class="left arrow icon"></i>
-        </div>
-      </div>
-    </a>
     <button class="ui positive button" type="submit">Guardar</button>
   </form>
   {% if errors %}
@@ -31,8 +23,5 @@
     {% endfor %}
   </div>
   {% endif %}
-</div>
-
-<script src="/javascript/procuraduria/a_procu.js"></script>
-
+</section>
 {% endblock %}
