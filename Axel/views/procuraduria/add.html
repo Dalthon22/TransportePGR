@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block views %}
+  <section class="ui container" id="add" style="width: 750px; margin-left: 0px;">
+    <br>
+    <a href="/instituciones">
+      <button class="ui right labeled primary icon button">
+        <i class="left arrow icon"></i>
+          Volver al listado
+      </button>
+    </a>
+    <br>
+    {% if Procu %}
+      <h1 class="ui header">Editar procuraduría</h1>
+    {% else %}
+      <h1 class="ui header">Crear procuraduría</h1>
+    {% endif %}
+    <form class="ui form" id="addProcu" action="/instituciones/gestionar" method="POST" autocomplete="off">
+      <div class="required field">
+        <label>Nombre procuraduría:</label>
+        <input type="text" name="name" id="name" value="{{Procu.name}}" maxlength="250">
+      </div>
+      {% include '../address/add.html' %}
+      <input type="hidden" id="procu_id" name="procu_id" value="{{ Procu.id }}">
+      <input type="hidden" id="address_id" name="address_id" value="{{ Procu.address_id }}">
+      <button class="ui positive button" type="submit">Guardar</button>
+    </form>
+    {% if errors %}
+      <div class="ui error message" style="width:30em">
+        <i class="close icon"></i>
+        <div class="header">
+        Errores al insertar
+      </div>
+        <ul class="list">
+          {% for error in errors %}
+            <li>{{error.msg}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </section>
+  <script src="/javascript/procuraduria/a_procuraduria_add.js"></script>
+{% endblock %}
