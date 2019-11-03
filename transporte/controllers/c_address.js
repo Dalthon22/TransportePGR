@@ -8,12 +8,8 @@ class address_services {
   //Gets Addresses list
   async getList(req, res) {
     try {
-      var Direcciones = await Address.findAll({
-        include: ['city', 'department']
-      });
-      return res.render('../views/address/list.html', {
-        Direcciones
-      });
+      var Direcciones = await Address.findAll();
+      res.send(Direcciones);
     } catch (error) {
       console.log(error);
     }
