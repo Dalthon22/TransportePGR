@@ -1,0 +1,165 @@
+{% extends 'index.html' %}
+{% block views %}
+    <section class="ui container">
+        <form class="ui form" id="folo6_form" method="POST" autocomplete="off">
+            <h3 class="ui blue dividing header">Solicitud de transporte FOLO-6</h3>
+            <div class="labels">
+                <label>Fecha de solicitud: </label>
+                <label id="date_lb">--/--/--</label>
+            </div>
+            <div class="labels">
+                <label>Unidad solicitante: </label>
+                <label id="unidad_lb">Unidad ---</label>
+            </div>
+            <div class="three wide required field">
+                <label for="calendar1">Fecha de salida: </label>
+                <div class="ui calendar" id="standard_calendar">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Seleccione fecha" name="calendar1_id" autocomplete="off"
+                                    id="calendar1_id">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide required field">
+                <label>Hora de salida: </label>
+                <!-- TIMER -->
+                <div class="ui calendar" id="time_calendar">
+                    <div class="ui input left icon">
+                        <i class="time icon"></i>
+                        <input type="text" placeholder="Seleccione la hora" id="time" name ="time" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide required field">
+                <label>Hora de retorno: </label>
+                <!-- TIMER -->
+                <div class="ui calendar" id="time_calendar1">
+                    <div class="ui input left icon">
+                        <i class="time icon"></i>
+                        <input type="text" placeholder="Seleccione la hora" id="time1" name="time" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="ui toggle checkbox" id="driver_cb">
+                        <input type="checkbox" id="driver_i" name="driver_i" checked="checked" tabindex="0" class="hidden">
+                        <label for="driver_i">Motorista</label>
+                    </div>
+                    <div class="one wide required field"></div>
+                    <label>Cantidad de pasajeros: </label>
+                    <div class="two wide field">
+                        <input type="number" id="passengers_i" name="passengers_i" min="1" max="40" value="1">
+                    </div>
+                </div>
+            </div>
+            <div class="fields">
+                <div class="eight wide field" id="name_driver_f">
+                    <label for="name_driver_i">Nombre:</label>
+                    <input type="text" placeholder="Persona que va a coducir" name="n_driver_i"
+                                id="n_driver_i" disabled="true" maxlength="100">
+                </div>
+                <div class="field" id="type_license_f">
+                    <label for="license_ls_id">Tipo de licencia:</label>
+                    <select class="ui fluid dropdown" name="license_ls" id="license_ls_id" disabled="true">
+                        <option value="">Tipo de licencia</option>
+                        <option value="1">Particular</option>
+                        <option value="2">Liviana</option>
+                        <option value="3">Pesada</option>
+                        <option value="4">Pesada-T</option>
+                    </select>
+                </div>
+            </div>
+            <!-- área de rutas -->
+            <h4 class="ui blue dividing header">Lugar de destino</h4>
+            <div class="two fields">
+                <div class="field">
+                    <div class="twelve wide field ">
+                        <div class="required field">
+                            <label>Departamento:</label>
+                            <select class="ui fluid dropdown" id="departamento" name="departamento">
+                                <option value="">--Seleccione un departamento--</option>
+                                {% for dep in Departamentos %}
+                                    {% if (dep.id == departamento) %}
+                                        <option value="{{ dep.id }}" selected>{{ dep.name }}</option>
+                                    {% else %}
+                                        <option value="{{ dep.id }}">{{ dep.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="twelve wide field">
+                        <div class="required field">
+                            <label>Municipio:</label>
+                            <select class="ui fluid dropdown" id="municipio" name="municipio">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <input id="idmun" type="hidden" value="{{municipio}}">
+                    </div>
+                </div>
+            </div>
+            <div class="required field">
+                <label>Lugar de destino:</label>
+                <select class="ui fluid dropdown" id="fplaces" name="fplaces"></select>
+                <input id="idfplaces" type="hidden" value="{{fplaces}}">
+            </div>
+            <div class="field">
+                <label>Nombre del destino:</label>
+                <input type="text" id="destiny_place_i" name="destiny_place_i" disabled="disabled">
+            </div>
+            <div class="field">
+                <label>Detalle de dirección:</label>
+                <textarea rows="3" id="direction_txt" name="direction_txt" disabled="disabled"
+                            placeholder="Calle x, pasaje y, local...."></textarea>
+            </div>
+            <button class="ui positive button" id="addAddress" name="addAddress">Agregar dirección</button>
+            <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
+            </select>
+            <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace">
+            </select>
+            <table class="ui celled collapsing table tablet stackable" id="addressTable" name="addressTable">
+                <thead>
+                    <tr>
+                        <th>Nombre del destino</th>
+                        <th>Detalle de la dirección</th>
+                        <th>Departamento</th>
+                        <th>Municipio</th>
+                        <th></th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <h4 class="ui blue dividing header">Misión</h4>
+                <div class="required field">
+                    <label>Misión o motivo del viaje:</label>
+                    <input type="text" name="mision_i_id" placeholder="Auditoria al área laboral..." maxlength="150"
+                            id="mision_i_id">
+                </div>
+                <div class="field">
+                    <label>Observaciones (Opcional):</label>
+                    <input type="text" name="details_i" id="details_i"
+                            placeholder="Llevaremos cajas pesadas, esperamos al motorista en la entrada del edificio central"
+                            maxlength="150">
+                </div>
+                <a href='/'> {# Cambiar esta línea al listado de folo06. #}
+                <button class=" ui left labeled icon left floated blue button" type="button" id="backBtn" name="backBtn">
+                    <i class="left arrow icon"></i>Volver</button></a>
+                <button class="ui right floated positive button" type="submit" id="save_print_btn" name="save_print_btn">Guardar e
+                        imprimir</button>
+                <br>
+            </form>
+        </section>
+        <!--Validaciones-->
+        <script src="/javascript/a_folo6.js"></script>
+        {#         <style>
+            .ui.container {
+                overflow: visible;
+            }
+        </style> #}
+        <script src="/javascript/a_address.js"></script>
+        <script src="/javascript/a_load_dropdown_fplaces.js"></script>
+    {% endblock %}

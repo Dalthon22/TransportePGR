@@ -187,9 +187,9 @@ class approve_panel_controller {
             let atype = 'true';
             /* Se renderiza la pagina con mensaje */
             this.getListAllNew(req, res, message, atype);
-        } catch (err) {
-            console.log(err);
-            error = 'No se actualizo el estado del folo BD ERROR.';
+        } catch (error) {
+            console.log(error);
+            //error = 'No se actualizo el estado del folo BD ERROR.';
             /* Se asignan los mensajes para mostrar el error */
             let message = 'false';
             let atype = 'true';
@@ -218,8 +218,8 @@ class approve_panel_controller {
             let atype = 'false';
             /* se renderiza la pagina con mensaje de aprobación */
             this.getListAllNew(req, res, message, atype);
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             error = 'No se actualizo el estado del folo BD ERROR.';
             /* se asignan los mensajes de error */
             let message = 'false';

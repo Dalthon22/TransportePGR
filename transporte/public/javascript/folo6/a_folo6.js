@@ -494,3 +494,16 @@
          $('#direction_txt').prop('disabled', false);
      };
  });
+
+ //Función para eliminar todas las direcciones creadas si el usuario se sale del Folo06.
+ $('#backBtn').click(function () {
+     var dirCreadas = [];
+     //Recorro cada elemento del dropdrown, obtengo su propiedad value y la inserto en el array.
+     $('#createdAddress option').each(function () {
+         dirCreadas.push($(this).val());
+     });
+     $.post('/direccion/deleteList', {
+         dirCreadas
+     }); //Petición post para eliminar las direcciones.
+     console.log(dirCreadas);
+ });
