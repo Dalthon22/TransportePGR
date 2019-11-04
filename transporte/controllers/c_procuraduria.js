@@ -43,11 +43,15 @@ class Procuraduria_controller {
   };
 
   //Saves the new procuraduría in the DB.
+  //Última edición: 03/11/2019 - Axel Hernández
   async createProcuraduria(req, res) {
     try {
       const errors = validationResult(req);
       let {
         name,
+        detail,
+        departamento,
+        municipio
       } = req.body;
       //Para enviar si hay error
       //06102019_DD
@@ -61,14 +65,20 @@ class Procuraduria_controller {
         });
       } else {
         console.log(req.body);
+        var dir = await Address.create({
+          detail,
+          city_id: municipio,
+          department_id: departamento
+        });
         Procuraduria.create({
           name,
+          address_id: dir.id
         });
         res.redirect('/instituciones');
       }
     } catch (error) {
       console.log(error);
-    }
+    };
   };
 
   //Renders edit form

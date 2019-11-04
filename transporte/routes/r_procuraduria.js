@@ -25,7 +25,8 @@ router.post('/gestionar', [
     body('name', 'El nombre debe ser menor a 40 caracteres.').isLength({
         max: 100
     }),
-    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóú0-9 ]+$/i),
+    //Última edición: 03/11/2019 - Axel Hernández
+    body('name', 'El nombre debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóúü0-9 ]+$/i),
     /* body('detail', 'Ingrese el detalle de la dirección.').not().isEmpty(),
     body('detail', 'El detalle debe ser menor a 250 caracteres.').isLength({
         max: 250
