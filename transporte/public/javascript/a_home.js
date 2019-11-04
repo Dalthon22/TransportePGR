@@ -32,7 +32,11 @@ function fillTable() {
             },
             {
                 "data": "with_driver"
-            }, {
+            },
+            {
+                "data": "created_at"
+            },
+            {
                 "data": "buttons",
                 //Indicarle que lo que se renderizará son los iconos que trae data del controlador
                 "render": function (data, type, row, meta) {
