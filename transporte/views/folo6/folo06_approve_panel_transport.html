@@ -29,7 +29,7 @@
                         <td>{{ folo.off_hour }}</td>
                         <td>{{ folo.first_name }} {{ folo.last_name }}</td>
                         <td>{{ folo.passengers_number }}</td>
-                        <td>{{ folo.wDriver }}</td>
+                        <td>{{"Sí" if folo.wDriver else "No"}}</td>
                         <td>{{ folo.mission }}</td>
                         <td class="btnDelete">
                             <div class="ui buttons">
