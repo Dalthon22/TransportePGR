@@ -1,5 +1,6 @@
 const db = require('../dbconfig/conex');
 const Route = require('../models/m_route');
+const route_conditions = require('../models/m_route_conditions');
 const department_controller = require('../controllers/c_department');
 const express = require('express');
 const Sequelize = require('sequelize');
@@ -9,7 +10,7 @@ const {
 
 
 class Route_controller {
-  constructor() {}
+  constructor() { }
 
   //Gets routes list
   async getList(req, res) {
@@ -34,13 +35,55 @@ class Route_controller {
     }
   };
 
-  //Saves the new procuraduría in the DB.
+  //Saves the new route in the DB.
   async createRoute(req, res) {
     try {
       const errors = validationResult(req);
       let {
         name,
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
+        sunday
       } = req.body;
+      if (monday == 'on') {
+        monday = true;
+      } else {
+        monday = false;
+      };
+      if (tuesday == 'on') {
+        tuesday = true;
+      } else {
+        tuesday = false;
+      };
+      if (wednesday == 'on') {
+        wednesday = true;
+      } else {
+        wednesday = false;
+      };
+      if (thursday == 'on') {
+        thursday = true;
+      } else {
+        thursday = false;
+      };
+      if (friday == 'on') {
+        friday = true;
+      } else {
+        friday = false;
+      };
+      if (saturday == 'on') {
+        saturday = true;
+      } else {
+        saturday = false;
+      };
+      if (sunday == 'on') {
+        sunday = true;
+      } else {
+        sunday = false;
+      };
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the new route in the DB.
@@ -51,14 +94,24 @@ class Route_controller {
 
       } else {
         console.log(req.body);
+        var conditions = await route_conditions.create({
+          monday,
+          tuesday,
+          wednesday,
+          thursday,
+          friday,
+          saturday,
+          sunday
+        });
         Route.create({
-          name
+          name,
+          route_conditions_id: conditions.id
         });
         res.redirect('/rutas');
       }
     } catch (error) {
       console.log(error);
-    }
+    };
   };
 
   //Gets departments list and renders edit form

@@ -1,3 +1,4 @@
+$('.ui.checkbox').checkbox('enable');
 $(function () {
 
     $('#mytable').DataTable({
