@@ -201,7 +201,7 @@ function ingresar_vales() {
     $('.ui.form').form('validate form');
     if ($('.ui.form').form('is valid')) {
         $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1);
-        alert("Se ingresaran " + $('#voucher_cant').val());
+        //alert("Se ingresaran " + $('#voucher_cant').val());
         //GET para verificar que el número de vale no haya existido con anterioridad
         buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
         // $('.ui.form').form('validate form');
