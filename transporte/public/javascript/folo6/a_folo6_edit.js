@@ -310,7 +310,7 @@
          });
  }
 
- /* Cambios de Sibrian */
+
 
  //Funciones para crear el PDF del Folo-06.
  function printPDF() {

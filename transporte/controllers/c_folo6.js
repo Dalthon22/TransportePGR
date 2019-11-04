@@ -846,9 +846,11 @@ class folo6_controllers {
             var cantidadPasajeros = folo.passengers_number;
             var personaConducir = folo.person_who_drive;
             var tipoLicencia = folo.license_type;
+            //B es un contador definido por la cantidad de direcciones que posee una solicitud
             var b = folo.b
             var direccion;
             var direcciones = [];
+            console.log("cantidad de direcciones: " + b + " Y MOTORISTA: " + motorista);
             if (b === 1) {
                 //Si existe lugar frecuente si no lo ingresado es una dirección
                 if (folo.fplaces.length) {
@@ -883,7 +885,8 @@ class folo6_controllers {
             //direcciones = direcciones.replace('.,\n', '.\n');
 
             //Sí quiere motorista y hay más de una dirección.
-            if (motorista == "si" && b >= 1) {
+            if (motorista == "si" && b > 1) {
+                console.log("CON MOTORISTA Y MÁS UNA DIRECCION");
                 //Definición de fuentes a usar en el documento.
                 const fonts = {
                     Roboto: {
@@ -1086,7 +1089,9 @@ class folo6_controllers {
             };
             //La misma documentación de arriba se aplica para todos los casos posteriores.
             //NO quiere motorista y hay más de una dirección.
-            if (motorista == "no" && b >= 1) {
+            if (motorista == "no" && b > 1) {
+                console.log("SIN MOTORISTA Y MÁS DE UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1290,6 +1295,8 @@ class folo6_controllers {
 
             //Sí quiere motorista y solo es una dirección.
             if (motorista == "si" && b == 1) {
+                console.log("CON MOTORISTA Y UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1452,7 +1459,7 @@ class folo6_controllers {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
                     }); */
-                    //res.send("data:application/pdf;base64," + result.toString('base64'));
+                    //delete req.headers;
                     res.send({
                         link: "data:application/pdf;base64," + result.toString('base64')
                     });
@@ -1462,6 +1469,8 @@ class folo6_controllers {
 
             //No quiere motorista y solo es una dirección.
             if (motorista == "no" && b == 1) {
+                console.log("SIN MOTORISTA Y UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1697,7 +1706,7 @@ class folo6_controllers {
                         f.id = row.frequent_place.id;
                         f.name = row.frequent_place.name;
                         f.detail = row.frequent_place.detail;
-                        //SE GUARDA EL NOMBRE DEL MUNICIPIO  
+                        //SE GUARDA EL NOMBRE DEL MUNICIPIO
                         f.city.id = row.frequent_place.city_id;
                         municipio_controller.getName(row.frequent_place.city_id).then(name => {
                             f.city.name = name;
@@ -1817,7 +1826,7 @@ class folo6_controllers {
                         f.id = row.frequent_place.id;
                         f.name = row.frequent_place.name;
                         f.detail = row.frequent_place.detail;
-                        //SE GUARDA EL NOMBRE DEL MUNICIPIO  
+                        //SE GUARDA EL NOMBRE DEL MUNICIPIO
                         f.city.id = row.frequent_place.city_id;
                         municipio_controller.getName(row.frequent_place.city_id).then(name => {
                             f.city.name = name;
@@ -2130,7 +2139,7 @@ class folo6_controllers {
                         folo06_id: folo.id
                     });
                 }
-                //CREATE para places container, esta tabla relaciona ya sean lugares frecuentes o direcciones con un folo 
+                //CREATE para places container, esta tabla relaciona ya sean lugares frecuentes o direcciones con un folo
                 if (fplaces.length) {
                     fplaces.forEach(id => {
                         place_container.create({
@@ -2154,7 +2163,7 @@ class folo6_controllers {
                     console.log("No hay direcciones que relacionar");
                 }
                 console.log("sali del create");
-                //Datos que se envían a la vista 
+                //Datos que se envían a la vista
                 res.send({
                     message: "Datos agregados con exito",
                     type: 0,
@@ -2266,7 +2275,7 @@ class folo6_controllers {
             //throw new Error(" Ocurre ingresando los vales en la BD " + err);
         }
     }
-    //Elima el folo indicado como parametros en req.params.id 
+    //Elima el folo indicado como parametros en req.params.id
     async deleteFolo(req, res) {
         try {
             var folo = await Folo6.destroy({
