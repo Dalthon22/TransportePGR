@@ -1,15 +1,16 @@
  /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
- var id_employee = 3,
-     motorista, emp, unit;
+ var motorista, emp, unit;
 
  $(document).ready(function () {
      console.log("Usted va a editar el folo No:" + $('#folo_id').val())
      id_employee = parseInt($('#employee_id').val());
+
      const url_request_employee = '/empleado/' + id_employee;
      $('.ui.checkbox').checkbox('enable');
      console.log("En el folo original el checkbox con motorista estaba: " + $('#driver_cb').checkbox('is checked'));
      if ($('#driver_cb').checkbox('is checked')) {
          console.log("detonamos true");
+         conMotorista();
      } else {
          console.log("detonamos false");
          sinMotorista();
@@ -104,7 +105,7 @@
      type: 'date',
      minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
      onHide: function () {
-         $(".ui.form").form('validate field', 'calendar1');
+         //$(".ui.form").form('validate field', 'calendar1');
      },
      text: {
          days: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
@@ -154,8 +155,8 @@
      $('#n_driver_i').prop('disabled', true);
      $('#license_ls_id').prop('disabled', true);
      $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
-     $(".ui.form").form('validate field', 'name_driver_i');
-     $(".ui.form").form('validate field', 'license_ls');
+     // $(".ui.form").form('validate field', 'name_driver_i');
+     //$(".ui.form").form('validate field', 'license_ls');
      $('#license_ls_id').prop('selectedIndex', 0);
      $('#n_driver_i').val('');
  }
@@ -234,15 +235,45 @@
          return a;
      }, {});
      //Valores del json que serán enviados en el ajax para guardar el folo6
+     /*  var jsonReq = {
+          form: JSON.stringify(form),
+          emp: JSON.stringify(emp),
+          motorista: JSON.stringify(motorista)
+      }
+      console.log("Enviará:" +
+          "form:" + JSON.stringify(form) +
+          " emp:" + JSON.stringify(emp));
+      console.log("Empaquetado" + typeof (jsonReq)); */
+     var fplaces = [];
+     var address = [];
+     if ($('#createdAddress option').length) {
+         $('#createdAddress option').each(function () {
+             address.push($(this).val());
+         });
+     } else {
+         console.log("No se enviara direcciones")
+     }
+     if ($('#selectedFPlace option').length) {
+         $('#selectedFPlace option').each(function () {
+             fplaces.push($(this).val());
+         });
+     } else {
+         console.log("No se enviara lugares frecuentes")
+     }
+
+     console.log("Se enviaran estos lugares: " + fplaces + " Direcciones: " + address)
+     //Valores del json que serán enviados en el ajax para guardar el folo6
      var jsonReq = {
          form: JSON.stringify(form),
          emp: JSON.stringify(emp),
-         motorista: JSON.stringify(motorista)
+         motorista: JSON.stringify(motorista),
+         fplaces: JSON.stringify(fplaces),
+         address: JSON.stringify(address)
      }
      console.log("Enviará:" +
-         "form:" + JSON.stringify(form) +
-         " emp:" + JSON.stringify(emp));
+         "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address) + " Motorista+" + motorista);
      console.log("Empaquetado" + typeof (jsonReq));
+
      $.ajax({
          type: "POST",
          async: true,
@@ -267,9 +298,11 @@
                      });
                  hideDimmer();
              } else {
-                 //Si se ingreso con exito
-                 successAddToast(data.message);
-                 setTimeout(window.location.href = data.redirect, 30000);
+                 $.when(printPDF()).then(function () {
+                     //Si se ingreso con exito
+                     successAddToast(data.message);
+                     setTimeout(window.location.href = data.redirect, 30000);
+                 });
              }
          },
      }).done();
@@ -310,11 +343,8 @@
          });
  }
 
-
-
  //Funciones para crear el PDF del Folo-06.
  function printPDF() {
-     event.preventDefault();
 
 
      //Recolección de datos.
@@ -400,16 +430,16 @@
      win.document.close()
  }
 
- $('#save_print_btn').on('click', function () {
-     if ($('.ui.form').form('is valid')) {
-         event.preventDefault();
-         showDimmer();
-         $.when(printPDF()).then(guardarFolo6());
-         // setTimeout(guardarFolo6(), 30000);
-     }
- });
-
- function guardarFolo6() {
+ /*  $('#save_print_btn').on('click', function () {
+      if ($('.ui.form').form('is valid')) {
+          event.preventDefault();
+          showDimmer();
+          $.when(printPDF()).then(guardarFolo6());
+          // setTimeout(guardarFolo6(), 30000);
+      }
+  });
+  */
+ /* function guardarFolo6() {
 
      //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
      //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
@@ -478,35 +508,7 @@
          },
      }).done();
  }
- //Para poder animar los elementos cuando se envía un ingreso de vales
-
- //Muestra mensaje de exito
- function successAddToast(message) {
-     hideDimmer();
-     $('body').dimmer({
-         displayLoader: true,
-         loaderVariation: 'slow green medium elastic',
-         loaderText: "Redireccionando...",
-         closable: false,
-     }).dimmer('create').dimmer('set active').dimmer('show').dimmer('set page dimmer');
-     $('body')
-         .toast({
-             showIcon: true,
-             class: 'success',
-             showProgress: true,
-             position: 'top right',
-             displayTime: 25000,
-             closeIcon: true,
-             message: message,
-             transition: {
-                 showMethod: 'zoom',
-                 showDuration: 100,
-                 hideMethod: 'fade',
-                 hideDuration: 500
-             }
-         });
- }
-
+ */
  //MANEJO DE DIRECCIONES EN EL FOLO 6
  //Esconde los dropdown.
  $('#createdAddress').hide();
@@ -514,7 +516,7 @@
 
  //Función que guarda las direcciones que se van ingresando a la tabla.
  $('#addAddress').click(function () {
-
+     console.log("AQUI SE GUARDAN LAS DIRECCIONES");
      event.preventDefault();
      var idSelDepto = $('#departamento').val();
      var idSelMun = $('#municipio').val();
@@ -524,6 +526,7 @@
      var selectedPlaceTxt = $('#fplaces option:selected').text();
      var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
      var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
+     console.log(idSelDepto + idSelMun + selectedPlace + destinyPlace + direction + selectedPlaceTxt);
      if (selectedPlaceTxt == 'Otro') {
          $.post('/direccion/add', { //Hago la petición post
                  idSelDepto,
@@ -534,6 +537,7 @@
                  selectedPlaceTxt
              }, //Agrego al dropdown el id de la dirección creada
              function (dir) {
+                 console.log("ESTO TRAJE" + dir)
                  if (dir != null && !jQuery.isEmptyObject(dir)) {
                      dirCreadas.append($('<option/>', {
                          value: dir.id,

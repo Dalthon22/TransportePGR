@@ -1762,9 +1762,9 @@ class folo6_controllers {
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
-            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
-            console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
-            console.dir("Direcciones: " + JSON.stringify(el.address));
+            console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            /* console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
+            console.dir("Direcciones: " + JSON.stringify(el.address)); */
             // console.dir(data);
             //Envía los datos de 'el' a la vista. En ella se debe acceder a sus atributos en forma: data.folo.x; x es cualquier atributo del folo enviado
             return el;
@@ -2200,8 +2200,8 @@ class folo6_controllers {
             var t = moment(form.time, ["h:mm A"]).format("HH:mm");
             var t1 = moment(form.time1, ["h:mm A"]).format("HH:mm");
 
-            console.log(errors.array());
-            if (!errors.isEmpty()) {
+            // console.log(errors.array());
+            if (1 == 2) {
                 res.send({
                     title: "Error al guardar los datos",
                     message: "Ocurrio un error mientras se guardaban los cambios, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
