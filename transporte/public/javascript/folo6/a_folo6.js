@@ -432,6 +432,23 @@
                          value: dir.id,
                          text: dir.id
                      }));
+                     //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
+                     $('<i></i>', {
+                         class: "red big window close icon",
+                         value: dir.id,
+                         id: "delAddress",
+                         "on": { //Cada ícono se crea con un evento onclick.
+                             "click": function () {
+                                 $(this).parents('tr').remove(); //Elimina la dirección de la tabla.
+                                 address = $(this).toArray(); //Convierto las propiedades del ícono a array.
+                                 id_address = address[0].attributes.value.value; //Obtengo el id de la dirección que está en la propiedad value.
+                                 $.post('/direccion/delete', {
+                                     id_address
+                                 }); //Elimina la dirección de la BD.
+                             },
+                         },
+                         //Cada ícono se agrega a la última celda de cada fila de la tabla.
+                     }).appendTo('#addressTable tbody tr td:last');
                  };
              });
      }
