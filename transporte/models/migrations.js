@@ -14,11 +14,15 @@ const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
 const route_conditions = require('../models/m_route_conditions');
+const Mision = require('../models/m_mision');
 
 class Migration {
     constructor() {
         Department.sync();
         City.sync();
+        Mision.sync({
+            alter: true
+        });
         Address.sync({
             alter: false
         });
@@ -29,7 +33,7 @@ class Migration {
             alter: false
         });
         Frequent_Place.sync({
-            alter: true
+            alter: false
         });
         Voucher.sync({
             alter: false
