@@ -50,6 +50,14 @@ const Vehicle = db.define('SGT_Vehiculo', {
             notEmpty: true,
         }
     },
+    is_traveling: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
     created_by: {
         type: Sequelize.INTEGER
     },
