@@ -44,7 +44,7 @@ class Migration {
             alter: false
         });
         Places_container.sync({
-            alter: true
+            alter: false
         });
         Voucher_procu_assign.sync({
             alter: false
