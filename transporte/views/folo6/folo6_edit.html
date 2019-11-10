@@ -229,7 +229,7 @@
                         </tbody>
                     </table>
                     <h4 class="ui blue dividing header">Misión</h4>
-                    <div class="field">
+                    <div class="required field">
                         <label>Misión o motivo del viaje</label>
                         <input type="text" name="mision_i" placeholder="Auditoria al área laboral..." maxlength="150"
                             id="mision_i_id" autocomplete="off" value="{{folo.mission}}">
@@ -241,7 +241,8 @@
                             maxlength="150" autocomplete="off" id="details_i" value="{{folo.observation}}">
                     </div>
                     <div class="ui error message"></div>
-                    <button class="ui right aligned green button" id="save_print_btn">Guardar Cambios</button>
+                    <button class="ui right aligned green button" id="save_print_btn">Guardar
+                        Cambios</button>
                     <input type="hidden" value="{{folo.id}}" id="folo_id" name="folo_id">
                     <input type="hidden" value="{{folo.employee_id}}" id="employee_id">
 

@@ -1,4 +1,6 @@
 const frequent_place = require('../models/m_frequent_place');
+const City = require('../models/m_city');
+const Deparment = require('../models/m_department');
 const department_controller = require('../controllers/c_department');
 const municipio_controller = require('../controllers/c_city');
 const {
@@ -12,7 +14,7 @@ class frequent_place_controller {
     async getList(req, res) {
         try {
             var fplaces = await frequent_place.findAll({
-                include: ['city', 'department']
+                include: [City, Deparment]
             });
             return res.render('../views/frequent_places/list.html', {
                 fplaces

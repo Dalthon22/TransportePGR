@@ -13,6 +13,7 @@ const Employee = require('./m_employee');
 const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
+const route_conditions = require('../models/m_route_conditions');
 
 class Migration {
     constructor() {
@@ -43,7 +44,7 @@ class Migration {
             alter: false
         });
         Places_container.sync({
-            alter: true
+            alter: false
         });
         Voucher_procu_assign.sync({
             alter: false
@@ -57,7 +58,10 @@ class Migration {
         Route.sync({
             alter: false
         });
+        route_conditions.sync({
+            alter: false
+        });
     }
-}
+};
 
 module.exports = Migration;

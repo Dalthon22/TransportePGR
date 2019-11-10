@@ -8,7 +8,7 @@ const Address = require('./m_address');
 const Frequent_Place = require('./m_frequent_place');
 const Voucher_procu_assign = require('./m_voucher_procu_assign');
 
-const Procuraduria = db.define('procuraduria', {
+const Procuraduria = db.define('SGT_Procuraduria', {
     name: {
         type: Sequelize.STRING,
         allowNull: false,

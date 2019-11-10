@@ -343,8 +343,11 @@
          });
  }
 
+ /* Cambios de Sibrian */
+
  //Funciones para crear el PDF del Folo-06.
  function printPDF() {
+     event.preventDefault();
 
 
      //Recolección de datos.
@@ -430,16 +433,16 @@
      win.document.close()
  }
 
- /*  $('#save_print_btn').on('click', function () {
-      if ($('.ui.form').form('is valid')) {
-          event.preventDefault();
-          showDimmer();
-          $.when(printPDF()).then(guardarFolo6());
-          // setTimeout(guardarFolo6(), 30000);
-      }
-  });
-  */
- /* function guardarFolo6() {
+ $('#save_print_btn').on('click', function () {
+     if ($('.ui.form').form('is valid')) {
+         event.preventDefault();
+         showDimmer();
+         $.when(printPDF()).then(guardarFolo6());
+         // setTimeout(guardarFolo6(), 30000);
+     }
+ });
+
+ function guardarFolo6() {
 
      //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
      //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
@@ -508,7 +511,35 @@
          },
      }).done();
  }
- */
+ //Para poder animar los elementos cuando se envía un ingreso de vales
+
+ //Muestra mensaje de exito
+ function successAddToast(message) {
+     hideDimmer();
+     $('body').dimmer({
+         displayLoader: true,
+         loaderVariation: 'slow green medium elastic',
+         loaderText: "Redireccionando...",
+         closable: false,
+     }).dimmer('create').dimmer('set active').dimmer('show').dimmer('set page dimmer');
+     $('body')
+         .toast({
+             showIcon: true,
+             class: 'success',
+             showProgress: true,
+             position: 'top right',
+             displayTime: 25000,
+             closeIcon: true,
+             message: message,
+             transition: {
+                 showMethod: 'zoom',
+                 showDuration: 100,
+                 hideMethod: 'fade',
+                 hideDuration: 500
+             }
+         });
+ }
+
  //MANEJO DE DIRECCIONES EN EL FOLO 6
  //Esconde los dropdown.
  $('#createdAddress').hide();

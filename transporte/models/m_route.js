@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const route_conditions = require('./m_route_conditions');
 
-const Route = db.define('route', {
+const Route = db.define('SGT_Ruta', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -21,6 +22,10 @@ const Route = db.define('route', {
   createdAt: 'created_at',
   updatedAt: 'updated_at',
   freezeTableName: true,
+});
+
+Route.belongsTo(route_conditions, {
+  foreignKey: 'route_conditions_id'
 });
 
 module.exports = Route;

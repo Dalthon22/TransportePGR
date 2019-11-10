@@ -3,7 +3,7 @@ const db = require('../dbconfig/conex');
 //const Employee = require('./m_employee');
 
 
-const Folo6_Approve_State = db.define('folo6_approve_state', {
+const Folo6_Approve_State = db.define('SGT_Folo6_Aprovado', {
     request_unit_approve: {
         type: Sequelize.BOOLEAN,
         allowNull: true,

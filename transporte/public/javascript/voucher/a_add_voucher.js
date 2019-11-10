@@ -11,6 +11,20 @@ $("#first_voucher").change(function () {
     }
 });
 
+//Calcula el numero de vales a ingresar
+$("#last_voucher").change(function () {
+    if ($("#last_voucher").val() != "" && $(".ui.form").form('validate field[date_entry_bill]')) {
+        $("#NumVoucher").text("Se ingresaran: " + calculateNumVoucher() + " vales.");
+        $("#NumVoucher").removeClass("hidden");
+    } else {
+        $("#NumVoucher").addClass("hidden");
+    }
+});
+
+function calculateNumVoucher() {
+    return parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1
+}
+
 //Serializa la tabla
 $(document).ready(function () {
     fillTable();
@@ -248,7 +262,7 @@ function ingresar_vales() {
     $('#add_voucher_form').form('validate form');
     if ($('#add_voucher_form').form('is valid')) {
         $('#voucher_cant').val(parseInt($("#last_voucher").val()) - parseInt($("#first_voucher").val()) + 1);
-        alert("Se ingresaran " + $('#voucher_cant').val());
+        //alert("Se ingresaran " + $('#voucher_cant').val());
         //GET para verificar que el número de vale no haya existido con anterioridad
         buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
         // $('.ui.form').form('validate form');

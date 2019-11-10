@@ -1902,7 +1902,7 @@ class folo6_controllers {
         try {
             /******FALTA: LISTAR LOS VALES QUE CORRESPONDEN A UN SOLO EMPLEADO*/
             var folos = await Folo6.findAll({
-                attributes: ['id', 'off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver']
+                attributes: ['id', 'off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver', 'created_at']
             });
             //console.log(d);
             //data contendrá todos los folos extraídos de la BD
@@ -1916,6 +1916,7 @@ class folo6_controllers {
                 el.passengers_number = row.passengers_number;
                 //Si with_driver = true, envía la cadena "Si"
                 el.with_driver = row.with_driver ? "Si" : "No";
+                el.created_at = moment.utc(row.created_at).format("h:mm A DD/MM/YYYY");
                 //Icono para visualizar el folo. Enlance y un icono de lapiz para editar el folo. Un icono de eliminado. Ambos tiene por identificardor el id del folo que ha ido a traer a la BD
                 //var today = moment().format("DD MMMM YYYY");
                 var trully = moment().isBefore(moment.utc(row.off_date))
