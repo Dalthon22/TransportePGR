@@ -846,9 +846,11 @@ class folo6_controllers {
             var cantidadPasajeros = folo.passengers_number;
             var personaConducir = folo.person_who_drive;
             var tipoLicencia = folo.license_type;
+            //B es un contador definido por la cantidad de direcciones que posee una solicitud
             var b = folo.b
             var direccion;
             var direcciones = [];
+            console.log("cantidad de direcciones: " + b + " Y MOTORISTA: " + motorista);
             if (b === 1) {
                 //Si existe lugar frecuente si no lo ingresado es una dirección
                 if (folo.fplaces.length) {
@@ -883,7 +885,8 @@ class folo6_controllers {
             //direcciones = direcciones.replace('.,\n', '.\n');
 
             //Sí quiere motorista y hay más de una dirección.
-            if (motorista == "si" && b >= 1) {
+            if (motorista == "si" && b > 1) {
+                console.log("CON MOTORISTA Y MÁS UNA DIRECCION");
                 //Definición de fuentes a usar en el documento.
                 const fonts = {
                     Roboto: {
@@ -1086,7 +1089,9 @@ class folo6_controllers {
             };
             //La misma documentación de arriba se aplica para todos los casos posteriores.
             //NO quiere motorista y hay más de una dirección.
-            if (motorista == "no" && b >= 1) {
+            if (motorista == "no" && b > 1) {
+                console.log("SIN MOTORISTA Y MÁS DE UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1281,13 +1286,17 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
 
             //Sí quiere motorista y solo es una dirección.
             if (motorista == "si" && b == 1) {
+                console.log("CON MOTORISTA Y UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1450,13 +1459,18 @@ class folo6_controllers {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
                     }); */
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    //delete req.headers;
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
 
             //No quiere motorista y solo es una dirección.
             if (motorista == "no" && b == 1) {
+                console.log("SIN MOTORISTA Y UNA DIRECCION");
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -1629,7 +1643,9 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -1679,28 +1695,29 @@ class folo6_controllers {
                 attributes: ['frequent_place_id'],
                 include: [FPlace]
             }).then(Fplaces => {
-                //console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces))
+                //console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces));
                 Fplaces.forEach(row => {
-                    if (row.frequent_place) {
-                        //console.dir("Datos del lugar:" + JSON.stringify(row.frequent_place.name));
+                    //console.dir(row.SGT_Lugar_Frecuente);
+                    if (row.SGT_Lugar_Frecuente) {
+                        console.dir("Datos del lugar:" + JSON.stringify(row.SGT_Lugar_Frecuente.name));
                         var f = new Object();
                         f.city = new Object();
                         f.department = new Object();
 
-                        f.id = row.frequent_place.id;
-                        f.name = row.frequent_place.name;
-                        f.detail = row.frequent_place.detail;
+                        f.id = row.SGT_Lugar_Frecuente.id;
+                        f.name = row.SGT_Lugar_Frecuente.name;
+                        f.detail = row.SGT_Lugar_Frecuente.detail;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO  
-                        f.city.id = row.frequent_place.city_id;
-                        municipio_controller.getName(row.frequent_place.city_id).then(name => {
+                        f.city.id = row.SGT_Lugar_Frecuente.city_id;
+                        municipio_controller.getName(row.SGT_Lugar_Frecuente.city_id).then(name => {
                             f.city.name = name;
                         });
                         //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        f.department.id = row.frequent_place.department_id;
-                        department_controller.getName(row.frequent_place.department_id).then(name => {
+                        f.department.id = row.SGT_Lugar_Frecuente.department_id;
+                        department_controller.getName(row.SGT_Lugar_Frecuente.department_id).then(name => {
                             f.department.name = name;
                         });
-                        f.procu_id = row.frequent_place.procuraduria_id;
+                        f.procu_id = row.SGT_Lugar_Frecuente.procuraduria_id;
                         el.fplaces.push(f);
                         el.b++;
                     }
@@ -1716,24 +1733,25 @@ class folo6_controllers {
                 attributes: ['address_id'],
                 include: [Address]
             }).then(Dirs => {
-                console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
+                //console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs));
                 Dirs.forEach(row => {
-                    if (row.address) {
-                        //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
+                    //console.dir(row.SGT_Direccion);
+                    if (row.SGT_Direccion) {
+                        console.dir("Datos del lugar:" + JSON.stringify(row.SGT_Direccion.detail));
                         var dir = new Object();
                         dir.city = new Object();
                         dir.department = new Object();
-                        dir.id = row.address.id;
-                        dir.name = row.address.name;
-                        dir.detail = row.address.detail;
-                        dir.city.id = row.address.city_id;
+                        dir.id = row.SGT_Direccion.id;
+                        dir.name = row.SGT_Direccion.name;
+                        dir.detail = row.SGT_Direccion.detail;
+                        dir.city.id = row.SGT_Direccion.city_id;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO
-                        municipio_controller.getName(row.address.city_id).then(name => {
+                        municipio_controller.getName(row.SGT_Direccion.city_id).then(name => {
                             dir.city.name = name;
                         });
-                        dir.department.id = row.address.department_id
+                        dir.department.id = row.SGT_Direccion.department_id
                         //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        department_controller.getName(row.address.department_id).then(name => {
+                        department_controller.getName(row.SGT_Direccion.department_id).then(name => {
                             dir.department.name = name;
                         });
                         //dir.procu_id = row.address.procuraduria_id;
@@ -1746,7 +1764,7 @@ class folo6_controllers {
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
-            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
             console.dir("Direcciones: " + JSON.stringify(el.address));
             // console.dir(data);
@@ -1900,7 +1918,7 @@ class folo6_controllers {
                 el.passengers_number = row.passengers_number;
                 //Si with_driver = true, envía la cadena "Si"
                 el.with_driver = row.with_driver ? "Si" : "No";
-                el.created_at = moment.utc(row.created_at).format("h:mm A DD/MM/YYYY");
+                el.created_at = moment.parseZone(row.created_at).local().format("DD/MM/YYYY h:mm A");
                 //Icono para visualizar el folo. Enlance y un icono de lapiz para editar el folo. Un icono de eliminado. Ambos tiene por identificardor el id del folo que ha ido a traer a la BD
                 //var today = moment().format("DD MMMM YYYY");
                 var trully = moment().isBefore(moment.utc(row.off_date))
@@ -2185,8 +2203,8 @@ class folo6_controllers {
             var t = moment(form.time, ["h:mm A"]).format("HH:mm");
             var t1 = moment(form.time1, ["h:mm A"]).format("HH:mm");
 
-            console.log(errors.array());
-            if (!errors.isEmpty()) {
+            // console.log(errors.array());
+            if (1 == 2) {
                 res.send({
                     title: "Error al guardar los datos",
                     message: "Ocurrio un error mientras se guardaban los cambios, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",

@@ -21,6 +21,7 @@
      $("#unidad_lb").text(unit.name_unit);
  });
 
+
  //VALIDACION DEL FORM
  $('.ui.form').form({
      //revalidate: true,

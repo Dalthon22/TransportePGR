@@ -131,21 +131,6 @@
                             <input id="idmun" type="hidden" value="{{municipio}}">
                         </div>
                     </div>
-                    <!-- <div class="field">
-                         <select class="ui fluid dropdown" name="place_ls">
-                            <option value="">Seleccione el lugar de destino</option>
-                            <option value="1">Aeropuerto Internacional de El Salvador San Óscar Arnulfo
-                                Romero y
-                                Galdámez</option>
-                            <option value="2">Alcaldía Municipal de Apopa</option>
-                            <option value="3">Centro Judicial de Santa Tecla</option>
-                            <option value="3">Otro</option>
-                        </select> 
-                    </div> -->
-                    <!-- <div class="field">
-                        <label>Lugar de destino</label>
-                        <input type="text" name="destiny_place_i" disabled="disabled">
-                    </div> -->
                     <div class="required field">
                         <label>Lugar de destino:</label>
                         <select class="ui fluid dropdown" id="fplaces" name="fplaces">
@@ -154,25 +139,57 @@
                     </div>
                     <div class="field">
                         <label>Lugar de destino</label>
-                        <input type="text" name="destiny_place_i" disabled="disabled">
+                        <input type="text" name="destiny_place_i" placeholder="Centro Escolar..." id="destiny_place_i">
                     </div>
                     <div class="field">
                         <label>Detalle de dirección</label>
-                        <textarea rows="3" name="direction_txt" disabled="disabled"
+                        <textarea rows="3" id="direction_txt" name="direction_txt"
                             placeholder="Calle x, pasaje y, local...."></textarea>
                     </div>
-                    <button class="ui labeled icon button" id="addAddress" name="addAddress">
-                        <i class="plus icon"></i>
-                        Agregar dirección
-                    </button>
-                    <table class="ui celled table tablet stackable">
+                    <button class="ui labeled icon button" id="addAddress" name="addAddress"><i
+                            class="plus icon"></i>Agregar
+                        dirección</button>
+
+                    <!-- Los siguientes select se utilizan para cuando se envie la informacion al controller, se tiene un listado con las direcciones y lugares frecuentes que se van a guardar en la bd -->
+
+                    <!-- Se llena con los fplaces relacionados al folo que se va a editar -->
+                    {% if folo.fplaces%}
+                    <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace">
+
+                        {% for fplace in folo.fplaces  %}
+                        <option value="{{fplace.id}}">{{fplace.name}}</option>
+
+                        {% endfor %}
+                    </select>
+                    {% else %}
+                    <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace"></select>
+                    {%endif%}
+                    <!-- Fin del llenado -->
+
+                    <!-- Inicio del llenado con las direcciones  -->
+                    {% if folo.address%}
+                    <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
+
+                        {% for address in folo.address  %}
+                        <option value="{{address.id}}">{{address.name}}</option>
+                        {% endfor %}
+                    </select>
+                    {% else %}
+                    <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
+                    </select>
+
+                    {%endif%}
+                    <!-- Fin del llenado -->
+
+
+                    <table class="ui center celled collapsing table tablet stackable" id="addressTable"
+                        name="addressTable">
                         <thead>
                             <tr>
-                                <th>Destino</th>
+                                <th>Nombre del destino</th>
                                 <th>Detalle de la dirección</th>
-                                <th>Municipio</th>
                                 <th>Departamento</th>
-                            </tr>
+                                <th>Municipio</th>
                         </thead>
                         <tbody>
                             {% if folo.fplaces%}
@@ -228,6 +245,7 @@
                         Cambios</button>
                     <input type="hidden" value="{{folo.id}}" id="folo_id" name="folo_id">
                     <input type="hidden" value="{{folo.employee_id}}" id="employee_id">
+
                 </form>
             </div>
         </div>
