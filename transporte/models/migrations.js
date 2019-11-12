@@ -14,6 +14,9 @@ const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
 const route_conditions = require('../models/m_route_conditions');
+const User = require('./m_user');
+const Rol = require('./m_role');
+const UserRol = require('./m_user_role');
 
 class Migration {
     constructor() {
@@ -29,7 +32,7 @@ class Migration {
             alter: false
         });
         Frequent_Place.sync({
-            alter: true
+            alter: false
         });
         Voucher.sync({
             alter: false
@@ -59,6 +62,15 @@ class Migration {
             alter: false
         });
         route_conditions.sync({
+            alter: false
+        });
+        User.sync({
+            alter: false
+        });
+        Rol.sync({
+            alter: false
+        });
+        UserRol.sync({
             alter: false
         });
     }
