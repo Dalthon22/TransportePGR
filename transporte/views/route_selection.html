@@ -20,7 +20,10 @@
                     <b>{{ruta.name}}</b>
                     <br>
                     <br>
-                    <input type="checkbox" class="master col-master chk" />
+                    <div class="ui checkbox">
+                        <input type="checkbox" class="col-master chk">
+                        <label></label>
+                    </div>
                 </td>
                 {% endfor %}
                 {% endif %}
@@ -33,11 +36,21 @@
             {% if motoristas %}
             {% for motorista in motoristas %}
             <tr>
-                <td class="center aligned">{{motorista}}</td>
+                <td class="center aligned">
+                    {{motorista}}
+                    <br>
+                    <div class="ui checkbox">
+                        <input type="checkbox" class="row-master chk">
+                        <label></label>
+                    </div>
+                </td>
                 {% if route_list %}
                 {% for ruta1 in route_list %}
                 <td class="center aligned">
-                    <input type="checkbox" name="motorista_rutas" class="child chk">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="motorista_rutas" class="child chk">
+                        <label></label>
+                    </div>
                 </td>
                 {% endfor %}
                 {% endif %}
@@ -69,13 +82,13 @@
     <br>
 
     <!-- modal cancelar -->
-    <div class="ui basic modal" id="modalCancelar">
+    <div class="ui mini inverted modal" id="modalCancelar">
         <div class="ui icon header">
             <i class="exclamation triangle icon"></i>
-            Advertencia
+            ¿Desea cancelar?
         </div>
         <div class="content">
-            <p>¿Desea cancelar?<br></br>Se perderá la infromación seleccionada.</p>
+            <p>Se perderá la infromación seleccionada.</p>
         </div>
         <div class="actions">
             <a href="/home">
@@ -93,7 +106,7 @@
     <!-- fin modal cancelar -->
 
     <!-- modal continuar -->
-    <div class="ui basic modal" id="modalContinuar">
+    <div class="ui mini inverted modal" id="modalContinuar">
         <div class="ui icon header">
             <i class="info icon"></i>
             Información

@@ -7,7 +7,3 @@
 .colorthead {
     background-color: #f5f6fa;
 }
-
-input[type=checkbox] {
-    transform: scale(1.5);
-}

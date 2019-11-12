@@ -16,19 +16,29 @@ document.getElementById("btnInfoAceptar").addEventListener('click', function () 
 })
 
 /* checkear el padre a partir de sus hijos y viceversa */
+
+/* columnas master*/
 $('.col-master').click(function () {
-    var idx = $(this).parent().index();
+    var idx = $(this).parent().parent().index();
     console.log(idx);
     $('table td:nth-child(' + (idx + 1) + ') input.child').prop('checked', this.checked)
+})
+/* filas master*/
+$('.row-master').click(function () {
+    $(this).closest('tr').find('input.child').prop('checked', this.checked)
 });
 
+
+
 $('.child').change(function () {
+    /* filas hijas */
     var $tr = $(this).closest('tr')
     $tr.find('input.row-master').prop('checked', $tr.find('.child').not(':checked').length == 0);
-    var idx = $(this).parent().index(),
+    /* columnas hijas*/
+    var idx = $(this).parent().parent().index(),
         $tds = $('table td:nth-child(' + (idx + 1) + ')');
     $tds.find('input.col-master').prop('checked', $tds.find('input.child').not(':checked').length == 0)
-});
+})
 /* fin */
 
 
