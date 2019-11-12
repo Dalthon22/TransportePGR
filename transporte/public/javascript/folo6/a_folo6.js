@@ -52,10 +52,10 @@
              identifier: 'passengers_i',
              rules: [{
                      type: 'empty',
-                     prompt: 'Seleccione un horario de salida'
+                     prompt: 'Seleccione o ingrese la cantidad de pasajeros. No olvide incluirse'
                  },
                  {
-                     type: 'integer',
+                     type: 'integer[1...40]',
                      prompt: 'Ingrese un número válido de pasajeros'
                  }
              ]
