@@ -1,4 +1,3 @@
-const db = require('../dbconfig/conex');
 const Address = require('../models/m_address');
 const department_controller = require('../controllers/c_department');
 const municipio_controller = require('../controllers/c_city');
@@ -47,7 +46,6 @@ class address_services {
     }
   };
 
-  //Saves the new address in the DB.
   //Saves the new address in the DB.
   async createAddress(req, res) {
     try {
@@ -134,10 +132,13 @@ class address_services {
       console.log(error);
     }
   };
+
   //Elimina la dirección creada a través del ícono en la tabla.
   async deleteAddress(req, res) {
     try {
-      let { id_address } = req.body; //Se obtiene el parámetro del cuerpo de la petición.
+      let {
+        id_address
+      } = req.body; //Se obtiene el parámetro del cuerpo de la petición.
       await Address.destroy({ //Eliminación de la dirección.
         where: {
           id: id_address,

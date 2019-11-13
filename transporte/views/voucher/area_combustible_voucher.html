@@ -12,6 +12,16 @@
     <div class="sixteen wide column">
         <h1 class="ui blue dividing header"><i class="charging station icon"></i>
             Listado de vales de combustible</h1>
+
+        <div class="ui info message">
+            <div class="header"><i class="top left exclamation circle fitted info icon"></i>
+                Recuerde:
+            </div>
+            El listado de vales de combustible vistos a continuación, únicamente presenta aquellos
+            disponibles a la fecha. Si desea localizar un vale ya asignado con anterioridad debe
+            dirigirse a:
+        </div>
+
         <button class="ui labeled icon right floated primary button" id="show_add_form_btn"> <i
                 class="plus icon"></i>Agregar</button>
     </div>
@@ -49,13 +59,10 @@
     <div class="header">
         <h2 class="ui centered blue header">Ingreso de vales de combustible</h2>
     </div>
-    <div class="content ">
-        <!-- <div class="ui disabled dimmer">
-                <div class="ui mini text loader">Agregando vales</div>
-            </div> -->
+    <div class="content">
         <div class="ui container grid stackable">
             <div class="sixteen wide column">
-                <form class="ui form" id="add_voucher_form" method="POST" name="add_voucher">
+                <form class="ui form" id="add_voucher_form" name="add_voucher">
                     <div class="four wide field">
                         <!-- Calendario para fecha de facturacion -->
                         <label for="date_entry_bill">Fecha de facturacion</label>
@@ -99,6 +106,9 @@
                             <input type="number" min="0" autocomplete="false" name="last_voucher" id="last_voucher"
                                 disabled="true" autocomplete="off" placeholder="Correlativo del último vale"
                                 maxlength="8" max="2147483647">
+                        </div>
+                        <div id="NumVoucher" class="ui tag hidden label"
+                            style="background: darkblue;color: white;margin: auto 0px;">
                         </div>
                     </div>
                     <input type="hidden" name="voucher_cant" id="voucher_cant" value="">

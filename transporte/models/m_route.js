@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const route_conditions = require ('./m_route_conditions');
+const route_conditions = require('./m_route_conditions');
 
-const Route = db.define('route', {
+const Route = db.define('SGT_Ruta', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
