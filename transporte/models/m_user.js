@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const UserRol = require('./m_user_role');
 
-const User = db.define('SIS_Usuarios', {
+const User = db.define('SGT_Usuario', {
     CodigoUsuario: {
         type: Sequelize.STRING(10),
         primaryKey: true,
@@ -46,8 +46,8 @@ const User = db.define('SIS_Usuarios', {
     freezeTableName: true,
 });
 
-/* User.hasMany(UserRol, {
+User.hasMany(UserRol, {
     foreignKey: 'CodigoUsuario'
-}); */
+});
 
 module.exports = User;
