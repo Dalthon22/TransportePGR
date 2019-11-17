@@ -406,48 +406,9 @@ function successAddToast(message) {
 $('#createdAddress').hide();
 $('#selectedFPlace').hide();
 
-//Función que guarda las direcciones que se van ingresando a la tabla.
-$('#addAddress').click(function () {
+//ESTA FUNCIÓN ESTABA REPETIDA. REMOVIDA 16/11/2019 POR AXEL HERNÁNDEZ
 
-    event.preventDefault();
-    var idSelDepto = $('#departamento').val();
-    var idSelMun = $('#municipio').val();
-    var selectedPlace = $('#fplaces').val();
-    var destinyPlace = $('#destiny_place_i').val(); //Obtengo todos los valores
-    var direction = $('#direction_txt').val();
-    var selectedPlaceTxt = $('#fplaces option:selected').text();
-    var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
-    var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
-    if (selectedPlaceTxt == 'Otro') {
-        $.post('/direccion/add', { //Hago la petición post
-            idSelDepto,
-            idSelMun,
-            selectedPlace,
-            destinyPlace,
-            direction,
-            selectedPlaceTxt
-        }, //Agrego al dropdown el id de la dirección creada
-            function (dir) {
-                if (dir != null && !jQuery.isEmptyObject(dir)) {
-                    dirCreadas.append($('<option/>', {
-                        value: dir.id,
-                        text: dir.id
-                    }));
-                };
-            });
-    }
-    //Agrego el lugar frecuente seleccionado al dropdown
-    if (selectedPlaceTxt != 'Otro') {
-        selectedFPlace.append($('<option/>', {
-            value: selectedPlace,
-            text: selectedPlaceTxt,
-        }));
-    };
-    //console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
-    //console.log(selectedFPlace);
-});
-
- //Función que guarda las direcciones que se van ingresando a la tabla.
+ //Función que guarda en la BD las direcciones que se van ingresando a la tabla.
  $('#addAddress').click(function () {
      event.preventDefault();
      var idSelDepto = $('#departamento').val();
@@ -475,7 +436,7 @@ $('#addAddress').click(function () {
                      }));
                  };
                  fillAddressTable();
-                 addDeletedIcon(dir.id);
+                 addDeleteIcon(dir.id);
              });
      }
      if (selectedPlaceTxt != 'Otro') {
@@ -484,35 +445,35 @@ $('#addAddress').click(function () {
              text: selectedPlaceTxt,
          }));
          fillAddressTable();
-         addDeletedIconFP(parseInt(selectedPlace));
+         addDeleteIconFP(parseInt(selectedPlace));
      }
 
      //Agrego el lugar frecuente seleccionado al dropdown
-     //console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
-     //console.log(selectedFPlace);
+     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+     console.log(selectedFPlace);
  });
 
- //Añade el icono eliminar en la table direcciones del folo cuando es FP
- function addDeletedIconFP(dir) {
+ //Añade el ícono eliminar en la tabla direcciones del folo cuando es FP
+ function addDeleteIconFP(selectedPlace) {
      //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
      $('<i></i>', {
          class: "red big window close icon",
-         value: dir, //ID address
+         value: selectedPlace, //ID lugar frecuente
          id: "delAddress",
          "on": { //Cada ícono se crea con un evento onclick.
              "click": function () {
                  $(this).parents('tr').remove(); //Elimina la dirección de la tabla.
-
-                 //Limpiar el elemento en el combox below:
-
+                 //Elimino el id del dropdown
+                 $('#selectedFPlace option[value='+selectedPlace+']').remove();
+                 console.log($('#selectedFPlace'));
              },
          },
          //Cada ícono se agrega a la última celda de cada fila de la tabla.
      }).appendTo('#addressTable > tbody > tr:last > td:last');
  }
 
- //Añade el icono eliminar en la table direcciones del folo cuando es una nueva direccion
- function addDeletedIcon(dir) {
+ //Añade el ícono eliminar en la tabla direcciones del folo cuando es una nueva dirección
+ function addDeleteIcon(dir) {
      //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
      $('<i></i>', {
          class: "red big window close icon",
@@ -526,9 +487,9 @@ $('#addAddress').click(function () {
                  $.post('/direccion/delete', {
                      id_address
                  }); //Elimina la dirección de la BD.
-
-                 //Limpiar el elemento en el combox below:
-
+                 //Elimino el id del dropdown.
+                 $('#createdAddress option[value='+dir+']').remove();
+                 console.log($('#createdAddress'));
              },
          },
          //Cada ícono se agrega a la última celda de cada fila de la tabla.
