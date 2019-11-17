@@ -42,47 +42,67 @@ class Route_controller {
       let {
         name,
         monday,
+        monday_frequency,
         tuesday,
+        tuesday_frequency,
         wednesday,
+        wednesday_frequency,
         thursday,
+        thursday_frequency,
         friday,
+        friday_frequency,
         saturday,
-        sunday
+        saturday_frequency,
+        sunday,
+        sunday_frequency,
+        enabled
       } = req.body;
       if (monday == 'on') {
         monday = true;
       } else {
         monday = false;
+        monday_frequency = 0;
       };
       if (tuesday == 'on') {
         tuesday = true;
       } else {
         tuesday = false;
+        tuesday_frequency = 0;
       };
       if (wednesday == 'on') {
         wednesday = true;
       } else {
         wednesday = false;
+        wednesday_frequency = 0;
       };
       if (thursday == 'on') {
         thursday = true;
       } else {
         thursday = false;
+        thursday_frequency = 0;
       };
       if (friday == 'on') {
         friday = true;
       } else {
         friday = false;
+        friday_frequency = 0;
       };
       if (saturday == 'on') {
         saturday = true;
       } else {
         saturday = false;
+        saturday_frequency = 0;
       };
       if (sunday == 'on') {
         sunday = true;
       } else {
         sunday = false;
+        sunday_frequency = 0;
+      };
+      if (enabled == 'on') {
+        enabled = true;
+      } else {
+        enabled = false;
       };
       console.log(errors.array());
       if (!errors.isEmpty()) {
@@ -96,16 +116,24 @@ class Route_controller {
         console.log(req.body);
         var conditions = await route_conditions.create({
           monday,
+          monday_frequency,
           tuesday,
+          tuesday_frequency,
           wednesday,
+          wednesday_frequency,
           thursday,
+          thursday_frequency,
           friday,
+          friday_frequency,
           saturday,
-          sunday
+          saturday_frequency,
+          sunday,
+          sunday_frequency,
         });
         Route.create({
           name,
-          route_conditions_id: conditions.id
+          enabled,
+          route_conditions_id: conditions.id,
         });
         res.redirect('/rutas');
       }

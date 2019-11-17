@@ -22,12 +22,68 @@ $(function () {
                     identifier: 'name',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Ingrese el nombre de la ruta estándar'
+                        prompt: 'Ingrese el nombre de la ruta estándar.'
                     }, {
                         type: 'maxLength[40]',
                         prompt: 'El nombre debe ser menor a 40 caracteres'
                     }]
-                }
+                },
+                monday_frequency: {
+                    identifier: 'monday_frequency',
+                    depends: 'monday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
+                tuesday_frequency: {
+                    identifier: 'tuesday_frequency',
+                    depends: 'tuesday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
+                wednesday_frequency: {
+                    identifier: 'wednesday_frequency',
+                    depends: 'wednesday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
+                thursday_frequency: {
+                    identifier: 'thursday_frequency',
+                    depends: 'thursday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
+                friday_frequency: {
+                    identifier: 'friday_frequency',
+                    depends: 'friday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
+                saturday_frequency: {
+                    identifier: 'saturday_frequency',
+                    depends: 'saturday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
+                sunday_frequency: {
+                    identifier: 'sunday_frequency',
+                    depends: 'sunday',
+                    rules: [{
+                        type: 'integer[1..40]',
+                        prompt: 'Ingrese un valor entre 1 y 40.'
+                    }]
+                },
             }
         });
 

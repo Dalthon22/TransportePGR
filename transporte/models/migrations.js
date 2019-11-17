@@ -58,10 +58,10 @@ class Migration {
         Folo6_Approve_State.sync({
             alter: false
         });
-        Route.sync({
+        route_conditions.sync({
             alter: false
         });
-        route_conditions.sync({
+        Route.sync({
             alter: false
         });
         User.sync({
