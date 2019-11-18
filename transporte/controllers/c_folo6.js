@@ -191,7 +191,7 @@ class folo6_controllers {
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
@@ -227,7 +227,7 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
                             text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
@@ -2310,6 +2310,31 @@ class folo6_controllers {
             });
         }
     }
+
+    async deletePlacesContainer(req, res) {
+        try {
+            let {
+                id_address,
+                id_frequent_place
+            } = req.body;
+            if (id_address != null) {
+                place_container.destroy({
+                    where: {
+                        address_id: id_address
+                    }
+                });
+            };
+            if (id_frequent_place != null) {
+                place_container.destroy({
+                    where: {
+                        frequent_place_id: id_frequent_place
+                    }
+                });
+            };
+        } catch (error) {
+            console.log(error);
+        };
+    };
 }
 
 module.exports = new folo6_controllers();

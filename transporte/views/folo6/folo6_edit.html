@@ -190,43 +190,9 @@
                                 <th>Detalle de la dirección</th>
                                 <th>Departamento</th>
                                 <th>Municipio</th>
+                                <th></th>
                         </thead>
-                        <tbody>
-                            {% if folo.fplaces%}
-                            {% for fplace in folo.fplaces  %}
-                            <tr>
-                                <td data-label="{{fplace.id}}">{{fplace.name}}</td>
-                                {%if fplace.detail%}
-                                <td data-label="{{fplace.id}}"> {{fplace.detail}}</td>
-                                {% else %}
-                                <td data-label="{{fplace.id}}">
-                                    Sin detalle de dirección
-                                </td>
-                                {%endif%}
-                                <td data-label="{{fplace.municipio.id}}">{{fplace.city.name}}</td>
-                                <td data-label="{{fplace.municipio.id}}">{{fplace.department.name}}</td>
-                            </tr>
-                            {% endfor %}
-                            {%endif%}
-
-                            {% if folo.address%}
-                            {% for address in folo.address  %}
-                            <tr>
-                                <td data-label="{{address.id}}">{{address.name}}</td>
-                                {%if fplace.detail%}
-                                <td data-label="{{address.id}}"> {{address.detail}}</td>
-                                {% else %}
-                                <td data-label="{{address.id}}">
-                                    Sin detalle de dirección
-                                </td>
-                                {%endif%}
-                                <td data-label="{{address.city.id}}">{{address.city.name}}</td>
-                                <td data-label="{{address.department.id}}">{{address.department.name}}</td>
-
-                            </tr>
-                            {% endfor %}
-                            {%endif%}
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                     <h4 class="ui blue dividing header">Misión</h4>
                     <div class="required field">
