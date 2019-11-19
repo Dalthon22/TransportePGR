@@ -1,6 +1,6 @@
 $(window).on('load', function () {
     console.log('window loaded');
-    this.enviarToast();
+    enviarToast();
 });
 
 $(document).ready(function () {
@@ -42,11 +42,8 @@ $(document).ready(function () {
                 });
         }
     };
+
     enviarToast();
-
-    editar();
-
-    eliminar();
 });
 
 
@@ -88,7 +85,7 @@ function enviarToast() {
     }
 };
 
-function editar() {
+/* function editar() {
     var url_list = '';
     $(".edit.yellow.icon").click(function () {
         var id = $(this).attr("value");
@@ -96,9 +93,17 @@ function editar() {
         console.log(url_list);
         location.href = url_list;
     });
-}
+} */
 
-function eliminar() {
+/* Detona el metodo editar en el back mediante el id en un querystring */
+$(".edit.yellow.icon").click(function () {
+    var id = $(this).attr("value");
+    var url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
+    console.log(url_list);
+    location.href = url_list;
+});
+
+/* function eliminar() {
     var url_list = '';
     $(".red.window.close.icon").click(function () {
         var id = $(this).attr("value");
@@ -113,10 +118,36 @@ function eliminar() {
             })
             .modal('show');
     });
-}
+} */
 
+/* Detona el metodo eliminar en el back mediante el id en un querystring */
+$(".red.window.close.icon").click(function () {
+    var id = $(this).attr("value");
+    $('.ui.modal')
+        .modal({
+            closable: true,
+            onApprove: function () {
+                url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                console.log(url_list);
+                location.href = url_list;
+            }
+        })
+        .modal('show');
+});
 
+/* Habilita el filtro de lugares frecuentes por ruta */
+$('#div_ruta')
+    .dropdown({
+        ignoreDiacritics: true,
+        sortSelect: true,
+        fullTextSearch: 'exact'
+    });
 
-
+$('#ruta').change(function () {
+    var route_name = $(this).attr("value");
+    var route_id = $(".menu.transition.visible").children('.item').find(".active").first().attr("value");
+    console.log(route_id);
+    alert(route_id);
+});
 
 $('#container').css('display', 'block');

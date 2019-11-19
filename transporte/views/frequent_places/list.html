@@ -15,6 +15,20 @@
             <a href="/lugares_frecuentes/nuevo"><button class="ui ui labeled icon  right floated blue button"
                     type="submit"><i class="plus icon"></i>Agregar
                 </button></a>
+            <label style="margin-right: 0.1em;">Filtrar por ruta: </label>
+            <div class="ui search selection dropdown" id="div_ruta">
+                <input id="ruta" type="hidden" name="ruta" value="">
+                <i class="dropdown icon"></i>
+                <div class="text">Todos</div>
+                <div id="menu" class="menu" value="You got it">
+                    <div class="item active selected" value=0>Todos</div>
+                    {% if rutas %}
+                    {% for r in rutas %}
+                    <div class="item" value={{r.id}}>{{r.name}}</div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
             <br>
             <input type="hidden" id="messages" name="messages" value="{{messages}}">
             <br>
