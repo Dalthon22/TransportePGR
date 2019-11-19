@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router();;
+const express = require('express');
+const router = express.Router();
 const controller = require('../controllers/c_voucher');
 const {
     body,
@@ -28,10 +28,9 @@ router.post('/vales/add',
         controller.createVoucher(req, res);
     });
 //Ruta donde se manda a verificar si un número de vales existe
-router.get('/vales/:num',
-    (req, res) => {
-        const num = req.params.num;
-        controller.ifExist(num, req, res);
-    });
+router.get('/vales/num', (req, res) => {
+    controller.ifExist(req, res);
+
+});
 
 module.exports = router;

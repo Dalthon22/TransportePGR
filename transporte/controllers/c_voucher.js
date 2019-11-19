@@ -2,6 +2,7 @@ const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const Voucher = require('../models/m_voucher');
+const FacturaCompra = require('../models/m_bill')
 //Manejo de fechas
 var moment = require('moment');
 moment.locale("Es-SV")
@@ -21,21 +22,33 @@ const {
      td > num_close_bill < /td> <
      td > date_close_bill < /td> */
 
+/*Estados para los vales si Disponible cuando recien se ingrese a la procuraduría,En espera cuando ya este asignado a una procuraduria 
+pero a la espera de un viaje, Asignado: cuando ya tenga un viaje asignado, Liquidado cuando ya se haya ingresado al sistema el numero de factura
+con el cual se liquidó
+*/
+var estados = ["Disponible", "En espera", "Asignado", "Liquidado"];
+
 class voucher_controllers {
     constructor() {
         //var migrate = new Migration();
     }
 
-    async ifExist(numVoucher, req, res) {
-        console.log("Desde router recibi este numero de vale: " + numVoucher);
-        var b = false;
-        var num = parseInt(numVoucher);
-        console.log("Numero de vale que se buscara: " + num);
+    async ifExist(req, res) {
         try {
+            var num_voucher = parseInt(JSON.parse(req.query.num_voucher));
+            var num_bill = parseInt(JSON.parse(req.query.num_bill));
+
+
+            console.log("Desde router recibi este numero de vale: " + num_voucher);
+
+            var b = false;
+            var num = parseInt(num_voucher);
+            console.log("Numero de vale que se buscara: " + num);
             console.log("Voy a buscar")
             let v = await Voucher.count({
                 where: {
-                    num_voucher: num
+                    num_voucher: num_voucher,
+                    num_entry_bill: num_bill
                 }
             });
             console.log("Ya busque we, y me salen: " + v);
@@ -46,9 +59,10 @@ class voucher_controllers {
                 console.log("Si we la rego la doña");
                 res.send({
                     type: 1,
-                    message: "El vale numero: " + num + " ya ha sido registrado"
+                    message: "El vale numero: " + num + " ya ha sido registrado",
+                    title: 'Error: número duplicado'
                 });
-                throw new Error('El numero de vale ya ha se registro');
+                //throw new Error('El numero de vale ya ha se registro');
             } else {
                 console.log("Esta limpio, por esta vez...");
                 res.send({
@@ -57,6 +71,11 @@ class voucher_controllers {
             }
         } catch (err) {
             console.log(err);
+            res.send({
+                type: 1,
+                message: "Ha ocurrido un error mientras se guardaban los datos por favor intente de nuevo si el error persiste contacte a soporte técnico",
+                title: 'Algo ha salido mal'
+            });
         }
     }
 
@@ -151,7 +170,7 @@ class voucher_controllers {
                     await Voucher.create({
                         num_voucher: primer,
                         price,
-                        condition: "Disponible",
+                        condition: estados[0],
                         date_entry: date,
                         voucher_provider: provider,
                         num_entry_bill: bill_num,
@@ -160,6 +179,12 @@ class voucher_controllers {
                     primer++;
                 }
                 while (primer <= ultimo);
+
+                await FacturaCompra.create({
+                    num_bill: bill_num,
+                    date_entry: date,
+                    provider: provider
+                });
                 console.log(primer);
                 console.log(ultimo);
                 //Departamento

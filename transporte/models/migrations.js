@@ -14,7 +14,7 @@ const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
 const route_conditions = require('../models/m_route_conditions');
-
+const FacturaCompra = require('./m_bill')
 class Migration {
     constructor() {
         Department.sync();
@@ -61,6 +61,9 @@ class Migration {
         route_conditions.sync({
             alter: false
         });
+        FacturaCompra.sync({
+            alter: false
+        })
     }
 };
 

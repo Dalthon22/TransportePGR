@@ -280,16 +280,21 @@ function ingresar_vales() {
 
 ///Verifica que los vales que se vayan a ingresar no hayan sido previamente registrados
 function buscar_vale(num1, num2) {
-    const url_request_vale = 'vales/' + num1;
+    const url_request_vale = '/vales/num';
     console.log("Ajax buscará en: " + url_request_vale);
-    const url_request_vale2 = 'vales/' + num2;
-    console.log("Ajax buscará en: " + url_request_vale2);
-
+    var num_bill = $('#bill_num').val();
+    console.log("vales que buscará" + num1 + num2 + "factura" + num_bill);
+    var jsonReq = {
+        num_voucher: JSON.stringify(num1),
+        num_bill: JSON.stringify(num_bill)
+    }
+    console.dir(jsonReq);
     $.ajax({
         url: url_request_vale,
         async: false,
         type: 'GET',
         dataType: 'json',
+        data: jsonReq,
         success: (data) => {
             //Manejo del resultado enviado por ajax
             console.log("DATA DEL GET NUM VALE 1" + data.type)
@@ -300,7 +305,7 @@ function buscar_vale(num1, num2) {
                 //Muestra el mensaje de error en el primer vale
                 $('#add_modal')
                     .toast({
-                        title: 'Error: número duplicado',
+                        title: data.title,
                         class: 'error',
                         showIcon: false,
                         position: 'top right',
@@ -315,11 +320,16 @@ function buscar_vale(num1, num2) {
             }
         }
     });
+    var jsonReq1 = {
+        num_voucher: JSON.stringify(num2),
+        num_bill: JSON.stringify(num_bill)
+    }
     $.ajax({
-        url: url_request_vale2,
+        url: url_request_vale,
         type: 'GET',
         dataType: 'json',
         async: false,
+        data: jsonReq1,
     }).done(function (data) {
         if (data.type === 1) {
             noAnimateAddButton();
@@ -328,7 +338,7 @@ function buscar_vale(num1, num2) {
             //Muestra el mensaje de error en ultimo vale
             $('#add_modal')
                 .toast({
-                    title: 'Error: número duplicado',
+                    title: data.title,
                     showIcon: false,
                     class: 'error',
                     position: 'top right',
