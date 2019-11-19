@@ -38,6 +38,7 @@ $(document).ready(function () {
 $('.ui.form').form({
     //revalidate: true,
     inline: true,
+    on: 'blur', //Necesario para validación de direcciones
     fields: {
         calendar1: {
             identifier: 'calendar1',
@@ -71,6 +72,33 @@ $('.ui.form').form({
                 prompt: 'Ingrese un número válido de pasajeros'
             }
             ]
+        },
+        departamento: {
+            identifier: 'departamento',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione un departamento de la lista'
+            }]
+        },
+        municipio: {
+            identifier: 'municipio',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione un municipio de la lista'
+            }, {
+                type: 'not[--Seleccione un municipio--]',
+                prompt: 'Seleccione un municipio de la lista'
+            }]
+        },
+        fplaces: {
+            identifier: 'fplaces',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione un lugar frecuente de la lista'
+            }, {
+                type: 'not[--Seleccione un lugar--]',
+                prompt: 'Seleccione un lugar frecuente de la lista'
+            }]
         },
         mision_i: {
             identifier: 'mision_i',
@@ -560,9 +588,13 @@ function fillTableEdit() {
                         "<td>" + ele.department.name + "</td>" +
                         "<td></td>" +
                         "</tr>");
+                    $('#selectedFPlace').append($('<option/>', {
+                        value: ele.id,
+                        text: ele.id
+                    }));
                     addDeleteIconFP(ele.id);
-                    console.log(ele.id);
-                    });
+                    console.log($('#selectedFPlace'));
+                });
             };
 
             if (data.folo.address.length) {
@@ -577,8 +609,12 @@ function fillTableEdit() {
                         "<td>" + ele.department.name + "</td>" +
                         "<td></td>" +
                         "</tr>");
+                        $('#dirCreadas').append($('<option/>', {
+                            value: ele.id,
+                            text: ele.id
+                        }));
                     addDeleteIcon(ele.id);
-                    console.log(ele.id);
+                    console.log($('#dirCreadas'));
                 });
             };
         });
@@ -591,6 +627,7 @@ $(function () {
 //Esconde los dropdown.
 $('#createdAddress').hide();
 $('#selectedFPlace').hide();
+$('#addAddress').prop('disabled', true);
 
 //Función que guarda en la BD las direcciones que se van ingresando a la tabla.
 $('#addAddress').click(function () {
@@ -736,8 +773,28 @@ $('#fplaces').change(function () {
     if ($('#fplaces option:selected').text() == 'Otro') {
         $('#destiny_place_i').prop('disabled', false);
         $('#direction_txt').prop('disabled', false);
+        $('#addAddress').prop('disabled', true);
     } else {
         $('#destiny_place_i').prop('disabled', true);
         $('#direction_txt').prop('disabled', true);
+        $('#addAddress').prop('disabled', false);
+    };
+});
+
+$('#destiny_place_i').on('change', function(){
+    if ($(this).val()!=null) {
+        $('#addAddress').prop('disabled', false);
+    };
+    if($(this).val()==''){
+        $('#addAddress').prop('disabled', true);
+    };
+});
+
+$('#direction_txt').on('change', function(){
+    if ($(this).val()!=null) {
+        $('#addAddress').prop('disabled', false);
+    };
+    if($(this).val()==''){
+        $('#addAddress').prop('disabled', true);
     };
 });

@@ -53,7 +53,6 @@ app.use('/rutas', require('./routes/r_route'));
 app.use('/lugares_frecuentes', require('./routes/r_frequent_places'));
 app.use('/', require('./routes/r_employee'));
 app.use('/', require('./routes/r_approve_panel'));
-app.use('/lugaresContenedor', require('./routes/r_places_container'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
