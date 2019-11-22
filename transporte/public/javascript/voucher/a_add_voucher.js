@@ -28,7 +28,6 @@ function calculateNumVoucher() {
 //Serializa la tabla
 $(document).ready(function () {
     fillTable();
-
 });
 
 //llenar tabla

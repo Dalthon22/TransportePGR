@@ -12,6 +12,22 @@ class frequent_place_controller {
 
     constructor() {}
 
+    async getFilteredList(req, res) {
+        try {
+            var fplaces = await frequent_place.findAll({
+                where: {
+                    route_id: req.query.filter
+                },
+                include: [City, Deparment]
+            });
+            res.send({
+                fplaces
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     async getList(req, res) {
         try {
             var fplaces = await frequent_place.findAll({
