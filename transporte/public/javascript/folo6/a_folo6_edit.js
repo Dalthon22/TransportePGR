@@ -75,13 +75,19 @@ $('.ui.form').form({
         },
         departamento: {
             identifier: 'departamento',
+            optional: 'true',
             rules: [{
                 type: 'empty',
+                prompt: 'Seleccione un departamento de la lista'
+            }, {
+                type: 'not[--Seleccione un departamento--]',
                 prompt: 'Seleccione un departamento de la lista'
             }]
         },
         municipio: {
             identifier: 'municipio',
+            optional: 'true',
+            depends: 'departamento',
             rules: [{
                 type: 'empty',
                 prompt: 'Seleccione un municipio de la lista'
@@ -92,6 +98,8 @@ $('.ui.form').form({
         },
         fplaces: {
             identifier: 'fplaces',
+            optional: 'true',
+            depends: 'municipio',
             rules: [{
                 type: 'empty',
                 prompt: 'Seleccione un lugar frecuente de la lista'
@@ -376,11 +384,10 @@ function successAddToast(message) {
 //Funciones para crear el PDF del Folo-06.
 function printPDF() {
     event.preventDefault();
-
-
     //Recolección de datos.
     fechaSolicitud = $('#date_lb').text();
     unidadSolicitante = $('#unidad_lb').text();
+    personaSolicitante = $('#name_lb').text();
     fechaSalida = $('#calendar1').val();
     horaSalida = $('#time').val();
     horaRetorno = $('#time1').val();
@@ -406,9 +413,21 @@ function printPDF() {
         //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
         //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
         c1 = tablaDirecciones.rows[1].cells[0].innerHTML;
+        if (c1 == '') {
+            c1 = 'No especificado';
+        };
         c2 = tablaDirecciones.rows[1].cells[1].innerHTML;
+        if (c2 == '') {
+            c2 = 'No especificado';
+        };
         c3 = tablaDirecciones.rows[1].cells[2].innerHTML;
+        if (c3 == '') {
+            c3 = 'No especificado';
+        };
         c4 = tablaDirecciones.rows[1].cells[3].innerHTML;
+        if (c4 == '') {
+            c4 = 'No especificado';
+        };
         direccion = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".";
         b = 0; //No crea listado de direcciones
     } else {
@@ -417,10 +436,22 @@ function printPDF() {
     };
     for (var i = 1; i < tablaDirecciones.rows.length; i++) {
         c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
+        if (c1 == '') {
+            c1 = 'No especificado';
+        };
         c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
+        if (c2 == '') {
+            c2 = 'No especificado';
+        };
         c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
+        if (c3 == '') {
+            c3 = 'No especificado';
+        };
         c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
-        direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ',' + c4 + ".");
+        if (c4 == '') {
+            c4 = 'No especificado';
+        };
+        direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".");
     };
     //Convierto el array en un string.
     direcciones = direcciones.toString();
@@ -428,6 +459,7 @@ function printPDF() {
     $.post('/solicitud/createPDF', { //Petición ajax post.
         fechaSolicitud,
         unidadSolicitante,
+        personaSolicitante,
         fechaSalida,
         horaSalida,
         horaRetorno,

@@ -270,14 +270,10 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //Se especifica el tipo de contenido que recibirá.
-                    /* res.writeHead(200, {
-                        'Content-Type': 'application/pdf',
-                        'Content-Disposition': 'attachment; filename="folo6.pdf"'
-                    }); */
                     res.setHeader(
                         'Content-Type', 'application/pdf',
-                        'Content-Disposition', 'attachment; filename="folo6.pdf"');
-                    //Envío del PDF en forma base64.
+                        'Content-Disposition', 'attachment; filename="folo6.pdf"'
+                    ); 
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();
@@ -338,6 +334,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -351,6 +359,18 @@ class folo6_controllers {
                                 }, '' + horaRetorno
                             ],
                             preserveLeadingSpaces: true
+                        },
+                        {
+                            text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
                         },
                         {
                             text: [{
@@ -380,34 +400,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -416,7 +418,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -439,10 +441,10 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
                             preserveLeadingSpaces: true,
                             pageBreak: "after"
                         },
@@ -478,7 +480,10 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader('content-type', 'application/pdf');
+                    res.setHeader(
+                        'Content-Type', 'application/pdf',
+                        'Content-Disposition', 'attachment; filename="folo6.pdf"'
+                    ); 
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();
@@ -539,6 +544,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -555,6 +572,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
+                        },
+                        {
+                            text: [{
                                     text: '\nMotorista: ',
                                     bold: true
                                 }, '' + motorista,
@@ -568,34 +597,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -604,7 +615,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -627,10 +638,10 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
                             preserveLeadingSpaces: true
                         },
                     ],
@@ -644,10 +655,10 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.writeHead(200, {
-                        'Content-Type': 'application/pdf',
-                        'Content-Disposition': 'attachment; filename="folo6.pdf"'
-                    });
+                    res.setHeader(
+                        'Content-Type', 'application/pdf',
+                        'Content-Disposition', 'attachment; filename="folo6.pdf"'
+                    ); 
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();
@@ -708,6 +719,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -721,6 +744,18 @@ class folo6_controllers {
                                 }, '' + horaRetorno
                             ],
                             preserveLeadingSpaces: true
+                        },
+                        {
+                            text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
                         },
                         {
                             text: [{
@@ -750,34 +785,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -786,7 +803,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -809,11 +826,11 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                            preserveLeadingSpaces: true,
                         },
                     ],
                 };
@@ -826,7 +843,10 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader('content-type', 'application/pdf');
+                    res.setHeader(
+                        'Content-Type', 'application/pdf',
+                        'Content-Disposition', 'attachment; filename="folo6.pdf"'
+                    ); 
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();
@@ -848,10 +868,11 @@ class folo6_controllers {
             console.dir("EN SHOW RECIBI ESTO" + JSON.stringify(folo));
             var fechaSolicitud = folo.created_at;
             var unidadSolicitante = folo.emp.unit.name;
+            var personaSolicitante = folo.emp.first_name + ', ' + folo.emp.last_name;
             var fechaSalida = folo.off_date;
             var horaSalida = folo.off_hour;
             var horaRetorno = folo.return_hour;
-            var motorista = folo.with_driver ? "si" : "no";
+            var motorista = folo.with_driver ? "Sí" : "No";
             var cantidadPasajeros = folo.passengers_number;
             var personaConducir = folo.person_who_drive;
             var tipoLicencia = folo.license_type;
@@ -894,7 +915,7 @@ class folo6_controllers {
             //direcciones = direcciones.replace('.,\n', '.\n');
 
             //Sí quiere motorista y hay más de una dirección.
-            if (motorista == "si" && b > 1) {
+            if (motorista == "Sí" && b > 1) {
                 console.log("CON MOTORISTA Y MÁS UNA DIRECCION");
                 //Definición de fuentes a usar en el documento.
                 const fonts = {
@@ -953,6 +974,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -969,6 +1002,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
+                        },
+                        {
+                            text: [{
                                     text: '\nMotorista: ',
                                     bold: true
                                 }, '' + motorista,
@@ -982,34 +1027,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -1018,7 +1045,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -1041,10 +1068,10 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
                             preserveLeadingSpaces: true,
                             pageBreak: "after"
                         },
@@ -1098,7 +1125,7 @@ class folo6_controllers {
             };
             //La misma documentación de arriba se aplica para todos los casos posteriores.
             //NO quiere motorista y hay más de una dirección.
-            if (motorista == "no" && b > 1) {
+            if (motorista == "No" && b > 1) {
                 console.log("SIN MOTORISTA Y MÁS DE UNA DIRECCION");
 
                 const fonts = {
@@ -1154,6 +1181,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -1167,6 +1206,18 @@ class folo6_controllers {
                                 }, '' + horaRetorno
                             ],
                             preserveLeadingSpaces: true
+                        },
+                        {
+                            text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
                         },
                         {
                             text: [{
@@ -1196,34 +1247,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -1232,7 +1265,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -1255,10 +1288,10 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
                             preserveLeadingSpaces: true,
                             pageBreak: "after"
                         },
@@ -1303,7 +1336,7 @@ class folo6_controllers {
             };
 
             //Sí quiere motorista y solo es una dirección.
-            if (motorista == "si" && b == 1) {
+            if (motorista == "Sí" && b == 1) {
                 console.log("CON MOTORISTA Y UNA DIRECCION");
 
                 const fonts = {
@@ -1359,6 +1392,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -1375,6 +1420,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
+                        },
+                        {
+                            text: [{
                                     text: '\nMotorista: ',
                                     bold: true
                                 }, '' + motorista,
@@ -1388,34 +1445,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -1424,7 +1463,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -1447,11 +1486,11 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                            preserveLeadingSpaces: true,
                         },
                     ],
                 };
@@ -1477,7 +1516,7 @@ class folo6_controllers {
             };
 
             //No quiere motorista y solo es una dirección.
-            if (motorista == "no" && b == 1) {
+            if (motorista == "No" && b == 1) {
                 console.log("SIN MOTORISTA Y UNA DIRECCION");
 
                 const fonts = {
@@ -1533,6 +1572,18 @@ class folo6_controllers {
                         },
                         {
                             text: [{
+                                text: '\nUnidad solicitante: ',
+                                bold: true
+                            }, '' + unidadSolicitante],
+                        },
+                        {
+                            text: [{
+                                text: '\nPersona que solicita: ',
+                                bold: true
+                            }, '' + personaSolicitante],
+                        },
+                        {
+                            text: [{
                                     text: '\nFecha de salida: ',
                                     bold: true
                                 }, '' + fechaSalida,
@@ -1546,6 +1597,18 @@ class folo6_controllers {
                                 }, '' + horaRetorno
                             ],
                             preserveLeadingSpaces: true
+                        },
+                        {
+                            text: [{
+                                text: '\nLugar: ',
+                                bold: true
+                            }, '' + direccion],
+                        },
+                        {
+                            text: [{
+                                text: '\nMisión: ',
+                                bold: true
+                            }, '' + mision],
                         },
                         {
                             text: [{
@@ -1575,34 +1638,16 @@ class folo6_controllers {
                         },
                         {
                             text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
                                 text: '\nObservación: ',
                                 bold: true
                             }, '' + observaciones],
                         },
                         {
-                            text: '\n\n\n_______________________________________________',
+                            text: '\n\n_________________________________________________',
                             alignment: 'center'
                         },
                         {
-                            text: 'Nombre, firma y sello del solicitante\n\n\n',
+                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
                             alignment: 'center'
                         },
                         {
@@ -1611,7 +1656,7 @@ class folo6_controllers {
                             preserveLeadingSpaces: true
                         },
                         {
-                            text: '                             (Funcionario que tiene asignado el vehículo)',
+                            text: '                             (Encargado del área de transporte)',
                             alignment: 'center',
                             preserveLeadingSpaces: true
                         },
@@ -1634,11 +1679,11 @@ class folo6_controllers {
                             text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
                         },
                         {
-                            text: '\n\n\n\n___________________________________________                 _________________________________________'
+                            text: '\n\n\n_______________________________________________                 _________________________________________'
                         },
                         {
-                            text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true
+                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                            preserveLeadingSpaces: true,
                         },
                     ],
                 };
@@ -1679,7 +1724,13 @@ class folo6_controllers {
 
                 el.id = folo.id;
                 //La BD envia las fechas y horas en formato utc por ello se debe convertir al formato especificado en el método format(). Revisar documentación de moment.js
-                el.off_date = moment.utc(folo.off_date).utcOffset("-06:00").format("DD/MM/YYYY");
+                /*CORRECCIÓN HECHA POR AXEL HERNÁNDEZ - 21/11/2019:
+                Al mostrar el PDF desde el listado de solicitudes, la fecha de salida se mostraba con un día
+                menos que la fecha de salida almacenada en la base de datos. 
+                Esto sucedía por la resta del tiempo UTC de -6 horas. La fecha de salida es guardada en la BD
+                con valores de 0 horas, 0 minutos, 0 segundos (como si se hubiera guardado exactamente a medianoche),
+                y al restarle las 6 horas se devolvía al día anterior.*/
+                el.off_date = moment.utc(folo.off_date).format("DD/MM/YYYY");
                 el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
                 el.return_hour = moment.utc(folo.return_hour).format("h:mm A");
                 el.passengers_number = folo.passengers_number;
@@ -1801,7 +1852,13 @@ class folo6_controllers {
 
                 el.id = folo.id;
                 //La BD envia las fechas y horas en formato utc por ello se debe convertir al formato especificado en el método format(). Revisar documentación de moment.js
-                el.off_date = moment.utc(folo.off_date).utcOffset("-06:00").format("DD/MM/YYYY");
+                /*CORRECCIÓN HECHA POR AXEL HERNÁNDEZ - 21/11/2019:
+                Al mostrar el PDF desde el listado de solicitudes, la fecha de salida se mostraba con un día
+                menos que la fecha de salida almacenada en la base de datos. 
+                Esto sucedía por la resta del tiempo UTC de -6 horas. La fecha de salida es guardada en la BD
+                con valores de 0 horas, 0 minutos, 0 segundos (como si se hubiera guardado exactamente a medianoche),
+                y al restarle las 6 horas se devolvía al día anterior.*/
+                el.off_date = moment.utc(folo.off_date).format("DD/MM/YYYY");
                 el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
                 el.return_hour = moment.utc(folo.return_hour).format("h:mm A");
                 el.passengers_number = folo.passengers_number;
@@ -2335,6 +2392,6 @@ class folo6_controllers {
             console.log(error);
         };
     };
-}
+};
 
 module.exports = new folo6_controllers();
