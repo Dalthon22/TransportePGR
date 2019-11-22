@@ -1,20 +1,22 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 
-const City = db.define('city', {
+const Role = db.define('SGT_Rol', {
+    Codigo_Rol: {
+        type: Sequelize.STRING(10),
+        primaryKey: true,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
     name: {
         type: Sequelize.STRING(50),
         allowNull: false,
         validate: {
             notEmpty: true,
         }
-    },
-    created_by: {
-        type: Sequelize.INTEGER
-    },
-    updated_by: {
-        type: Sequelize.INTEGER
-    },
+    }
 }, {
     underscored: true,
     timestamps: true,
@@ -23,4 +25,8 @@ const City = db.define('city', {
     freezeTableName: true,
 });
 
-module.exports = City;
+/* Role.hasMany(UserRol, {
+    foreignKey: 'Codigo_Rol'
+}); */
+
+module.exports = Role;

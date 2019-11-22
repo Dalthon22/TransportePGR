@@ -1,4 +1,4 @@
-
 node_modules/
 .env
-transporte/dbconfig/conex.js
+
+transporte/.vscode/launch.json

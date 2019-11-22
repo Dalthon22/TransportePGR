@@ -15,6 +15,20 @@
             <a href="/lugares_frecuentes/nuevo"><button class="ui ui labeled icon  right floated blue button"
                     type="submit"><i class="plus icon"></i>Agregar
                 </button></a>
+            <label style="margin-right: 0.1em;">Filtrar por ruta: </label>
+            <div class="ui search selection dropdown" id="div_ruta">
+                <input id="ruta" type="hidden" name="ruta" value="">
+                <i class="dropdown icon"></i>
+                <div class="text">Todos</div>
+                <div id="menu" class="menu" value="You got it">
+                    <div class="item active selected" value=0>Todos</div>
+                    {% if rutas %}
+                    {% for r in rutas %}
+                    <div class="item" value={{r.id}}>{{r.name}}</div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
             <br>
             <input type="hidden" id="messages" name="messages" value="{{messages}}">
             <br>
@@ -50,20 +64,27 @@
 </div>
 <br>
 
-<div class="ui basic modal" id="deleteModal">
+<div class="ui mini inverted modal" id="deleteModal">
     <div class="ui icon header">
         <i class="trash alternate outline icon"></i>
         Eliminar Destino Frecuente.
     </div>
-    <div id="fix_center">
-        <div class="content">
-            <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
-        </div>
+
+    <div class="content">
+        <p>¿Esta seguro de Eliminar el lugar frecuente?</p>
+    </div>
+
+    <div class="actions">
         <div class="ui green ok inverted button" type="submit">
             <i class="checkmark icon"></i>
             Aceptar
         </div>
+        <div class="ui red deny button" type="submit">
+            <i class="remove icon"></i>
+            Cancelar
+        </div>
     </div>
+
 </div>
 
 <script src="/javascript/frequent_places/a_frequent_places_list.js"></script>

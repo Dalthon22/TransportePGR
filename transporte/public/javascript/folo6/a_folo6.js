@@ -21,6 +21,7 @@
      $("#unidad_lb").text(unit.name_unit);
  });
 
+
  //VALIDACION DEL FORM
  $('.ui.form').form({
      //revalidate: true,
@@ -407,7 +408,6 @@
 
  //Función que guarda las direcciones que se van ingresando a la tabla.
  $('#addAddress').click(function () {
-
      event.preventDefault();
      var idSelDepto = $('#departamento').val();
      var idSelMun = $('#municipio').val();
@@ -433,6 +433,8 @@
                          text: dir.id
                      }));
                  };
+                 fillAddressTable();
+                 addDeletedIcon(dir.id);
              });
      }
      if (selectedPlaceTxt != 'Otro') {
@@ -440,15 +442,60 @@
              value: selectedPlace,
              text: selectedPlaceTxt,
          }));
+         fillAddressTable();
+         addDeletedIconFP(parseInt(selectedPlace));
      }
+
      //Agrego el lugar frecuente seleccionado al dropdown
      //console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
      //console.log(selectedFPlace);
  });
 
+ //Añade el icono eliminar en la table direcciones del folo cuando es FP
+ function addDeletedIconFP(dir) {
+     //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
+     $('<i></i>', {
+         class: "red big window close icon",
+         value: dir, //ID address
+         id: "delAddress",
+         "on": { //Cada ícono se crea con un evento onclick.
+             "click": function () {
+                 $(this).parents('tr').remove(); //Elimina la dirección de la tabla.
+
+                 //Limpiar el elemento en el combox below:
+
+             },
+         },
+         //Cada ícono se agrega a la última celda de cada fila de la tabla.
+     }).appendTo('#addressTable > tbody > tr:last > td:last');
+ }
+
+ //Añade el icono eliminar en la table direcciones del folo cuando es una nueva direccion
+ function addDeletedIcon(dir) {
+     //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
+     $('<i></i>', {
+         class: "red big window close icon",
+         value: dir, //ID address
+         id: "delAddress",
+         "on": { //Cada ícono se crea con un evento onclick.
+             "click": function () {
+                 $(this).parents('tr').remove(); //Elimina la dirección de la tabla.
+                 address = $(this).toArray(); //Convierto las propiedades del ícono a array.
+                 id_address = address[0].attributes.value.value; //Obtengo el id de la dirección que está en la propiedad value.
+                 $.post('/direccion/delete', {
+                     id_address
+                 }); //Elimina la dirección de la BD.
+
+                 //Limpiar el elemento en el combox below:
+
+             },
+         },
+         //Cada ícono se agrega a la última celda de cada fila de la tabla.
+     }).appendTo('#addressTable > tbody > tr:last > td:last');
+ }
+
  //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
- $('#addAddress').click(function () {
-     event.preventDefault();
+ function fillAddressTable() {
      $('#n_dir').text("Si");
      //Obtiene los valores de los combobox
      var selectedPlace = $('#fplaces option:selected').text();
@@ -464,6 +511,7 @@
              "<td>" + direction + "</td>" +
              "<td>" + selectedDepartamento + "</td>" +
              "<td>" + selectedMunicipio + "</td>" +
+             "<td></td>" +
              "</tr>");
          //Reinicia los combobox
          $('#fplaces').val("");
@@ -478,20 +526,24 @@
              "<td></td>" +
              "<td>" + selectedDepartamento + "</td>" +
              "<td>" + selectedMunicipio + "</td>" +
+             "<td></td>" +
              "</tr>");
          //Reinicia los combobox
          $('#fplaces').val("");
          $('#departamento').val("");
          $('#municipio').val("");
      };
- });
+ };
 
  /*Función que habilita los campos "Nombre del destino" y "Detalle de dirección"
  si el usuario seleccionó la opción "Otro" del combobox de lugares frecuentes.*/
  $('#fplaces').change(function () {
-     if ($('#fplaces').val() == 10000) {
+     if ($('#fplaces option:selected').text() == 'Otro') {
          $('#destiny_place_i').prop('disabled', false);
          $('#direction_txt').prop('disabled', false);
+     } else {
+         $('#destiny_place_i').prop('disabled', true);
+         $('#direction_txt').prop('disabled', true);
      };
  });
 

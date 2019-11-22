@@ -1,5 +1,6 @@
 const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const Voucher = require('../models/m_voucher');
 //Manejo de fechas
 var moment = require('moment');
@@ -67,8 +68,12 @@ class voucher_controllers {
 
     async getList(req, res) {
         try {
+            var previousMonth = new Date().getMonth() - 1;
             var vouchers = await Voucher.findAll({
                 attributes: ['num_voucher', 'price', 'condition', 'voucher_provider', 'num_entry_bill', 'date_entry_bill', 'num_close_bill', 'date_close_bill'],
+                where: {
+                    condition: 'Disponible',
+                }
             });
             var data = [];
             vouchers.forEach((row, i) => {

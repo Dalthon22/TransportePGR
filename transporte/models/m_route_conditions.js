@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 
-const route_conditions = db.define('route_conditions', {
+const route_conditions = db.define('SGT_Condiciones_Ruta', {
     monday: {
         type: Sequelize.BOOLEAN,
         allowNull: true
