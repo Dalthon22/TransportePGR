@@ -1682,7 +1682,12 @@ class folo6_controllers {
                 el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
-
+            el.estado = await Apanel.findAll({
+                where: {
+                    folo06_id: el.id
+                }
+            });
+            console.log(el.estado);
             //Contador de lugares frecuentes y direcciones
             el.b = 0
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
