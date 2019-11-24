@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const Voucher = require('../models/m_voucher');
 const FacturaCompra = require('../models/m_bill')
+const bill_controllers = require('../controllers/c_bill');
 //Manejo de fechas
 var moment = require('moment');
 moment.locale("Es-SV")
@@ -22,11 +23,11 @@ const {
      td > num_close_bill < /td> <
      td > date_close_bill < /td> */
 
-/*Estados para los vales si Disponible cuando recien se ingrese a la procuraduría,En espera cuando ya este asignado a una procuraduria 
+/*estados para los vales si Disponible cuando recien se ingrese a la procuraduría,En espera cuando ya este asignado a una procuraduria 
 pero a la espera de un viaje, Asignado: cuando ya tenga un viaje asignado, Liquidado cuando ya se haya ingresado al sistema el numero de factura
 con el cual se liquidó
 */
-var estados = ["Disponible", "En espera", "Asignado", "Liquidado"];
+var states = ["Disponible", "En espera", "Asignado", "Liquidado"];
 
 class voucher_controllers {
     constructor() {
@@ -170,7 +171,7 @@ class voucher_controllers {
                     await Voucher.create({
                         num_voucher: primer,
                         price,
-                        condition: estados[0],
+                        condition: states[0],
                         date_entry: date,
                         voucher_provider: provider,
                         num_entry_bill: bill_num,
@@ -206,6 +207,50 @@ class voucher_controllers {
             //throw new Error(" Ocurre ingresando los vales en la BD " + err);
         }
     }
-};
+
+    async getBills(req, res) {
+        var date = new Date();
+        var year = parseInt(date.getFullYear());
+        var month = parseInt(date.getMonth() + 1);
+        var data = [];
+
+        try {
+            var bills = await FacturaCompra.findAll({
+                attributes: ['num_bill', 'date_entry', 'provider', 'for_month', 'for_year', 'total', 'created_at'],
+                where: {
+                    for_month: month,
+                    for_year: year,
+                }
+            })
+
+            if (bills.length) {
+                for (var b = 0; b < bills.length; b++) {
+
+                    var bill = new Object();
+                    bill.num_bill = bills[b].num_bill;
+                    /* b.cant_voucher = 4; */
+                    bill.date_entry = moment.utc(bills[b].date_entry).format("DD/MM/YYYY");
+                    bill.provider = bills[b].provider;
+                    bill.total = bills[b].total;
+                    bill.created_at = moment.utc(bills[b].created_at).format("DD/MM/YYYY");
+                    await bill_controllers.vouchersPerBills(bills[b].num_bill).then(val => {
+                        console.log("DeL FOR" + val)
+                        bill.cant_voucher = val;
+                        data.push(bill);
+                    })
+                }
+            } else {
+
+            }
+
+            res.send({
+                data: data
+            });
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+}
 
 module.exports = new voucher_controllers();

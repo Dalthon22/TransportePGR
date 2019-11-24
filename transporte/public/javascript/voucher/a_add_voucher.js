@@ -1,3 +1,4 @@
+moment.locale("Es-SV");
 //Var para verificar que el formulario esta listo para guardar
 var unique_num1, unique_num2, data, tab;
 
@@ -28,13 +29,14 @@ function calculateNumVoucher() {
 //Serializa la tabla
 $(document).ready(function () {
     fillTable();
-
 });
 
 //llenar tabla
 function fillTable() {
+    var month = moment().get('month');
+    month = moment().month(month).format("MMMM")
     //Llenar el data table
-    tab = $('#mytable').DataTable({
+    /* tab = $('#mytable').DataTable({
         "scrollY": "500px",
         "scrollCollapse": true,
         ajax: {
@@ -65,6 +67,36 @@ function fillTable() {
                 "data": "date_close_bill"
             }
         ]
+    }); */
+    tab = $('#mytable1').DataTable({
+        "scrollY": "500px",
+        "scrollCollapse": true,
+        ajax: {
+            url: '/vales/bills',
+            type: 'GET',
+        },
+        "columns": [{
+                "data": "num_bill"
+            },
+            {
+                "data": "date_entry"
+            },
+            {
+                "data": "provider"
+            },
+            {
+                "data": "cant_voucher"
+            },
+            {
+                "data": "total"
+            },
+            {
+                "data": "created_at"
+            }
+        ],
+        "language": {
+            "emptyTable": "No hay facturas disponibles para el mes de " + month
+        }
     });
 }
 //REVALIDA EL CAMPO DEL ULTIMO VALE

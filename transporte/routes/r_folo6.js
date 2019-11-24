@@ -87,4 +87,8 @@ router.post('/solicitud/createPDF', (req, res) => {
 router.post('/solicitud/showPDF', (req, res) => {
     controller.showAndcreatePDF(req, res);
 });
+
+
+
+
 module.exports = router;

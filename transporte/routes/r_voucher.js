@@ -33,4 +33,10 @@ router.get('/vales/num', (req, res) => {
 
 });
 
+//Ruta donde se manda a verificar si un número de vales existe
+router.get('/vales/bills', (req, res) => {
+    controller.getBills(req, res);
+
+});
+
 module.exports = router;
