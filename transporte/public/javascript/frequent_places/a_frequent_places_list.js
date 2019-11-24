@@ -137,7 +137,8 @@ $(".red.window.close.icon").click(function () {
         .modal('show');
 });
 
-/* Habilita el filtro de lugares frecuentes por ruta */
+/* Habilita el filtro de lugares frecuentes por ruta
+Y deescribe el comportamiento cuando el control cambia */
 $('#div_ruta')
     .dropdown({
         ignoreDiacritics: true,
@@ -148,18 +149,26 @@ $('#div_ruta')
             filterValue = selectedItem.attr("value");
             console.log(filterValue);
             if (filterValue) {
-                var url_list = encodeURI('http://localhost:3000/lugares_frecuentes?' + "filter=" + filterValue);
-                fillTable();
+                var url_list = encodeURI('/lugares_frecuentes?' + "filter=" + filterValue);
+                $('#fTable').load(url_list, filterValue, function () {
+                    $('#mytable').DataTable({
+                        "scrollY": "500px",
+                        "scrollCollapse": true,
+                    });
+                });
             } else {
                 console.log("Valor de filtrado nulo");
             }
-
         }
     });
 
-//Llena la tabla con los valores filtrados
-function fillTable(URL) {
-    $('#fTable').replaceWith("<h2>Hello!</h2>");
+function showLoadingDimmer() {
+    $('.ui.segment').dimmer({
+        displayLoader: true,
+        loaderVariation: 'slow blue medium elastic',
+        loaderText: "Cargando los datos...",
+        closable: false,
+    }).dimmer('show');
 }
 
 
