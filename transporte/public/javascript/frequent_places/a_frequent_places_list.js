@@ -88,7 +88,7 @@ function enviarToast() {
 };
 
 /* Detona el metodo editar en el back mediante el id en un querystring */
-$(".edit.yellow.icon").click(function () {
+$(".pencil.yellow.alternate.link.icon").click(function () {
     var id = $(this).attr("value");
     var url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
     console.log(url_list);
@@ -96,7 +96,7 @@ $(".edit.yellow.icon").click(function () {
 });
 
 /* Detona el metodo eliminar en el back mediante el id en un querystring */
-$(".red.window.close.icon").click(function () {
+$(".trash.red.alternate.outline.link.icon").click(function () {
     var id = $(this).attr("value");
     $('.ui.modal')
         .modal({
@@ -141,14 +141,14 @@ function fillTable() {
         $('#fTable').dimmer('hide');
 
         //Deben cargarse nuevamente los eventos de los iconos
-        $(".edit.yellow.icon").click(function () {
+        $(".pencil.yellow.alternate.link.icon").click(function () {
             var id = $(this).attr("value");
             var url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
             console.log(url_list);
             location.href = url_list;
         });
 
-        $(".red.window.close.icon").click(function () {
+        $(".trash.red.alternate.outline.link.icon").click(function () {
             var id = $(this).attr("value");
             $('.ui.modal')
                 .modal({

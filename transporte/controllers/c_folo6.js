@@ -1924,9 +1924,9 @@ class folo6_controllers {
                 var trully = moment().isBefore(moment.utc(row.off_date))
                 //console.log("FECHA ES: " + trully);
                 if (trully)
-                    el.buttons = '<i id="' + row.id + '" class="print link icon "></i><i id="' + row.id + '" class="file alternate outline link icon "></i><a href="/solicitud_nueva/' + row.id + '"><i class="pencil yellow alternate link icon"></i></a><i class="remove grey alternate link icon" id="' + row.id + '"></i>';
+                    el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i><a href="/solicitud_nueva/' + row.id + '"><i class="large pencil yellow alternate link icon"></i></a><i class="large trash red alternate outline link icon" id="' + row.id + '"></i>';
                 else
-                    el.buttons = '<i id="' + row.id + '" class="print link icon "></i><i id="' + row.id + '" class="file alternate outline link icon "></i>'
+                    el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i>'
                 data.push(el);
             });
             // console.dir(data);

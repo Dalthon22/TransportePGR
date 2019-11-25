@@ -455,7 +455,7 @@
  function addDeletedIconFP(dir) {
      //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
      $('<i></i>', {
-         class: "red big window close icon",
+         class: "large trash red alternate outline link icon",
          value: dir, //ID address
          id: "delAddress",
          "on": { //Cada ícono se crea con un evento onclick.
@@ -474,7 +474,7 @@
  function addDeletedIcon(dir) {
      //Crea un ícono para eliminar la dirección tanto de la tabla como en la BD.
      $('<i></i>', {
-         class: "red big window close icon",
+         class: "large trash red alternate outline link icon",
          value: dir, //ID address
          id: "delAddress",
          "on": { //Cada ícono se crea con un evento onclick.
