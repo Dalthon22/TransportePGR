@@ -14,8 +14,8 @@
         <tr data-id="{{fplace.id}}">
             <td>{{ fplace.name}}</td>
             <td>{{ fplace.detail }}</td>
-            <td>{{ fplace.department.name }}</td>
-            <td>{{ fplace.city.name }}</td>
+            <td>{{ fplace.SGT_Departamento.name }}</td>
+            <td>{{ fplace.SGT_Municipio.name | capitalize }}</td>
             <td>
                 <i class="yellow big edit icon" value={{fplace.id}}></i>
                 <i class="red big window close icon" value="{{fplace.id}}"></i>

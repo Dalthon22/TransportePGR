@@ -87,16 +87,6 @@ function enviarToast() {
     }
 };
 
-/* function editar() {
-    var url_list = '';
-    $(".edit.yellow.icon").click(function () {
-        var id = $(this).attr("value");
-        url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
-        console.log(url_list);
-        location.href = url_list;
-    });
-} */
-
 /* Detona el metodo editar en el back mediante el id en un querystring */
 $(".edit.yellow.icon").click(function () {
     var id = $(this).attr("value");
@@ -104,23 +94,6 @@ $(".edit.yellow.icon").click(function () {
     console.log(url_list);
     location.href = url_list;
 });
-
-/* function eliminar() {
-    var url_list = '';
-    $(".red.window.close.icon").click(function () {
-        var id = $(this).attr("value");
-        $('.ui.modal')
-            .modal({
-                closable: true,
-                onApprove: function () {
-                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
-                    console.log(url_list);
-                    location.href = url_list;
-                }
-            })
-            .modal('show');
-    });
-} */
 
 /* Detona el metodo eliminar en el back mediante el id en un querystring */
 $(".red.window.close.icon").click(function () {
@@ -138,7 +111,7 @@ $(".red.window.close.icon").click(function () {
 });
 
 /* Habilita el filtro de lugares frecuentes por ruta
-Y deescribe el comportamiento cuando el control cambia */
+Y describe el comportamiento cuando el control cambia */
 $('#div_ruta')
     .dropdown({
         ignoreDiacritics: true,
@@ -149,27 +122,56 @@ $('#div_ruta')
             filterValue = selectedItem.attr("value");
             console.log(filterValue);
             if (filterValue) {
-                var url_list = encodeURI('/lugares_frecuentes?' + "filter=" + filterValue);
-                $('#fTable').load(url_list, filterValue, function () {
-                    $('#mytable').DataTable({
-                        "scrollY": "500px",
-                        "scrollCollapse": true,
-                    });
-                });
+                showLoadingDimmer();
+                fillTable();
             } else {
                 console.log("Valor de filtrado nulo");
             }
         }
     });
 
+//Llena la tabla con los lugares frecuentes filtrados
+function fillTable() {
+    var url_list = encodeURI('/lugares_frecuentes?' + "filter=" + filterValue);
+    $('#fTable').load(url_list, filterValue, function () {
+        $('#mytable').DataTable({
+            "scrollY": "500px",
+            "scrollCollapse": true,
+        });
+        $('#fTable').dimmer('hide');
+
+        //Deben cargarse nuevamente los eventos de los iconos
+        $(".edit.yellow.icon").click(function () {
+            var id = $(this).attr("value");
+            var url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
+            console.log(url_list);
+            location.href = url_list;
+        });
+
+        $(".red.window.close.icon").click(function () {
+            var id = $(this).attr("value");
+            $('.ui.modal')
+                .modal({
+                    closable: true,
+                    onApprove: function () {
+                        url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                        console.log(url_list);
+                        location.href = url_list;
+                    }
+                })
+                .modal('show');
+        });
+    });
+}
+
+//Muestra la aminacion de "cargando mientras se dibuja la tabla con los datos"
 function showLoadingDimmer() {
-    $('.ui.segment').dimmer({
+    $('#fTable').dimmer({
         displayLoader: true,
-        loaderVariation: 'slow blue medium elastic',
+        loaderVariation: 'green double',
         loaderText: "Cargando los datos...",
         closable: false,
     }).dimmer('show');
 }
-
 
 $('#container').css('display', 'block');
