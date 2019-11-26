@@ -1682,12 +1682,28 @@ class folo6_controllers {
                 el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
-            el.estado = await Apanel.findAll({
+            console.log(el.id);
+            var estados = await Apanel.findAll({
                 where: {
                     folo06_id: el.id
                 }
             });
-            console.log(el.estado);
+            el.estado = new Object();
+            estados.forEach((estado, i) => {
+                console.log(JSON.stringify(estado.id));
+                var e = new Object();
+                el.estado = new Object();
+                e.u_approve = estado.request_unit_approve;
+                e.u_det_approve = estado.unit_cancel_detail;
+                e.t_approve = estado.transport_unit_approve;
+                e.t_det_approve = estado.cancel_tunit_detail;
+                e.driver = estado.driver;
+                e.car = estado.car;
+                e.gas = estado.gasoline;
+                el.estado = e;
+            });
+            /* if(estado.SGT_Folo6_Aprovado.gasoline){
+            } */
             //Contador de lugares frecuentes y direcciones
             el.b = 0
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
