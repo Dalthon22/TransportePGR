@@ -11,124 +11,121 @@
       </div>
       <div class="ui checkbox">
         <input type="checkbox" id="enabled" name="enabled">
-        <label for="enabled" style="padding-right:50px">Habilitada</label>
+        <label for="enabled">Habilitada</label>
       </div>
       <h3 class="ui blue dividing header">Días de servicio</h3>
-      <div class="ui info message">
-        <div class="header">
-          <i class="top left exclamation circle fitted info icon"></i>
-            Atención:
-        </div> La frecuencia de salida se refiere a la cantidad de motoristas que desea asignar
-              a la ruta estándar en cada uno de los días.
-      </div>
-      <div class="grouped fields"> 
-        <label>Seleccione los días de servicio de la ruta estándar:<label>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="monday" name="monday">
-                  <label for="monday" style="padding-right:50px">Lunes</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="monday_frequency" min="1" max="40" value="1" id="monday_frequency">
-                </div>
-              </div>
+      <div class="grouped fields">
+        <label>Seleccione los días de servicio de la ruta estándar:</label>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <label for="monday">Lunes</label>
+              <input type="checkbox" id="monday" name="monday">
             </div>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="tuesday" name="tuesday">
-                  <label for="tuesday" style="padding-right:50px">Martes</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="tuesday_frequency" min="1" max="40" value="1" id="tuesday_frequency">
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="wednesday" name="wednesday">
-                  <label for="wednesday" style="padding-right:50px">Miércoles</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="wednesday_frequency" min="1" max="40" value="1" id="wednesday_frequency">
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="thursday" name="thursday">
-                  <label for="thursday" style="padding-right:50px">Jueves</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="thursday_frequency" min="1" max="40" value="1" id="thursday_frequency">
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="friday" name="friday">
-                  <label for="friday" style="padding-right:50px">Viernes</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="friday_frequency" min="1" max="40" value="1" id="friday_frequency">
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="saturday" name="saturday">
-                  <label for="saturday" style="padding-right:50px">Sábado</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="saturday_frequency" min="1" max="40" value="1" id="saturday_frequency">
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <div class="two fields">
-                <div class="ui checkbox">
-                  <input type="checkbox" id="sunday" name="sunday">
-                  <label for="sunday" style="padding-right:50px">Domingo</label>
-                </div>
-                <label>Frecuencia de salida:</label>
-                <div class="two wide field">
-                  <input type="number" name="sunday_frequency" min="1" max="40" value="1" id="sunday_frequency">
-                </div>
-              </div>
-            </div>
-          <a href="/rutas">
-            <div class="ui left floated animated button" type="button">
-              <div class="visible content">Volver</div>
-              <div class="hidden content">
-                <i class="left arrow icon"></i>
-              </div>
-            </div>
-          </a>
-          <button class="ui positive button" type="submit">Guardar</button>
-        </form>
-        <br>
-        {% if errors %}
-          <div class="ui error message">
-            {% for error in errors %}
-              <li>
-                {{ error.msg }}
-              </li>
-            {% endfor %}
           </div>
-        {% endif %}
+          <div class="field" style="margin-left:-300px">
+            <label for="monday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="monday_frequency" min="1" max="40" value="1" id="monday_frequency" style="width:70px">
+          </div>
+        </div>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="tuesday" name="tuesday">
+              <label for="tuesday">Martes</label>
+            </div>
+          </div>
+          <div class="field" style="margin-left:-300px">
+            <label for="tuesday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="tuesday_frequency" min="1" max="40" value="1" id="tuesday_frequency" style="width:70px">
+          </div>
+        </div>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="wednesday" name="wednesday">
+              <label for="wednesday">Miércoles</label>
+            </div>
+          </div>
+          <div class="field" style="margin-left:-300px">
+            <label for="wednesday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="wednesday_frequency" min="1" max="40" value="1" id="wednesday_frequency" style="width:70px">
+          </div>
+        </div>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="thursday" name="thursday">
+              <label for="thursday">Jueves</label>
+            </div>
+          </div>
+          <div class="field" style="margin-left:-300px">
+            <label for="thursday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="thursday_frequency" min="1" max="40" value="1" id="thursday_frequency" style="width:70px">
+          </div>
+        </div>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="friday" name="friday">
+              <label for="friday">Viernes</label>
+            </div>
+          </div>
+          <div class="field" style="margin-left:-300px">
+            <label for="friday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="friday_frequency" min="1" max="40" value="1" id="friday_frequency" style="width:70px">
+          </div>
+        </div>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="saturday" name="saturday">
+              <label for="saturday">Sábado</label>
+            </div>
+          </div>
+          <div class="field" style="margin-left:-300px">
+            <label for="saturday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="saturday_frequency" min="1" max="40" value="1" id="saturday_frequency" style="width:70px">
+          </div>
+        </div>
+        <div class="two inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="sunday" name="sunday">
+              <label for="sunday">Domingo</label>
+            </div>
+          </div>
+          <div class="field" style="margin-left:-300px">
+            <label for="sunday_frequency" style="font-size:13px;">Cantidad de motoristas al día:</label>
+            <input type="number" name="sunday_frequency" min="1" max="40" value="1" id="sunday_frequency" style="width:70px">
+          </div>
+        </div>
       </div>
+      <br>
+      <a href="/rutas">
+        <div class="ui left floated animated button" type="button">
+          <div class="visible content">Volver</div>
+          <div class="hidden content">
+            <i class="left arrow icon"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+    <button class="ui positive button" type="submit">Guardar</button><br>
+  </form>
+  <br>
+  {% if errors %}
+    <div class="ui error message">
+      {% for error in errors %}
+        <li>
+          {{ error.msg }}
+        </li>
+      {% endfor %}
     </div>
+  {% endif %}
+</div>
+</div>
 
-    <script src="/javascript/route/a_route.js"></script>
-  {% endblock %}
+<script src="/javascript/route/a_route.js"></script>
+<script src="/javascript/a_address.js"></script>
+{% endblock %}

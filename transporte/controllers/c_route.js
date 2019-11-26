@@ -32,7 +32,7 @@ class Route_controller {
       return res.render('../views/route/add.html');
     } catch (error) {
       console.log(error);
-    }
+    };
   };
 
   //Saves the new route in the DB.
