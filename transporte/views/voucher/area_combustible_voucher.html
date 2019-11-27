@@ -75,14 +75,28 @@
         <div class="ui container grid stackable">
             <div class="sixteen wide column">
                 <form class="ui form" id="add_voucher_form" name="add_voucher">
-                    <div class="four wide field">
-                        <!-- Calendario para fecha de facturacion -->
-                        <label for="date_entry_bill">Fecha de facturacion</label>
-                        <div class="ui calendar" id="standard_calendar">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <input type="text" placeholder="Seleccione fecha" name="date_entry_bill"
-                                    autocomplete="off" id="date_entry_bill">
+                    <div class="fields">
+
+                        <div class="four wide field">
+                            <!-- Calendario para fecha de facturacion -->
+                            <label for="date_entry_bill">Fecha de facturacion</label>
+                            <div class="ui calendar" id="standard_calendar">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Seleccione fecha" name="date_entry_bill"
+                                        autocomplete="off" id="date_entry_bill">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="four wide field">
+                            <!-- Calendario para fecha de facturacion -->
+                            <label for="date_entry_bill">Para abastecer el mes de:</label>
+                            <div class="ui calendar" id="month_calendar">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Seleccione fecha" name="bill_month"
+                                        autocomplete="off" id="bill_month">
+                                </div>
                             </div>
                         </div>
                     </div>

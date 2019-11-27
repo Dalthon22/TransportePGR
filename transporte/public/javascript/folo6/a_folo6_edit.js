@@ -209,11 +209,21 @@
      });
 
  /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+ /*  $('#save_print_btn').on('click', function () {
+      if ($('.ui.form').form('is valid')) {
+          event.preventDefault();
+          showDimmer();
+          updateFolo6();
+      }
+  });
+  */
+
  $('#save_print_btn').on('click', function () {
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         updateFolo6();
+         $.when(printPDF()).then(updateFolo6());
+         // setTimeout(guardarFolo6(), 30000);
      }
  });
 
@@ -298,11 +308,9 @@
                      });
                  hideDimmer();
              } else {
-                 $.when(printPDF()).then(function () {
-                     //Si se ingreso con exito
-                     successAddToast(data.message);
-                     setTimeout(window.location.href = data.redirect, 30000);
-                 });
+                 //Si se ingreso con exito
+                 successAddToast(data.message);
+                 setTimeout(window.location.href = data.redirect, 30000);
              }
          },
      }).done();
@@ -348,8 +356,6 @@
  //Funciones para crear el PDF del Folo-06.
  function printPDF() {
      event.preventDefault();
-
-
      //Recolección de datos.
      fechaSolicitud = $('#date_lb').text();
      unidadSolicitante = $('#unidad_lb').text();
@@ -433,84 +439,6 @@
      win.document.close()
  }
 
- $('#save_print_btn').on('click', function () {
-     if ($('.ui.form').form('is valid')) {
-         event.preventDefault();
-         showDimmer();
-         $.when(printPDF()).then(guardarFolo6());
-         // setTimeout(guardarFolo6(), 30000);
-     }
- });
-
- function guardarFolo6() {
-
-     //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
-     //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
-     var form = $(".ui.form").serializeArray().reduce(function (a, z) {
-         a[z.name] = z.value;
-         console.log(a);
-         return a;
-     }, {});
-     var fplaces = [];
-     var address = [];
-     if ($('#createdAddress option').length) {
-         $('#createdAddress option').each(function () {
-             address.push($(this).val());
-         });
-     } else {
-         console.log("No se enviara direcciones")
-     }
-     if ($('#selectedFPlace option').length) {
-         $('#selectedFPlace option').each(function () {
-             fplaces.push($(this).val());
-         });
-     } else {
-         console.log("No se enviara lugares frecuentes")
-     }
-
-     console.log("Se enviaran estos lugares: " + fplaces + " Direcciones: " + address)
-     //Valores del json que serán enviados en el ajax para guardar el folo6
-     var jsonReq = {
-         form: JSON.stringify(form),
-         emp: JSON.stringify(emp),
-         motorista: JSON.stringify(motorista),
-         fplaces: JSON.stringify(fplaces),
-         address: JSON.stringify(address)
-     }
-     console.log("Enviará:" +
-         "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
-     console.log("Empaquetado" + typeof (jsonReq));
-     $.ajax({
-         type: "POST",
-         async: true,
-         url: '/solicitud_nueva/add',
-         dataType: 'json',
-         data: jsonReq,
-         success: (data) => {
-             console.log("data.type es:" + typeof (data.type) + " y trae: " + data);
-             console.log("data.type es:" + typeof (data.type) + " y trae: " + data.type);
-             if (data.type == 1) {
-                 //Si hay error
-                 console.log(data.message);
-                 $('body')
-                     .toast({
-                         title: data.title,
-                         showIcon: false,
-                         class: 'error',
-                         position: 'top right',
-                         displayTime: 0,
-                         closeIcon: true,
-                         message: data.message,
-                     });
-                 hideDimmer();
-             } else {
-                 //Si se ingreso con exito
-                 successAddToast(data.message);
-                 setTimeout(window.location.href = data.redirect, 30000);
-             }
-         },
-     }).done();
- }
  //Para poder animar los elementos cuando se envía un ingreso de vales
 
  //Muestra mensaje de exito

@@ -75,6 +75,8 @@ class folo6_controllers {
             };
             //Sí quiere motorista y hay más de una dirección.
             if (motorista == "Sí." && b == 1) {
+                console.log("1")
+
                 //Definición de fuentes a usar en el documento.
                 const fonts = {
                     Roboto: {
@@ -263,10 +265,10 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //Se especifica el tipo de contenido que recibirá.
-                    res.writeHead(200, {
+                    /* res.writeHead(200, {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
-                    });
+                    }); */
                     //res.setHeader('content-type', 'application/pdf');
                     //Envío del PDF en forma base64.
                     res.send("data:application/pdf;base64," + result.toString('base64'));
@@ -276,6 +278,8 @@ class folo6_controllers {
             //La misma documentación de arriba se aplica para todos los casos posteriores.
             //NO quiere motorista y hay más de una dirección.
             if (motorista == "No." && b == 1) {
+                console.log("2")
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -469,7 +473,8 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader('content-type', 'application/pdf');
+                    /*                     res.setHeader('content-type', 'application/pdf');
+                     */
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();
@@ -477,6 +482,8 @@ class folo6_controllers {
 
             //Sí quiere motorista y solo es una dirección.
             if (motorista == "Sí." && b == 0) {
+                console.log("3")
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -635,10 +642,10 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.writeHead(200, {
+                    /* res.writeHead(200, {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
-                    });
+                    }); */
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();
@@ -646,6 +653,8 @@ class folo6_controllers {
 
             //No quiere motorista y solo es una dirección.
             if (motorista == "No." && b == 0) {
+                console.log("4")
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -817,7 +826,7 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader('content-type', 'application/pdf');
+                    /* res.setHeader('content-type', 'application/pdf'); */
                     res.send("data:application/pdf;base64," + result.toString('base64'));
                 });
                 doc.end();

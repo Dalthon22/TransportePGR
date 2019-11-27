@@ -135,13 +135,15 @@ class voucher_controllers {
 
     async createVoucher(req, res) {
         var primer, ultimo;
-        var date;
+        var date, month, year;
+        var my;
 
         try {
             const errors = validationResult(req);
 
             let {
                 date_entry_bill,
+                bill_month,
                 bill_num,
                 provider,
                 price,
@@ -153,6 +155,14 @@ class voucher_controllers {
                 date_entry_bill.substring(3, 5) + '-' + date_entry_bill.substring(0, 2));
             primer = parseInt(first_voucher);
             ultimo = parseInt(last_voucher);
+            console.dir(bill_month)
+            my = String(bill_month)
+            my = my.split(',', 2);
+
+            console.log("my tiene: " + my.length + " del tipo" + typeof (my));
+            month = parseInt(moment().month(my[0]).format("M"));
+            year = parseInt(bill_month.substring(bill_month.length - 4, bill_month.length));
+            console.log("month: " + month + "year: " + year);
             console.log(errors.array());
             if (!errors.isEmpty()) {
                 console.log("Aqui vengo con mi flow");
@@ -167,7 +177,9 @@ class voucher_controllers {
                 });
             } else {
                 console.log("Estoy en el else del create");
+                var cant_voucher = ultimo - primer;
                 do {
+
                     await Voucher.create({
                         num_voucher: primer,
                         price,
@@ -178,13 +190,20 @@ class voucher_controllers {
                         date_entry_bill: date,
                     });
                     primer++;
+
                 }
                 while (primer <= ultimo);
+
+                var to = parseFloat(price) * cant_voucher;
+                console.log("total: " + to + " y cantidad:" + cant_voucher)
 
                 await FacturaCompra.create({
                     num_bill: bill_num,
                     date_entry: date,
-                    provider: provider
+                    provider: provider,
+                    total: to,
+                    for_month: month,
+                    for_year: year
                 });
                 console.log(primer);
                 console.log(ultimo);

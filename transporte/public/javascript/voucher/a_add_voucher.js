@@ -129,6 +129,13 @@ $('.ui.form').form({
                 prompt: 'Por favor seleccione la fecha de facturación'
             }]
         },
+        bill_month: {
+            identifier: 'bill_month',
+            rules: [{
+                type: 'empty',
+                prompt: 'Por favor seleccione el mes a abastecer'
+            }]
+        },
         provider: {
             identifier: 'provider',
             rules: [{
@@ -199,13 +206,13 @@ $('#add_modal')
             $('.ui.toast').remove();
             noAnimateAddButton();
             $('#add_voucher_form').form('clean');
+            $('#add_voucher_form').form('reset');
             return true;
         },
         onApprove: function () {
             console.log("aprobad y el form es: " + $('#add_voucher_form').form('is valid'));
             animateAddButton();
             console.log("los campos so los siguientes: " + $('.field'))
-
             //buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
             ingresar_vales();
             return false;
@@ -234,6 +241,17 @@ $('#standard_calendar').calendar({
         months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     }
 });
+
+$('#month_calendar')
+    .calendar({
+        type: 'month',
+        text: {
+            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        }
+    });
+
+
 
 /* $(function () {
     $("#show_add_form_btn").click(function () {
@@ -427,7 +445,8 @@ function agregarVales() {
                 $('#add_modal').modal("hide");
                 successAddToast();
                 tab.ajax.reload();
-
+                $('#add_voucher_form').form('clean');
+                $('#add_voucher_form').form('reset');
             }
         },
     });

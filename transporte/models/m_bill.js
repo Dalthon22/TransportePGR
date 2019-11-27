@@ -40,7 +40,7 @@ const FacturaCompra = db.define('SGT_FacturaCompra', {
         }
     },
     total: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
         validate: {
             notEmpty: true,
