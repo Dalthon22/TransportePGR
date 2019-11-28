@@ -8,11 +8,15 @@ $(function () {
     $(".edit.yellow.icon").click(function () {
         var id = $(this).attr("value");
         /* var route = $(this).closest("td").find("i.edit.yellow.icon").attr("value"); */
-        url_list = encodeURI('rutas/actualizar?' + "route_id=" + id);
+        url_list = encodeURI('rutas/gestionar?' + "route_id=" + id);
         console.log(url_list);
         location.href = url_list;
+        /*SE MUEVE A LA DIRECCIÓN ESPECIFICADA POR REFERENCIA; POR TANTO,
+        EN EL ROUTER NO ES POSIBLE HACER 'req.query.route_id'. CAMBIAR POR 'req.body'.
+        Esto provoca que al editar en realidad se guarde un nuevo objeto con los cambios realizados.*/
     });
 
+    //Validación del formulario
     $('.ui.form')
         .form({
             inline: true,

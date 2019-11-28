@@ -115,7 +115,7 @@ class Procuraduria_controller {
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the edited Address
-        res.render('../views/procuraduria/edit.html', {
+        res.render('../views/procuraduria/add.html', {
           Procu,
           errors: errors.array()
         });
