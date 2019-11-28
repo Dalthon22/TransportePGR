@@ -18,13 +18,17 @@ const User = require('./m_user');
 const Rol = require('./m_role');
 const UserRol = require('./m_user_role');
 const Mision = require('../models/m_mision');
+const Driver = require('../models/m_driver');
 
 class Migration {
     constructor() {
         Department.sync();
         City.sync();
+        Driver.sync({
+            alter: false
+        });
         Mision.sync({
-            alter: true
+            alter: false
         });
         Address.sync({
             alter: false
