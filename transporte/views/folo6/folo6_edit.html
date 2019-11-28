@@ -241,11 +241,17 @@
                             maxlength="150" autocomplete="off" id="details_i" value="{{folo.observation}}">
                     </div>
                     <div class="ui error message"></div>
+                    <a href='/home'>
+                        <div class="ui left floated animated button" style="margin-bottom:1em" type="button"
+                            id="backBtn" name="backBtn">
+                            <div class="visible content">Volver</div>
+                            <div class="hidden content"><i class="left arrow icon"></i></div>
+                        </div>
+                    </a>
                     <button class="ui right aligned green button" id="save_print_btn">Guardar
                         Cambios</button>
                     <input type="hidden" value="{{folo.id}}" id="folo_id" name="folo_id">
                     <input type="hidden" value="{{folo.employee_id}}" id="employee_id">
-
                 </form>
             </div>
         </div>

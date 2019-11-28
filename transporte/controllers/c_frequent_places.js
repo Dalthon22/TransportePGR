@@ -13,15 +13,24 @@ class frequent_place_controller {
     constructor() {}
 
     async getFilteredList(req, res) {
+        var fplaces;
         try {
-            var fplaces = await frequent_place.findAll({
-                where: {
-                    route_id: req.query.filter
-                },
-                include: [City, Deparment]
-            });
-            res.send({
-                fplaces
+            //Cuando se necesita filtrada
+            if (parseInt(req.query.filter) !== 0) {
+                fplaces = await frequent_place.findAll({
+                    where: {
+                        route_id: req.query.filter
+                    },
+                    include: [City, Deparment]
+                });
+            } //Caundo se derse ver todos
+            else {
+                fplaces = await frequent_place.findAll({
+                    include: [City, Deparment]
+                });
+            }
+            return res.render('../views/frequent_places/FTable.html', {
+                fplaces,
             });
         } catch (error) {
             console.log(error);

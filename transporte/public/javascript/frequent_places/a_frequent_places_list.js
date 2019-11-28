@@ -1,5 +1,4 @@
-var filterValue, myTable;
-var tableCells = "<tbody> <tr> <td> 1 </td> <td> 2 </td> <td> 3 </td> <td> 4 </td> <td> <i class =\"yellow big edit icon\" value=\"\" >< /i> <i class =\"red big window close icon\" value =\"\" >< /i> </td > </tr> </tbody>"
+var filterValue;
 
 $(window).on('load', function () {
     console.log('window loaded');
@@ -88,43 +87,16 @@ function enviarToast() {
     }
 };
 
-/* function editar() {
-    var url_list = '';
-    $(".edit.yellow.icon").click(function () {
-        var id = $(this).attr("value");
-        url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
-        console.log(url_list);
-        location.href = url_list;
-    });
-} */
-
 /* Detona el metodo editar en el back mediante el id en un querystring */
-$(".edit.yellow.icon").click(function () {
+$(".pencil.yellow.alternate.link.icon").click(function () {
     var id = $(this).attr("value");
     var url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
     console.log(url_list);
     location.href = url_list;
 });
 
-/* function eliminar() {
-    var url_list = '';
-    $(".red.window.close.icon").click(function () {
-        var id = $(this).attr("value");
-        $('.ui.modal')
-            .modal({
-                closable: true,
-                onApprove: function () {
-                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
-                    console.log(url_list);
-                    location.href = url_list;
-                }
-            })
-            .modal('show');
-    });
-} */
-
 /* Detona el metodo eliminar en el back mediante el id en un querystring */
-$(".red.window.close.icon").click(function () {
+$(".trash.red.alternate.outline.link.icon").click(function () {
     var id = $(this).attr("value");
     $('.ui.modal')
         .modal({
@@ -138,7 +110,8 @@ $(".red.window.close.icon").click(function () {
         .modal('show');
 });
 
-/* Habilita el filtro de lugares frecuentes por ruta */
+/* Habilita el filtro de lugares frecuentes por ruta
+Y describe el comportamiento cuando el control cambia */
 $('#div_ruta')
     .dropdown({
         ignoreDiacritics: true,
@@ -149,53 +122,56 @@ $('#div_ruta')
             filterValue = selectedItem.attr("value");
             console.log(filterValue);
             if (filterValue) {
-                var url_list = encodeURI('http://localhost:3000/lugares_frecuentes?' + "filter=" + filterValue);
-                console.log(url_list);
-                //clearTableValues();
-                //drawTableCells();
-                fillTable(url_list);
-                //location.href = url_list;
+                showLoadingDimmer();
+                fillTable();
             } else {
                 console.log("Valor de filtrado nulo");
             }
-
         }
     });
 
-//Llena la tabla con los valores filtrados
-function fillTable(URL) {
-    //Llenar el data table
-    var data = $.getJSON(URL);
-    /* tab = $('#mytable').DataTable({
-        "scrollY": "500px",
-        "scrollCollapse": true,
-        ajax: {
-            url: URL,
-            type: 'GET',
-        },
-        "columns": [{
-                "data": "name"
-            },
-            {
-                "data": "detail"
-            },
-            {
-                "data": "department.name"
-            },
-            {
-                "data": "city.name"
-            }
-        ]
-    }); */
-    myTable.clear().rows.add(data).draw();
+//Llena la tabla con los lugares frecuentes filtrados
+function fillTable() {
+    var url_list = encodeURI('/lugares_frecuentes?' + "filter=" + filterValue);
+    $('#fTable').load(url_list, filterValue, function () {
+        $('#mytable').DataTable({
+            "scrollY": "500px",
+            "scrollCollapse": true,
+        });
+        $('#fTable').dimmer('hide');
+
+        //Deben cargarse nuevamente los eventos de los iconos
+        $(".pencil.yellow.alternate.link.icon").click(function () {
+            var id = $(this).attr("value");
+            var url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
+            console.log(url_list);
+            location.href = url_list;
+        });
+
+        $(".trash.red.alternate.outline.link.icon").click(function () {
+            var id = $(this).attr("value");
+            $('.ui.modal')
+                .modal({
+                    closable: true,
+                    onApprove: function () {
+                        url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                        console.log(url_list);
+                        location.href = url_list;
+                    }
+                })
+                .modal('show');
+        });
+    });
 }
 
-function clearTableValues() {
-    $('#mytable').empty();
-}
-
-function drawTableCells() {
-    $('#mytable').html(tableCells);
+//Muestra la aminacion de "cargando mientras se dibuja la tabla con los datos"
+function showLoadingDimmer() {
+    $('#fTable').dimmer({
+        displayLoader: true,
+        loaderVariation: 'green double',
+        loaderText: "Cargando los datos...",
+        closable: false,
+    }).dimmer('show');
 }
 
 $('#container').css('display', 'block');
