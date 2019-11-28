@@ -42,13 +42,14 @@ class folo6_controllers {
     };
     //Metodo para generar pdf a partir del folo 6
     createPDF(req, res) {
+
         /* Se especifican 4 casos para creación del PDF:
         1. Sí quiere motorista y hay más de una dirección.
         2. No quiere motorista y hay más de una dirección.
         3. Sí quiere motorista y hay una sola dirección (caso ideal).
         4. No quiere motorista y hay una sola dirección. */
         try {
-            console.log(req.body); //Muestra en consola el cuerpo de la petición para comprobar datos.
+            console.dir(req.body); //Muestra en consola el cuerpo de la petición para comprobar datos.
             let {
                 fechaSolicitud,
                 unidadSolicitante,
@@ -73,6 +74,8 @@ class folo6_controllers {
             } else {
                 motorista = "No.";
             };
+
+            console.log("VVoy a evaluar con b=" + b + " y moto=" + motorista)
             //Sí quiere motorista y hay más de una dirección.
             if (motorista == "Sí." && b == 1) {
                 console.log("1")
@@ -269,9 +272,11 @@ class folo6_controllers {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
                     }); */
-                    //res.setHeader('content-type', 'application/pdf');
+                    /* res.setHeader('content-type', 'application/pdf'); */
                     //Envío del PDF en forma base64.
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -473,9 +478,12 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    /*                     res.setHeader('content-type', 'application/pdf');
-                     */
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    /*  res.setHeader('content-type', 'application/pdf'); */
+
+                    /* res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -646,7 +654,12 @@ class folo6_controllers {
                         'Content-Type': 'application/pdf',
                         'Content-Disposition': 'attachment; filename="folo6.pdf"'
                     }); */
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    /* res.setHeader('content-type', 'application/pdf'); */
+
+                    /* res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -826,8 +839,11 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    /* res.setHeader('content-type', 'application/pdf'); */
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    /* res.setHeader('content-type', 'application/pdf');
+                    res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
