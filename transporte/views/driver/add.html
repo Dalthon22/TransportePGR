@@ -1,12 +1,12 @@
 {% extends 'index.html' %}
 {% block views %}
+<br><br>
 <div class="ui container" id="bad">
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
                 <form class="ui form" id="frm-prueba" action="/motoristas/gestionar" method="POST">
                     {% if driver.id %}
-                    <br>
                     <h1 class="ui header">Editar Motorista</h1>
                     {% else %}
                     <h1 class="ui blue dividing header">Agregar un Motorista</h1>

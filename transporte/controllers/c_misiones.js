@@ -32,7 +32,11 @@ class Mision_controller {
   //Gets mision list
   async getList(req, res) {
     try {
-      var Misiones = await Mision.findAll();
+      var Misiones = await Mision.findAll({
+        where: {
+          active: 1
+        }
+      });
       return res.render('../views/mision/list.html', {
         Misiones
       });
@@ -63,6 +67,7 @@ class Mision_controller {
         console.log(req.body);
         Mision.create({
           name,
+          procuraduria_id: 3
         });
         res.redirect('/misiones');
       }
@@ -102,6 +107,24 @@ class Mision_controller {
       console.log(error);
     }
   };
+  async deleteMisiones(req, res) {
+    try {
+      let Misi_id = req.query.mis_id;
+      console.log(Misi_id);
+      await Mision.update({
+        active: 0
+      }, {
+        where: {
+          id: Misi_id
+        }
+      });
+      res.redirect('/misiones');
+    } catch (error) {
+      res.redirect('/misiones');
+    }
+  };
 };
+
+
 
 module.exports = new Mision_controller();

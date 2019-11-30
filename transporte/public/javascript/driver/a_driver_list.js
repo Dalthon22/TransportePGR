@@ -10,6 +10,9 @@ $(document).ready(function () {
     myTable = $('#mytable').DataTable({
         "scrollY": "500px",
         "scrollCollapse": true,
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
     });
     var type = $('input#messagetype').val();
     var info = $('input#messageinfo').val();
@@ -88,43 +91,18 @@ function enviarToast() {
     }
 };
 
-/* function editar() {
-    var url_list = '';
-    $(".edit.yellow.icon").click(function () {
-        var id = $(this).attr("value");
-        url_list = encodeURI('lugares_frecuentes/editar?' + "fplace_id=" + id);
-        console.log(url_list);
-        location.href = url_list;
-    });
-} */
 
 /* Detona el metodo editar en el back mediante el id en un querystring */
-$(".edit.yellow.icon").click(function () {
+$(".pencil.yellow.alternate.link.icon").click(function () {
     var id = $(this).attr("value");
     var url_list = encodeURI('motoristas/gestionar?' + "driver_id=" + id);
     console.log(url_list);
     location.href = url_list;
 });
 
-/* function eliminar() {
-    var url_list = '';
-    $(".red.window.close.icon").click(function () {
-        var id = $(this).attr("value");
-        $('.ui.modal')
-            .modal({
-                closable: true,
-                onApprove: function () {
-                    url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
-                    console.log(url_list);
-                    location.href = url_list;
-                }
-            })
-            .modal('show');
-    });
-} */
 
 /* Detona el metodo eliminar en el back mediante el id en un querystring */
-$(".red.window.close.icon").click(function () {
+$(".trash.red.alternate.outline.link.icon").click(function () {
     var id = $(this).attr("value");
     $('.ui.modal')
         .modal({
@@ -138,41 +116,7 @@ $(".red.window.close.icon").click(function () {
         .modal('show');
 });
 
-/* Habilita el filtro de lugares frecuentes por ruta */
-/* $('#div_ruta')
-    .dropdown({
-        ignoreDiacritics: true,
-        sortSelect: true,
-        fullTextSearch: 'exact',
-        onChange: function (value, text, selectedItem) {
-            console.log(selectedItem);
-            filterValue = selectedItem.attr("value");
-            console.log(filterValue);
-            if (filterValue) {
-                var url_list = encodeURI('http://localhost:3000/lugares_frecuentes?' + "filter=" + filterValue);
-                console.log(url_list);
-                //clearTableValues();
-                //drawTableCells();
-                fillTable(url_list);
-                //location.href = url_list;
-            } else {
-                console.log("Valor de filtrado nulo");
-            }
 
-        }
-    }); */
-
-//Llena la tabla con los valores filtrados
-/* function fillTable(URL) {
-    //Llenar el data table
-    var data = $.getJSON(URL);
-    myTable.clear().rows.add(data).draw();
-} */
-
-/* function clearTableValues() {
-    $('#mytable').empty();
-}
- */
 function drawTableCells() {
     $('#mytable').html(tableCells);
 }

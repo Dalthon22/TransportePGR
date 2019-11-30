@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Procuraduria = require('./m_procuraduria');
 
-const Mision = db.define('mision', {
+const Mision = db.define('SGT_Mision', {
     name: {
         type: Sequelize.STRING(250),
         allowNull: false,
@@ -16,6 +17,11 @@ const Mision = db.define('mision', {
     updated_by: {
         type: Sequelize.INTEGER
     },
+    active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: '1'
+    },
 }, {
     underscored: true,
     timestamps: true,
@@ -23,6 +29,5 @@ const Mision = db.define('mision', {
     updatedAt: 'updated_at',
     freezeTableName: true,
 });
-
 
 module.exports = Mision;

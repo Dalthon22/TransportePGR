@@ -69,5 +69,5 @@ const Driver = db.define('SGT_Motorista', {
 
 Driver.belongsTo(Procuraduria, {
     foreignKey: 'procuraduria_id'
-})
+});
 module.exports = Driver;

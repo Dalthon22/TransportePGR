@@ -43,4 +43,8 @@ router.post('/gestionar', [
     }
 
 });
+
+router.get('/eliminar', (req, res) => {
+    controller.deleteMisiones(req, res);
+});
 module.exports = router;
