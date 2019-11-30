@@ -6,6 +6,7 @@
             <div class="column">
                 <form class="ui form" id="frm-prueba" action="/motoristas/gestionar" method="POST">
                     {% if driver.id %}
+                    <br>
                     <h1 class="ui header">Editar Motorista</h1>
                     {% else %}
                     <h1 class="ui blue dividing header">Agregar un Motorista</h1>
@@ -28,7 +29,7 @@
                             <div class="ui input left icon">
                                 <i class="calendar icon"></i>
                                 <input type="text" placeholder="Seleccione fecha" name="calendar1" autocomplete="off"
-                                    id="calendar1">
+                                    id="calendar1" value="{{driver.fechaIngreso}}">
                             </div>
                         </div>
                     </div>
@@ -37,11 +38,12 @@
                         <div class="five wide required field">
                             <label>Numero:</label>
                             <input autocomplete="off" name="driver_license" id="driver_license"
-                                placeholder="Numero debe incluir guiones" maxlength="17" value="{{driver_license}}">
+                                placeholder="Numero debe incluir guiones" maxlength="17"
+                                value="{{driver.driver_license}}">
                         </div>
                         <div class="three wide required field">
                             <label>Tipo:</label>
-                            <select class="ui fluid search dropdown" name="state">
+                            <select class="ui fluid search dropdown" name="license_type" id="license_type">
                                 {% for value, tipo in tipos %}
                                 {% if value == driver.license_type %}
                                 <option value={{value}} selected>{{tipo}}</option>
@@ -56,7 +58,7 @@
                     <div class="two fields">
                         <div class="three wide required field">
                             <label>Mes:</label>
-                            <select class="ui fluid search dropdown" name="month">
+                            <select class="ui fluid search dropdown" name="month" id="month">
                                 {% for value, mes in meses %}
                                 {% if value == driver.license_month %}
                                 <option value={{value}} selected>{{mes}}</option>
@@ -68,11 +70,11 @@
                         </div>
                         <div class="two wide required field">
                             <label>A&ntilde;o:</label>
-                            {% if anio %}
-                            <input type="number" name="anio" min="2019" max="2050" value="2019" id="anio">
-                            {% else  %}
+                            {% if driver.license_year %}
                             <input type="number" name="anio" min="2019" max="2050" value="{{driver.license_year}}"
                                 id="anio">
+                            {% else  %}
+                            <input type="number" name="anio" min="2019" max="2050" value="{{año_actual}}" id="anio">
                             {% endif %}
 
                         </div>
@@ -115,6 +117,6 @@
         </div>
     </div>
 </div>
-<!-- <script src="/javascript/frequent_places/a_frequent_places_add.js"></script> -->
+<script src="/javascript/driver/a_driver_add.js"></script>
 <link rel="stylesheet" href="/stylesheets/frequent_places/frequent_places_add.css">
 {% endblock %}

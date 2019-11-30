@@ -101,7 +101,7 @@ function enviarToast() {
 /* Detona el metodo editar en el back mediante el id en un querystring */
 $(".edit.yellow.icon").click(function () {
     var id = $(this).attr("value");
-    var url_list = encodeURI('motoristas/editar?' + "driver_id=" + id);
+    var url_list = encodeURI('motoristas/gestionar?' + "driver_id=" + id);
     console.log(url_list);
     location.href = url_list;
 });
@@ -130,7 +130,7 @@ $(".red.window.close.icon").click(function () {
         .modal({
             closable: true,
             onApprove: function () {
-                url_list = encodeURI('lugares_frecuentes/eliminar?' + "fplace_id=" + id);
+                url_list = encodeURI('motoristas/eliminar?' + "motorista_id=" + id);
                 console.log(url_list);
                 location.href = url_list;
             }
