@@ -14,7 +14,9 @@ const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
 const route_conditions = require('../models/m_route_conditions');
-const FacturaCompra = require('./m_bill')
+const FacturaCompra = require('./m_bill');
+const FacturaLiquidacion = require('./m_bill_close')
+
 class Migration {
     constructor() {
         Department.sync();
@@ -29,10 +31,10 @@ class Migration {
             alter: false
         });
         Frequent_Place.sync({
-            alter: true
+            alter: false
         });
         Voucher.sync({
-            alter: false
+            alter: true
         });
         Unit.sync({
             alter: false
@@ -62,8 +64,12 @@ class Migration {
             alter: false
         });
         FacturaCompra.sync({
-            alter: false
+            alter: true
         })
+        FacturaLiquidacion.sync({
+            alter: true
+        })
+
     }
 };
 

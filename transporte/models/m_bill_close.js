@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 Voucher = require('./m_voucher');
 
-const FacturaCompra = db.define('SGT_FacturaCompra', {
+const FacturaLiquidacion = db.define('SGT_FacturaLiquidacion', {
     num_bill: {
         type: Sequelize.BIGINT,
         primaryKey: true,
@@ -11,7 +11,7 @@ const FacturaCompra = db.define('SGT_FacturaCompra', {
             notEmpty: true,
         }
     },
-    date_entry: {
+    date_close: {
         type: Sequelize.DATE,
         allowNull: false,
         validate: {
@@ -20,20 +20,6 @@ const FacturaCompra = db.define('SGT_FacturaCompra', {
     },
     provider: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
-    for_month: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
-    for_year: {
-        type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
             notEmpty: true,
@@ -62,9 +48,9 @@ const FacturaCompra = db.define('SGT_FacturaCompra', {
     freezeTableName: true,
 });
 
-FacturaCompra.hasMany(Voucher, {
-    foreignKey: 'num_entry_bill',
-    as: 'num_entry_bill'
+FacturaLiquidacion.hasMany(Voucher, {
+    foreignKey: 'num_close_bill',
+    as: 'num_close_bill'
 });
 
-module.exports = FacturaCompra;
+module.exports = FacturaLiquidacion;
