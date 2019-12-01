@@ -466,6 +466,17 @@ function successAddToast(message) {
 $('#createdAddress').hide();
 $('#selectedFPlace').hide();
 
+$('#municipio').prop('disabled', true); //Este valor será cambiado a 'false' en a_address.js
+$('#fplaces').prop('disabled', true); //Se habilita al seleccionar un municipio.
+$('#addAddress').prop('disabled', true); //Se habilitará hasta que seleccione un lugar frecuente.
+//En caso de seleccionar "otro", se habilitará hasta que llene alguno de los 2 campos siguientes.
+
+//Función que habilita el dropdown de lugares frecuentes una vez se haya seleccionado una opción
+//del dropdown de municipios.
+$('#municipio').on('change', function () {
+    $('#fplaces').prop('disabled', false);
+});
+
 //ESTA FUNCIÓN ESTABA REPETIDA. REMOVIDA 16/11/2019 POR AXEL HERNÁNDEZ
 
 //Función que guarda en la BD las direcciones que se van ingresando a la tabla.
@@ -575,12 +586,16 @@ function fillAddressTable() {
             "<td>" + selectedMunicipio + "</td>" +
             "<td></td>" +
             "</tr>");
-        //Reinicia los combobox
-        $('#fplaces').val("");
+        //Reinicia los combobox y los campos a excepción del combobox de departamentos.
+        $('#fplaces').empty();
         $('#departamento').val("");
-        $('#municipio').val("");
+        $('#municipio').empty();
         $('#destiny_place_i').val("");
+        $('#destiny_place_i').prop('disabled', true);
         $('#direction_txt').val("");
+        $('#direction_txt').prop('disabled', true);
+        $('#fplaces').prop('disabled', true);
+        $('#municipio').prop('disabled', true);
     } else { //Si el usuario selecciona un lugar frecuente
         //Inserción de elementos a la tabla
         $('#addressTable tbody').append("<tr>" +
@@ -590,10 +605,12 @@ function fillAddressTable() {
             "<td>" + selectedMunicipio + "</td>" +
             "<td></td>" +
             "</tr>");
-        //Reinicia los combobox
-        $('#fplaces').val("");
+        //Reinicia los combobox y los campos a excepción del combobox de departamentos.
+        $('#fplaces').empty();
         $('#departamento').val("");
-        $('#municipio').val("");
+        $('#municipio').empty();
+        $('#fplaces').prop('disabled', true);
+        $('#municipio').prop('disabled', true);
     };
 };
 
@@ -603,7 +620,6 @@ $('#fplaces').change(function () {
     if ($('#fplaces option:selected').text() == 'Otro') {
         $('#destiny_place_i').prop('disabled', false);
         $('#direction_txt').prop('disabled', false);
-        $('#addAddress').prop('disabled', true);
     } else {
         $('#destiny_place_i').prop('disabled', true);
         $('#direction_txt').prop('disabled', true);
@@ -611,21 +627,49 @@ $('#fplaces').change(function () {
     };
 });
 
+//Función que habilita el botón "Agregar dirección" si el campo "Nombre del destino":
 $('#destiny_place_i').on('change', function () {
-    if ($(this).val() != null) {
-        $('#addAddress').prop('disabled', false);
+    if ($(this).val() != null) { //1) Es diferente de nulo
+        // 1.1) Si el campo "Detalle de dirección" está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
+        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
+        if($('#direction_txt').val() == ''){
+            $('#addAddress').prop('disabled', false);
+        } else {
+            //1.2) Si lleno primero el campo "Detalle de dirección"
+            if($(this).val() != ''){ //y luego lleno este campo:
+                $('#addAddress').prop('disabled', false); //Mantengo habilitado el botón
+            } else {
+                $('#addAddress').prop('disabled', true); //Deshabilito el botón
+            };
+        };
     };
+    //2) Si este campo está vacío:
     if ($(this).val() == '') {
-        $('#addAddress').prop('disabled', true);
+        //2.1) y si el campo "Detalle de dirección" también está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
+        if($('#direction_txt').val() == ''){
+            $('#addAddress').prop('disabled', true);
+        //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está habilita el botón.
+        } else {
+            $('#addAddress').prop('disabled', false);
+        };
+    /*Este caso se puede dar si lleno ambos campos y luego borro ambos, o si lleno ambos campos y solo
+    borro el campo "Nombre del destino".*/
     };
 });
 
+//Función que habilita el botón "Agregar dirección" si:
 $('#direction_txt').on('change', function () {
+    // 1) Este valor es diferente de nulo
     if ($(this).val() != null) {
-        $('#addAddress').prop('disabled', false);
+        $('#addAddress').prop('disabled', false); 
     };
+    // 2) Si este campo está vacío
     if ($(this).val() == '') {
-        $('#addAddress').prop('disabled', true);
+        if($('#destiny_place_i').val() == ''){ //y el campo "Nombre del destino" también está vacío
+            $('#addAddress').prop('disabled', true); //Deshabilito el botón
+        } else {
+            $('#addAddress').prop('disabled', false); //Mantengo habilitado el botón
+        };
     };
 });
 
