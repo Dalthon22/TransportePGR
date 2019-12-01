@@ -90,7 +90,7 @@ class voucher_controllers {
         try {
             var previousMonth = new Date().getMonth() - 1;
             var vouchers = await Voucher.findAll({
-                attributes: ['num_voucher', 'price', 'condition', 'voucher_provider', 'num_entry_bill', 'date_entry_bill', 'num_close_bill', 'date_close_bill'],
+                attributes: ['num_voucher', 'price', 'condition', 'voucher_provider', 'num_entry_bill', 'num_close_bill'],
                 where: {
                     condition: 'Disponible',
                     /*  created_at: {
@@ -177,23 +177,7 @@ class voucher_controllers {
                 });
             } else {
                 console.log("Estoy en el else del create");
-                var cant_voucher = ultimo - primer;
-                do {
-
-                    await Voucher.create({
-                        num_voucher: primer,
-                        price,
-                        condition: states[0],
-                        date_entry: date,
-                        voucher_provider: provider,
-                        num_entry_bill: bill_num,
-                        date_entry_bill: date,
-                    });
-                    primer++;
-
-                }
-                while (primer <= ultimo);
-
+                var cant_voucher = (ultimo - primer) + 1;
                 var to = parseFloat(price) * cant_voucher;
                 console.log("total: " + to + " y cantidad:" + cant_voucher)
 
@@ -205,6 +189,21 @@ class voucher_controllers {
                     for_month: month,
                     for_year: year
                 });
+
+                do {
+                    await Voucher.create({
+                        num_voucher: primer,
+                        price,
+                        condition: states[0],
+                        date_entry: date,
+                        voucher_provider: provider,
+                        num_entry_bill: bill_num,
+                    });
+                    primer++;
+
+                }
+                while (primer <= ultimo);
+
                 console.log(primer);
                 console.log(ultimo);
                 //Departamento
