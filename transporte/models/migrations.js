@@ -17,6 +17,8 @@ const route_conditions = require('../models/m_route_conditions');
 const User = require('./m_user');
 const Rol = require('./m_role');
 const UserRol = require('./m_user_role');
+const ProcurementBill = require('./m_bill');
+const CosumedBill = require('./m_bill_close')
 
 class Migration {
     constructor() {
@@ -35,7 +37,7 @@ class Migration {
             alter: false
         });
         Voucher.sync({
-            alter: false
+            alter: true
         });
         Unit.sync({
             alter: false
@@ -73,6 +75,12 @@ class Migration {
         UserRol.sync({
             alter: false
         });
+        ProcurementBill.sync({
+            alter: true
+        })
+        CosumedBill.sync({
+            alter: true
+        })
     }
 };
 

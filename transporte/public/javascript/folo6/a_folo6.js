@@ -341,7 +341,7 @@ $('#save_print_btn').on('click', function () {
     if ($('.ui.form').form('is valid')) {
         event.preventDefault();
         showDimmer();
-        $.when(printPDF()).then(guardarFolo6());
+        $.when(printPDF()).then(setTimeout(guardarFolo6(), 3300));
         // setTimeout(guardarFolo6(), 30000);
     }
 });
@@ -423,6 +423,7 @@ function guardarFolo6() {
             }
         },
     }).done();
+    console.log("GUARDADDO")
 }
 //Para poder animar los elementos cuando se envía un ingreso de vales
 

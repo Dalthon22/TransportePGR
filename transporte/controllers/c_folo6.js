@@ -42,13 +42,14 @@ class folo6_controllers {
     };
     //Metodo para generar pdf a partir del folo 6
     createPDF(req, res) {
+
         /* Se especifican 4 casos para creación del PDF:
         1. Sí quiere motorista y hay más de una dirección.
         2. No quiere motorista y hay más de una dirección.
         3. Sí quiere motorista y hay una sola dirección (caso ideal).
         4. No quiere motorista y hay una sola dirección. */
         try {
-            console.log(req.body); //Muestra en consola el cuerpo de la petición para comprobar datos.
+            console.dir(req.body); //Muestra en consola el cuerpo de la petición para comprobar datos.
             let {
                 fechaSolicitud,
                 unidadSolicitante,
@@ -74,8 +75,12 @@ class folo6_controllers {
             } else {
                 motorista = "No.";
             };
+
+            console.log("VVoy a evaluar con b=" + b + " y moto=" + motorista)
             //Sí quiere motorista y hay más de una dirección.
             if (motorista == "Sí." && b == 1) {
+                console.log("1")
+
                 //Definición de fuentes a usar en el documento.
                 const fonts = {
                     Roboto: {
@@ -97,164 +102,164 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
+                        },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
+                        {
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
+                        {
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
+                        {
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
+                        },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                        pageBreak: "after"
+                    },
+                    {
+                        text: 'ANEXO: Listado de direcciones.',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: [
+                            '\nLa siguiente lista se presenta en el formato:  ',
+                            {
+                                text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
+                                bold: true,
+                                italics: true
                             },
-                            writable: true,
-                        },
-                        {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
-                        },
-                        {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
-                        },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                            pageBreak: "after"
-                        },
-                        {
-                            text: 'ANEXO: Listado de direcciones.',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: [
-                                '\nLa siguiente lista se presenta en el formato:  ',
-                                {
-                                    text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
-                                    bold: true,
-                                    italics: true
-                                },
-                                ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
-                            ]
-                        },
-                        {
-                            text: direcciones
-                        },
+                            ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
+                        ]
+                    },
+                    {
+                        text: direcciones
+                    },
                     ],
                 };
                 //Se escribe en el documento el cuerpo previamente definido.
@@ -270,17 +275,28 @@ class folo6_controllers {
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
                     //Se especifica el tipo de contenido que recibirá.
-                    res.setHeader(
+                    /* res.writeHead(200, {
+                        'Content-Type': 'application/pdf',
+                        'Content-Disposition': 'attachment; filename="folo6.pdf"'
+                    }); */
+                    /* res.setHeader('content-type', 'application/pdf'); */
+                    /* res.setHeader(
                         'Content-Type', 'application/pdf',
                         'Content-Disposition', 'attachment; filename="folo6.pdf"'
                     ); 
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    //Envío del PDF en forma base64.
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
             //La misma documentación de arriba se aplica para todos los casos posteriores.
             //NO quiere motorista y hay más de una dirección.
             if (motorista == "No." && b == 1) {
+                console.log("2")
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -298,177 +314,177 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
+                        },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
+                        {
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
+                        {
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
+                        {
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
+                        },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona a conducir: ',
+                            bold: true
+                        }, '' + personaConducir,
+                        {
+                            text: '                Tipo de licencia: ',
+                            bold: true
+                        },
+                        '' + tipoLicencia
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                        pageBreak: "after"
+                    },
+                    {
+                        text: 'ANEXO: Listado de direcciones.',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: [
+                            '\nLa siguiente lista se presenta en el formato:  ',
+                            {
+                                text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
+                                bold: true,
+                                italics: true
                             },
-                            writable: true,
-                        },
-                        {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
-                        },
-                        {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
-                        },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                    text: '\nPersona a conducir: ',
-                                    bold: true
-                                }, '' + personaConducir,
-                                {
-                                    text: '                Tipo de licencia: ',
-                                    bold: true
-                                },
-                                '' + tipoLicencia
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                            pageBreak: "after"
-                        },
-                        {
-                            text: 'ANEXO: Listado de direcciones.',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: [
-                                '\nLa siguiente lista se presenta en el formato:  ',
-                                {
-                                    text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
-                                    bold: true,
-                                    italics: true
-                                },
-                                ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
-                            ]
-                        },
-                        {
-                            text: direcciones
-                        },
+                            ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
+                        ]
+                    },
+                    {
+                        text: direcciones
+                    },
                     ],
                 };
                 const doc = printer.createPdfKitDocument(docDefinition);
@@ -480,17 +496,25 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader(
-                        'Content-Type', 'application/pdf',
-                        'Content-Disposition', 'attachment; filename="folo6.pdf"'
-                    ); 
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    /*  res.setHeader('content-type', 'application/pdf'); */
+
+                    /* res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    /*  res.setHeader(
+                         'Content-Type', 'application/pdf',
+                         'Content-Disposition', 'attachment; filename="folo6.pdf"'
+                     ); 
+                     res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
 
             //Sí quiere motorista y solo es una dirección.
             if (motorista == "Sí." && b == 0) {
+                console.log("3")
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -508,142 +532,142 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
-                            },
-                            writable: true,
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
                         },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
                         {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
                         {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
                         {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
                         },
-                        {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
-                        },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true
-                        },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true
+                    },
                     ],
                 };
                 const doc = printer.createPdfKitDocument(docDefinition);
@@ -655,17 +679,29 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader(
+                    /* res.writeHead(200, {
+                        'Content-Type': 'application/pdf',
+                        'Content-Disposition': 'attachment; filename="folo6.pdf"'
+                    }); */
+                    /* res.setHeader('content-type', 'application/pdf'); */
+
+                    /* res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    /* res.setHeader(
                         'Content-Type', 'application/pdf',
                         'Content-Disposition', 'attachment; filename="folo6.pdf"'
                     ); 
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                    res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
 
             //No quiere motorista y solo es una dirección.
             if (motorista == "No." && b == 0) {
+                console.log("4")
+
                 const fonts = {
                     Roboto: {
                         normal: 'public/fonts/Roboto-Regular.ttf',
@@ -683,155 +719,155 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
-                            },
-                            writable: true,
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
                         },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
                         {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
                         {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
                         {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
                         },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona a conducir: ',
+                            bold: true
+                        }, '' + personaConducir,
                         {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
+                            text: '                Tipo de licencia: ',
+                            bold: true
                         },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                    text: '\nPersona a conducir: ',
-                                    bold: true
-                                }, '' + personaConducir,
-                                {
-                                    text: '                Tipo de licencia: ',
-                                    bold: true
-                                },
-                                '' + tipoLicencia
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                        },
+                        '' + tipoLicencia
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                    },
                     ],
                 };
                 const doc = printer.createPdfKitDocument(docDefinition);
@@ -843,11 +879,14 @@ class folo6_controllers {
                 //doc.pipe(fs.createWriteStream('document1.pdf'));
                 doc.on('end', () => {
                     result = Buffer.concat(chunks);
-                    res.setHeader(
-                        'Content-Type', 'application/pdf',
-                        'Content-Disposition', 'attachment; filename="folo6.pdf"'
-                    ); 
-                    res.send("data:application/pdf;base64," + result.toString('base64'));
+                /* res.setHeader(
+                    'Content-Type', 'application/pdf',
+                    'Content-Disposition', 'attachment; filename="folo6.pdf"'
+                );
+                res.send("data:application/pdf;base64," + result.toString('base64')); */
+                    res.send({
+                        link: "data:application/pdf;base64," + result.toString('base64')
+                    });
                 });
                 doc.end();
             };
@@ -938,164 +977,164 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
+                        },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
+                        {
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
+                        {
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
+                        {
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
+                        },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                        pageBreak: "after"
+                    },
+                    {
+                        text: 'ANEXO: Listado de direcciones.',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: [
+                            '\nLa siguiente lista se presenta en el formato:  ',
+                            {
+                                text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
+                                bold: true,
+                                italics: true
                             },
-                            writable: true,
-                        },
-                        {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
-                        },
-                        {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
-                        },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                            pageBreak: "after"
-                        },
-                        {
-                            text: 'ANEXO: Listado de direcciones.',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: [
-                                '\nLa siguiente lista se presenta en el formato:  ',
-                                {
-                                    text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
-                                    bold: true,
-                                    italics: true
-                                },
-                                ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
-                            ]
-                        },
-                        {
-                            text: direcciones
-                        },
+                            ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
+                        ]
+                    },
+                    {
+                        text: direcciones
+                    },
                     ],
                 };
                 //Se escribe en el documento el cuerpo previamente definido.
@@ -1145,177 +1184,177 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
+                        },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
+                        {
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
+                        {
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
+                        {
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
+                        },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona a conducir: ',
+                            bold: true
+                        }, '' + personaConducir,
+                        {
+                            text: '                Tipo de licencia: ',
+                            bold: true
+                        },
+                        '' + tipoLicencia
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                        pageBreak: "after"
+                    },
+                    {
+                        text: 'ANEXO: Listado de direcciones.',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: [
+                            '\nLa siguiente lista se presenta en el formato:  ',
+                            {
+                                text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
+                                bold: true,
+                                italics: true
                             },
-                            writable: true,
-                        },
-                        {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
-                        },
-                        {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
-                        },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                    text: '\nPersona a conducir: ',
-                                    bold: true
-                                }, '' + personaConducir,
-                                {
-                                    text: '                Tipo de licencia: ',
-                                    bold: true
-                                },
-                                '' + tipoLicencia
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                            pageBreak: "after"
-                        },
-                        {
-                            text: 'ANEXO: Listado de direcciones.',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
-                        {
-                            text: [
-                                '\nLa siguiente lista se presenta en el formato:  ',
-                                {
-                                    text: '\"Nombre del lugar, detalle de dirección, departamento, municipio.\"',
-                                    bold: true,
-                                    italics: true
-                                },
-                                ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
-                            ]
-                        },
-                        {
-                            text: direcciones
-                        },
+                            ' Si encuentra un espacio en blanco entre comas es porque ese campo no se especificó.',
+                        ]
+                    },
+                    {
+                        text: direcciones
+                    },
                     ],
                 };
                 const doc = printer.createPdfKitDocument(docDefinition);
@@ -1356,142 +1395,142 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
-                            },
-                            writable: true,
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
                         },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
                         {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
                         {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
                         {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
                         },
-                        {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
-                        },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                        },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                    },
                     ],
                 };
                 const doc = printer.createPdfKitDocument(docDefinition);
@@ -1536,155 +1575,155 @@ class folo6_controllers {
                     },
                     pageSize: 'LETTER',
                     content: [{
-                            image: 'public/images/logopgr1.png',
-                            fit: [60, 60],
-                            absolutePosition: {
-                                x: 70,
-                                y: 20
-                            },
-                            writable: true,
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 70,
+                            y: 20
                         },
+                        writable: true,
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-06',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha de solicitud: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad solicitante: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona que solicita: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nFecha de salida: ',
+                            bold: true
+                        }, '' + fechaSalida,
                         {
-                            text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de salida: ',
+                            bold: true
+                        }, '' + horaSalida,
                         {
-                            text: 'SOLICITUD DE SERVICIO DE TRANSPORTE',
-                            alignment: 'center',
-                            bold: true,
-                            italics: true,
-                            fontSize: '16'
-                        },
+                            text: '          Hora de regreso: ',
+                            bold: true
+                        }, '' + horaRetorno
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nLugar: ',
+                            bold: true
+                        }, '' + direccion],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nMotorista: ',
+                            bold: true
+                        }, '' + motorista,
                         {
-                            text: '\n\nFOLO-06',
-                            alignment: 'right',
-                            bold: true,
-                            italics: true
+                            text: '                                   Cantidad de pasajeros: ',
+                            bold: true
                         },
+                        '' + cantidadPasajeros
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nPersona a conducir: ',
+                            bold: true
+                        }, '' + personaConducir,
                         {
-                            text: [{
-                                text: 'Fecha de solicitud: ',
-                                bold: true
-                            }, '' + fechaSolicitud]
+                            text: '                Tipo de licencia: ',
+                            bold: true
                         },
-                        {
-                            text: [{
-                                text: '\nUnidad solicitante: ',
-                                bold: true
-                            }, '' + unidadSolicitante],
-                        },
-                        {
-                            text: [{
-                                text: '\nPersona que solicita: ',
-                                bold: true
-                            }, '' + personaSolicitante],
-                        },
-                        {
-                            text: [{
-                                    text: '\nFecha de salida: ',
-                                    bold: true
-                                }, '' + fechaSalida,
-                                {
-                                    text: '          Hora de salida: ',
-                                    bold: true
-                                }, '' + horaSalida,
-                                {
-                                    text: '          Hora de regreso: ',
-                                    bold: true
-                                }, '' + horaRetorno
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nLugar: ',
-                                bold: true
-                            }, '' + direccion],
-                        },
-                        {
-                            text: [{
-                                text: '\nMisión: ',
-                                bold: true
-                            }, '' + mision],
-                        },
-                        {
-                            text: [{
-                                    text: '\nMotorista: ',
-                                    bold: true
-                                }, '' + motorista,
-                                {
-                                    text: '                                   Cantidad de pasajeros: ',
-                                    bold: true
-                                },
-                                '' + cantidadPasajeros
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                    text: '\nPersona a conducir: ',
-                                    bold: true
-                                }, '' + personaConducir,
-                                {
-                                    text: '                Tipo de licencia: ',
-                                    bold: true
-                                },
-                                '' + tipoLicencia
-                            ],
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: [{
-                                text: '\nObservación: ',
-                                bold: true
-                            }, '' + observaciones],
-                        },
-                        {
-                            text: '\n\n_________________________________________________',
-                            alignment: 'center'
-                        },
-                        {
-                            text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
-                            alignment: 'center'
-                        },
-                        {
-                            text: '\nAutorizado por: __________________________________________',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             (Encargado del área de transporte)',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '                             Nombre, firma y sello',
-                            alignment: 'center',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nDatos del vehículo asignado:\n\n\n'
-                        },
-                        {
-                            text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-                            preserveLeadingSpaces: true
-                        },
-                        {
-                            text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-                        },
-                        {
-                            text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-                        },
-                        {
-                            text: '\n\n\n_______________________________________________                 _________________________________________'
-                        },
-                        {
-                            text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
-                            preserveLeadingSpaces: true,
-                        },
+                        '' + tipoLicencia
+                        ],
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: [{
+                            text: '\nObservación: ',
+                            bold: true
+                        }, '' + observaciones],
+                    },
+                    {
+                        text: '\n\n_________________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Nombre, firma y sello de la coordinación solicitante\n\n\n',
+                        alignment: 'center'
+                    },
+                    {
+                        text: '\nAutorizado por: __________________________________________',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             (Encargado del área de transporte)',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '                             Nombre, firma y sello',
+                        alignment: 'center',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nDatos del vehículo asignado:\n\n\n'
+                    },
+                    {
+                        text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
+                    },
+                    {
+                        text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
+                    },
+                    {
+                        text: '\n\n\n_______________________________________________                 _________________________________________'
+                    },
+                    {
+                        text: 'Nombre y firma del responsable de combustible                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                    },
                     ],
                 };
                 const doc = printer.createPdfKitDocument(docDefinition);
@@ -1883,28 +1922,28 @@ class folo6_controllers {
                 attributes: ['frequent_place_id'],
                 include: [FPlace]
             }).then(Fplaces => {
-                //console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces))
+                console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces))
                 Fplaces.forEach(row => {
-                    if (row.frequent_place) {
+                    if (row.SGT_Lugar_Frecuente) {
                         //console.dir("Datos del lugar:" + JSON.stringify(row.frequent_place.name));
                         var f = new Object();
                         f.city = new Object();
                         f.department = new Object();
 
-                        f.id = row.frequent_place.id;
-                        f.name = row.frequent_place.name;
-                        f.detail = row.frequent_place.detail;
+                        f.id = row.SGT_Lugar_Frecuente.id;
+                        f.name = row.SGT_Lugar_Frecuente.name;
+                        f.detail = row.SGT_Lugar_Frecuente.detail;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO  
-                        f.city.id = row.frequent_place.city_id;
-                        municipio_controller.getName(row.frequent_place.city_id).then(name => {
+                        f.city.id = row.SGT_Lugar_Frecuente.city_id;
+                        municipio_controller.getName(row.SGT_Lugar_Frecuente.city_id).then(name => {
                             f.city.name = name;
                         });
                         //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        f.department.id = row.frequent_place.department_id;
-                        department_controller.getName(row.frequent_place.department_id).then(name => {
+                        f.department.id = row.SGT_Lugar_Frecuente.department_id;
+                        department_controller.getName(row.SGT_Lugar_Frecuente.department_id).then(name => {
                             f.department.name = name;
                         });
-                        f.procu_id = row.frequent_place.procuraduria_id;
+                        f.procu_id = row.SGT_Lugar_Frecuente.procuraduria_id;
                         el.fplaces.push(f);
                         el.b++;
                     }
@@ -1922,22 +1961,22 @@ class folo6_controllers {
             }).then(Dirs => {
                 console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
                 Dirs.forEach(row => {
-                    if (row.address) {
+                    if (row.SGT_Direccion) {
                         //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
                         var dir = new Object();
                         dir.city = new Object();
                         dir.department = new Object();
-                        dir.id = row.address.id;
-                        dir.name = row.address.name;
-                        dir.detail = row.address.detail;
-                        dir.city.id = row.address.city_id;
+                        dir.id = row.SGT_Direccion.id;
+                        dir.name = row.SGT_Direccion.name;
+                        dir.detail = row.SGT_Direccion.detail;
+                        dir.city.id = row.SGT_Direccion.city_id;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO
-                        municipio_controller.getName(row.address.city_id).then(name => {
+                        municipio_controller.getName(row.SGT_Direccion.city_id).then(name => {
                             dir.city.name = name;
                         });
-                        dir.department.id = row.address.department_id
+                        dir.department.id = row.SGT_Direccion.department_id
                         //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        department_controller.getName(row.address.department_id).then(name => {
+                        department_controller.getName(row.SGT_Direccion.department_id).then(name => {
                             dir.department.name = name;
                         });
                         //dir.procu_id = row.address.procuraduria_id;
@@ -1950,7 +1989,7 @@ class folo6_controllers {
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
-            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
             console.dir("Direcciones: " + JSON.stringify(el.address));
             // console.dir(data);
@@ -1990,12 +2029,12 @@ class folo6_controllers {
                 var trully = moment().isBefore(moment.utc(row.off_date))
                 //console.log("FECHA ES: " + trully);
                 if (trully)
-                    el.buttons = '<i id="' + row.id + '" class="print link icon "></i><i id="' + row.id + '" class="file alternate outline link icon "></i><a href="/solicitud_nueva/' + row.id + '"><i class="pencil yellow alternate link icon"></i></a><i class="remove grey alternate link icon" id="' + row.id + '"></i>';
+                    el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i><a href="/solicitud_nueva/' + row.id + '"><i class="large pencil yellow alternate link icon"></i></a><i class="large trash red alternate outline link icon" id="' + row.id + '"></i>';
                 else
-                    el.buttons = '<i id="' + row.id + '" class="print link icon "></i><i id="' + row.id + '" class="file alternate outline link icon "></i>'
+                    el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i>'
                 data.push(el);
             });
-            // console.dir(data);
+            //console.dir(data);
             //Envío de los folos en formato JSON
             res.send({
                 data: data
@@ -2353,10 +2392,10 @@ class folo6_controllers {
                 },
             });
             res.send({
-                    type: 0,
-                    title: "Datos eliminados con éxito",
-                    message: "Folo" + req.params.id + " eliminado con exito",
-                }
+                type: 0,
+                title: "Datos eliminados con éxito",
+                message: "Folo" + req.params.id + " eliminado con exito",
+            }
 
             );
         } catch (err) {

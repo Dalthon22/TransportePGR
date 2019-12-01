@@ -5,7 +5,7 @@ $(function () {
         "scrollCollapse": true,
     });
 
-    $(".edit.yellow.icon").click(function () {
+    $(".pencil.yellow.alternate.link.icon").click(function () {
         var id = $(this).attr("value");
         /* var route = $(this).closest("td").find("i.edit.yellow.icon").attr("value"); */
         url_list = encodeURI('rutas/gestionar?' + "route_id=" + id);
