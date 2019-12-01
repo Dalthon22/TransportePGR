@@ -244,16 +244,18 @@
          a[z.name] = z.value;
          return a;
      }, {});
+     var folo_id = parseInt($("#folo_id").val())
+     console.log("El folo que vamos a enviar sea: " + folo_id)
      //Valores del json que serán enviados en el ajax para guardar el folo6
-     /*  var jsonReq = {
-          form: JSON.stringify(form),
-          emp: JSON.stringify(emp),
-          motorista: JSON.stringify(motorista)
-      }
-      console.log("Enviará:" +
-          "form:" + JSON.stringify(form) +
-          " emp:" + JSON.stringify(emp));
-      console.log("Empaquetado" + typeof (jsonReq)); */
+     var jsonReq = {
+         form: JSON.stringify(form),
+         emp: JSON.stringify(emp),
+         motorista: JSON.stringify(motorista)
+     }
+     console.log("Enviará:" +
+         "form:" + JSON.stringify(form) +
+         " emp:" + JSON.stringify(emp));
+     console.log("Empaquetado" + typeof (jsonReq));
      var fplaces = [];
      var address = [];
      if ($('#createdAddress option').length) {
@@ -363,7 +365,7 @@
      horaSalida = $('#time').val();
      horaRetorno = $('#time1').val();
      var motorista; //1 = no ; 0 = sí
-     if ($('#driver_i').is(":checked")) {
+     if ($('#driver_cb').checkbox("is checked")) {
          motorista = 0;
      } else {
          motorista = 1;
