@@ -1842,28 +1842,28 @@ class folo6_controllers {
                 attributes: ['frequent_place_id'],
                 include: [FPlace]
             }).then(Fplaces => {
-                //console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces))
+                console.dir("Conglomerado de fplac:" + JSON.stringify(Fplaces) + " eS DEL TIPO " + typeof (Fplaces))
                 Fplaces.forEach(row => {
-                    if (row.frequent_place) {
+                    if (row.SGT_Lugar_Frecuente) {
                         //console.dir("Datos del lugar:" + JSON.stringify(row.frequent_place.name));
                         var f = new Object();
                         f.city = new Object();
                         f.department = new Object();
 
-                        f.id = row.frequent_place.id;
-                        f.name = row.frequent_place.name;
-                        f.detail = row.frequent_place.detail;
+                        f.id = row.SGT_Lugar_Frecuente.id;
+                        f.name = row.SGT_Lugar_Frecuente.name;
+                        f.detail = row.SGT_Lugar_Frecuente.detail;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO  
-                        f.city.id = row.frequent_place.city_id;
-                        municipio_controller.getName(row.frequent_place.city_id).then(name => {
+                        f.city.id = row.SGT_Lugar_Frecuente.city_id;
+                        municipio_controller.getName(row.SGT_Lugar_Frecuente.city_id).then(name => {
                             f.city.name = name;
                         });
                         //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        f.department.id = row.frequent_place.department_id;
-                        department_controller.getName(row.frequent_place.department_id).then(name => {
+                        f.department.id = row.SGT_Lugar_Frecuente.department_id;
+                        department_controller.getName(row.SGT_Lugar_Frecuente.department_id).then(name => {
                             f.department.name = name;
                         });
-                        f.procu_id = row.frequent_place.procuraduria_id;
+                        f.procu_id = row.SGT_Lugar_Frecuente.procuraduria_id;
                         el.fplaces.push(f);
                         el.b++;
                     }
@@ -1881,22 +1881,22 @@ class folo6_controllers {
             }).then(Dirs => {
                 console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
                 Dirs.forEach(row => {
-                    if (row.address) {
+                    if (row.SGT_Direccion) {
                         //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
                         var dir = new Object();
                         dir.city = new Object();
                         dir.department = new Object();
-                        dir.id = row.address.id;
-                        dir.name = row.address.name;
-                        dir.detail = row.address.detail;
-                        dir.city.id = row.address.city_id;
+                        dir.id = row.SGT_Direccion.id;
+                        dir.name = row.SGT_Direccion.name;
+                        dir.detail = row.SGT_Direccion.detail;
+                        dir.city.id = row.SGT_Direccion.city_id;
                         //SE GUARDA EL NOMBRE DEL MUNICIPIO
-                        municipio_controller.getName(row.address.city_id).then(name => {
+                        municipio_controller.getName(row.SGT_Direccion.city_id).then(name => {
                             dir.city.name = name;
                         });
-                        dir.department.id = row.address.department_id
+                        dir.department.id = row.SGT_Direccion.department_id
                         //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        department_controller.getName(row.address.department_id).then(name => {
+                        department_controller.getName(row.SGT_Direccion.department_id).then(name => {
                             dir.department.name = name;
                         });
                         //dir.procu_id = row.address.procuraduria_id;
@@ -1909,7 +1909,7 @@ class folo6_controllers {
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
-            //console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
+            console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
             console.dir("Direcciones: " + JSON.stringify(el.address));
             // console.dir(data);
@@ -1954,7 +1954,7 @@ class folo6_controllers {
                     el.buttons = '<i id="' + row.id + '" class="print link icon "></i><i id="' + row.id + '" class="file alternate outline link icon "></i>'
                 data.push(el);
             });
-            // console.dir(data);
+            //console.dir(data);
             //Envío de los folos en formato JSON
             res.send({
                 data: data

@@ -157,8 +157,8 @@
      $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
      // $(".ui.form").form('validate field', 'name_driver_i');
      //$(".ui.form").form('validate field', 'license_ls');
-     $('#license_ls_id').prop('selectedIndex', 0);
-     $('#n_driver_i').val('');
+     // $('#license_ls_id').prop('selectedIndex', 0);
+     //$('#n_driver_i').val('');
  }
 
  function sinMotorista() {
@@ -222,7 +222,7 @@
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         $.when(printPDF()).then(updateFolo6());
+         $.when(printPDF()).then(setTimeout(updateFolo6(), 3000));
          // setTimeout(guardarFolo6(), 30000);
      }
  });
@@ -370,7 +370,7 @@
      } else {
          motorista = 1;
      }
-     cantidadPasajeros = $('#passengers_i').val();
+     cantidadPasajeros = parseInt($('#passengers_i').val());
      personaConducir = $('#n_driver_i').val();
      tipoLicencia = $('#license_ls_id option:selected').text();
      tablaDirecciones = document.getElementById('addressTable');
@@ -425,7 +425,7 @@
          function (result) {
              // e.g This will open an image in a new window
              console.log("voy a imprimir el folo")
-             debugBase64(result);
+             debugBase64(result.link);
              // window.open(result);
          });
 

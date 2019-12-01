@@ -282,7 +282,7 @@
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         $.when(printPDF()).then(guardarFolo6());
+         $.when(printPDF()).then(setTimeout(guardarFolo6(), 3300));
          // setTimeout(guardarFolo6(), 30000);
      }
  });
