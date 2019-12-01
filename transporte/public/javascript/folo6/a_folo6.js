@@ -21,7 +21,6 @@
      $("#unidad_lb").text(unit.name_unit);
  });
 
-
  //VALIDACION DEL FORM
  $('.ui.form').form({
      //revalidate: true,
@@ -52,10 +51,10 @@
              identifier: 'passengers_i',
              rules: [{
                      type: 'empty',
-                     prompt: 'Seleccione un horario de salida'
+                     prompt: 'Seleccione o ingrese la cantidad de pasajeros. No olvide incluirse'
                  },
                  {
-                     type: 'integer',
+                     type: 'integer[1...40]',
                      prompt: 'Ingrese un número válido de pasajeros'
                  }
              ]
@@ -192,7 +191,7 @@
  //Funciones para crear el PDF del Folo-06.
  function printPDF() {
      event.preventDefault();
-
+     console.log("IMPIRMO")
 
      //Recolección de datos.
      fechaSolicitud = $('#date_lb').text();
@@ -201,11 +200,12 @@
      horaSalida = $('#time').val();
      horaRetorno = $('#time1').val();
      var motorista; //1 = no ; 0 = sí
-     if ($('#driver_i').is(":checked")) {
+     if ($('#driver_cb').checkbox("is checked")) {
          motorista = 0;
      } else {
          motorista = 1;
      }
+     console.log(motorista + "Por que el driver estaba" + $('#driver_cb').is("checked"))
      cantidadPasajeros = $('#passengers_i').val();
      personaConducir = $('#n_driver_i').val();
      tipoLicencia = $('#license_ls_id option:selected').text();
@@ -230,7 +230,7 @@
      } else {
          direccion = "Ver listado de direcciones en página anexo.";
          b = 1; //Crea listado de direcciones
-     };
+     }
      for (var i = 1; i < tablaDirecciones.rows.length; i++) {
          c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
          c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
@@ -241,6 +241,7 @@
      //Convierto el array en un string.
      direcciones = direcciones.toString();
 
+     console.log("B se envía con este valor" + b + " y direcciones tendrá " + direcciones)
      $.post('/solicitud/createPDF', { //Petición ajax post.
              fechaSolicitud,
              unidadSolicitante,
@@ -261,7 +262,7 @@
          function (result) {
              // e.g This will open an image in a new window
              console.log("voy a imprimir el folo")
-             debugBase64(result);
+             debugBase64(result.link);
              // window.open(result);
          });
 
@@ -281,7 +282,7 @@
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         $.when(printPDF()).then(guardarFolo6());
+         $.when(printPDF()).then(setTimeout(guardarFolo6(), 3300));
          // setTimeout(guardarFolo6(), 30000);
      }
  });
@@ -296,6 +297,7 @@
  }
 
  function guardarFolo6() {
+     console.log("GUARDADDO")
 
      //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
      //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]

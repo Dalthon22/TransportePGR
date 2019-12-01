@@ -64,10 +64,10 @@
              identifier: 'passengers_i',
              rules: [{
                      type: 'empty',
-                     prompt: 'Seleccione un horario de salida'
+                     prompt: 'Seleccione la cantidad de pasajeros no olvide incluirse usted'
                  },
                  {
-                     type: 'integer',
+                     type: 'integer[1...40]',
                      prompt: 'Ingrese un número válido de pasajeros'
                  }
              ]
@@ -157,8 +157,8 @@
      $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
      // $(".ui.form").form('validate field', 'name_driver_i');
      //$(".ui.form").form('validate field', 'license_ls');
-     $('#license_ls_id').prop('selectedIndex', 0);
-     $('#n_driver_i').val('');
+     // $('#license_ls_id').prop('selectedIndex', 0);
+     //$('#n_driver_i').val('');
  }
 
  function sinMotorista() {
@@ -209,11 +209,21 @@
      });
 
  /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+ /*  $('#save_print_btn').on('click', function () {
+      if ($('.ui.form').form('is valid')) {
+          event.preventDefault();
+          showDimmer();
+          updateFolo6();
+      }
+  });
+  */
+
  $('#save_print_btn').on('click', function () {
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         updateFolo6();
+         $.when(printPDF()).then(setTimeout(updateFolo6(), 3000));
+         // setTimeout(guardarFolo6(), 30000);
      }
  });
 
@@ -234,16 +244,18 @@
          a[z.name] = z.value;
          return a;
      }, {});
+     var folo_id = parseInt($("#folo_id").val())
+     console.log("El folo que vamos a enviar sea: " + folo_id)
      //Valores del json que serán enviados en el ajax para guardar el folo6
-     /*  var jsonReq = {
-          form: JSON.stringify(form),
-          emp: JSON.stringify(emp),
-          motorista: JSON.stringify(motorista)
-      }
-      console.log("Enviará:" +
-          "form:" + JSON.stringify(form) +
-          " emp:" + JSON.stringify(emp));
-      console.log("Empaquetado" + typeof (jsonReq)); */
+     var jsonReq = {
+         form: JSON.stringify(form),
+         emp: JSON.stringify(emp),
+         motorista: JSON.stringify(motorista)
+     }
+     console.log("Enviará:" +
+         "form:" + JSON.stringify(form) +
+         " emp:" + JSON.stringify(emp));
+     console.log("Empaquetado" + typeof (jsonReq));
      var fplaces = [];
      var address = [];
      if ($('#createdAddress option').length) {
@@ -298,11 +310,9 @@
                      });
                  hideDimmer();
              } else {
-                 $.when(printPDF()).then(function () {
-                     //Si se ingreso con exito
-                     successAddToast(data.message);
-                     setTimeout(window.location.href = data.redirect, 30000);
-                 });
+                 //Si se ingreso con exito
+                 successAddToast(data.message);
+                 setTimeout(window.location.href = data.redirect, 30000);
              }
          },
      }).done();
@@ -348,8 +358,6 @@
  //Funciones para crear el PDF del Folo-06.
  function printPDF() {
      event.preventDefault();
-
-
      //Recolección de datos.
      fechaSolicitud = $('#date_lb').text();
      unidadSolicitante = $('#unidad_lb').text();
@@ -357,12 +365,12 @@
      horaSalida = $('#time').val();
      horaRetorno = $('#time1').val();
      var motorista; //1 = no ; 0 = sí
-     if ($('#driver_i').is(":checked")) {
+     if ($('#driver_cb').checkbox("is checked")) {
          motorista = 0;
      } else {
          motorista = 1;
      }
-     cantidadPasajeros = $('#passengers_i').val();
+     cantidadPasajeros = parseInt($('#passengers_i').val());
      personaConducir = $('#n_driver_i').val();
      tipoLicencia = $('#license_ls_id option:selected').text();
      tablaDirecciones = document.getElementById('addressTable');
@@ -417,7 +425,7 @@
          function (result) {
              // e.g This will open an image in a new window
              console.log("voy a imprimir el folo")
-             debugBase64(result);
+             debugBase64(result.link);
              // window.open(result);
          });
 
@@ -433,84 +441,6 @@
      win.document.close()
  }
 
- $('#save_print_btn').on('click', function () {
-     if ($('.ui.form').form('is valid')) {
-         event.preventDefault();
-         showDimmer();
-         $.when(printPDF()).then(guardarFolo6());
-         // setTimeout(guardarFolo6(), 30000);
-     }
- });
-
- function guardarFolo6() {
-
-     //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
-     //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
-     var form = $(".ui.form").serializeArray().reduce(function (a, z) {
-         a[z.name] = z.value;
-         console.log(a);
-         return a;
-     }, {});
-     var fplaces = [];
-     var address = [];
-     if ($('#createdAddress option').length) {
-         $('#createdAddress option').each(function () {
-             address.push($(this).val());
-         });
-     } else {
-         console.log("No se enviara direcciones")
-     }
-     if ($('#selectedFPlace option').length) {
-         $('#selectedFPlace option').each(function () {
-             fplaces.push($(this).val());
-         });
-     } else {
-         console.log("No se enviara lugares frecuentes")
-     }
-
-     console.log("Se enviaran estos lugares: " + fplaces + " Direcciones: " + address)
-     //Valores del json que serán enviados en el ajax para guardar el folo6
-     var jsonReq = {
-         form: JSON.stringify(form),
-         emp: JSON.stringify(emp),
-         motorista: JSON.stringify(motorista),
-         fplaces: JSON.stringify(fplaces),
-         address: JSON.stringify(address)
-     }
-     console.log("Enviará:" +
-         "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
-     console.log("Empaquetado" + typeof (jsonReq));
-     $.ajax({
-         type: "POST",
-         async: true,
-         url: '/solicitud_nueva/add',
-         dataType: 'json',
-         data: jsonReq,
-         success: (data) => {
-             console.log("data.type es:" + typeof (data.type) + " y trae: " + data);
-             console.log("data.type es:" + typeof (data.type) + " y trae: " + data.type);
-             if (data.type == 1) {
-                 //Si hay error
-                 console.log(data.message);
-                 $('body')
-                     .toast({
-                         title: data.title,
-                         showIcon: false,
-                         class: 'error',
-                         position: 'top right',
-                         displayTime: 0,
-                         closeIcon: true,
-                         message: data.message,
-                     });
-                 hideDimmer();
-             } else {
-                 //Si se ingreso con exito
-                 successAddToast(data.message);
-                 setTimeout(window.location.href = data.redirect, 30000);
-             }
-         },
-     }).done();
- }
  //Para poder animar los elementos cuando se envía un ingreso de vales
 
  //Muestra mensaje de exito

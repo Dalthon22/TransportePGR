@@ -1,3 +1,4 @@
+moment.locale("Es-SV");
 //Var para verificar que el formulario esta listo para guardar
 var unique_num1, unique_num2, data, tab;
 
@@ -32,8 +33,10 @@ $(document).ready(function () {
 
 //llenar tabla
 function fillTable() {
+    var month = moment().get('month');
+    month = moment().month(month).format("MMMM")
     //Llenar el data table
-    tab = $('#mytable').DataTable({
+    /* tab = $('#mytable').DataTable({
         "scrollY": "500px",
         "scrollCollapse": true,
         ajax: {
@@ -64,6 +67,36 @@ function fillTable() {
                 "data": "date_close_bill"
             }
         ]
+    }); */
+    tab = $('#mytable1').DataTable({
+        "scrollY": "500px",
+        "scrollCollapse": true,
+        ajax: {
+            url: '/vales/bills',
+            type: 'GET',
+        },
+        "columns": [{
+                "data": "num_bill"
+            },
+            {
+                "data": "date_entry"
+            },
+            {
+                "data": "provider"
+            },
+            {
+                "data": "cant_voucher"
+            },
+            {
+                "data": "total"
+            },
+            {
+                "data": "created_at"
+            }
+        ],
+        "language": {
+            "emptyTable": "No hay facturas disponibles para el mes de " + month
+        }
     });
 }
 //REVALIDA EL CAMPO DEL ULTIMO VALE
@@ -94,6 +127,13 @@ $('.ui.form').form({
             rules: [{
                 type: 'empty',
                 prompt: 'Por favor seleccione la fecha de facturación'
+            }]
+        },
+        bill_month: {
+            identifier: 'bill_month',
+            rules: [{
+                type: 'empty',
+                prompt: 'Por favor seleccione el mes a abastecer'
             }]
         },
         provider: {
@@ -166,13 +206,13 @@ $('#add_modal')
             $('.ui.toast').remove();
             noAnimateAddButton();
             $('#add_voucher_form').form('clean');
+            $('#add_voucher_form').form('reset');
             return true;
         },
         onApprove: function () {
             console.log("aprobad y el form es: " + $('#add_voucher_form').form('is valid'));
             animateAddButton();
             console.log("los campos so los siguientes: " + $('.field'))
-
             //buscar_vale($("#first_voucher").val(), $("#last_voucher").val());
             ingresar_vales();
             return false;
@@ -201,6 +241,17 @@ $('#standard_calendar').calendar({
         months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     }
 });
+
+$('#month_calendar')
+    .calendar({
+        type: 'month',
+        text: {
+            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        }
+    });
+
+
 
 /* $(function () {
     $("#show_add_form_btn").click(function () {
@@ -279,16 +330,21 @@ function ingresar_vales() {
 
 ///Verifica que los vales que se vayan a ingresar no hayan sido previamente registrados
 function buscar_vale(num1, num2) {
-    const url_request_vale = 'vales/' + num1;
+    const url_request_vale = '/vales/num';
     console.log("Ajax buscará en: " + url_request_vale);
-    const url_request_vale2 = 'vales/' + num2;
-    console.log("Ajax buscará en: " + url_request_vale2);
-
+    var num_bill = $('#bill_num').val();
+    console.log("vales que buscará" + num1 + num2 + "factura" + num_bill);
+    var jsonReq = {
+        num_voucher: JSON.stringify(num1),
+        num_bill: JSON.stringify(num_bill)
+    }
+    console.dir(jsonReq);
     $.ajax({
         url: url_request_vale,
         async: false,
         type: 'GET',
         dataType: 'json',
+        data: jsonReq,
         success: (data) => {
             //Manejo del resultado enviado por ajax
             console.log("DATA DEL GET NUM VALE 1" + data.type)
@@ -299,7 +355,7 @@ function buscar_vale(num1, num2) {
                 //Muestra el mensaje de error en el primer vale
                 $('#add_modal')
                     .toast({
-                        title: 'Error: número duplicado',
+                        title: data.title,
                         class: 'error',
                         showIcon: false,
                         position: 'top right',
@@ -314,11 +370,16 @@ function buscar_vale(num1, num2) {
             }
         }
     });
+    var jsonReq1 = {
+        num_voucher: JSON.stringify(num2),
+        num_bill: JSON.stringify(num_bill)
+    }
     $.ajax({
-        url: url_request_vale2,
+        url: url_request_vale,
         type: 'GET',
         dataType: 'json',
         async: false,
+        data: jsonReq1,
     }).done(function (data) {
         if (data.type === 1) {
             noAnimateAddButton();
@@ -327,7 +388,7 @@ function buscar_vale(num1, num2) {
             //Muestra el mensaje de error en ultimo vale
             $('#add_modal')
                 .toast({
-                    title: 'Error: número duplicado',
+                    title: data.title,
                     showIcon: false,
                     class: 'error',
                     position: 'top right',
@@ -384,7 +445,8 @@ function agregarVales() {
                 $('#add_modal').modal("hide");
                 successAddToast();
                 tab.ajax.reload();
-
+                $('#add_voucher_form').form('clean');
+                $('#add_voucher_form').form('reset');
             }
         },
     });
