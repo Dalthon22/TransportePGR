@@ -60,7 +60,6 @@ $('#mytable tbody').on('click', '.remove.grey.alternate.link.icon', function (ev
         .modal({
             closable: false,
             onShow: function () {
-                $('.segment').dimmer('hide');
 
                 console.log("Voy a mostrar el folo" + id_folo);
                 //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
@@ -125,6 +124,8 @@ $('#mytable tbody').on('click', '.remove.grey.alternate.link.icon', function (ev
                                 "</tr>");
                         })
                     }
+                    $('.segment').dimmer('hide');
+
                 })
             },
             onDeny: function () {
@@ -353,10 +354,11 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                                 "</tr>");
                         })
                     }
+                    $('.segment').dimmer('hide');
                 })
             }
         }).modal('show');
-    $('.segment').dimmer('hide');
+
 });
 
 function successAddToast(title, message) {
