@@ -48,11 +48,11 @@ class driver_controller {
                 driver.last_name = helper.last_name;
                 driver.license_type = helper.license_type;
                 driver.driver_license = helper.driver_license;
-                driver.fechaIngreso = moment.utc(helper.birth_date).format("DD/MM/YYYY");
+                driver.fechaIngreso = moment.utc(helper.birth_date, "YYYY-MM-DD").format("DD/MMMM/YYYY");
+                console.log(driver.fechaIngreso);
                 var mes = moment.utc(helper.license_due_date).format("MMMM");
                 driver.license_month = mes.charAt(0).toUpperCase() + mes.slice(1);
                 driver.license_year = moment.utc(helper.license_due_date).format("YYYY");
-                console.log(driver.license_month + driver.license_year);
             }
             return res.render('../views/driver/add.html', {
                 driver,
