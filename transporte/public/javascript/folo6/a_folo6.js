@@ -4,23 +4,38 @@
  var emp, unit;
  const url_request_employee = 'empleado/' + id_employee;
 
- $.ajax({
-     url: url_request_employee,
-     async: true,
-     type: 'GET',
-     dataType: 'json',
-     success: (data) => {
-         console.log(typeof (data.emp));
-         emp = data.emp;
-         unit = data.unit
-         console.log(emp);
-         console.log(unit);
-     }
- }).done(function () {
-     $("#name_lb").text(emp.first_name + ", " + emp.last_name);
-     $("#unidad_lb").text(unit.name_unit);
- });
+ function showLoadingDimmer() {
+     // $('.segment').dimmer('set active');
+     $('body').dimmer({
+         displayLoader: true,
+         loaderVariation: 'slow blue medium elastic',
+         loaderText: "Cargando los datos...",
+         closable: false,
+     }).dimmer('show');
+ }
 
+
+ $(document).ready(function () {
+     showLoadingDimmer()
+     $.ajax({
+         url: url_request_employee,
+         async: true,
+         type: 'GET',
+         dataType: 'json',
+         success: (data) => {
+             console.log(typeof (data.emp));
+             emp = data.emp;
+             unit = data.unit
+             console.log(emp);
+             console.log(unit);
+         }
+     }).done(function () {
+         $("#name_lb").text(emp.first_name + ", " + emp.last_name);
+         $("#unidad_lb").text(unit.name_unit);
+         $('body').dimmer('hide');
+     });
+
+ })
  //VALIDACION DEL FORM
  $('.ui.form').form({
      //revalidate: true,

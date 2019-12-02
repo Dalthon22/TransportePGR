@@ -1,7 +1,20 @@
  /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
  var motorista, emp, unit;
 
+ function showLoadingDimmer() {
+     // $('.segment').dimmer('set active');
+     $('body').dimmer({
+         displayLoader: true,
+         loaderVariation: 'slow blue medium elastic',
+         loaderText: "Cargando los datos...",
+         closable: false,
+     }).dimmer('show');
+ }
+
+
  $(document).ready(function () {
+     showLoadingDimmer();
+
      console.log("Usted va a editar el folo No:" + $('#folo_id').val())
      id_employee = parseInt($('#employee_id').val());
 
@@ -17,7 +30,7 @@
      }
      $.ajax({
          url: url_request_employee,
-         async: false,
+         async: true,
          type: 'GET',
          dataType: 'json',
          success: (data) => {
@@ -32,6 +45,8 @@
              $("#unidad_lb").text(unit.name_unit);
          }
      });
+     $('body').dimmer('hide');
+
  });
 
  //VALIDACION DEL FORM
