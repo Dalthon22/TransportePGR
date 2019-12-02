@@ -237,7 +237,7 @@ class voucher_controllers {
                     /* b.cant_voucher = 4; */
                     bill.date_entry = moment.utc(bills[b].date_entry).format("DD/MM/YYYY");
                     bill.provider = bills[b].provider;
-                    bill.total = bills[b].total;
+                    bill.total = parseFloat(bills[b].total).toFixed(2);;
                     bill.created_at = moment.utc(bills[b].created_at).format("DD/MM/YYYY");
                     await bill_controllers.vouchersPerBills(bills[b].num_bill).then(val => {
                         console.log("DeL FOR" + val)
