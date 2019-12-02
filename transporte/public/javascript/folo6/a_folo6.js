@@ -241,8 +241,9 @@
      //Convierto el array en un string.
      direcciones = direcciones.toString();
 
-     console.log("B se envía con este valor" + b + " y direcciones tendrá " + direcciones)
-     $.post('/solicitud/createPDF', { //Petición ajax post.
+     console.log("B se envía con este valor" + b + " y direcciones tendrá " + direcciones);
+
+     return $.post('/solicitud/createPDF', { //Petición ajax post.
              fechaSolicitud,
              unidadSolicitante,
              fechaSalida,
@@ -282,7 +283,7 @@
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         $.when(printPDF()).then(setTimeout(guardarFolo6(), 3300));
+         guardarFolo6();
          // setTimeout(guardarFolo6(), 30000);
      }
  });
@@ -335,7 +336,7 @@
      console.log("Enviará:" +
          "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
      console.log("Empaquetado" + typeof (jsonReq));
-     $.ajax({
+     return $.ajax({
          type: "POST",
          async: true,
          url: '/solicitud_nueva/add',
@@ -360,8 +361,10 @@
                  hideDimmer();
              } else {
                  //Si se ingreso con exito
-                 successAddToast(data.message);
-                 setTimeout(window.location.href = data.redirect, 30000);
+                 $.when(printPDF()).then(function () {
+                     successAddToast(data.message);
+                     window.location.href = data.redirect;
+                 });
              }
          },
      }).done();

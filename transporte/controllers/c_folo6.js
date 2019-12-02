@@ -1817,7 +1817,7 @@ class folo6_controllers {
 
                 el.id = folo.id;
                 //La BD envia las fechas y horas en formato utc por ello se debe convertir al formato especificado en el método format(). Revisar documentación de moment.js
-                el.off_date = moment.utc(folo.off_date).utcOffset("-06:00").format("DD/MM/YYYY");
+                el.off_date = moment.utc(folo.off_date).format("DD/MM/YYYY");
                 el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
                 el.return_hour = moment.utc(folo.return_hour).format("h:mm A");
                 el.passengers_number = folo.passengers_number;
@@ -1826,7 +1826,7 @@ class folo6_controllers {
                 el.license_type = folo.license_type;
                 el.mission = folo.mission;
                 el.observation = folo.observation;
-                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
+                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
 
@@ -1987,7 +1987,7 @@ class folo6_controllers {
                 el.license_type = folo.license_type;
                 el.mission = folo.mission;
                 el.observation = folo.observation;
-                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
+                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
 

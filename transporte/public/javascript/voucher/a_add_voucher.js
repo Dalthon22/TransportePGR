@@ -95,8 +95,14 @@ function fillTable() {
             }
         ],
         "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
             "emptyTable": "No hay facturas disponibles para el mes de " + month
-        }
+        },
+        "columnDefs": [{
+            className: "dt-body-right",
+            "targets": [3, 4],
+
+        }]
     });
 }
 //REVALIDA EL CAMPO DEL ULTIMO VALE
@@ -447,6 +453,7 @@ function agregarVales() {
                 tab.ajax.reload();
                 $('#add_voucher_form').form('clean');
                 $('#add_voucher_form').form('reset');
+                $("#NumVoucher").addClass("hidden");
             }
         },
     });

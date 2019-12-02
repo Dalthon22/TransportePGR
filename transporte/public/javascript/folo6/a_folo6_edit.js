@@ -222,7 +222,7 @@
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         $.when(printPDF()).then(setTimeout(updateFolo6(), 3000));
+         updateFolo6();
          // setTimeout(guardarFolo6(), 30000);
      }
  });
@@ -310,9 +310,12 @@
                      });
                  hideDimmer();
              } else {
-                 //Si se ingreso con exito
-                 successAddToast(data.message);
-                 setTimeout(window.location.href = data.redirect, 30000);
+                 //Si se ingreso con exito  
+                 $.when(printPDF()).then(function () {
+                     successAddToast(data.message);
+                     window.location.href = data.redirect;
+                 });
+
              }
          },
      }).done();
@@ -405,7 +408,7 @@
      //Convierto el array en un string.
      direcciones = direcciones.toString();
 
-     $.post('/solicitud/createPDF', { //Petición ajax post.
+     return $.post('/solicitud/createPDF', { //Petición ajax post.
              fechaSolicitud,
              unidadSolicitante,
              fechaSalida,
