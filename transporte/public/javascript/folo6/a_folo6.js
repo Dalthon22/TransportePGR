@@ -367,6 +367,7 @@ function printPDF() {
     return $.post('/solicitud/createPDF', { //Petición ajax post.
             fechaSolicitud,
             unidadSolicitante,
+            personaSolicitante,
             fechaSalida,
             horaSalida,
             horaRetorno,

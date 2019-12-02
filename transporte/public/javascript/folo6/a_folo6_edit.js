@@ -415,6 +415,7 @@ function printPDF() {
     //Recolección de datos.
     fechaSolicitud = $('#date_lb').text();
     unidadSolicitante = $('#unidad_lb').text();
+    personaSolicitante = $('#name_lb').text();
     fechaSalida = $('#calendar1').val();
     horaSalida = $('#time').val();
     horaRetorno = $('#time1').val();
@@ -460,111 +461,6 @@ function printPDF() {
     direcciones = direcciones.toString();
 
     return $.post('/solicitud/createPDF', { //Petición ajax post.
-            fechaSolicitud,
-            unidadSolicitante,
-            fechaSalida,
-            horaSalida,
-            horaRetorno,
-            motorista,
-            cantidadPasajeros,
-            personaConducir,
-            tipoLicencia,
-            direccion,
-            direcciones,
-            mision,
-            observaciones,
-            b
-        },
-        //Abre el pdf en una nueva ventana.
-        function (result) {
-            // e.g This will open an image in a new window
-            console.log("voy a imprimir el folo")
-            debugBase64(result.link);
-            // window.open(result);
-        });
-
-
-    /* Solo funciona en Mozilla Firefox, en Google Chrome se abre una pestaña en blanco.
-    En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
-    Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
-}
-
-//Funciones para crear el PDF del Folo-06.
-function printPDF() {
-    //event.preventDefault();
-    //Recolección de datos.
-    fechaSolicitud = $('#date_lb').text();
-    unidadSolicitante = $('#unidad_lb').text();
-    personaSolicitante = $('#name_lb').text();
-    fechaSalida = $('#calendar1').val();
-    horaSalida = $('#time').val();
-    horaRetorno = $('#time1').val();
-    var motorista; //1 = no ; 0 = sí
-    if ($('#driver_i').is(":checked")) {
-        motorista = 0;
-    } else {
-        motorista = 1;
-    }
-    cantidadPasajeros = $('#passengers_i').val();
-    personaConducir = $('#n_driver_i').val();
-    tipoLicencia = $('#license_ls_id option:selected').text();
-    tablaDirecciones = document.getElementById('addressTable');
-    mision = $('#mision_i_id').val();
-    observaciones = $('#details_i').val();
-    var c1, c2, c3, c4, direccion, b;
-    var direcciones = [];
-    /*La propiedad 'length' en JS comienza en 1.
-    La primera fila es el encabezado, a partir de la segunda van direcciones.
-    Si solo hay una dirección, se asigna a la variable 'dirección'.
-    Si hay más se asignan al array 'direcciones'. */
-    if (tablaDirecciones.rows.length == 2) {
-        //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
-        //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
-        c1 = tablaDirecciones.rows[1].cells[0].innerHTML;
-        if (c1 == '') {
-            c1 = 'No especificado';
-        };
-        c2 = tablaDirecciones.rows[1].cells[1].innerHTML;
-        if (c2 == '') {
-            c2 = 'No especificado';
-        };
-        c3 = tablaDirecciones.rows[1].cells[2].innerHTML;
-        if (c3 == '') {
-            c3 = 'No especificado';
-        };
-        c4 = tablaDirecciones.rows[1].cells[3].innerHTML;
-        if (c4 == '') {
-            c4 = 'No especificado';
-        };
-        direccion = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".";
-        b = 0; //No crea listado de direcciones
-    } else {
-        direccion = "Ver listado de direcciones en página anexo.";
-        b = 1; //Crea listado de direcciones
-    };
-    for (var i = 1; i < tablaDirecciones.rows.length; i++) {
-        c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
-        if (c1 == '') {
-            c1 = 'No especificado';
-        };
-        c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
-        if (c2 == '') {
-            c2 = 'No especificado';
-        };
-        c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
-        if (c3 == '') {
-            c3 = 'No especificado';
-        };
-        c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
-        if (c4 == '') {
-            c4 = 'No especificado';
-        };
-        direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".");
-    };
-    //Convierto el array en un string.
-    direcciones = direcciones.toString();
-
-    $.post('/solicitud/createPDF', { //Petición ajax post.
             fechaSolicitud,
             unidadSolicitante,
             personaSolicitante,

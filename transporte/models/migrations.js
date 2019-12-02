@@ -76,10 +76,10 @@ class Migration {
             alter: false
         });
         ProcurementBill.sync({
-            alter: true
+            alter: false
         })
         CosumedBill.sync({
-            alter: true
+            alter: false
         })
     }
 };

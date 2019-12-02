@@ -1778,7 +1778,7 @@ class folo6_controllers {
                 el.license_type = folo.license_type;
                 el.mission = folo.mission;
                 el.observation = folo.observation;
-                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
+                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
 
@@ -1900,7 +1900,7 @@ class folo6_controllers {
                 el.license_type = folo.license_type;
                 el.mission = folo.mission;
                 el.observation = folo.observation;
-                el.created_at = moment.utc(folo.created_at).format("DD/MM/YYYY");
+                el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
 
@@ -2380,15 +2380,24 @@ class folo6_controllers {
     //Elima el folo indicado como parametros en req.params.id 
     async deleteFolo(req, res) {
         try {
+            /* Elimina de la tabla la unión del folo con los lugares y/o direcciones*/
+            await place_container.destroy({
+                where: {
+                    folo_id: req.params.id
+                }
+            });
+
+            /* Elimina el folo */
             var folo = await Folo6.destroy({
                 where: {
                     id: req.params.id
                 },
             });
+
             res.send({
                     type: 0,
                     title: "Datos eliminados con éxito",
-                    message: "Folo" + req.params.id + " eliminado con exito",
+                    message: "Folo " + req.params.id + " eliminado con exito",
                 }
 
             );
