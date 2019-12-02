@@ -14,8 +14,11 @@ const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
 const route_conditions = require('../models/m_route_conditions');
-const FacturaCompra = require('./m_bill');
-const FacturaLiquidacion = require('./m_bill_close')
+const User = require('./m_user');
+const Rol = require('./m_role');
+const UserRol = require('./m_user_role');
+const ProcurementBill = require('./m_bill');
+const CosumedBill = require('./m_bill_close')
 
 class Migration {
     constructor() {
@@ -57,19 +60,27 @@ class Migration {
         Folo6_Approve_State.sync({
             alter: false
         });
-        Route.sync({
-            alter: false
-        });
         route_conditions.sync({
             alter: false
         });
-        FacturaCompra.sync({
+        Route.sync({
+            alter: false
+        });
+        User.sync({
+            alter: false
+        });
+        Rol.sync({
+            alter: false
+        });
+        UserRol.sync({
+            alter: false
+        });
+        ProcurementBill.sync({
             alter: true
         })
-        FacturaLiquidacion.sync({
+        CosumedBill.sync({
             alter: true
         })
-
     }
 };
 

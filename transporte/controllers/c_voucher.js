@@ -93,18 +93,6 @@ class voucher_controllers {
                 attributes: ['num_voucher', 'price', 'condition', 'voucher_provider', 'num_entry_bill', 'num_close_bill'],
                 where: {
                     condition: 'Disponible',
-                    /*  created_at: {
-                         comparator: [Op.gt],
-                         logic: previousMonth,
-                         attribute: {
-                             fn: "month",
-                             args: {
-                                 col: "created_at"
-                             }
-                         },
-                                                 [Op.lt]: '2019-11-11',
-                                                 [Op.gt]: '2019-11-09'
-                     } */
                 }
             });
             var data = [];

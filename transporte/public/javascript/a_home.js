@@ -49,7 +49,7 @@ function fillTable() {
 
 
 }
-$('#mytable tbody').on('click', '.remove.grey.alternate.link.icon', function (event) {
+$('#mytable tbody').on('click', '.trash.red.alternate.outline.link.icon', function (event) {
     showLoadingDimmer();
     var id_folo = parseInt($(this).attr('id'));
     console.log("Usted desea eliminar el folo:" + id_folo);

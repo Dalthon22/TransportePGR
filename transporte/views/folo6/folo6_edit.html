@@ -151,37 +151,9 @@
                         dirección</button>
 
                     <!-- Los siguientes select se utilizan para cuando se envie la informacion al controller, se tiene un listado con las direcciones y lugares frecuentes que se van a guardar en la bd -->
-
-                    <!-- Se llena con los fplaces relacionados al folo que se va a editar -->
-                    {% if folo.fplaces%}
-                    <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace">
-
-                        {% for fplace in folo.fplaces  %}
-                        <option value="{{fplace.id}}">{{fplace.name}}</option>
-
-                        {% endfor %}
-                    </select>
-                    {% else %}
+                    
                     <select class="ui fluid dropdown" id="selectedFPlace" name="selectedFPlace"></select>
-                    {%endif%}
-                    <!-- Fin del llenado -->
-
-                    <!-- Inicio del llenado con las direcciones  -->
-                    {% if folo.address%}
-                    <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
-
-                        {% for address in folo.address  %}
-                        <option value="{{address.id}}">{{address.name}}</option>
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    <select class="ui fluid dropdown" id="createdAddress" name="createdAddress">
-                    </select>
-
-                    {%endif%}
-                    <!-- Fin del llenado -->
-
-
+                    <select class="ui fluid dropdown" id="createdAddress" name="createdAddress"></select>
                     <table class="ui center celled collapsing table tablet stackable" id="addressTable"
                         name="addressTable">
                         <thead>
@@ -190,43 +162,9 @@
                                 <th>Detalle de la dirección</th>
                                 <th>Departamento</th>
                                 <th>Municipio</th>
+                                <th></th>
                         </thead>
-                        <tbody>
-                            {% if folo.fplaces%}
-                            {% for fplace in folo.fplaces  %}
-                            <tr>
-                                <td data-label="{{fplace.id}}">{{fplace.name}}</td>
-                                {%if fplace.detail%}
-                                <td data-label="{{fplace.id}}"> {{fplace.detail}}</td>
-                                {% else %}
-                                <td data-label="{{fplace.id}}">
-                                    Sin detalle de dirección
-                                </td>
-                                {%endif%}
-                                <td data-label="{{fplace.municipio.id}}">{{fplace.city.name}}</td>
-                                <td data-label="{{fplace.municipio.id}}">{{fplace.department.name}}</td>
-                            </tr>
-                            {% endfor %}
-                            {%endif%}
-
-                            {% if folo.address%}
-                            {% for address in folo.address  %}
-                            <tr>
-                                <td data-label="{{address.id}}">{{address.name}}</td>
-                                {%if fplace.detail%}
-                                <td data-label="{{address.id}}"> {{address.detail}}</td>
-                                {% else %}
-                                <td data-label="{{address.id}}">
-                                    Sin detalle de dirección
-                                </td>
-                                {%endif%}
-                                <td data-label="{{address.city.id}}">{{address.city.name}}</td>
-                                <td data-label="{{address.department.id}}">{{address.department.name}}</td>
-
-                            </tr>
-                            {% endfor %}
-                            {%endif%}
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                     <h4 class="ui blue dividing header">Misión</h4>
                     <div class="required field">
@@ -241,11 +179,17 @@
                             maxlength="150" autocomplete="off" id="details_i" value="{{folo.observation}}">
                     </div>
                     <div class="ui error message"></div>
+                    <a href='/home'>
+                        <div class="ui left floated animated button" style="margin-bottom:1em" type="button"
+                            id="backBtn" name="backBtn">
+                            <div class="visible content">Volver</div>
+                            <div class="hidden content"><i class="left arrow icon"></i></div>
+                        </div>
+                    </a>
                     <button class="ui right aligned green button" id="save_print_btn">Guardar
                         Cambios</button>
                     <input type="hidden" value="{{folo.id}}" id="folo_id" name="folo_id">
                     <input type="hidden" value="{{folo.employee_id}}" id="employee_id">
-
                 </form>
             </div>
         </div>
