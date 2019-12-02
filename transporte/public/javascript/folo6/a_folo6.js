@@ -321,7 +321,7 @@ function printPDF() {
         function (result) {
             // e.g This will open an image in a new window
             console.log("voy a imprimir el folo")
-            debugBase64(result);
+            debugBase64(result.link);
             // window.open(result);
         });
 
@@ -523,6 +523,7 @@ $('#addAddress').click(function () {
     //Agrego el lugar frecuente seleccionado al dropdown
     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
     console.log(selectedFPlace);
+    $(this).prop('disabled', true);
 });
 
 //Añade el ícono eliminar en la tabla direcciones del folo cuando es FP

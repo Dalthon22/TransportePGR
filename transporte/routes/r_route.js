@@ -32,12 +32,12 @@ router.post('/gestionar', [
     body('sunday_frequency', 'Ingrese un valor entre 1 y 40 en el día domingo.').isNumeric({ gt: 1, lt: 40 }),
 ],
     (req, res) => {
-        let route_id = req.body; //Se extrae el id del cuerpo de la petición
+        let route_id = req.body.route_id; //Se extrae el id del cuerpo de la petición
         //Si el id de la ruta existe se mostrará formulario de edición
         if (route_id) {
             console.log("Estoy en el update.");
             controller.updateRoute(req, res);
-        //De ser nulo se mostrará el formulario de creación
+            //De ser nulo se mostrará el formulario de creación
         } else {
             console.log("Estoy en el create.");
             controller.createRoute(req, res);
