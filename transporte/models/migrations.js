@@ -17,6 +17,8 @@ const route_conditions = require('../models/m_route_conditions');
 const User = require('./m_user');
 const Rol = require('./m_role');
 const UserRol = require('./m_user_role');
+const ProcurementBill = require('./m_bill');
+const CosumedBill = require('./m_bill_close');
 const Mision = require('../models/m_mision');
 const Driver = require('../models/m_driver');
 
@@ -43,7 +45,7 @@ class Migration {
             alter: false
         });
         Voucher.sync({
-            alter: false
+            alter: true
         });
         Unit.sync({
             alter: false
@@ -66,10 +68,10 @@ class Migration {
         Folo6_Approve_State.sync({
             alter: false
         });
-        Route.sync({
+        route_conditions.sync({
             alter: false
         });
-        route_conditions.sync({
+        Route.sync({
             alter: false
         });
         User.sync({
@@ -81,6 +83,12 @@ class Migration {
         UserRol.sync({
             alter: false
         });
+        ProcurementBill.sync({
+            alter: false
+        })
+        CosumedBill.sync({
+            alter: false
+        })
     }
 };
 

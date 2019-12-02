@@ -55,7 +55,7 @@ class Procuraduria_controller {
   };
 
   //Saves the new procuraduría in the DB.
-  //Última edición: 03/11/2019 - Axel Hernández
+  //Última edición: 15/11/2019 - Axel Hernández
   async createProcuraduria(req, res) {
     try {
       const errors = validationResult(req);
@@ -63,8 +63,14 @@ class Procuraduria_controller {
         name,
         detail,
         departamento,
-        municipio
+        municipio,
+        enabled
       } = req.body;
+      if(enabled == 'on'){
+        enabled = true;
+      } else {
+        enabled = false;
+      };
       //Para enviar si hay error
       //06102019_DD
       var Procu = req.body;
@@ -84,6 +90,7 @@ class Procuraduria_controller {
         });
         Procuraduria.create({
           name,
+          enabled,
           address_id: dir.id
         });
         res.redirect('/instituciones');
@@ -108,7 +115,7 @@ class Procuraduria_controller {
       console.log(errors.array());
       if (!errors.isEmpty()) {
         //If there are errors, renders the same form, otherwise saves the edited Address
-        res.render('../views/procuraduria/edit.html', {
+        res.render('../views/procuraduria/add.html', {
           Procu,
           errors: errors.array()
         });

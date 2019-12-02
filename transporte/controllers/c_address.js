@@ -8,7 +8,7 @@ const {
 } = require('express-validator');
 
 class address_services {
-  constructor() {}
+  constructor() { }
   //Gets Addresses list
   async getList(req, res) {
     try {

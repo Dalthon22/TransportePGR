@@ -28,7 +28,7 @@
 </div>
 <br>
 <div class="ui container">
-    <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 50%">
+    <!-- <table class="ui celled table datatable" id="mytable2" name="mytable2" style="width: 50%">
         <thead>
             <tr>
                 <th>Número</th>
@@ -53,6 +53,28 @@
                 <td>date_close_bill</td>
             </tr>
         </tbody>
+    </table> -->
+    <table class="ui celled table datatable" id="mytable1" name="mytable1" style="width: 100%;">
+        <thead style="text-align: center;">
+            <tr>
+                <th>Número de Factura</th>
+                <th>Fecha de la factura</th>
+                <th>Proveedor</th>
+                <th>Cantidad de vales</th>
+                <th>Total($)</th>
+                <th>Fecha de Ingreso</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: right;">
+            <tr>
+                <td>num_voucher</td>
+                <td>Fecha de la factura</td>
+                <td>Proveedor</td>
+                <td style="text-align: right !important;">Cantidad</td>
+                <td style="text-align: right !important;">Total</td>
+                <td>Fecha de Ingreso</td>
+            </tr>
+        </tbody>
     </table>
 </div>
 <div class="ui modal segment dimmable" id="add_modal">
@@ -63,14 +85,28 @@
         <div class="ui container grid stackable">
             <div class="sixteen wide column">
                 <form class="ui form" id="add_voucher_form" name="add_voucher">
-                    <div class="four wide field">
-                        <!-- Calendario para fecha de facturacion -->
-                        <label for="date_entry_bill">Fecha de facturacion</label>
-                        <div class="ui calendar" id="standard_calendar">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <input type="text" placeholder="Seleccione fecha" name="date_entry_bill"
-                                    autocomplete="off" id="date_entry_bill">
+                    <div class="fields">
+
+                        <div class="four wide field">
+                            <!-- Calendario para fecha de facturacion -->
+                            <label for="date_entry_bill">Fecha de facturacion</label>
+                            <div class="ui calendar" id="standard_calendar">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Seleccione fecha" name="date_entry_bill"
+                                        autocomplete="off" id="date_entry_bill">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="four wide field">
+                            <!-- Calendario para fecha de facturacion -->
+                            <label for="date_entry_bill">Para abastecer el mes de:</label>
+                            <div class="ui calendar" id="month_calendar">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Seleccione fecha" name="bill_month"
+                                        autocomplete="off" id="bill_month">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -123,8 +159,16 @@
         <div class="ui cancel button">Cancel</div>
     </div>
 </div>
-<script src="/javascript/voucher/a_add_voucher.js"></script>
 <link rel="stylesheet" href="/stylesheets/add_voucher.css">
 <link rel="stylesheet" href="/stylesheets/datatablefix.css">
+<script src="/moment/moment.js"></script>
+<script src="/moment/locale/es.js" charset="UTF-8"></script>
+
+<script src="/javascript/voucher/a_add_voucher.js"></script>
+<style>
+    .dataTables_wrapper {
+        overflow: hidden;
+    }
+</style>
 
 {%endblock%}

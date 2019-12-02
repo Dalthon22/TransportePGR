@@ -10,7 +10,7 @@
                     <div class="ui warning message">
                         <div class="header">
                             <div>
-                                <div class="ui huge red label"><i class="red exclamation triangle fitted icon"></i>
+                                <div class="ui huge red label"><i class="white exclamation triangle fitted icon"></i>
                                     Advertencia</div>
                                 <span class="ui small text">
                                     ¿Esta seguro que desea eliminar la solicitud?
@@ -125,7 +125,23 @@
         </div>
     </div>
 </div>
+<style>
+    tbody tr td:nth-child(7) {
+        display: flex;
+        height: -webkit-fill-available;
+        align-items: center;
+    }
 
+
+    tbody tr td:nth-child(7) i,
+    tbody tr td:nth-child(7) a {
+        margin-right: 7%;
+    }
+
+    tbody tr td:nth-child(7) a i {
+        margin-right: 0%;
+    }
+</style>
 
 <script src="/javascript/a_home.js"></script>
 <link rel="stylesheet" href="/stylesheets/home.css">
