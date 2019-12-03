@@ -248,6 +248,7 @@ $('#standard_calendar').calendar({
     }
 });
 
+/* Calendario del formulario */
 $('#month_calendar')
     .calendar({
         type: 'month',
@@ -257,7 +258,26 @@ $('#month_calendar')
         }
     });
 
+/* Calendario para switchear las facturas que se estan mostrando */
 
+$('#month_calendar_switch')
+    .calendar({
+        type: 'month',
+        text: {
+            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        },
+        formatter: {
+            date: function (date, settings) {
+                if (!date) return '';
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                //return (year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2));
+                return (('0' + month).slice(-2) + '/' + year);
+            }
+        },
+    });
 
 /* $(function () {
     $("#show_add_form_btn").click(function () {
