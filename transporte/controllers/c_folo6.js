@@ -2298,6 +2298,10 @@ class folo6_controllers {
         console.dir("form: " + JSON.stringify(form));
         emp = JSON.parse(req.body.emp);
         console.dir("emp: " + JSON.stringify(emp) + "id: " + emp.id);
+        fplaces = JSON.parse(req.body.fplaces);
+        console.dir("Recibi estos lugares frecuentes: " + fplaces);
+        address = JSON.parse(req.body.address);
+        console.dir("Recibi estas direcciones: " + address);
 
         try {
             console.log("Solicito editar el folo con id: " + form.folo_id);
@@ -2309,7 +2313,7 @@ class folo6_controllers {
             var t1 = moment(form.time1, ["h:mm A"]).format("HH:mm");
 
             // console.log(errors.array());
-            if (1 == 2) {
+            if (!errors.isEmpty()) {
                 res.send({
                     title: "Error al guardar los datos",
                     message: "Ocurrio un error mientras se guardaban los cambios, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
@@ -2363,9 +2367,7 @@ class folo6_controllers {
                     });
                     console.dir("Folo actualizado" + f);
                 }
-
-                //Departamento
-                console.log("sali del create");
+                console.log("sali del update");
                 res.send({
                     message: "Datos actualizados con exito",
                     type: 0,
@@ -2425,6 +2427,39 @@ class folo6_controllers {
                     where: {
                         frequent_place_id: id_frequent_place
                     }
+                });
+            };
+        } catch (error) {
+            console.log(error);
+        };
+    };
+
+    async createPlacesContainer (req, res){
+        try {
+            //Declaración y obtención de variables desde el cuerpo de la petición.
+            let {
+                folo_id,
+                date_of_visit,
+                address_id,
+                selectedPlace,
+                selectedPlaceTxt
+            } = req.body;
+            //Fomateo de fecha para ser aceptado en la BD.
+            date_of_visit = moment().format("YYYY-MM-DD")
+            //Si seleccionó "Otro" en el dropdown de lugares frecuentes crea un registro en "places_container"
+            //con el id de la dirección creada
+            if(selectedPlaceTxt == 'Otro'){
+                place_container.create({
+                    date_of_visit,
+                    address_id,
+                    folo_id
+                });
+            } else {
+                //Si seleccionó otra opción crea un registro en "places_container" con el id del lugar frecuente seleccionado
+                place_container.create({
+                    date_of_visit,
+                    frequent_place_id: selectedPlace,
+                    folo_id
                 });
             };
         } catch (error) {
