@@ -28,8 +28,8 @@ const Places_container = db.define('SGT_Lugares_Contenedor', {
     freezeTableName: true,
 });
 
-Places_container.belongsTo(Address, {
-    foreignKey: 'address_id'
+Places_container.hasMany(Address, {
+    foreignKey: 'container_id'
 });
 Places_container.belongsTo(Frequent_Place, {
     foreignKey: 'frequent_place_id'
