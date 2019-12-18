@@ -256,7 +256,22 @@ class voucher_controllers {
         } catch (err) {
             console.log(err)
         }
-    }
+    };
+    async getQuantity(req, res) {
+        try {
+            let v = await Voucher.count({
+                where: {
+                    condition: 'Disponible',
+                }
+            });
+            console.log(v);
+            res.send({
+                v
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
 
 module.exports = new voucher_controllers();
