@@ -18,7 +18,9 @@ const User = require('./m_user');
 const Rol = require('./m_role');
 const UserRol = require('./m_user_role');
 const ProcurementBill = require('./m_bill');
-const CosumedBill = require('./m_bill_close')
+const CosumedBill = require('./m_bill_close');
+const Driver = require('./m_driver');
+const Driver_assign = require('./m_driver_assign');
 
 class Migration {
     constructor() {
@@ -58,7 +60,7 @@ class Migration {
             alter: false
         });
         Folo6_Approve_State.sync({
-            alter: false
+            alter: true
         });
         route_conditions.sync({
             alter: false
@@ -77,11 +79,15 @@ class Migration {
         });
         ProcurementBill.sync({
             alter: true
-        })
+        });
         CosumedBill.sync({
             alter: true
-        })
-    }
+        });
+        Driver.sync();
+        Driver_assign.sync({
+            alter: true
+        });
+    };
 };
 
 module.exports = Migration;
