@@ -42,13 +42,14 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
 
 <!-- Contenido del menu principal -->
+{% if username %}
 <div class="ui fluid container" style="border:0rem;">
     <div class="ui inverted labeled icon left inline vertical sidebar menu">
         <a href="/home" class="item">
             <i class="home icon"></i>
             Home
         </a>
-        <a href="/solicitud_nueva" class="item">
+        <a href="/solicitud_nueva" class="item" attrs="username==kevin">
             <i class="file alternate icon"></i>
             Folo 6
         </a>
@@ -105,6 +106,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 <script src="/javascript/a_index.js"></script>
 {% endblock %}

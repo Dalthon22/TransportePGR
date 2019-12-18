@@ -35,9 +35,13 @@ router.post('/auth', function (req, res) {
 
 router.get('/home', (req, res) => {
     var username = req.query.usuario;
-    res.render('home.html', {
-        username
-    });
+    if (username == "Carlos Dalton" || username == "Kevin") {
+        res.render('home.html', {
+            username
+        });
+    } else {
+        res.render('login.html');
+    }
 });
 
 module.exports = router;
