@@ -25,7 +25,7 @@ class Migration {
         Department.sync();
         City.sync();
         Address.sync({
-            alter: false
+            alter: true
         });
         Procuraduria.sync({
             alter: false
@@ -46,10 +46,10 @@ class Migration {
             alter: false
         });
         Folo6.sync({
-            alter: false
+            alter: true
         });
         Places_container.sync({
-            alter: false
+            alter: true
         });
         Voucher_procu_assign.sync({
             alter: false

@@ -83,7 +83,8 @@ const Folo6 = db.define('SGT_Folo6', {
 });
 
 Folo6.hasMany(Place_container, {
-    foreignKey: 'folo_id'
+    foreignKey: 'folo_id',
+    onDelete: 'CASCADE'
 });
 
 Folo6.hasMany(Voucher_folo6_assign, {

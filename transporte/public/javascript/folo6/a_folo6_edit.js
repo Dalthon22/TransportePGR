@@ -609,7 +609,7 @@ $('#addAddress').click(function () {
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     if (selectedPlaceTxt == 'Otro') {
-        $.post('/direccion/add', { //Hago la petición post
+        $.post('/direccion/add?folo_id=' + parseInt($("#folo_id").val()), { //Hago la petición post
                 idSelDepto,
                 idSelMun,
                 selectedPlace,
@@ -629,6 +629,8 @@ $('#addAddress').click(function () {
             });
     }
     if (selectedPlaceTxt != 'Otro') {
+        console.log("Ire a linkear")
+        $.post('/direccion/add?folo_id=' + parseInt($("#folo_id").val()) + '&fplace_id=' + parseInt(selectedPlace))
         selectedFPlace.append($('<option/>', {
             value: selectedPlace,
             text: selectedPlaceTxt,

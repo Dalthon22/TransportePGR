@@ -7,7 +7,7 @@ const Folo_06 = require('./m_folo6');
 const Places_container = db.define('SGT_Lugares_Contenedor', {
     date_of_visit: {
         type: Sequelize.DATEONLY,
-        allowNull: false,
+        allowNull: true,
         validate: {
             notEmpty: true,
         }
@@ -28,9 +28,11 @@ const Places_container = db.define('SGT_Lugares_Contenedor', {
     freezeTableName: true,
 });
 
-Places_container.hasMany(Address, {
-    foreignKey: 'container_id'
+Address.belongsTo(Places_container, {
+    foreignKey: 'container_id',
+    onDelete: 'cascade'
 });
+
 Places_container.belongsTo(Frequent_Place, {
     foreignKey: 'frequent_place_id'
 });
