@@ -35,53 +35,6 @@ $(document).ready(function () {
         $('body').dimmer('hide');
     });
 
-})
-//VALIDACION DEL FORM
-$('.ui.form').form({
-    //revalidate: true,
-    inline: true,
-    fields: {
-        calendar1: {
-            identifier: 'calendar1',
-            rules: [{
-                type: 'empty',
-                prompt: 'Seleccione una fecha de salida'
-            }]
-        },
-        time: {
-            identifier: 'time',
-            rules: [{
-                type: 'empty',
-                prompt: 'Seleccione una hora de salida'
-            }]
-        },
-        time1: {
-            identifier: 'time1',
-            rules: [{
-                type: 'empty',
-                prompt: 'Seleccione una hora de retorno'
-            }]
-        },
-        passengers_i: {
-            identifier: 'passengers_i',
-            rules: [{
-                    type: 'empty',
-                    prompt: 'Seleccione o ingrese la cantidad de pasajeros. No olvide incluirse'
-                },
-                {
-                    type: 'integer[1...40]',
-                    prompt: 'Ingrese un número válido de pasajeros'
-                }
-            ]
-        },
-        mision_i: {
-            identifier: 'mision_i',
-            rules: [{
-                type: 'empty',
-                prompt: 'Ingrese el motivo o misión de su viaje'
-            }]
-        },
-    }
 });
 
 //VALIDACION DEL FORM
@@ -289,7 +242,6 @@ $('#time_calendar1')
 /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
 //Funciones para crear el PDF del Folo-06.
 function printPDF() {
-    event.preventDefault();
     //Recolección de datos.
     fechaSolicitud = $('#date_lb').text();
     unidadSolicitante = $('#unidad_lb').text();
