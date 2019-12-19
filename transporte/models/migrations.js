@@ -20,80 +20,84 @@ const UserRol = require('./m_user_role');
 const ProcurementBill = require('./m_bill');
 const CosumedBill = require('./m_bill_close');
 const Mision = require('../models/m_mision');
+const Driver = require('./m_driver');
+const Driver_assign = require('./m_driver_assign');
 const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign');
-const Driver = require('../models/m_driver');
 
 class Migration {
     constructor() {
         Department.sync();
         City.sync();
         Driver.sync({
-            alter: false
+            alter: true
         });
         Mision.sync({
-            alter: false
+            alter: true
         });
         Address.sync({
-            alter: false
+            alter: true
         });
         Procuraduria.sync({
-            alter: false
+            alter: true
         });
         Vehicle.sync({
-            alter: false
+            alter: true
         });
         Frequent_Place.sync({
-            alter: false
+            alter: true
         });
         Voucher.sync({
             alter: true
         });
         Unit.sync({
-            alter: false
+            alter: true
         });
         Employee.sync({
-            alter: false
+            alter: true
         });
         Folo6.sync({
-            alter: false
+            alter: true
         });
         Places_container.sync({
-            alter: false
+            alter: true
         });
         Voucher_procu_assign.sync({
-            alter: false
+            alter: true
         });
         Voucher_folo6_assign.sync({
-            alter: false
+            alter: true
         });
         Folo6_Approve_State.sync({
-            alter: false
+            alter: true
         });
         route_conditions.sync({
-            alter: false
+            alter: true
         });
         Route.sync({
-            alter: false
+            alter: true
         });
         User.sync({
-            alter: false
+            alter: true
         });
         Rol.sync({
-            alter: false
+            alter: true
         });
         UserRol.sync({
-            alter: false
+            alter: true
         });
         Vehicle_folo6_assign.sync({
             alter: false
         });
         ProcurementBill.sync({
-            alter: false
-        })
+            alter: true
+        });
         CosumedBill.sync({
-            alter: false
-        })
-    }
+            alter: true
+        });
+        Driver_assign.sync({
+            alter: true
+        });
+    };
 };
 
 module.exports = Migration;

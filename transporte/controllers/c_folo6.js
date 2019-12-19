@@ -7,6 +7,7 @@ const Address = require('../models/m_address');
 const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
 const Apanel = require('../models/m_folo6_approve_state');
+const Op = Sequelize.Op;
 
 //Manejo de fechas
 var moment = require('moment');
@@ -927,7 +928,7 @@ class folo6_controllers {
                 } else {
                     //Para verificar que address no esta vacío
                     if (folo.address.length)
-                        direccion = /* folo.address[0].name +  */ " ," + folo.address[0].detail + " ," + folo.address[0].city.name + " ," + folo.address[0].department.name;
+                        direccion = folo.address[0].name + " ," + folo.address[0].detail + " ," + folo.address[0].city.name + " ," + folo.address[0].department.name;
                 }
             } else {
                 //Si existe más de una ruta o de un lugar frecuente
@@ -941,7 +942,7 @@ class folo6_controllers {
                 }
                 if (folo.address.length) {
                     folo.address.forEach(ele => {
-                        direcciones.push("\n" + i + " - " /* + ele.name + ', ' */ + ele.detail + ', ' + ele.city.name + ',' + ele.department.name + ".");
+                        direcciones.push("\n" + i + " - " + ele.name + ', ' + ele.detail + ', ' + ele.city.name + ',' + ele.department.name + ".");
                         i++;
                     })
                 }
@@ -1846,41 +1847,48 @@ class folo6_controllers {
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
             el.address = [];
             //Para traer todos las direcciones ligados a ese folo
-            await place_container.findAll({
+            var containers = await place_container.findAll({
                 where: {
-                    folo_id: req.body.id_folo
-                },
-                attributes: ['address_id'],
-                include: [Address]
-            }).then(Dirs => {
-                //console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs));
-                Dirs.forEach(row => {
-                    //console.dir(row.SGT_Direccion);
-                    if (row.SGT_Direccion) {
-                        console.dir("Datos del lugar:" + JSON.stringify(row.SGT_Direccion.detail));
-                        var dir = new Object();
-                        dir.city = new Object();
-                        dir.department = new Object();
-                        dir.id = row.SGT_Direccion.id;
-                        dir.name = row.SGT_Direccion.name;
-                        dir.detail = row.SGT_Direccion.detail;
-                        dir.city.id = row.SGT_Direccion.city_id;
-                        //SE GUARDA EL NOMBRE DEL MUNICIPIO
-                        municipio_controller.getName(row.SGT_Direccion.city_id).then(name => {
-                            dir.city.name = name;
-                        });
-                        dir.department.id = row.SGT_Direccion.department_id
-                        //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        department_controller.getName(row.SGT_Direccion.department_id).then(name => {
-                            dir.department.name = name;
-                        });
-                        //dir.procu_id = row.address.procuraduria_id;
+                    folo_id: req.body.id_folo,
+                    frequent_place_id: {
+                        [Op.is]: null
+                    }
+                }
+            })
+            //console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs));
 
-                        el.address.push(dir);
-                        el.b++;
+            await asyncForEach(containers, async (container) => {
+                //console.dir(row.SGT_Direccion);
+                var array = await Address.findAll({
+                    where: {
+                        container_id: container.id
                     }
                 })
+                var row = array[0];
+                console.log("Direccion: " + row.name + " " + row.detail);
+                var dir = new Object();
+                dir.city = new Object();
+                dir.department = new Object();
+                dir.id = row.id;
+                dir.name = row.name;
+                dir.detail = row.detail;
+                dir.city.id = row.city_id;
+                //SE GUARDA EL NOMBRE DEL MUNICIPIO
+                municipio_controller.getName(row.city_id).then(name => {
+                    dir.city.name = name;
+                });
+                dir.department.id = row.department_id
+                //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
+                department_controller.getName(row.department_id).then(name => {
+                    dir.department.name = name;
+                });
+                //dir.procu_id = row.address.procuraduria_id;
+
+                el.address.push(dir);
+                el.b++;
+
             });
+
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
 
@@ -1967,39 +1975,47 @@ class folo6_controllers {
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
             el.address = [];
             //Para traer todos las direcciones ligados a ese folo
-            await place_container.findAll({
+            //Para traer todos las direcciones ligados a ese folo
+            var containers = await place_container.findAll({
                 where: {
-                    folo_id: req.params.id
-                },
-                attributes: ['address_id'],
-                include: [Address]
-            }).then(Dirs => {
-                console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs))
-                Dirs.forEach(row => {
-                    if (row.SGT_Direccion) {
-                        //console.dir("Datos del lugar:" + JSON.stringify(row.address.detail));
-                        var dir = new Object();
-                        dir.city = new Object();
-                        dir.department = new Object();
-                        dir.id = row.SGT_Direccion.id;
-                        dir.name = row.SGT_Direccion.name;
-                        dir.detail = row.SGT_Direccion.detail;
-                        dir.city.id = row.SGT_Direccion.city_id;
-                        //SE GUARDA EL NOMBRE DEL MUNICIPIO
-                        municipio_controller.getName(row.SGT_Direccion.city_id).then(name => {
-                            dir.city.name = name;
-                        });
-                        dir.department.id = row.SGT_Direccion.department_id
-                        //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
-                        department_controller.getName(row.SGT_Direccion.department_id).then(name => {
-                            dir.department.name = name;
-                        });
-                        //dir.procu_id = row.address.procuraduria_id;
+                    folo_id: req.params.id,
+                    frequent_place_id: {
+                        [Op.is]: null
+                    }
+                }
+            })
+            //console.dir("Conglomerado de address:" + JSON.stringify(Dirs) + " eS DEL TIPO " + typeof (Dirs));
 
-                        el.address.push(dir);
-                        el.b++;
+            await asyncForEach(containers, async (container) => {
+                //console.dir(row.SGT_Direccion);
+                var array = await Address.findAll({
+                    where: {
+                        container_id: container.id
                     }
                 })
+                var row = array[0];
+                console.log("Direccion: " + row.name + " " + row.detail);
+                var dir = new Object();
+                dir.city = new Object();
+                dir.department = new Object();
+                dir.id = row.id;
+                dir.name = row.name;
+                dir.detail = row.detail;
+                dir.city.id = row.city_id;
+                //SE GUARDA EL NOMBRE DEL MUNICIPIO
+                municipio_controller.getName(row.city_id).then(name => {
+                    dir.city.name = name;
+                });
+                dir.department.id = row.department_id
+                //SE GUARDA EL NOMBRE DEL DEPARTAMENTO
+                department_controller.getName(row.department_id).then(name => {
+                    dir.department.name = name;
+                });
+                //dir.procu_id = row.address.procuraduria_id;
+
+                el.address.push(dir);
+                el.b++;
+
             });
             el.emp = new Object();
             el.emp = await employee_controller.findById1(el.employee_id);
@@ -2275,15 +2291,24 @@ class folo6_controllers {
                     console.log("No hay lugares frecuentes para relacionar");
                 }
                 if (address.length) {
-                    address.forEach(id => {
-                        place_container.create({
+                    for (var i = 0; i < address.length; i++) {
+                        //Se crea el place container para cada dirección creada
+                        var container = await place_container.create({
                             folo_id: folo.id,
                             date_of_visit: moment(),
-                            address_id: id
                         });
-                    })
+                        console.log("container id:" + container.id)
+                        var a = await Address.update({
+                            container_id: container.id
+                        }, {
+                            where: {
+                                id: address[i]
+                            }
+                        });
+                    }
+                    console.log("dirección creada:" + a)
                 } else {
-                    console.log("No hay direcciones que relacionar");
+                    console.log("No hay direcciones que relacioar");
                 }
                 console.log("sali del create");
                 //Datos que se envían a la vista
@@ -2313,6 +2338,10 @@ class folo6_controllers {
         console.dir("form: " + JSON.stringify(form));
         emp = JSON.parse(req.body.emp);
         console.dir("emp: " + JSON.stringify(emp) + "id: " + emp.id);
+        fplaces = JSON.parse(req.body.fplaces);
+        console.dir("Recibi estos lugares frecuentes: " + fplaces);
+        address = JSON.parse(req.body.address);
+        console.dir("Recibi estas direcciones: " + address);
 
         try {
             console.log("Solicito editar el folo con id: " + form.folo_id);
@@ -2324,7 +2353,7 @@ class folo6_controllers {
             var t1 = moment(form.time1, ["h:mm A"]).format("HH:mm");
 
             // console.log(errors.array());
-            if (1 == 2) {
+            if (!errors.isEmpty()) {
                 res.send({
                     title: "Error al guardar los datos",
                     message: "Ocurrio un error mientras se guardaban los cambios, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
@@ -2381,6 +2410,21 @@ class folo6_controllers {
 
                 //Departamento
                 console.log("sali del create");
+                var places = place_container.findAll({
+                    where: {
+                        folo_id: form.folo_id
+                    }
+                });
+                await asyncForEach(places, async (container) => {
+                    await place_container.update({
+                        date_of_visit: date
+                    }, {
+                        where: {
+                            id: container.id
+                        }
+                    })
+                })
+
                 res.send({
                     message: "Datos actualizados con exito",
                     type: 0,
@@ -2455,6 +2499,45 @@ class folo6_controllers {
             console.log(error);
         };
     };
+
+    async createPlacesContainer (req, res){
+        try {
+            //Declaración y obtención de variables desde el cuerpo de la petición.
+            let {
+                folo_id,
+                date_of_visit,
+                address_id,
+                selectedPlace,
+                selectedPlaceTxt
+            } = req.body;
+            //Fomateo de fecha para ser aceptado en la BD.
+            date_of_visit = moment().format("YYYY-MM-DD")
+            //Si seleccionó "Otro" en el dropdown de lugares frecuentes crea un registro en "places_container"
+            //con el id de la dirección creada
+            if(selectedPlaceTxt == 'Otro'){
+                place_container.create({
+                    date_of_visit,
+                    address_id,
+                    folo_id
+                });
+            } else {
+                //Si seleccionó otra opción crea un registro en "places_container" con el id del lugar frecuente seleccionado
+                place_container.create({
+                    date_of_visit,
+                    frequent_place_id: selectedPlace,
+                    folo_id
+                });
+            };
+        } catch (error) {
+            console.log(error);
+        };
+    };
 };
 
 module.exports = new folo6_controllers();
+
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array);
+    }
+}
