@@ -90,7 +90,6 @@ class Migration {
         CosumedBill.sync({
             alter: true
         });
-        Driver.sync();
         Driver_assign.sync({
             alter: true
         });
