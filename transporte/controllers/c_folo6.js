@@ -1978,7 +1978,7 @@ class folo6_controllers {
             //Para traer todos las direcciones ligados a ese folo
             var containers = await place_container.findAll({
                 where: {
-                    folo_id: req.body.id_folo,
+                    folo_id: req.params.id,
                     frequent_place_id: {
                         [Op.is]: null
                     }
@@ -2411,8 +2411,8 @@ class folo6_controllers {
                         folo_id: form.folo_id
                     }
                 });
-                places.forEach(container => {
-                    place_container.update({
+                await asyncForEach(places, async (container) => {
+                    await place_container.update({
                         date_of_visit: date
                     }, {
                         where: {

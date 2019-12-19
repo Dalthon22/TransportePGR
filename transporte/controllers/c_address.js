@@ -3,6 +3,11 @@ const department_controller = require('../controllers/c_department');
 const municipio_controller = require('../controllers/c_city');
 const express = require('express');
 const Sequelize = require('sequelize');
+const place_container = require('../models/m_places_container');
+//Manejo de fechas
+var moment = require('moment');
+moment.locale("Es-SV")
+
 const {
   validationResult
 } = require('express-validator');
@@ -70,13 +75,13 @@ class address_services {
           });
 
           // guardará depto y municipio del dropdown; nombre y dirección de los inputs.
-          console.log("GUARDAR DIRECCION")
+          console.log("GUARDAR DIRECCION con el contenedor" + container.id)
           dir = await Address.create({
             name: destinyPlace,
             detail: direction, //Creo dirección
             city_id: idSelMun,
             department_id: idSelDepto,
-            containter_id: container.id
+            container_id: container.id
           });
         } else {
           // guardará depto y municipio del dropdown; nombre y dirección de los inputs.
@@ -164,6 +169,14 @@ class address_services {
       let {
         id_address
       } = req.body; //Se obtiene el parámetro del cuerpo de la petición.
+      console.log("Eliminara la dirección" + id_address)
+      var address = await Address.findByPk(id_address);
+      console.log("contenedor" + address.container_id)
+      await place_container.destroy({ //Eliminación de la dirección.
+        where: {
+          id: address.container_id,
+        }
+      });
       await Address.destroy({ //Eliminación de la dirección.
         where: {
           id: id_address,
