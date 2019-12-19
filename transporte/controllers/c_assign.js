@@ -32,23 +32,21 @@ class assign_controller {
                     }]
                 }, {
                     model: folo6_approve,
-                    /*                     where: {
-                                            transport_unit_approve: 1,
-                                            car: 1, //Vehiculo asignado
-                                            driver: 1,
-                                            gasoline: 0, //Aprobados
-                                            cancel_tunit_detail: null //Que no haya sido cancelado
-                                        } */
+                    where: {
+                        transport_unit_approve: 1,
+                        car: 1, //Vehiculo asignado
+                        driver_assigned: 1,
+                        gasoline: 0, //Aprobados
+                        cancel_tunit_detail: null //Que no haya sido cancelado
+                    }
                 }]
             });
-            console.log(folos);
             /* Se enviara un array con todos los folos con los datos a mostrar */
             var data = [];
             /* Recorremos cada empleado y luego por todos los folos que tienen */
             folos.forEach((folo, i) => {
                 /* Se asignara a una variable el para luego ñadirla a la data */
                 var el = new Object();
-                console.log(folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo);
                 el.V_model = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.model;
                 el.V_brand = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.brand;
                 el.V_Plate = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.plate;
@@ -81,16 +79,16 @@ class assign_controller {
         try {
             const errors = validationResult(req);
             let {
-                license_type,
                 cant,
                 foloA_id,
+                mileage_inserted,
                 fecha_folo
             } = req.body;
             if (!errors.isEmpty()) {
                 getAsignar(req, res);
             } else {
+                console.log(mileage_inserted);
                 console.log(cant);
-                console.log(license_type);
                 console.log(foloA_id);
                 try {
                     var vales_lista = await Vales.findAll({
@@ -100,6 +98,7 @@ class assign_controller {
                             condition: 'Disponible',
                         }
                     });
+                    console.log(vales_lista);
                     var fecha = moment.utc(fecha_folo, 'DD MMMM YYYY').format('YYYY/MM/DD')
                     for (var i = 0; i < cant; i++) {
                         console.log(vales_lista[i].num_voucher);
@@ -107,7 +106,6 @@ class assign_controller {
                             date_voucher_f6: fecha,
                             num_voucher: vales_lista[i].num_voucher,
                             folo6_id: foloA_id,
-                            vehicle_plate: license_type
                         });
                         await Vales.update({
                             condition: 'Asignado',
@@ -118,17 +116,23 @@ class assign_controller {
                         });
                     }
                     await folo6_approve.update({
-                        car: 1,
                         gasoline: 1
                     }, {
                         where: {
                             folo06_id: foloA_id
                         }
                     });
-                    res.redirect('/asignar_recursos');
+                    await Vehicle_folo6_assign.update({
+                        mileage: mileage_inserted
+                    }, {
+                        where: {
+                            folo06_id: foloA_id
+                        }
+                    });
+                    res.redirect('/asignar_recursos/vales');
                 } catch (errors) {
                     console.log(errors);
-                    res.redirect('/asignar_recursos');
+                    res.redirect('/asignar_recursos/vales');
                 }
             }
         } catch (error) {

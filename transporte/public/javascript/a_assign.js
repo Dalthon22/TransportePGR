@@ -84,9 +84,11 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
     tabla.style.display = "none";
     var div = document.getElementById("data-hidden");
     div.style.display = "block";
+    document.getElementById("cant").disabled = false;
+    document.getElementById("mileage_inserted").disabled = false;
     document.getElementById("bAsignar").disabled = false;
     document.getElementById("license_type").disabled = false;
-    document.getElementById("cant").disabled = false;
+
 });
 
 $(".ui.left.floated.animated.button").click(function (e) {
@@ -103,6 +105,7 @@ $(".ui.left.floated.animated.button").click(function (e) {
     div.style.display = "none";
     document.getElementById("bAsignar").disabled = true;
     document.getElementById("cant").disabled = true;
+    document.getElementById("mileage_inserted").disabled = true;
 });
 
 function drawTableCells() {
@@ -207,21 +210,26 @@ $('.ui.form').form({
     inline: true,
     on: 'blur',
     fields: {
-        license_type: {
-            identifier: 'license_type',
-            rules: [{
-                type: 'empty',
-                prompt: 'Seleccione un lugar frecuente de la lista'
-            }, {
-                type: 'not[Vehiculo || Placa]',
-                prompt: 'Seleccione un lugar frecuente de la lista'
-            }]
-        },
         cant: {
             identifier: 'cant',
             rules: [{
                     type: 'empty',
                     prompt: 'Ingrese una cantidad, sea: 0 o mayores'
+                },
+                {
+                    type: 'integer',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                },
+                {
+
+                }
+            ]
+        },
+        mileage_inserted: {
+            identifier: 'mileage_inserted',
+            rules: [{
+                    type: 'empty',
+                    prompt: 'Ingrese una cantidad mayor a 0'
                 },
                 {
                     type: 'integer',
@@ -254,4 +262,8 @@ function setInputFilter(textbox, inputFilter) {
 
 setInputFilter(document.getElementById("cant"), function (value) {
     return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 4);
+});
+
+setInputFilter(document.getElementById("mileage_inserted"), function (value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1000001);
 });
