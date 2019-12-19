@@ -1797,7 +1797,7 @@ class folo6_controllers {
                 e.u_det_approve = estado.unit_cancel_detail;
                 e.t_approve = estado.transport_unit_approve;
                 e.t_det_approve = estado.cancel_tunit_detail;
-                e.driver = estado.driver;
+                e.driver = estado.driver_assigned;
                 e.car = estado.car;
                 e.gas = estado.gasoline;
                 el.estado = e;
@@ -2500,7 +2500,7 @@ class folo6_controllers {
         };
     };
 
-    async createPlacesContainer (req, res){
+    async createPlacesContainer(req, res) {
         try {
             //Declaración y obtención de variables desde el cuerpo de la petición.
             let {
@@ -2514,7 +2514,7 @@ class folo6_controllers {
             date_of_visit = moment().format("YYYY-MM-DD")
             //Si seleccionó "Otro" en el dropdown de lugares frecuentes crea un registro en "places_container"
             //con el id de la dirección creada
-            if(selectedPlaceTxt == 'Otro'){
+            if (selectedPlaceTxt == 'Otro') {
                 place_container.create({
                     date_of_visit,
                     address_id,
