@@ -28,67 +28,67 @@ class Migration {
         Department.sync();
         City.sync();
         Driver.sync({
-            alter: false
+            alter: true
         });
         Mision.sync({
-            alter: false
+            alter: true
         });
         Address.sync({
-            alter: false
+            alter: true
         });
         Procuraduria.sync({
-            alter: false
+            alter: true
         });
         Vehicle.sync({
-            alter: false
+            alter: true
         });
         Frequent_Place.sync({
-            alter: false
+            alter: true
         });
         Voucher.sync({
             alter: true
         });
         Unit.sync({
-            alter: false
+            alter: true
         });
         Employee.sync({
-            alter: false
+            alter: true
         });
         Folo6.sync({
-            alter: false
+            alter: true
         });
         Places_container.sync({
-            alter: false
+            alter: true
         });
         Voucher_procu_assign.sync({
-            alter: false
+            alter: true
         });
         Voucher_folo6_assign.sync({
-            alter: false
+            alter: true
         });
         Folo6_Approve_State.sync({
             alter: true
         });
         route_conditions.sync({
-            alter: false
+            alter: true
         });
         Route.sync({
-            alter: false
+            alter: true
         });
         User.sync({
-            alter: false
+            alter: true
         });
         Rol.sync({
-            alter: false
+            alter: true
         });
         UserRol.sync({
-            alter: false
+            alter: true
         });
         ProcurementBill.sync({
-            alter: false
+            alter: true
         });
         CosumedBill.sync({
-            alter: false
+            alter: true
         });
         Driver.sync();
         Driver_assign.sync({
