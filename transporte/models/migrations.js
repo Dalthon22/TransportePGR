@@ -19,6 +19,7 @@ const Rol = require('./m_role');
 const UserRol = require('./m_user_role');
 const ProcurementBill = require('./m_bill');
 const CosumedBill = require('./m_bill_close');
+const Mision = require('../models/m_mision');
 const Driver = require('./m_driver');
 const Driver_assign = require('./m_driver_assign');
 
@@ -26,6 +27,12 @@ class Migration {
     constructor() {
         Department.sync();
         City.sync();
+        Driver.sync({
+            alter: false
+        });
+        Mision.sync({
+            alter: false
+        });
         Address.sync({
             alter: false
         });
@@ -78,10 +85,10 @@ class Migration {
             alter: false
         });
         ProcurementBill.sync({
-            alter: true
+            alter: false
         });
         CosumedBill.sync({
-            alter: true
+            alter: false
         });
         Driver.sync();
         Driver_assign.sync({

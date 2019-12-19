@@ -4,23 +4,85 @@ var motorista;
 var emp, unit;
 const url_request_employee = 'empleado/' + id_employee;
 
-$.ajax({
-    url: url_request_employee,
-    async: true,
-    type: 'GET',
-    dataType: 'json',
-    success: (data) => {
-        console.log(typeof (data.emp));
-        emp = data.emp;
-        unit = data.unit
-        console.log(emp);
-        console.log(unit);
-    }
-}).done(function () {
-    $("#name_lb").text(emp.first_name + ", " + emp.last_name);
-    $("#unidad_lb").text(unit.name_unit);
-});
+function showLoadingDimmer() {
+    // $('.segment').dimmer('set active');
+    $('body').dimmer({
+        displayLoader: true,
+        loaderVariation: 'slow blue medium elastic',
+        loaderText: "Cargando los datos...",
+        closable: false,
+    }).dimmer('show');
+}
 
+
+$(document).ready(function () {
+    showLoadingDimmer()
+    $.ajax({
+        url: url_request_employee,
+        async: true,
+        type: 'GET',
+        dataType: 'json',
+        success: (data) => {
+            console.log(typeof (data.emp));
+            emp = data.emp;
+            unit = data.unit
+            console.log(emp);
+            console.log(unit);
+        }
+    }).done(function () {
+        $("#name_lb").text(emp.first_name + ", " + emp.last_name);
+        $("#unidad_lb").text(unit.name_unit);
+        $('body').dimmer('hide');
+    });
+
+})
+//VALIDACION DEL FORM
+$('.ui.form').form({
+    //revalidate: true,
+    inline: true,
+    fields: {
+        calendar1: {
+            identifier: 'calendar1',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione una fecha de salida'
+            }]
+        },
+        time: {
+            identifier: 'time',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione una hora de salida'
+            }]
+        },
+        time1: {
+            identifier: 'time1',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione una hora de retorno'
+            }]
+        },
+        passengers_i: {
+            identifier: 'passengers_i',
+            rules: [{
+                    type: 'empty',
+                    prompt: 'Seleccione o ingrese la cantidad de pasajeros. No olvide incluirse'
+                },
+                {
+                    type: 'integer[1...40]',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                }
+            ]
+        },
+        mision_i: {
+            identifier: 'mision_i',
+            rules: [{
+                type: 'empty',
+                prompt: 'Ingrese el motivo o misión de su viaje'
+            }]
+        },
+    }
+});
 
 //VALIDACION DEL FORM
 $('.ui.form').form({
@@ -52,13 +114,13 @@ $('.ui.form').form({
         passengers_i: {
             identifier: 'passengers_i',
             rules: [{
-                type: 'empty',
-                prompt: 'Seleccione un horario de salida'
-            },
-            {
-                type: 'integer',
-                prompt: 'Ingrese un número válido de pasajeros'
-            }
+                    type: 'empty',
+                    prompt: 'Seleccione un horario de salida'
+                },
+                {
+                    type: 'integer',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                }
             ]
         },
         departamento: {
@@ -300,23 +362,25 @@ function printPDF() {
     //Convierto el array en un string.
     direcciones = direcciones.toString();
 
-    $.post('/solicitud/createPDF', { //Petición ajax post.
-        fechaSolicitud,
-        unidadSolicitante,
-        personaSolicitante,
-        fechaSalida,
-        horaSalida,
-        horaRetorno,
-        motorista,
-        cantidadPasajeros,
-        personaConducir,
-        tipoLicencia,
-        direccion,
-        direcciones,
-        mision,
-        observaciones,
-        b
-    },
+    console.log("B se envía con este valor" + b + " y direcciones tendrá " + direcciones);
+
+    return $.post('/solicitud/createPDF', { //Petición ajax post.
+            fechaSolicitud,
+            unidadSolicitante,
+            personaSolicitante,
+            fechaSalida,
+            horaSalida,
+            horaRetorno,
+            motorista,
+            cantidadPasajeros,
+            personaConducir,
+            tipoLicencia,
+            direccion,
+            direcciones,
+            mision,
+            observaciones,
+            b
+        },
         //Abre el pdf en una nueva ventana.
         function (result) {
             // e.g This will open an image in a new window
@@ -341,7 +405,7 @@ $('#save_print_btn').on('click', function () {
     if ($('.ui.form').form('is valid')) {
         event.preventDefault();
         showDimmer();
-        $.when(printPDF()).then(setTimeout(guardarFolo6(), 3300));
+        guardarFolo6();
         // setTimeout(guardarFolo6(), 30000);
     }
 });
@@ -393,7 +457,7 @@ function guardarFolo6() {
     console.log("Enviará:" +
         "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
     console.log("Empaquetado" + typeof (jsonReq));
-    $.ajax({
+    return $.ajax({
         type: "POST",
         async: true,
         url: '/solicitud_nueva/add',
@@ -418,12 +482,13 @@ function guardarFolo6() {
                 hideDimmer();
             } else {
                 //Si se ingreso con exito
-                successAddToast(data.message);
-                setTimeout(window.location.href = data.redirect, 30000);
+                $.when(printPDF()).then(function () {
+                    successAddToast(data.message);
+                    window.location.href = data.redirect;
+                });
             }
         },
     }).done();
-    console.log("GUARDADDO")
 }
 //Para poder animar los elementos cuando se envía un ingreso de vales
 
@@ -493,13 +558,13 @@ $('#addAddress').click(function () {
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     if (selectedPlaceTxt == 'Otro') {
         $.post('/direccion/add', { //Hago la petición post
-            idSelDepto,
-            idSelMun,
-            selectedPlace,
-            destinyPlace,
-            direction,
-            selectedPlaceTxt
-        }, //Agrego al dropdown el id de la dirección creada
+                idSelDepto,
+                idSelMun,
+                selectedPlace,
+                destinyPlace,
+                direction,
+                selectedPlaceTxt
+            }, //Agrego al dropdown el id de la dirección creada
             function (dir) {
                 if (dir != null && !jQuery.isEmptyObject(dir)) {
                     dirCreadas.append($('<option/>', {
@@ -556,7 +621,7 @@ function addDeleteIcon(dir) {
             "click": function () {
                 $(this).parents('tr').remove(); //Elimina la dirección de la tabla.
                 address = $(this).toArray(); //Convierto las propiedades del ícono a array.
-                id_address = address[0].attributes.value.value;  //Obtengo el id de la dirección que está en la propiedad value.
+                id_address = address[0].attributes.value.value; //Obtengo el id de la dirección que está en la propiedad value.
                 $.post('/direccion/delete', {
                     id_address
                 }); //Elimina la dirección de la BD.
@@ -634,11 +699,11 @@ $('#destiny_place_i').on('change', function () {
     if ($(this).val() != null) { //1) Es diferente de nulo
         // 1.1) Si el campo "Detalle de dirección" está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
         //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
-        if($('#direction_txt').val() == ''){
+        if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', false);
         } else {
             //1.2) Si lleno primero el campo "Detalle de dirección"
-            if($(this).val() != ''){ //y luego lleno este campo:
+            if ($(this).val() != '') { //y luego lleno este campo:
                 $('#addAddress').prop('disabled', false); //Mantengo habilitado el botón
             } else {
                 $('#addAddress').prop('disabled', true); //Deshabilito el botón
@@ -648,14 +713,14 @@ $('#destiny_place_i').on('change', function () {
     //2) Si este campo está vacío:
     if ($(this).val() == '') {
         //2.1) y si el campo "Detalle de dirección" también está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
-        if($('#direction_txt').val() == ''){
+        if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', true);
-        //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está habilita el botón.
+            //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está habilita el botón.
         } else {
             $('#addAddress').prop('disabled', false);
         };
-    /*Este caso se puede dar si lleno ambos campos y luego borro ambos, o si lleno ambos campos y solo
-    borro el campo "Nombre del destino".*/
+        /*Este caso se puede dar si lleno ambos campos y luego borro ambos, o si lleno ambos campos y solo
+        borro el campo "Nombre del destino".*/
     };
 });
 
@@ -663,11 +728,11 @@ $('#destiny_place_i').on('change', function () {
 $('#direction_txt').on('change', function () {
     // 1) Este valor es diferente de nulo
     if ($(this).val() != null) {
-        $('#addAddress').prop('disabled', false); 
+        $('#addAddress').prop('disabled', false);
     };
     // 2) Si este campo está vacío
     if ($(this).val() == '') {
-        if($('#destiny_place_i').val() == ''){ //y el campo "Nombre del destino" también está vacío
+        if ($('#destiny_place_i').val() == '') { //y el campo "Nombre del destino" también está vacío
             $('#addAddress').prop('disabled', true); //Deshabilito el botón
         } else {
             $('#addAddress').prop('disabled', false); //Mantengo habilitado el botón

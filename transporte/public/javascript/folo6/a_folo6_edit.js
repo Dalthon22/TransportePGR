@@ -1,79 +1,94 @@
- /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
- var motorista, emp, unit;
+/*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+var motorista, emp, unit;
 
- $(document).ready(function () {
-     console.log("Usted va a editar el folo No:" + $('#folo_id').val())
-     id_employee = parseInt($('#employee_id').val());
+function showLoadingDimmer() {
+    // $('.segment').dimmer('set active');
+    $('body').dimmer({
+        displayLoader: true,
+        loaderVariation: 'slow blue medium elastic',
+        loaderText: "Cargando los datos...",
+        closable: false,
+    }).dimmer('show');
+}
 
-     const url_request_employee = '/empleado/' + id_employee;
-     $('.ui.checkbox').checkbox('enable');
-     console.log("En el folo original el checkbox con motorista estaba: " + $('#driver_cb').checkbox('is checked'));
-     if ($('#driver_cb').checkbox('is checked')) {
-         console.log("detonamos true");
-         conMotorista();
-     } else {
-         console.log("detonamos false");
-         sinMotorista();
-     }
-     $.ajax({
-         url: url_request_employee,
-         async: false,
-         type: 'GET',
-         dataType: 'json',
-         success: (data) => {
-             console.log(typeof (data.emp));
-             emp = data.emp;
-             unit = data.unit
-             console.log(emp);
-             console.log(unit);
 
-             //Para setting de los labels
-             $("#name_lb").text(emp.first_name + ", " + emp.last_name);
-             $("#unidad_lb").text(unit.name_unit);
-         }
-     });
- });
+$(document).ready(function () {
+    showLoadingDimmer();
 
- //VALIDACION DEL FORM
- $('.ui.form').form({
-     //revalidate: true,
-     inline: true,
-     on: 'blur', //Necesario para validación de direcciones
-     fields: {
-         calendar1: {
-             identifier: 'calendar1',
-             rules: [{
-                 type: 'empty',
-                 prompt: 'Seleccione una fecha de salida'
-             }]
-         },
-         time: {
-             identifier: 'time',
-             rules: [{
-                 type: 'empty',
-                 prompt: 'Seleccione una hora de salida'
-             }]
-         },
-         time1: {
-             identifier: 'time1',
-             rules: [{
-                 type: 'empty',
-                 prompt: 'Seleccione una hora de retorno'
-             }]
-         },
-         passengers_i: {
-             identifier: 'passengers_i',
-             rules: [{
-                     type: 'empty',
-                     prompt: 'Seleccione la cantidad de pasajeros no olvide incluirse usted'
-                 },
-                 {
-                     type: 'integer[1...40]',
-                     prompt: 'Ingrese un número válido de pasajeros'
-                 }
-             ]
-         },
-         departamento: {
+    console.log("Usted va a editar el folo No:" + $('#folo_id').val())
+    id_employee = parseInt($('#employee_id').val());
+
+    const url_request_employee = '/empleado/' + id_employee;
+    $('.ui.checkbox').checkbox('enable');
+    console.log("En el folo original el checkbox con motorista estaba: " + $('#driver_cb').checkbox('is checked'));
+    if ($('#driver_cb').checkbox('is checked')) {
+        console.log("detonamos true");
+        conMotorista();
+    } else {
+        console.log("detonamos false");
+        sinMotorista();
+    }
+    $.ajax({
+        url: url_request_employee,
+        async: true,
+        type: 'GET',
+        dataType: 'json',
+        success: (data) => {
+            console.log(typeof (data.emp));
+            emp = data.emp;
+            unit = data.unit
+            console.log(emp);
+            console.log(unit);
+
+            //Para setting de los labels
+            $("#name_lb").text(emp.first_name + ", " + emp.last_name);
+            $("#unidad_lb").text(unit.name_unit);
+        }
+    });
+    $('body').dimmer('hide');
+
+});
+
+//VALIDACION DEL FORM
+$('.ui.form').form({
+    //revalidate: true,
+    inline: true,
+    on: 'blur', //Necesario para validación de direcciones
+    fields: {
+        calendar1: {
+            identifier: 'calendar1',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione una fecha de salida'
+            }]
+        },
+        time: {
+            identifier: 'time',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione una hora de salida'
+            }]
+        },
+        time1: {
+            identifier: 'time1',
+            rules: [{
+                type: 'empty',
+                prompt: 'Seleccione una hora de retorno'
+            }]
+        },
+        passengers_i: {
+            identifier: 'passengers_i',
+            rules: [{
+                    type: 'empty',
+                    prompt: 'Seleccione la cantidad de pasajeros no olvide incluirse usted'
+                },
+                {
+                    type: 'integer[1...40]',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                }
+            ]
+        },
+        departamento: {
             identifier: 'departamento',
             optional: 'true',
             rules: [{
@@ -108,190 +123,190 @@
                 prompt: 'Seleccione un lugar frecuente de la lista'
             }]
         },
-         mision_i: {
-             identifier: 'mision_i',
-             rules: [{
-                 type: 'empty',
-                 prompt: 'Ingrese el motivo o misión de su viaje'
-             }]
-         },
-     }
- });
+        mision_i: {
+            identifier: 'mision_i',
+            rules: [{
+                type: 'empty',
+                prompt: 'Ingrese el motivo o misión de su viaje'
+            }]
+        },
+    }
+});
 
- //Validación de campos si NO selecciona motorista
- //valida select de licencia
- $("#license_ls_id").change(function () {
-     $(".ui.form").form('validate field', 'license_ls');
- });
- $("#n_driver_i").change(function () {
-     $(".ui.form").form('validate field', 'name_driver_i');
- });
- //
- //valida input de misión
- $("#mision_i_id").keyup(function () {
-     $(".ui.form").form('validate field', 'mision_i');
- });
- /*--Formato y setting de fecha--*/
- var today = new Date();
- var month_lb = today.getMonth() + 1;
- //$("#date_lb").text(('0' + today.getDate()).slice(-2) + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear());
+//Validación de campos si NO selecciona motorista
+//valida select de licencia
+$("#license_ls_id").change(function () {
+    $(".ui.form").form('validate field', 'license_ls');
+});
+$("#n_driver_i").change(function () {
+    $(".ui.form").form('validate field', 'name_driver_i');
+});
+//
+//valida input de misión
+$("#mision_i_id").keyup(function () {
+    $(".ui.form").form('validate field', 'mision_i');
+});
+/*--Formato y setting de fecha--*/
+var today = new Date();
+var month_lb = today.getMonth() + 1;
+//$("#date_lb").text(('0' + today.getDate()).slice(-2) + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear());
 
- $('#standard_calendar').calendar({
-     monthFirst: false,
-     type: 'date',
-     minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-     onHide: function () {
-         //$(".ui.form").form('validate field', 'calendar1');
-     },
-     text: {
-         days: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-         months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-     },
-     formatter: {
-         date: function (date, settings) {
-             if (!date) return '';
-             var day = date.getDate();
-             var month = date.getMonth() + 1;
-             var year = date.getFullYear();
-             // return day + '/' + month + '/' + year;
-             return (('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year);
-         }
-     },
-     onSelect: function (date, mode) {
-         //Verifica que la fecha de salida sea con 3 días de anticipación a partir de la fecha actual(día en que estamos)
-         var days = date.getDate() - today.getDate();
-         var months = (date.getMonth() + 1) - (today.getMonth() + 1);
-         var years = date.getFullYear() - today.getFullYear();
-         //Controlará si la fecha de salida es menor a tres días del día en que se llena y mes-año actual
-         if (days < 3 && months === 0 && years === 0) {
-             console.log("Solicitó con: " + days + " días hábiles, Tendrá que manejar por su cuenta");
-             $('#driver_cb').checkbox('uncheck');
-             $('.ui.checkbox').checkbox('disable');
-             motorista = 0;
-         } else {
-             console.log("Solicitó con:" + days + " días hábiles, Puede solicitar motorista al área e logistica");
-             $('#driver_cb').checkbox('check');
-             $('.ui.checkbox').checkbox('enable');
-             motorista = 1;
-         }
-     }
- });
- /*--Checkbox motorista--*/
- $('#driver_cb').checkbox({
-     onChecked: function () {
-         conMotorista();
-     },
-     onUnchecked: function () {
-         sinMotorista();
-     }
- })
+$('#standard_calendar').calendar({
+    monthFirst: false,
+    type: 'date',
+    minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+    onHide: function () {
+        //$(".ui.form").form('validate field', 'calendar1');
+    },
+    text: {
+        days: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    },
+    formatter: {
+        date: function (date, settings) {
+            if (!date) return '';
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            // return day + '/' + month + '/' + year;
+            return (('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year);
+        }
+    },
+    onSelect: function (date, mode) {
+        //Verifica que la fecha de salida sea con 3 días de anticipación a partir de la fecha actual(día en que estamos)
+        var days = date.getDate() - today.getDate();
+        var months = (date.getMonth() + 1) - (today.getMonth() + 1);
+        var years = date.getFullYear() - today.getFullYear();
+        //Controlará si la fecha de salida es menor a tres días del día en que se llena y mes-año actual
+        if (days < 3 && months === 0 && years === 0) {
+            console.log("Solicitó con: " + days + " días hábiles, Tendrá que manejar por su cuenta");
+            $('#driver_cb').checkbox('uncheck');
+            $('.ui.checkbox').checkbox('disable');
+            motorista = 0;
+        } else {
+            console.log("Solicitó con:" + days + " días hábiles, Puede solicitar motorista al área e logistica");
+            $('#driver_cb').checkbox('check');
+            $('.ui.checkbox').checkbox('enable');
+            motorista = 1;
+        }
+    }
+});
+/*--Checkbox motorista--*/
+$('#driver_cb').checkbox({
+    onChecked: function () {
+        conMotorista();
+    },
+    onUnchecked: function () {
+        sinMotorista();
+    }
+})
 
- function conMotorista() {
-     motorista = 1;
-     $('#n_driver_i').prop('disabled', true);
-     $('#license_ls_id').prop('disabled', true);
-     $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
-     // $(".ui.form").form('validate field', 'name_driver_i');
-     //$(".ui.form").form('validate field', 'license_ls');
-     // $('#license_ls_id').prop('selectedIndex', 0);
-     //$('#n_driver_i').val('');
- }
+function conMotorista() {
+    motorista = 1;
+    $('#n_driver_i').prop('disabled', true);
+    $('#license_ls_id').prop('disabled', true);
+    $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
+    // $(".ui.form").form('validate field', 'name_driver_i');
+    //$(".ui.form").form('validate field', 'license_ls');
+    // $('#license_ls_id').prop('selectedIndex', 0);
+    //$('#n_driver_i').val('');
+}
 
- function sinMotorista() {
-     console.log("Va a solicitar motorista");
-     motorista = 0;
-     $('#n_driver_i').prop('disabled', false);
-     $('#license_ls_id').prop('disabled', false);
-     $('.ui.form').form('add rule', 'name_driver_i', {
-         rules: [{
-             type: 'empty',
-             prompt: 'Ingrese el nombre de la persona que conducirá'
-         }]
-     });
-     $('.ui.form').form('add rule', 'license_ls', {
-         rules: [{
-             type: 'empty',
-             prompt: 'Seleccione el tipo de licencia que posee el conductor'
-         }]
-     });
- }
+function sinMotorista() {
+    console.log("Va a solicitar motorista");
+    motorista = 0;
+    $('#n_driver_i').prop('disabled', false);
+    $('#license_ls_id').prop('disabled', false);
+    $('.ui.form').form('add rule', 'name_driver_i', {
+        rules: [{
+            type: 'empty',
+            prompt: 'Ingrese el nombre de la persona que conducirá'
+        }]
+    });
+    $('.ui.form').form('add rule', 'license_ls', {
+        rules: [{
+            type: 'empty',
+            prompt: 'Seleccione el tipo de licencia que posee el conductor'
+        }]
+    });
+}
 
- /* --TIMER´s--*/
- $('#time_calendar')
-     .calendar({
-         type: 'time',
-         minTimeGap: '30',
-         endCalendar: $('#time_calendar1'),
-         onHide: function (date, text, mode) {
-             $(".ui.form").form('validate field', 'time');
-         },
-         onchange: function (date, text, mode) {
-             console.log("Hora de salida: " + date + " Formato string" + text + " y mode:" + mode);
-         }
-     });
- $('#time_calendar1')
-     .calendar({
-         type: 'time',
-         minTimeGap: '30',
-         startCalendar: $('#time_calendar'),
-         onChange: function (date, text, mode) {
-             var dat = new Date($('#time_calendar').calendar('get date'));
-             console.log(dat.getHours() + ':' + dat.getMinutes());
-             //$(".ui.form").form('validate field', 'time1');
-         },
-         onHide: function (date, text, mode) {
-             $(".ui.form").form('validate field', 'time1');
-         }
-     });
+/* --TIMER´s--*/
+$('#time_calendar')
+    .calendar({
+        type: 'time',
+        minTimeGap: '30',
+        endCalendar: $('#time_calendar1'),
+        onHide: function (date, text, mode) {
+            $(".ui.form").form('validate field', 'time');
+        },
+        onchange: function (date, text, mode) {
+            console.log("Hora de salida: " + date + " Formato string" + text + " y mode:" + mode);
+        }
+    });
+$('#time_calendar1')
+    .calendar({
+        type: 'time',
+        minTimeGap: '30',
+        startCalendar: $('#time_calendar'),
+        onChange: function (date, text, mode) {
+            var dat = new Date($('#time_calendar').calendar('get date'));
+            console.log(dat.getHours() + ':' + dat.getMinutes());
+            //$(".ui.form").form('validate field', 'time1');
+        },
+        onHide: function (date, text, mode) {
+            $(".ui.form").form('validate field', 'time1');
+        }
+    });
 
- /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
- /*  $('#save_print_btn').on('click', function () {
-      if ($('.ui.form').form('is valid')) {
-          event.preventDefault();
-          showDimmer();
-          updateFolo6();
-      }
-  });
-  */
-
- $('#save_print_btn').on('click', function () {
+/*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
+/*  $('#save_print_btn').on('click', function () {
      if ($('.ui.form').form('is valid')) {
          event.preventDefault();
          showDimmer();
-         $.when(printPDF()).then(setTimeout(updateFolo6(), 3000));
-         // setTimeout(guardarFolo6(), 30000);
+         updateFolo6();
      }
  });
+ */
 
- //Animación patanlla negra y muestra el loader: "guardando..."
- function showDimmer() {
-     $('body').dimmer({
-         displayLoader: true,
-         loaderVariation: 'slow blue medium elastic',
-         loaderText: "Guardando los cambios...",
-         closable: false,
-     }).dimmer('show');
- }
- //Actualizacion del folo
- function updateFolo6() {
-     //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
-     //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
-     var form = $(".ui.form").serializeArray().reduce(function (a, z) {
-         a[z.name] = z.value;
-         return a;
-     }, {});
-     var folo_id = parseInt($("#folo_id").val())
-     console.log("El folo que vamos a enviar sea: " + folo_id)
-     //Valores del json que serán enviados en el ajax para guardar el folo6
-     var jsonReq = {
-         form: JSON.stringify(form),
-         emp: JSON.stringify(emp),
-         motorista: JSON.stringify(motorista)
-     }
-     console.log("Enviará:" +
-         "form:" + JSON.stringify(form) +
-         " emp:" + JSON.stringify(emp));
-     console.log("Empaquetado" + typeof (jsonReq));
+$('#save_print_btn').on('click', function () {
+    if ($('.ui.form').form('is valid')) {
+        event.preventDefault();
+        showDimmer();
+        updateFolo6();
+        // setTimeout(guardarFolo6(), 30000);
+    }
+});
+
+//Animación patanlla negra y muestra el loader: "guardando..."
+function showDimmer() {
+    $('body').dimmer({
+        displayLoader: true,
+        loaderVariation: 'slow blue medium elastic',
+        loaderText: "Guardando los cambios...",
+        closable: false,
+    }).dimmer('show');
+}
+//Actualizacion del folo
+function updateFolo6() {
+    //Convierte el formulario a un array unidimensional donde cada atributo del form es un elemento del array es decir {campoX,CampoY} esto se hizo así ya que
+    //Si se coloca .serializeArray() crea una matriz de la siguiente forma: [{name:campox,value:valorCampox},{name:campoY,value:valorCampoY}...]
+    var form = $(".ui.form").serializeArray().reduce(function (a, z) {
+        a[z.name] = z.value;
+        return a;
+    }, {});
+    var folo_id = parseInt($("#folo_id").val())
+    console.log("El folo que vamos a enviar sea: " + folo_id)
+    //Valores del json que serán enviados en el ajax para guardar el folo6
+    var jsonReq = {
+        form: JSON.stringify(form),
+        emp: JSON.stringify(emp),
+        motorista: JSON.stringify(motorista)
+    }
+    console.log("Enviará:" +
+        "form:" + JSON.stringify(form) +
+        " emp:" + JSON.stringify(emp));
+    console.log("Empaquetado" + typeof (jsonReq));
     var fplaces = [];
     var address = [];
     if ($('#createdAddress option').length) {
@@ -346,11 +361,12 @@
                     });
                 hideDimmer();
             } else {
+                //Si se ingreso con exito  
                 $.when(printPDF()).then(function () {
-                    //Si se ingreso con exito
                     successAddToast(data.message);
-                    setTimeout(window.location.href = data.redirect, 30000);
+                    window.location.href = data.redirect;
                 });
+
             }
         },
     }).done();
@@ -395,7 +411,7 @@ function successAddToast(message) {
 
 //Funciones para crear el PDF del Folo-06.
 function printPDF() {
-    //event.preventDefault();
+    event.preventDefault();
     //Recolección de datos.
     fechaSolicitud = $('#date_lb').text();
     unidadSolicitante = $('#unidad_lb').text();
@@ -404,12 +420,12 @@ function printPDF() {
     horaSalida = $('#time').val();
     horaRetorno = $('#time1').val();
     var motorista; //1 = no ; 0 = sí
-    if ($('#driver_i').is(":checked")) {
+    if ($('#driver_cb').checkbox("is checked")) {
         motorista = 0;
     } else {
         motorista = 1;
     }
-    cantidadPasajeros = $('#passengers_i').val();
+    cantidadPasajeros = parseInt($('#passengers_i').val());
     personaConducir = $('#n_driver_i').val();
     tipoLicencia = $('#license_ls_id option:selected').text();
     tablaDirecciones = document.getElementById('addressTable');
@@ -425,21 +441,9 @@ function printPDF() {
         //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
         //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
         c1 = tablaDirecciones.rows[1].cells[0].innerHTML;
-        if (c1 == '') {
-            c1 = 'No especificado';
-        };
         c2 = tablaDirecciones.rows[1].cells[1].innerHTML;
-        if (c2 == '') {
-            c2 = 'No especificado';
-        };
         c3 = tablaDirecciones.rows[1].cells[2].innerHTML;
-        if (c3 == '') {
-            c3 = 'No especificado';
-        };
         c4 = tablaDirecciones.rows[1].cells[3].innerHTML;
-        if (c4 == '') {
-            c4 = 'No especificado';
-        };
         direccion = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".";
         b = 0; //No crea listado de direcciones
     } else {
@@ -448,43 +452,31 @@ function printPDF() {
     };
     for (var i = 1; i < tablaDirecciones.rows.length; i++) {
         c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
-        if (c1 == '') {
-            c1 = 'No especificado';
-        };
         c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
-        if (c2 == '') {
-            c2 = 'No especificado';
-        };
         c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
-        if (c3 == '') {
-            c3 = 'No especificado';
-        };
         c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
-        if (c4 == '') {
-            c4 = 'No especificado';
-        };
-        direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".");
+        direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ',' + c4 + ".");
     };
     //Convierto el array en un string.
     direcciones = direcciones.toString();
 
-    $.post('/solicitud/createPDF', { //Petición ajax post.
-        fechaSolicitud,
-        unidadSolicitante,
-        personaSolicitante,
-        fechaSalida,
-        horaSalida,
-        horaRetorno,
-        motorista,
-        cantidadPasajeros,
-        personaConducir,
-        tipoLicencia,
-        direccion,
-        direcciones,
-        mision,
-        observaciones,
-        b
-    },
+    return $.post('/solicitud/createPDF', { //Petición ajax post.
+            fechaSolicitud,
+            unidadSolicitante,
+            personaSolicitante,
+            fechaSalida,
+            horaSalida,
+            horaRetorno,
+            motorista,
+            cantidadPasajeros,
+            personaConducir,
+            tipoLicencia,
+            direccion,
+            direcciones,
+            mision,
+            observaciones,
+            b
+        },
         //Abre el pdf en una nueva ventana.
         function (result) {
             // e.g This will open an image in a new window
@@ -538,8 +530,8 @@ function fillTableEdit() {
     var id_folo = $('#folo_id').val()
     console.log(id_folo);
     $.post('/solicitud_nueva/getinfo', {
-        id_folo
-    },
+            id_folo
+        },
         function (data) {
             console.log("Folo que van a visualizar" + data.folo.id);
             //Limpiar la tabla
@@ -575,10 +567,10 @@ function fillTableEdit() {
                         "<td>" + ele.department.name + "</td>" +
                         "<td></td>" +
                         "</tr>");
-                        $('#dirCreadas').append($('<option/>', {
-                            value: ele.id,
-                            text: ele.id
-                        }));
+                    $('#dirCreadas').append($('<option/>', {
+                        value: ele.id,
+                        text: ele.id
+                    }));
                     addDeleteIcon(ele.id);
                     console.log($('#dirCreadas'));
                 });
@@ -619,13 +611,13 @@ $('#addAddress').click(function () {
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     if (selectedPlaceTxt == 'Otro') {
         $.post('/direccion/add', { //Hago la petición post
-            idSelDepto,
-            idSelMun,
-            selectedPlace,
-            destinyPlace,
-            direction,
-            selectedPlaceTxt
-        }, //Agrego al dropdown el id de la dirección creada
+                idSelDepto,
+                idSelMun,
+                selectedPlace,
+                destinyPlace,
+                direction,
+                selectedPlaceTxt
+            }, //Agrego al dropdown el id de la dirección creada
             function (dir) {
                 if (dir != null && !jQuery.isEmptyObject(dir)) {
                     dirCreadas.append($('<option/>', {
@@ -788,11 +780,11 @@ $('#destiny_place_i').on('change', function () {
     if ($(this).val() != null) { //1) Es diferente de nulo
         // 1.1) Si el campo "Detalle de dirección" está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
         //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
-        if($('#direction_txt').val() == ''){
+        if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', false);
         } else {
             //1.2) Si lleno primero el campo "Detalle de dirección"
-            if($(this).val() != ''){ //y luego lleno este campo:
+            if ($(this).val() != '') { //y luego lleno este campo:
                 $('#addAddress').prop('disabled', false); //Mantengo habilitado el botón
             } else {
                 $('#addAddress').prop('disabled', true); //Deshabilito el botón
@@ -802,14 +794,14 @@ $('#destiny_place_i').on('change', function () {
     //2) Si este campo está vacío:
     if ($(this).val() == '') {
         //2.1) y si el campo "Detalle de dirección" también está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
-        if($('#direction_txt').val() == ''){
+        if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', true);
-        //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está habilita el botón.
+            //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está habilita el botón.
         } else {
             $('#addAddress').prop('disabled', false);
         };
-    /*Este caso se puede dar si lleno ambos campos y luego borro ambos, o si lleno ambos campos y solo
-    borro el campo "Nombre del destino".*/
+        /*Este caso se puede dar si lleno ambos campos y luego borro ambos, o si lleno ambos campos y solo
+        borro el campo "Nombre del destino".*/
     };
 });
 
@@ -817,11 +809,11 @@ $('#destiny_place_i').on('change', function () {
 $('#direction_txt').on('change', function () {
     // 1) Este valor es diferente de nulo
     if ($(this).val() != null) {
-        $('#addAddress').prop('disabled', false); 
+        $('#addAddress').prop('disabled', false);
     };
     // 2) Si este campo está vacío
     if ($(this).val() == '') {
-        if($('#destiny_place_i').val() == ''){ //y el campo "Nombre del destino" también está vacío
+        if ($('#destiny_place_i').val() == '') { //y el campo "Nombre del destino" también está vacío
             $('#addAddress').prop('disabled', true); //Deshabilito el botón
         } else {
             $('#addAddress').prop('disabled', false); //Mantengo habilitado el botón
