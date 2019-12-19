@@ -4,6 +4,7 @@ const employee = require('../models/m_employee');
 const folo6 = require('../models/m_folo6');
 const folo6_approve = require('../models/m_folo6_approve_state');
 const Vales = require('../models/m_voucher');
+const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -16,55 +17,52 @@ const {
 class assign_controller {
     constructor() {}
 
-    async getAsignar(req, res) {
+    async getAsignarVales(req, res) {
         try {
             /* Se buscan todos los folos que hayan sido aprobados por cada unidad */
             /* Se hace un join de Empleados,Folo6 y folo6_apporve */
-            var folos = await employee.findAll({
+            var folos = await folo6.findAll({
                 include: [{
-                    model: folo6,
+                    model: Vehicle_folo6_assign,
                     raw: true,
                     required: true,
                     include: [{
-                        model: Voucher_folo6_assign,
-                        include: [{
-                            model: Vehiculo,
-                        }]
-                    }],
-                    include: [{
-                        model: folo6_approve,
-                        where: {
-                            transport_unit_approve: 1,
-                            car: 1, //Vehiculo asignado
-                            gasoline: 0, //Aprobados
-                            cancel_tunit_detail: null //Que no haya sido cancelado
-                        }
+                        model: Vehiculo,
+                        raw: true,
                     }]
+                }, {
+                    model: folo6_approve,
+                    /*                     where: {
+                                            transport_unit_approve: 1,
+                                            car: 1, //Vehiculo asignado
+                                            driver: 1,
+                                            gasoline: 0, //Aprobados
+                                            cancel_tunit_detail: null //Que no haya sido cancelado
+                                        } */
                 }]
             });
+            console.log(folos);
             /* Se enviara un array con todos los folos con los datos a mostrar */
             var data = [];
-            console.log(folos);
-            console.log(folos);
-            console.log(folos);
-            console.log(folos);
             /* Recorremos cada empleado y luego por todos los folos que tienen */
-            folos.forEach((emp, i) => {
-                emp.SGT_Folo6s.forEach((employeeFolos, i) => {
-                    /* Se asignara a una variable el para luego ñadirla a la data */
-                    var el = new Object();
-                    el.first_name = emp.first_name;
-                    el.last_name = emp.last_name;
-                    var formatted_date = moment.utc(employeeFolos.off_date).format("DD MMMM YYYY");
-                    el.off_date = formatted_date;
-                    el.passengers_number = employeeFolos.passengers_number;
-                    el.mission = employeeFolos.mission;
-                    el.folo6id = employeeFolos.id;
-                    el.wDriver = employeeFolos.with_driver;
-                    el.off_hour = moment.utc(employeeFolos.off_hour).format("h:mm A");
+            folos.forEach((folo, i) => {
+                /* Se asignara a una variable el para luego ñadirla a la data */
+                var el = new Object();
+                console.log(folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo);
+                el.V_model = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.model;
+                el.V_brand = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.brand;
+                el.V_Plate = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.plate;
+                el.V_id = folo.SGT_Vehiculo_Asignado_Folo6.SGT_Vehiculo.id;
+                el.Veh_f06_id = folo.SGT_Vehiculo_Asignado_Folo6.id;
+                var formatted_date = moment.utc(folo.off_date).format("DD MMMM YYYY");
+                el.off_date = formatted_date;
+                el.passengers_number = folo.passengers_number;
+                el.mission = folo.mission;
+                el.folo6id = folo.id;
+                el.wDriver = folo.with_driver;
+                el.off_hour = moment.utc(folo.off_hour).format("h:mm A");
+                data.push(el);
 
-                    data.push(el);
-                })
             });
             var Cars = await Vehiculo.findAll({
                 where: {
@@ -79,7 +77,7 @@ class assign_controller {
             console.log(error);
         }
     };
-    async crearAsignacion(req, res) {
+    async crearAsignacionVales(req, res) {
         try {
             const errors = validationResult(req);
             let {

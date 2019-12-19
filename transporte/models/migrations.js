@@ -20,6 +20,7 @@ const UserRol = require('./m_user_role');
 const ProcurementBill = require('./m_bill');
 const CosumedBill = require('./m_bill_close');
 const Mision = require('../models/m_mision');
+const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign');
 const Driver = require('../models/m_driver');
 
 class Migration {
@@ -81,6 +82,9 @@ class Migration {
             alter: false
         });
         UserRol.sync({
+            alter: false
+        });
+        Vehicle_folo6_assign.sync({
             alter: false
         });
         ProcurementBill.sync({

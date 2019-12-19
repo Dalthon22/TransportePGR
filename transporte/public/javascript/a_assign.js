@@ -2,7 +2,6 @@ var filterValue, myTable;
 var tableCells = "<tbody> <tr> <td> 1 </td> <td> 2 </td> <td> 3 </td> <td> 4 </td> <td> <i class =\"yellow big edit icon\" value=\"\" >< /i> <i class =\"red big window close icon\" value =\"\" >< /i> </td > </tr> </tbody>"
 
 $(window).on('load', function () {
-    console.log('window loaded');
     this.enviarToast();
 });
 
@@ -20,9 +19,7 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: (data) => {
-            console.log(typeof (data.v));
             num = data.v;
-            console.log(num);
         }
     }).done(function () {
         $("#quantity").text(num);
@@ -76,11 +73,11 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
     var tableData = $(this).parent().parent().children("td").map(function () {
         return $(this).text();
     }).get();
-    console.log(id);
     $("#fecha_salida").text($.trim(tableData[0]));
-    $("#solicitante").text($.trim(tableData[1]));
-    $("#pasajeros").text($.trim(tableData[2]));
+    $("#model_brand").text($.trim(tableData[1]));
+    $("#v_plate").text($.trim(tableData[2]));
     $("#mision_folo").text($.trim(tableData[3]));
+    $("#passengers").text($.trim(tableData[4]));
     document.getElementById("foloA_id").value = id;
     document.getElementById("fecha_folo").value = $.trim(tableData[0]);
     var tabla = document.getElementById("div_table");
@@ -94,9 +91,10 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
 
 $(".ui.left.floated.animated.button").click(function (e) {
     $("#fecha_salida").text('---');
-    $("#solicitante").text('---');
-    $("#pasajeros").text('---');
+    $("#model_brand").text('---');
+    $("#v_plate").text('---');
     $("#mision_folo").text('---');
+    $("#passengers").text('---');
     document.getElementById("foloA_id").value = "";
     document.getElementById("fecha_folo").value = "";
     var tabla = document.getElementById("div_table");
@@ -104,9 +102,6 @@ $(".ui.left.floated.animated.button").click(function (e) {
     var div = document.getElementById("data-hidden");
     div.style.display = "none";
     document.getElementById("bAsignar").disabled = true;
-    var cars = document.getElementById("license_type");
-    cars.disabled = true;
-    cars.getElementsByTagName('option')[0].selected = true;
     document.getElementById("cant").disabled = true;
 });
 
@@ -118,19 +113,16 @@ function fillApproveButton() {
     $('.file.alternate.outline.icon').click(function (event) {
         showLoadingDimmer();
         var id_folo = parseInt($(event.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val()); /* se busca el id y se asigna al form */
-        console.log("Usted desea Mostrar el folo:" + id_folo);
         //$('.segment').dimmer('set disabled');
-
         //$('#delete_modal').modal('show');
         $('#show_modal')
             .modal({
                 closable: false,
                 onShow: function () {
                     $('.segment').dimmer('hide');
-                    console.log("Voy a mostrar el folo" + id_folo);
                     //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
                     $.ajax({
-                        url: 'solicitud_nueva/getinfo',
+                        url: '/solicitud_nueva/getinfo',
                         async: true,
                         type: 'POST',
                         dataType: 'json',
@@ -141,7 +133,6 @@ function fillApproveButton() {
 
                         }
                     }).done(function (data, textStatus, jqXHR) {
-                        console.log("Folo que van a visualizar" + data.folo.id);
                         //Para setting de los labels
                         $("#off_date_lb1").text(data.folo.off_date);
                         $("#off_hour_lb1").text(data.folo.off_hour);
@@ -165,7 +156,6 @@ function fillApproveButton() {
                         //Limpiar la tabla
                         $('#addressTable1').find('tbody').detach();
                         $('#addressTable1').append($('<tbody>'));
-                        console.log(data.folo.fplaces);
                         if (data.folo.fplaces.length) {
                             data.folo.fplaces.forEach(ele => {
                                 //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"

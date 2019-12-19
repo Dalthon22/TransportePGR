@@ -3,6 +3,7 @@ const db = require('../dbconfig/conex');
 const Place_container = require('./m_places_container');
 const Voucher_folo6_assign = require('./m_voucher_folo6_assign');
 const Folo6_Approve = require('./m_folo6_approve_state');
+const Vehicle_folo6_assign = require('./m_vehicle_folo6_assign');
 
 const Folo6 = db.define('SGT_Folo6', {
     request_unit: {
@@ -91,6 +92,10 @@ Folo6.hasMany(Voucher_folo6_assign, {
 });
 
 Folo6.hasOne(Folo6_Approve, {
+    foreignKey: 'folo06_id',
+});
+
+Folo6.hasOne(Vehicle_folo6_assign, {
     foreignKey: 'folo06_id',
 });
 

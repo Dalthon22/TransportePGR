@@ -5,12 +5,12 @@ const {
     body
 } = require('express-validator');
 
-router.get('/', (req, res) => {
-    controller.getAsignar(req, res);
+router.get('/vales', (req, res) => {
+    controller.getAsignarVales(req, res);
 });
 
-router.post('/', (req, res) => {
-    controller.crearAsignacion(req, res);
+router.post('/vales', (req, res) => {
+    controller.crearAsignacionVales(req, res);
 });
 
 module.exports = router;

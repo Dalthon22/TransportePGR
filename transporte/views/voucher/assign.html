@@ -13,9 +13,10 @@
                 <thead>
                     <tr>
                         <th>Fecha Salida:</th>
-                        <th>Solicitante:</th>
-                        <th>Pasajeros:</th>
+                        <th>Marca/Modelo:</th>
+                        <th>Placa:</th>
                         <th>Mision:</th>
+                        <th>Pasajeros:</th>
                         <th>Opciones:</th>
                     </tr>
                 </thead>
@@ -24,9 +25,10 @@
                     {% for folo in data %}
                     <tr>
                         <td>{{ folo.off_date }}</td>
-                        <td>{{ folo.first_name }} {{ folo.last_name }}</td>
-                        <td>{{ folo.passengers_number }}</td>
+                        <td>{{ folo.V_brand }} {{ folo.V_model }} </td>
+                        <td>{{ folo.V_Plate }}</td>
                         <td>{{ folo.mission }}</td>
+                        <td>{{ folo.passengers_number }}</td>
                         <td class="btnDelete">
                             <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo.folo6id}}">
                             <i class="large file grey alternate outline link icon" title="Mostrar Requerimiento"></i>
@@ -40,26 +42,16 @@
         <div id="data-hidden" style="display: none;">
             <br><br><br>
             <strong>Fecha Salida: <label id="fecha_salida">-------</label></strong><br>
-            <strong>Solicitante: <label id="solicitante">-------</label> </strong><br>
-            <strong>Pasajeros: <label id="pasajeros">-------</label> </strong><br>
+            <strong>Vehiculo: <label id="model_brand">-------</label> </strong><br>
+            <strong>Placas: <label id="v_plate">-------</label> </strong><br>
             <strong>Mision: <label id="mision_folo">-------</label> </strong><br>
+            <strong>Pasajeros: <label id="passengers">-------</label> </strong><br>
         </div>
         <div class="one column row">
             <div class="column">
                 <form class="ui form" id="frm-prueba" action="/asignar_recursos" method="POST">
                     <div class="two fields">
-                        <div class="six wide required field">
-                            <label>Seleccione un Vehiculo:</label>
-                            <br>
-                            <select disabled="true" class="ui fluid search dropdown" name="license_type"
-                                id="license_type">
-                                <option selected="true">Vehiculo || Placa</option>
-                                {% for car in Cars %}
-                                <option value={{car.plate}}>{{car.model}} || {{car.plate}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="three wide required field"></div>
+
                         <div class="six wide required field">
                             <strong>Vales Disponibles:
                                 <label id="quantity">-------</label> </strong>

@@ -18,9 +18,4 @@ const Voucher_folo6_assign = db.define('SGT_Vales_Asignados_Folo6', {
     freezeTableName: true,
 });
 
-Voucher_folo6_assign.belongsTo(Vehicle, {
-    foreignKey: 'vehicle_id'
-});
-
-
 module.exports = Voucher_folo6_assign;
