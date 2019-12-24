@@ -57,6 +57,8 @@ app.use('/motoristas', require('./routes/r_driver'));
 app.use('/', require('./routes/r_employee'));
 app.use('/', require('./routes/r_approve_panel'));
 app.use('/configuracion_calendario', require('./routes/r_config_calendar'));
+app.use('/asignar_motorista', require('./routes/r_driver_assign'));
+app.use('/asignar_recursos', require('./routes/r_assign'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
