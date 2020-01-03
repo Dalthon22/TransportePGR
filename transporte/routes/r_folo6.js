@@ -91,4 +91,8 @@ router.post('/solicitud/showPDF', (req, res) => {
 router.post('/solicitud_nueva/deletePlacesContainer', (req, res) => {
     controller.deletePlacesContainer(req, res);
 });
+
+router.post('/solicitud_nueva/createPlacesContainer', (req, res)=> {
+    controller.createPlacesContainer(req, res);
+});
 module.exports = router;

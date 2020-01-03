@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block views %}
+    <div class="ui container" id="bad">
+        <br>
+        <h1 id="title" class="ui blue dividing header">
+            <i class="clipboard icon"></i>Asignación de motorista.</h1>
+        <form class="ui form" action="/asignar_motorista/asignar" method="POST">
+            <div class="four wide required field">
+            <label for="motoristas">Seleccione el motorista que desee asignar a este requerimiento:</label>
+                <select class="ui fluid dropdown" id="driver_id" name="driver_id">
+                    <option value="">--Seleccione un motorista--</option>
+                    {% for mot in motoristas %}
+                        <option value="{{ mot.id }}">{{ mot.first_name }}
+                            {{ mot.last_name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" id="state_id" name="state_id" value="{{state_id}}">
+                <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo06_id}}">
+            </div>
+            <a href="/asignar_motorista">
+                <div class="ui left floated animated button" type="button">
+                    <div class="visible content">Volver</div>
+                    <div class="hidden content">
+                        <i class="left arrow icon"></i>
+                    </div>
+                </div>
+            </a>
+            <button class="ui positive button" type="submit" id="assign">Asignar</button>
+        </form>
+    </div>
+    <script src="/javascript/driver_assign/a_driver_assign.js"></script>
+    <link rel="stylesheet" href="/stylesheets/datatablefix.css">
+{% endblock %}

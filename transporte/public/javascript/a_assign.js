@@ -1,24 +1,32 @@
-/* Asignamos el formato de datables a nuestra tabla */
+var filterValue, myTable;
+var tableCells = "<tbody> <tr> <td> 1 </td> <td> 2 </td> <td> 3 </td> <td> 4 </td> <td> <i class =\"yellow big edit icon\" value=\"\" >< /i> <i class =\"red big window close icon\" value =\"\" >< /i> </td > </tr> </tbody>"
+
+$(window).on('load', function () {
+    this.enviarToast();
+});
+
 $(document).ready(function () {
-    $('#mytable').DataTable({
+    myTable = $('#mytable').DataTable({
         "scrollY": "500px",
         "scrollCollapse": true,
         language: {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         }
     });
+    $.ajax({
+        url: '/vales/quantity',
+        async: true,
+        type: 'GET',
+        dataType: 'json',
+        success: (data) => {
+            num = data.v;
+        }
+    }).done(function () {
+        $("#quantity").text(num);
+    });
 
 });
 
-/* Al cargar la pantalla completamente se muestran los mensajes */
-$(window).on('load', function () {
-    console.log('window loaded');
-    this.enviarToast();
-});
-
-/* Para mostrar el toast */
-/* type = 1 ó 0 --- depende si se ha aprobado o cancelado el folo  */
-/* info = 1 ó 0 --- si se ingreso correctamente o hubo error en la base */
 function enviarToast() {
     var type = $('input#messagetype').val();
     var info = $('input#messageinfo').val(); /* Tomamos los valores de los input en el HTML */
@@ -59,42 +67,65 @@ function enviarToast() {
 
 $('#container').css('display', 'block'); /* para arreglar un error de datatables */
 
-/* fill approve mueve el id del folo que se modificara desde la tabla al modal */
-function fillApproveButton() {
-    /* Asociamos el evento al boton aprobar */
-    //$(".button.btnAprobe").click(function (e) {
-    $('.green.check.circle.outline.icon').click(function (e) {
-        var idchange = $(e.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val(); /* se busca el id y se asigna al form */
-        console.log(idchange);
-        $('.ui.form').form('reset');
-        document.getElementById("folo6_id_Amodal").value = idchange;
-    });
-    /* Asociamos el evento al boton cancelar */
-    //$(".button.btnCancel").click(function (e) {
-    $('.red.window.close.icon').click(function (e) {
-        var idchange = $(e.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val(); /* se busca el id y se asigna al form */
-        console.log(idchange);
-        $('.ui.form').form('reset');
-        document.getElementById("folo6_id_Cmodal").value = idchange;
-    });
+/* Detona el metodo editar en el back mediante el id en un querystring */
+$(".check.green.circle.outline.link.icon").click(function (e) {
+    var id = $(e.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val();
+    var tableData = $(this).parent().parent().children("td").map(function () {
+        return $(this).text();
+    }).get();
+    $("#fecha_salida").text($.trim(tableData[0]));
+    $("#model_brand").text($.trim(tableData[1]));
+    $("#v_plate").text($.trim(tableData[2]));
+    $("#mision_folo").text($.trim(tableData[3]));
+    $("#passengers").text($.trim(tableData[4]));
+    document.getElementById("foloA_id").value = id;
+    document.getElementById("fecha_folo").value = $.trim(tableData[0]);
+    var tabla = document.getElementById("div_table");
+    tabla.style.display = "none";
+    var div = document.getElementById("data-hidden");
+    div.style.display = "block";
+    document.getElementById("cant").disabled = false;
+    document.getElementById("mileage_inserted").disabled = false;
+    document.getElementById("bAsignar").disabled = false;
+    document.getElementById("license_type").disabled = false;
 
-    //$('.button.btnShow').click(function (event) {
+});
+
+$(".ui.left.floated.animated.button").click(function (e) {
+    $("#fecha_salida").text('---');
+    $("#model_brand").text('---');
+    $("#v_plate").text('---');
+    $("#mision_folo").text('---');
+    $("#passengers").text('---');
+    document.getElementById("foloA_id").value = "";
+    document.getElementById("fecha_folo").value = "";
+    var tabla = document.getElementById("div_table");
+    tabla.style.display = "block";
+    var div = document.getElementById("data-hidden");
+    div.style.display = "none";
+    document.getElementById("bAsignar").disabled = true;
+    document.getElementById("cant").disabled = true;
+    document.getElementById("mileage_inserted").disabled = true;
+});
+
+function drawTableCells() {
+    $('#mytable').html(tableCells);
+};
+
+function fillApproveButton() {
     $('.file.alternate.outline.icon').click(function (event) {
         showLoadingDimmer();
         var id_folo = parseInt($(event.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val()); /* se busca el id y se asigna al form */
-        console.log("Usted desea Mostrar el folo:" + id_folo);
         //$('.segment').dimmer('set disabled');
-
         //$('#delete_modal').modal('show');
         $('#show_modal')
             .modal({
                 closable: false,
                 onShow: function () {
                     $('.segment').dimmer('hide');
-                    console.log("Voy a mostrar el folo" + id_folo);
                     //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
                     $.ajax({
-                        url: 'solicitud_nueva/getinfo',
+                        url: '/solicitud_nueva/getinfo',
                         async: true,
                         type: 'POST',
                         dataType: 'json',
@@ -105,7 +136,6 @@ function fillApproveButton() {
 
                         }
                     }).done(function (data, textStatus, jqXHR) {
-                        console.log("Folo que van a visualizar" + data.folo.id);
                         //Para setting de los labels
                         $("#off_date_lb1").text(data.folo.off_date);
                         $("#off_hour_lb1").text(data.folo.off_hour);
@@ -129,7 +159,6 @@ function fillApproveButton() {
                         //Limpiar la tabla
                         $('#addressTable1').find('tbody').detach();
                         $('#addressTable1').append($('<tbody>'));
-                        console.log(data.folo.fplaces);
                         if (data.folo.fplaces.length) {
                             data.folo.fplaces.forEach(ele => {
                                 //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
@@ -164,29 +193,6 @@ function fillApproveButton() {
 $(function () {
     fillApproveButton();
 });
-/* Bind de los eventos para poder abrir el modal correspondiente */
-$('#AprobeModal')
-    .modal('attach events', '.green.check.circle.outline.icon', 'show');
-
-$('#CancelModal')
-    .modal('attach events', '.red.window.close.icon', 'show');
-
-/* $('#show_modal')
-    .modal('attach events', '.btnShow.button', 'show'); */
-
-$('.ui.form').form({
-    //revalidate: true,
-    inline: true,
-    fields: {
-        motivo: {
-            identifier: 'motivo',
-            rules: [{
-                type: 'empty',
-                prompt: 'Debe ingresar un motivo'
-            }]
-        }
-    }
-});
 
 function showLoadingDimmer() {
     // $('.segment').dimmer('set active');
@@ -197,3 +203,67 @@ function showLoadingDimmer() {
         closable: false,
     }).dimmer('show');
 };
+$('#container').css('display', 'block');
+
+$('.ui.form').form({
+    //revalidate: true,
+    inline: true,
+    on: 'blur',
+    fields: {
+        cant: {
+            identifier: 'cant',
+            rules: [{
+                    type: 'empty',
+                    prompt: 'Ingrese una cantidad, sea: 0 o mayores'
+                },
+                {
+                    type: 'integer',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                },
+                {
+
+                }
+            ]
+        },
+        mileage_inserted: {
+            identifier: 'mileage_inserted',
+            rules: [{
+                    type: 'empty',
+                    prompt: 'Ingrese una cantidad mayor a 0'
+                },
+                {
+                    type: 'integer',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                },
+                {
+
+                }
+            ]
+        },
+    }
+});
+
+function setInputFilter(textbox, inputFilter) {
+    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+        textbox.addEventListener(event, function () {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            } else {
+                this.value = "";
+            }
+        });
+    });
+}
+
+setInputFilter(document.getElementById("cant"), function (value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 4);
+});
+
+setInputFilter(document.getElementById("mileage_inserted"), function (value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1000001);
+});

@@ -215,9 +215,12 @@ class voucher_controllers {
     }
 
     async getBills(req, res) {
-        var date = new Date();
-        var year = parseInt(date.getFullYear());
-        var month = parseInt(date.getMonth() + 1);
+        //console.dir(req)
+        console.log("Mes solicitado: " + req.query.month + " Año:" + req.query.year)
+        var year = parseInt(req.query.year);
+        var month = parseInt(req.query.month);
+
+
         var data = [];
 
         try {
@@ -256,7 +259,22 @@ class voucher_controllers {
         } catch (err) {
             console.log(err)
         }
-    }
+    };
+    async getQuantity(req, res) {
+        try {
+            let v = await Voucher.count({
+                where: {
+                    condition: 'Disponible',
+                }
+            });
+            console.log(v);
+            res.send({
+                v
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
 
 module.exports = new voucher_controllers();

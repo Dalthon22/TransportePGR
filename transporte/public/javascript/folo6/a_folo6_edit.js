@@ -600,6 +600,7 @@ $('#municipio').on('change', function () {
 //Función que guarda en la BD las direcciones que se van ingresando a la tabla.
 $('#addAddress').click(function () {
     event.preventDefault();
+    var folo_id = $('#folo_id').val();
     var idSelDepto = $('#departamento').val();
     var idSelMun = $('#municipio').val();
     var selectedPlace = $('#fplaces').val();
@@ -609,7 +610,7 @@ $('#addAddress').click(function () {
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     if (selectedPlaceTxt == 'Otro') {
-        $.post('/direccion/add', { //Hago la petición post
+        $.post('/direccion/add?folo_id=' + parseInt($("#folo_id").val()), { //Hago la petición post
                 idSelDepto,
                 idSelMun,
                 selectedPlace,
@@ -624,20 +625,42 @@ $('#addAddress').click(function () {
                         text: dir.id
                     }));
                 };
-                fillAddressTable();
-                addDeleteIcon(dir.id);
+                fillAddressTable(); //Llena la tabla en la vista
+                addDeleteIcon(dir.id); //Agrega el ícono de eliminar
+                //Se inserta la dirección creada en la tabla Lugares_Contenedor
+                var address_id = dir.id;
+                var today = new Date();
+                var month = today.getMonth() + 1;
+                var date_of_visit = today.getFullYear() + '-' + month + '-' + today.getDate();
+                $.post('/solicitud_nueva/createPlacesContainer', {
+                    folo_id,
+                    date_of_visit,
+                    address_id,
+                    selectedPlaceTxt
+                });
             });
-    }
+    };
+    //Agrego el lugar frecuente seleccionado al dropdown
     if (selectedPlaceTxt != 'Otro') {
+        console.log("Ire a linkear")
+        $.post('/direccion/add?folo_id=' + parseInt($("#folo_id").val()) + '&fplace_id=' + parseInt(selectedPlace))
         selectedFPlace.append($('<option/>', {
             value: selectedPlace,
             text: selectedPlaceTxt,
         }));
-        fillAddressTable();
-        addDeleteIconFP(parseInt(selectedPlace));
-    }
-
-    //Agrego el lugar frecuente seleccionado al dropdown
+        //Se inserta el lugar frecuente seleccionado en la tabla Lugares_Contenedor
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var date_of_visit = today.getFullYear() + '-' + month + '-' + today.getDate();
+        $.post('/solicitud_nueva/createPlacesContainer', {
+            folo_id,
+            date_of_visit,
+            selectedPlace,
+            selectedPlaceTxt
+        });
+        fillAddressTable(); //Llena la tabla en la vista
+        addDeleteIconFP(parseInt(selectedPlace)); //Agrega el ícono de eliminar
+    };
     console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
     console.log(selectedFPlace);
 });
