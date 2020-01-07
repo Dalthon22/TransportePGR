@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pdfPrinter = require('pdfmake/src/printer');
 
+//Router para testear modificaciones a realizar en PDFs.
 router.get('/', (req, res) => {
   try {
     const fonts = {
@@ -13,85 +14,31 @@ router.get('/', (req, res) => {
       }
     };
     const printer = new pdfPrinter(fonts);
+   /*  var texto = [[['Mi casa'], ['Colonia El Rosal 1, Block "C", Pasaje #2, Casa #3'], ['La Libertad'], ['Quezaltepeque']],
+  [['Nombre 1'], ['Detalle 1'], ['Departamento 1'], ['Municipio 1']]]; */
+    var bodyData = [];
+    var columns = [{ text: 'Nombre del destino', bold: true }, { text: 'Detalle de dirección', bold: true
+   }, { text: 'Departamento', bold: true }, { text: 'Municipio', bold: true }];
+    var data = [{nombre: 'Nombre 1', detalle: 'Detalle 1', departamento: 'Departamento 1', municipio: 'Municipio 1'},
+                {nombre: 'Nombre 2', detalle: 'Detalle 2', departamento: 'Departamento 2', municipio: 'Municipio 2'}];
+    bodyData.push(columns);
+    data.forEach(row => {
+      var dataRow = [];
+      dataRow.push(row.nombre);
+      dataRow.push(row.detalle);
+      dataRow.push(row.departamento);
+      dataRow.push(row.municipio);
+      bodyData.push(dataRow);
+    });
     var docDefinition = {
       pageSize: 'LETTER',
       content: [
         {
-          image: 'public/images/logopgr1.png',
-          fit: [60,60],
-          absolutePosition: { x: 70, y: 20 }
-        },
-        {
-          text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment: 'center', bold: true, italics: true,
-          fontSize: '16'
-        },
-        {
-          text: 'SOLICITUD DE SERVICIO DE TRANSPORTE', alignment: 'center', bold: true, italics: true,
-          fontSize: '16'
-        },
-        {
-          text: '\n\nFOLO-06', alignment: 'right', bold: true, italics: true
-        },
-        {
-          text: 'Fecha de solicitud:\n',
-        },
-        {
-          text: '\nFecha de salida:                              Hora de salida:                           Hora de regreso:        ',
-          preserveLeadingSpaces: true
-        },
-        {
-          text: '\nMotorista:                                        Cantidad de pasajeros:',
-          preserveLeadingSpaces: true
-        },
-        {
-          text: '\nUnidad solicitante:'
-        },
-        {
-          text: '\nLugar: '
-        },
-        {
-          text: '\nMisión: '
-        },
-        {
-          text: '\nObservación: '+ texto
-        },
-        {
-          text: '\n\n\n_______________________________________________', alignment: 'center'
-        },
-        {
-          text: 'Nombre, firma y sello del solicitante\n\n\n', alignment: 'center'
-        },
-        {
-          text: '\nAutorizado por: __________________________________________', 
-          alignment: 'center', preserveLeadingSpaces: true
-        },
-        {
-          text: '                             (Funcionario que tiene asignado el vehículo)', 
-          alignment: 'center', preserveLeadingSpaces: true
-        },
-        {
-          text: '                             Nombre, firma y sello', 
-          alignment: 'center', preserveLeadingSpaces: true
-        },
-        {
-          text: '\n\nDatos del vehículo asignado:\n\n\n'
-        },
-        {
-          text: 'Marca: _________________            Placa: _________________             Km. actual: _________________',
-          preserveLeadingSpaces: true          
-        },
-        {
-          text: '\n\nCantidad de combustible a entregar en cupones _____________ en $_____________.'
-        },
-        {
-          text: '\n\nNo. de los cupones entregados del _______________ al _______________.'
-        },
-        {
-          text: '\n\n\n\n___________________________________________                 _________________________________________'
-        },
-        {
-          text: 'Nombre y firma de quien recibe los cupones                 Nombre y firma del motorista o conductor',
-          preserveLeadingSpaces: true
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto', 'auto', 'auto'],
+            body: bodyData,
+          },
         },
       ],
     };

@@ -241,7 +241,7 @@ $('#time_calendar1')
     });
 /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
 //Funciones para crear el PDF del Folo-06.
-function printPDF() {
+/* function printPDF() {
     //Recolección de datos.
     fechaSolicitud = $('#date_lb').text();
     unidadSolicitante = $('#unidad_lb').text();
@@ -266,7 +266,7 @@ function printPDF() {
     /*La propiedad 'length' en JS comienza en 1.
     La primera fila es el encabezado, a partir de la segunda van direcciones.
     Si solo hay una dirección, se asigna a la variable 'dirección'.
-    Si hay más se asignan al array 'direcciones'. */
+    Si hay más se asignan al array 'direcciones'. 
     if (tablaDirecciones.rows.length == 2) {
         //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
         //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
@@ -344,8 +344,8 @@ function printPDF() {
 
     /* Solo funciona en Mozilla Firefox, en Google Chrome se abre una pestaña en blanco.
     En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
-    Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
-}
+    Tampoco es posible cambiar el nombre con el que se descarga el PDF.
+}*/
 
 function debugBase64(base64URL) {
     var win = window.open();
