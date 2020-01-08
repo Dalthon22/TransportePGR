@@ -505,42 +505,105 @@ $('#addAddress').click(function () {
     var selectedPlace = $('#fplaces').val();
     var destinyPlace = $('#destiny_place_i').val(); //Obtengo todos los valores
     var direction = $('#direction_txt').val();
+    var selectedDeptoTxt = $('#departamento option:selected').text();
+    var selectedMunTxt = $('#municipio option:selected').text();
     var selectedPlaceTxt = $('#fplaces option:selected').text();
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
-    if (selectedPlaceTxt == 'Otro') {
-        $.post('/direccion/add', { //Hago la petición post
-                idSelDepto,
-                idSelMun,
-                selectedPlace,
-                destinyPlace,
-                direction,
-                selectedPlaceTxt
-            }, //Agrego al dropdown el id de la dirección creada
-            function (dir) {
-                if (dir != null && !jQuery.isEmptyObject(dir)) {
-                    dirCreadas.append($('<option/>', {
-                        value: dir.id,
-                        text: dir.id
-                    }));
-                };
-                fillAddressTable();
-                addDeleteIcon(dir.id);
-            });
-    }
-    if (selectedPlaceTxt != 'Otro') {
-        selectedFPlace.append($('<option/>', {
-            value: selectedPlace,
-            text: selectedPlaceTxt,
-        }));
-        fillAddressTable();
-        addDeleteIconFP(parseInt(selectedPlace));
-    }
+    var baseDir, cmpDir, c1, c2, c3, c4, dirExiste = 0;
+    var tablaDirecciones = document.getElementById('addressTable'); 
 
-    //Agrego el lugar frecuente seleccionado al dropdown
-    console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
-    console.log(selectedFPlace);
-    $(this).prop('disabled', true);
+    if(destinyPlace == ''){
+        destinyPlace = 'No especificado';
+    };
+
+    if(direction == ''){
+        direction = 'No especificado';
+    };
+
+    //Creo dirección base a partir de los valores obtenidos de los inputs.
+    if (selectedPlaceTxt == 'Otro'){
+        baseDir = destinyPlace + ', ' + direction + ', ' + selectedDeptoTxt + ', ' + selectedMunTxt;
+    } else {
+        baseDir = selectedPlaceTxt + ', No especificado, ' + selectedDeptoTxt + ', ' + selectedMunTxt;
+    };
+
+    //Paso a minúscula la dirección y la muestro en consola del navegador.
+    baseDir = baseDir.toLowerCase();
+    console.log(baseDir);
+    /*Itero las filas de la tabla de direcciones para armar un string que contenga una dirección a partir
+    de los valores en cada celda, esta se compara con la dirección creada a partir de los inputs.*/
+    for (var i = 0; i < tablaDirecciones.rows.length; i++){
+        c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
+        if (c1 == '') {
+            c1 = 'No especificado';
+        };
+        c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
+        if (c2 == '') {
+            c2 = 'No especificado';
+        };
+        c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
+        c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
+        cmpDir = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4;
+        cmpDir = cmpDir.toLowerCase(); //Convierto a minúscula la dirección creada.
+        console.log(cmpDir); //Muestro en consola la dirección.
+        //Si ambas direcciones son iguales, la variable dirExiste toma el valor de 1 y se rompe el ciclo.
+        if(baseDir == cmpDir){
+            dirExiste = 1;
+            break;
+        };
+    };
+    //Si dirExiste es igual a 1, se muestra un mensaje de error y NO se ingresa la dirección a la tabla.
+    if(dirExiste == 1){
+        $('body')
+        .toast({
+            position: 'top right',
+            class: 'error',
+            displayTime: 10000,
+            message: 'Error: la dirección que intenta ingresar ya existe.'
+        });
+    //Caso contrario se añade la dirección a la tabla y se muestra un mensaje de éxito.
+    } else {
+        if (selectedPlaceTxt == 'Otro') {
+            $.post('/direccion/add', { //Hago la petición post
+                    idSelDepto,
+                    idSelMun,
+                    selectedPlace,
+                    destinyPlace,
+                    direction,
+                    selectedPlaceTxt
+                }, //Agrego al dropdown el id de la dirección creada
+                function (dir) {
+                    if (dir != null && !jQuery.isEmptyObject(dir)) {
+                        dirCreadas.append($('<option/>', {
+                            value: dir.id,
+                            text: dir.id
+                        }));
+                    };
+                    fillAddressTable();
+                    addDeleteIcon(dir.id);
+                });
+        };
+        //Agrego el lugar frecuente seleccionado al dropdown
+        if (selectedPlaceTxt != 'Otro') {
+            selectedFPlace.append($('<option/>', {
+                value: selectedPlace,
+                text: selectedPlaceTxt,
+            }));
+            fillAddressTable();
+            addDeleteIconFP(parseInt(selectedPlace));
+        };
+        $('body')
+        .toast({
+            position: 'top right',
+            class: 'success',
+            displayTime: 10000,
+            message: 'Dirección ingresada correctamente.'
+        });
+        console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+        console.log(selectedFPlace);
+        $(this).prop('disabled', true);
+    };
 });
 
 //Añade el ícono eliminar en la tabla direcciones del folo cuando es FP
