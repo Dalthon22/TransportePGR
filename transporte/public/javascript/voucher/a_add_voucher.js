@@ -247,7 +247,6 @@ $('#month_calendar')
     });
 
 /* Calendario para switchear las facturas que se estan mostrando */
-
 $('#month_calendar_switch')
     .calendar({
         type: 'month',
@@ -279,15 +278,10 @@ $('#month_calendar_switch')
              }); EDITAR EL HTML COMO SALVAJE CON ESTOS ELEMENTOS <td valign="top" colspan="6" class="dataTables_empty" 
              < td valign = "top"
              colspan = "6"
-             class = "dataTables_empty" >
-             
-             
+             class = "dataTables_empty" >             
              */
         }
     });
-
-
-
 //Se detona en el método approve del modal
 function ingresar_vales() {
     //unique_num = true;
@@ -487,21 +481,3 @@ function showDimmer() {
         closable: false,
     }).dimmer('show');
 }
-
-/* function disable_elements() {
-    $('#date_entry_bill').prop('disabled', true);
-    $('#last_voucher').prop('disabled', true);
-    $('#bill_num').prop('disabled', true);
-    $('#provider').prop('disabled', true);
-    $('#price').prop('disabled', true);
-    $('#first_voucher').prop('disabled', true);
-}
-
-function enable_elements() {
-    $('#date_entry_bill').prop('disabled', false);
-    $('#last_voucher').prop('disabled', false);
-    $('#bill_num').prop('disabled', false);
-    $('#provider').prop('disabled', false);
-    $('#price').prop('disabled', false);
-    $('#first_voucher').prop('disabled', false);
-} */
