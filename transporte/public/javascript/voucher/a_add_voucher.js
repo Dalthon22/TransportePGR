@@ -144,9 +144,13 @@ $('.ui.form').form({
                     prompt: 'Por favor ingrese un número de factura'
                 },
                 {
-                    type: 'integer[0...1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]',
-                    prompt: 'Por favor ingrese un número valido'
-                } //
+                    type: 'integer[1...9007199254740991]',
+                    prompt: 'Por favor ingrese un número válido'
+                }, //Válida la longitud de caracteres
+                {
+                    type: 'regExp[/^[0-9]{1,16}$/]',
+                    prompt: 'Por favor ingrese un número con longitud válida '
+                }
             ]
         },
         first_voucher: {
@@ -156,8 +160,12 @@ $('.ui.form').form({
                     prompt: 'Por favor ingrese el número del primer vale en el paquete'
                 },
                 {
-                    type: 'integer[0...1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]',
+                    type: 'integer[1...9007199254740991]',
                     prompt: 'Por favor ingrese un numero valido'
+                }, //Válida la longitud de caracteres
+                {
+                    type: 'regExp[/^[0-9]{1,16}$/]',
+                    prompt: 'Por favor ingrese un número con longitud válida '
                 }
             ]
         },
@@ -168,12 +176,16 @@ $('.ui.form').form({
                     prompt: 'Por favor ingrese el número del último vale en el paquete'
                 },
                 {
-                    type: 'integer[0...1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]',
+                    type: 'integer[1...9007199254740991]',
                     prompt: 'Por favor ingrese un número valido'
                 },
                 {
                     type: 'minor[first_voucher]',
                     prompt: 'El último vale deber ser mayor que el primero'
+                }, //Válida la longitud de caracteres
+                {
+                    type: 'regExp[/^[0-9]{1,16}$/]',
+                    prompt: 'Por favor ingrese un número con longitud válida '
                 }
             ]
         },

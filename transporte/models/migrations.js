@@ -47,7 +47,7 @@ class Migration {
             alter: true
         });
         Voucher.sync({
-            alter: false
+            alter: true
         });
         Unit.sync({
             alter: true
@@ -86,7 +86,7 @@ class Migration {
             alter: true
         });
         Vehicle_folo6_assign.sync({
-            alter: false
+            alter: true
         });
         ProcurementBill.sync({
             alter: true

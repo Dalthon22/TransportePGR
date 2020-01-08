@@ -74,6 +74,9 @@ $('.ui.form').form({
             rules: [{
                 type: 'empty',
                 prompt: 'Seleccione una hora de retorno'
+            }, {
+                type: 'different[time]',
+                prompt: 'La hora de retorno debe ser distinta a la hora de salida'
             }]
         },
         passengers_i: {
@@ -221,6 +224,9 @@ function sinMotorista() {
         rules: [{
             type: 'empty',
             prompt: 'Ingrese el nombre de la persona que conducirá'
+        }, {
+            type: 'regExp[/^[a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/]',
+            prompt: 'Por favor ingrese solo texto'
         }]
     });
     $('.ui.form').form('add rule', 'license_ls', {

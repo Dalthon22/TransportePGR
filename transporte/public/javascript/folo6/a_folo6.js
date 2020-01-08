@@ -62,6 +62,9 @@ $('.ui.form').form({
             rules: [{
                 type: 'empty',
                 prompt: 'Seleccione una hora de retorno'
+            }, {
+                type: 'different[time]',
+                prompt: 'La hora de retorno debe ser distinta a la hora de salida'
             }]
         },
         passengers_i: {
@@ -202,6 +205,9 @@ $('#driver_cb').checkbox({
             rules: [{
                 type: 'empty',
                 prompt: 'Ingrese el nombre de la persona que conducirá'
+            }, {
+                type: 'regExp[/^[a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/]',
+                prompt: 'Por favor ingrese solo texto'
             }]
         });
         $('.ui.form').form('add rule', 'license_ls', {
@@ -353,14 +359,44 @@ function debugBase64(base64URL) {
     win.document.close()
 }
 
-$('#save_print_btn').on('click', function () {
+/* $('#save_print_btn').on('click', function () {
     if ($('.ui.form').form('is valid')) {
         event.preventDefault();
         showDimmer();
         guardarFolo6();
         // setTimeout(guardarFolo6(), 30000);
     }
+}); */
+
+/*PARA VALIDAR QUE SE INGRESE AL MENOS UNA DIRECCIÓN */
+$('#save_print_btn').on('click', function () {
+    $('.ui.toast').remove();
+    if ($('#createdAddress').has('option').length > 0 || $('#selectedFPlace').has('option').length > 0) {
+        if ($('.ui.form').form('is valid')) {
+            event.preventDefault();
+
+            showDimmer();
+            guardarFolo6();
+            // setTimeout(guardarFolo6(), 30000);
+        }
+    } else {
+        event.preventDefault();
+
+        hideDimmer();
+        $('body')
+            .toast({
+                title: "Lugares de destino vacíos",
+                showIcon: false,
+                class: 'error',
+                position: 'top right',
+                displayTime: 0,
+                closeIcon: true,
+                message: "La solicitud debe tener al menos un lugar o una dirección que visitar",
+            });
+    }
 });
+
+
 //Animación patanlla negra y muestra el loader: "guardando..."
 function showDimmer() {
     $('body').dimmer({

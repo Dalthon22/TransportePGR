@@ -36,6 +36,7 @@ const Voucher = db.define('SGT_Vale', {
   },
   voucher_provider: {
     type: Sequelize.STRING,
+    primaryKey: true,
     allowNull: false,
     validate: {
       notEmpty: true,
