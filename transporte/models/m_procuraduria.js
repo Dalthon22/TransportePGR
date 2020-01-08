@@ -20,6 +20,7 @@ const Procuraduria = db.define('SGT_Procuraduria', {
     enabled: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
         validate: {
             notEmpty: true,
         },

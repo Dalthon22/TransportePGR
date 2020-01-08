@@ -13,7 +13,7 @@ const Employee = require('./m_employee');
 const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
-const route_conditions = require('../models/m_route_conditions');
+const Route_conditions = require('../models/m_route_conditions');
 const User = require('./m_user');
 const Rol = require('./m_role');
 const UserRol = require('./m_user_role');
@@ -70,8 +70,8 @@ class Migration {
         Folo6_Approve_State.sync({
             alter: true
         });
-        route_conditions.sync({
-            alter: true
+        Route_conditions.sync({
+            alter: false
         });
         Route.sync({
             alter: true
@@ -86,7 +86,7 @@ class Migration {
             alter: true
         });
         Vehicle_folo6_assign.sync({
-            alter: false
+            alter: true
         });
         ProcurementBill.sync({
             alter: true

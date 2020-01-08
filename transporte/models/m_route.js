@@ -14,6 +14,7 @@ const Route = db.define('SGT_Ruta', {
   enabled: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
+    defaultValue: true,
     validate: {
       notEmpty: true,
     }
