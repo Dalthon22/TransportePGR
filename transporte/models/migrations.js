@@ -29,73 +29,73 @@ class Migration {
         Department.sync();
         City.sync();
         Driver.sync({
-            alter: true
+            alter: false
         });
         Mision.sync({
-            alter: true
+            alter: false
         });
         Address.sync({
-            alter: true
+            alter: false
         });
         Procuraduria.sync({
-            alter: true
+            alter: false
         });
         Vehicle.sync({
-            alter: true
+            alter: false
         });
         Frequent_Place.sync({
-            alter: true
+            alter: false
         });
         Voucher.sync({
             alter: true
         });
         Unit.sync({
-            alter: true
+            alter: false
         });
         Employee.sync({
-            alter: true
+            alter: false
         });
         Folo6.sync({
-            alter: true
+            alter: false
         });
         Places_container.sync({
-            alter: true
+            alter: false
         });
         Voucher_procu_assign.sync({
-            alter: true
+            alter: false
         });
         Voucher_folo6_assign.sync({
-            alter: true
+            alter: false
         });
         Folo6_Approve_State.sync({
-            alter: true
+            alter: false
         });
         Route_conditions.sync({
             alter: false
         });
         Route.sync({
-            alter: true
+            alter: false
         });
         User.sync({
-            alter: true
-        });
-        Rol.sync({
-            alter: true
+            alter: false
         });
         UserRol.sync({
-            alter: true
+            alter: false
+        });
+        Rol.sync({
+            alter: false
         });
         Vehicle_folo6_assign.sync({
             alter: true
         });
         ProcurementBill.sync({
-            alter: true
+            alter: false
         });
         CosumedBill.sync({
-            alter: true
+            alter: false
         });
         Driver_assign.sync({
-            alter: true
+            alter: false
         });
     };
 };

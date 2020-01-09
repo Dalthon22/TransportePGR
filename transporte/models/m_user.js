@@ -3,41 +3,48 @@ const db = require('../dbconfig/conex');
 const UserRol = require('./m_user_role');
 
 const User = db.define('SGT_Usuario', {
-    CodigoUsuario: {
-        type: Sequelize.STRING(10),
-        primaryKey: true,
+    first_name: {
+        type: Sequelize.STRING(75),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    last_name: {
+        type: Sequelize.STRING(75),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    is_unit_boss: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    email: {
+        type: Sequelize.STRING(100),
         unique: true,
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    ApellidosUsuario: {
-        type: Sequelize.STRING(50),
+    password: {
+        type: Sequelize.STRING(25),
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    NombresUsuarios: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
-    CorreoElectronicoUsuario: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
-    ActivoInactivousuario: {
+    active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: 1
-    }
+        defaultValue: false
+    },
 }, {
     underscored: true,
     timestamps: true,
@@ -47,7 +54,8 @@ const User = db.define('SGT_Usuario', {
 });
 
 User.hasMany(UserRol, {
-    foreignKey: 'CodigoUsuario'
+    foreignKey: 'user_id',
+    onDelete: 'cascade'
 });
 
 module.exports = User;

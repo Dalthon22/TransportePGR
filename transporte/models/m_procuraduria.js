@@ -8,6 +8,7 @@ const Address = require('./m_address');
 const Frequent_Place = require('./m_frequent_place');
 const Voucher_procu_assign = require('./m_voucher_procu_assign');
 const Misiones = require('./m_mision');
+const Users = require('./m_user');
 
 const Procuraduria = db.define('SGT_Procuraduria', {
     name: {
@@ -40,29 +41,39 @@ const Procuraduria = db.define('SGT_Procuraduria', {
 });
 
 Procuraduria.hasMany(Routes, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
 Procuraduria.hasMany(Frequent_Place, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
 Procuraduria.hasMany(Vehicles, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
 Procuraduria.belongsTo(Address, {
     foreignKey: 'address_id'
 });
 Procuraduria.hasMany(Employee, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
 Procuraduria.hasMany(Folo6, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
 Procuraduria.hasMany(Misiones, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
-
 Procuraduria.hasMany(Voucher_procu_assign, {
-    foreignKey: 'procuraduria_id'
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
+});
+Procuraduria.hasMany(Users, {
+    foreignKey: 'procuraduria_id',
+    onDelete: 'cascade'
 });
 
 module.exports = Procuraduria;

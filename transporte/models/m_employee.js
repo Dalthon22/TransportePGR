@@ -28,6 +28,7 @@ const Employee = db.define('SGT_Empleado', {
     },
     user_name: {
         type: Sequelize.STRING(75),
+        unique: true,
         allowNull: false,
         validate: {
             notEmpty: true,
