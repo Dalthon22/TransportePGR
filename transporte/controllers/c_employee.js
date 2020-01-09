@@ -1,19 +1,20 @@
-const db = require('../dbconfig/conex');
 const Sequelize = require('sequelize');
 const Employee = require('../models/m_employee');
 const Unit = require('../models/m_unit');
 
-/* const Migration = require('../models/migrations');
- */
+//Manejo de fechas
+var moment = require('moment');
+moment.locale("Es-SV")
+
 const {
     body,
     check,
     validationResult
-} = require('../middleware/expresse-validator');
+} = require('express-validator');
 
-class employee_controllers {
+class employee_controller {
     constructor() {
-        //var migrate = new Migration();
+
     }
     //Metodo find por id
     async findById(id, req, res) {
@@ -33,7 +34,6 @@ class employee_controllers {
             console.log(err);
         }
     }
-
 
     async findById1(id) {
         try {
@@ -63,20 +63,7 @@ class employee_controllers {
             console.log(err);
         }
     }
-    //  Obtiene los datos del empleado y la unidad a la que pertence
-    /* async findById(id) {
-        try {
-            let emp = await Employee.findByPk(id, {
-                attributes: ['id', 'first_name', 'last_name', 'is_unit_boss', 'unit_id'],
-                include: [Unit]
-            });
-            console.log("El empleado recibido" + emp);
-            return emp;
-        } catch (err) {
-            console.log(err);
-        }
-    } */
 
 };
 
-module.exports = new employee_controllers();
+module.exports = new employee_controller();

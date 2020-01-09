@@ -24,7 +24,7 @@ const {
     body,
     check,
     validationResult
-} = require('../middleware/expresse-validator');
+} = require('express-validator');
 
 class folo6_controllers {
     constructor() {

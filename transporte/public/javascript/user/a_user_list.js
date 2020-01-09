@@ -1,10 +1,9 @@
-var title, message, clss, query1;
-var current_plate;
+var title, message, clss;
 
+/*Inicializa el dataTable y conviete los labels en español*/
 $(function () {
-
-    //Da formato a la tabla de vehiculos
     $('#mytable').DataTable({
+        "scrollY": "500px",
         "scrollCollapse": true,
         language: {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -24,17 +23,14 @@ $(function () {
         AddToast(title, clss, message);
     }
 
-    $(".pencil.yellow.alternate.link.icon").click(function () {
-        var index = $(this).closest("tr")[0].rowIndex;
-        var tr = $('#mytable').find("tr").eq(index);
-        current_plate = tr.find("td").eq(0).text();
-        console.log(tr);
-        //alert('You click plate: ' + current_plate + " and the id is: " + index);
-        url_list = encodeURI('vehiculos/gestionar?' + "matricula=" + current_plate);
-        console.log(url_list);
-        location.href = url_list;
-    });
+})
 
+/* Detona el metodo editar en el back mediante el id en un querystring */
+$(".pencil.yellow.alternate.link.icon").click(function () {
+    var id = $(this).attr("value");
+    var url_list = encodeURI('usuarios/gestionar?' + "user_id=" + id);
+    console.log(url_list);
+    location.href = url_list;
 });
 
 /*
@@ -74,34 +70,3 @@ function AddToast(_title, _class, _message) {
             }
         });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*Funciones recicladas
-
-//Obtiene los parametros del url dado
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-*/

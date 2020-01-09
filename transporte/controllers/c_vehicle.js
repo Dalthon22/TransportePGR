@@ -6,7 +6,6 @@ Controlador del modelo Vehicle
 const Vehicle = require('../models/m_vehicle');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
-const url = require('url');
 const {
     validationResult
 } = require('express-validator');
@@ -157,7 +156,7 @@ class Vehicle_controller {
                     status: 200
                 });
             } else {
-                res.render('../views/vehicle/create.html', {
+                return res.render('../views/vehicle/create.html', {
                     errors: errors.array(),
                     states,
                     vehicle,

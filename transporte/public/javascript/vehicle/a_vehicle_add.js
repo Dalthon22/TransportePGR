@@ -33,6 +33,16 @@ $(function () {
                     rules: [{
                         type: 'empty',
                         prompt: 'Por favor ingrese información del chasis'
+                    }, {
+                        type: 'regExp',
+                        value: /([A-Za-z0-9]{10,17})/i,
+                        prompt: 'Ingrese valor alfanumérico de 10 a 17 caracteres'
+                    }, {
+                        type: 'minLength[10]',
+                        prompt: 'El valor debe contener mínimo 10 caracteres'
+                    }, {
+                        type: 'maxLength[17]',
+                        prompt: 'El valor debe contener máximo 17 caracteres'
                     }]
                 },
                 state: {
@@ -45,9 +55,18 @@ $(function () {
                 model: {
                     identifier: 'model',
                     rules: [{
-                        type: 'empty',
-                        prompt: 'Por favor ingrese el modelo'
-                    }]
+                            type: 'empty',
+                            prompt: 'Por favor ingrese el modelo'
+                        }, {
+                            type: 'minLength[2]',
+                            prompt: 'Debe contener al menos dos caracteres'
+                        },
+                        {
+                            type: 'regExp',
+                            value: /([A-Za-z]+)/gi, //Obligar a que contenga al menos una letra
+                            prompt: 'El nombre del modelo debe contener al menos una letra'
+                        }
+                    ]
                 },
                 engine: {
                     identifier: 'engine',
@@ -77,8 +96,8 @@ $(function () {
                         },
                         {
                             type: 'regExp',
-                            value: /([A-Z]{1,2})(\d{3,6})/i,
-                            prompt: 'El número de placa debe tener este este formato: A(A)999(999)'
+                            value: /([N]{1})(\d{3,6})/i,
+                            prompt: 'El número de placa debe tener este este formato: N###(###)'
                         }
                     ]
                 },
@@ -98,6 +117,32 @@ $(function () {
 
     current_plate = $('#vplate').val();
 });
+
+
+/*
+Impide el ingreso de cualquier caracter que no se numero
+06012019_DD
+ */
+$("#seats").keydown(function (event) {
+    return event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+})
+
+/*
+Impide el ingreso de cualquier caracter que no se letra del alfabeto
+BackSpace, Suprimir o flechas direccionales
+06012019_DD
+ */
+$("#brand").keydown(function (event) {
+    return event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 || event.keyCode >= 65 && event.keyCode <= 90 ? true : false;
+})
+
+/*
+Impide el ingreso de la letra i,o,q,ñ
+06012019_DD
+ */
+$("#chassis").keydown(function (event) {
+    return event.keyCode === 73 || event.keyCode === 79 || event.keyCode === 81 || event.keyCode === 192 ? false : true;
+})
 
 /*
 Permite cerrar los mensajes emergentes

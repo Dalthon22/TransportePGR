@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const UserRol = require('./m_user_role');
 
 const Role = db.define('SGT_Rol', {
-    Codigo_Rol: {
+    codigo_rol: {
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
@@ -13,6 +14,7 @@ const Role = db.define('SGT_Rol', {
     name: {
         type: Sequelize.STRING(50),
         allowNull: false,
+        unique: true,
         validate: {
             notEmpty: true,
         }
@@ -25,8 +27,9 @@ const Role = db.define('SGT_Rol', {
     freezeTableName: true,
 });
 
-/* Role.hasMany(UserRol, {
-    foreignKey: 'Codigo_Rol'
-}); */
+Role.hasMany(UserRol, {
+    foreignKey: 'codigo_rol',
+    onDelete: 'cascade'
+});
 
 module.exports = Role;
