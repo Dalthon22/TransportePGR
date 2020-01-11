@@ -1,0 +1,96 @@
+{% extends 'index.html'%}
+
+{% block views %}
+
+<div class="ui container">
+    <form class="ui form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/gestionar" method="POST">
+        {% if vehicle %}
+        <h1 class="ui dividing header left aligned blue">Editar Vehículo</h1>
+        {% else %}
+        <h1 class="ui dividing header left aligned blue">Agregar Vehículo</h1>
+        {% endif %}
+        <div class="equal width fields">
+            <div id="fPlate" class="required field">
+                <label for="plate">Matrícula</label>
+                <input id="vplate" name="plate" type="text" placeholder="AA236963"
+                    value="{{ vehicle.plate if vehicle.plate else 'N' }}">
+            </div>
+            <div class="required  field">
+                <label for="brand">Marca</label>
+                <input id="brand" name="brand" type="text" placeholder="Ej.: Toyota" value="{{ vehicle.brand }}">
+            </div>
+            <div class="required field">
+                <label for="model">Modelo</label>
+                <input id="model" name="model" type="text" placeholder="Ej. Corolla SE" value="{{ vehicle.model }}">
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="required field">
+                <label for="chassis">Chasis</label>
+                <input id="chassis" name="chassis" type="text" placeholder="Chasis" value="{{ vehicle.chassis }}">
+            </div>
+            <div class="required field">
+                <label for="engine">Motor</label>
+                <input id="engine" name="engine" type="text" placeholder="64EKT931230" value="{{ vehicle.engine }}">
+            </div>
+        </div>
+        <div class="sixteen wide field">
+            <div class="two fields">
+                <div class="four wide required field">
+                    <label for="state">Estado</label>
+                    <select class="ui fluid search dropdown" name="state">
+                        {% for value, state in states %}
+                        {% if value == vehicle.state %}
+                        <option value={{value}} selected>{{state}}</option>
+                        {% else %}
+                        <option value={{value}}>{{state}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="four wide required field">
+                    <label for="seats">Asientos</label>
+                    <input id="seats" name="seats" min="2" max="40" type="number" placeholder="2-40"
+                        value="{{ vehicle.seats }}">
+                </div>
+            </div>
+        </div>
+        <br>
+        <input type="hidden" id="vehicle_id" name="vehicle_id" value={{ vehicle.id }}>
+        <a href="/vehiculos">
+            <div class="ui left floated animated button" style="margin-bottom:1em" type="button">
+                <div class="visible content">Volver</div>
+                <div class="hidden content"><i class="left arrow icon"></i></div>
+            </div>
+        </a>
+        <div class="ui positive button" id="add_btn">Guardar</div>
+        <!-- <div class="ui right floated yellow hiden hidden button" id="validate_plate">Validar matrícula</div> -->
+    </form>
+    {% if plate_error %}
+    <div class="ui warning message" style="width:30em">
+        <div class="header">
+            Advertencia
+        </div>
+        <i class="close icon"></i>
+        <li> {{ plate_error}} </li>
+    </div>
+    {% endif %}
+    {% if errors %}
+    <div class="ui error message" style="width:30em">
+        <i class="close icon"></i>
+        <div class="header">
+            Errores al Insertar
+        </div>
+        <ul class="list">
+            {% for error in errors %}
+            <li>{{error.msg}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<link rel="stylesheet" href="/stylesheets/vehicle.css">
+<script src="/javascript/vehicle/a_vehicle_add.js"></script>
+
+{% endblock %}
