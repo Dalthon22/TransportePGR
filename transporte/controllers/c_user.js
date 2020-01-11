@@ -86,7 +86,7 @@ class user_controller {
                     include: [{
                         model: User_Role,
                         raw: true,
-                        required: true
+                        required: false
                     }]
                 });
 
