@@ -1,10 +1,11 @@
 {% extends 'index.html' %}
 {% block views %}
+<br>
 <div class="ui container dimmable">
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
-                <form class="ui form" id="folo6_form" method="POST" novalidate>
+                <form class="ui form" id="folo6_form" method="POST" autocomplete="off" novalidate>
                     <h3 class="ui blue dividing header" style="padding-top: 15px;">Solicitud de transporte FOLO-6</h3>
                     <div class="ui info message">
                         <div class="header"><i class="top left exclamation circle fitted info icon"></i>
@@ -83,12 +84,12 @@
                         </div>
                     </div>
                     <div class="fields">
-                        <div class="eight wide field" id="name_driver_f">
+                        <div class="eight wide required field" id="name_driver_f">
                             <label for="name_driver_i">Nombre:</label>
-                            <input type="text" placeholder="Persona que va a coducir" name="name_driver_i"
+                            <input type="text" placeholder="Persona que va a conducir" name="name_driver_i"
                                 id="n_driver_i" disabled="true" maxlength="100" value="{{folo.person_who_drive}}">
                         </div>
-                        <div class="field" id="type_license_f">
+                        <div class="required field" id="type_license_f">
                             <label for="license_ls_id">Tipo de licencia:</label>
                             <select class="ui fluid dropdown" name="license_ls" id="license_ls_id" disabled="true ">
                                 <!-- Si cuando se creo el folo había sleccionado un tipo de licencia sera seleccionado por defecto de lo contrario mostrará la opción por defecto -->
@@ -109,8 +110,8 @@
                     <h4 class="ui blue dividing header">Lugar de destino</h4>
                     <div class="field">
                         <div class="two fields">
-                            <div class="field">
-                                <label>Departamento</label>
+                            <div class="required field">
+                                <label>Departamento:</label>
                                 <select class="ui fluid dropdown" id="departamento" name="departamento">
                                     <option value="">--Seleccione un departamento--</option>
                                     {% for dep in Departamentos %}
@@ -122,8 +123,8 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="field">
-                                <label>Municipio</label>
+                            <div class="required field">
+                                <label>Municipio:</label>
                                 <select class="ui fluid dropdown" id="municipio" name="municipio">
                                     <option value=""></option>
                                 </select>
@@ -137,12 +138,12 @@
                         </select>
                         <input id="idfplaces" type="hidden" value="{{fplaces}}">
                     </div>
-                    <div class="field">
-                        <label>Lugar de destino</label>
+                    <div class="field" id="otherName">
+                        <label>Nombre del destino:</label>
                         <input type="text" name="destiny_place_i" placeholder="Centro Escolar..." id="destiny_place_i">
                     </div>
-                    <div class="field">
-                        <label>Detalle de dirección</label>
+                    <div class="field" id="otherDetail">
+                        <label>Detalle de dirección:</label>
                         <textarea rows="3" id="direction_txt" name="direction_txt"
                             placeholder="Calle x, pasaje y, local...."></textarea>
                     </div>

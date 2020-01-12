@@ -43,4 +43,9 @@ router.post('/gestionar', [
     };
 
 });
+
+//Ruta para verificar si el nombre existe
+router.post('/procuNameExists', (req, res) => {
+    controller.procuNameExists(req, res);
+});
 module.exports = router;

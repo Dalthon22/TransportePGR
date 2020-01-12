@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const route_conditions = require('./m_route_conditions');
 const frequent_places = require('./m_frequent_place');
+const route_conditions = require('./m_route_conditions');
 
 const Route = db.define('SGT_Ruta', {
   name: {
@@ -33,8 +33,8 @@ const Route = db.define('SGT_Ruta', {
   freezeTableName: true,
 });
 
-Route.hasOne(route_conditions, {
-  foreignKey: 'route_id',
+Route.belongsTo(route_conditions, {
+  foreignKey: 'route_conditions_id',
   onDelete: 'cascade'
 });
 
