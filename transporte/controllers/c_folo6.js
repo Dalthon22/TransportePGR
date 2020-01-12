@@ -8,6 +8,7 @@ const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
 const Apanel = require('../models/m_folo6_approve_state');
 const Op = Sequelize.Op;
+const querystring = require('querystring');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -1478,15 +1479,17 @@ class folo6_controllers {
                 }
                 console.log("sali del create");
                 //Datos que se envían a la vista
+                const query = querystring.stringify({
+                    success: "yes",
+                });
+
                 res.send({
-                    message: "Datos agregados con exito",
-                    type: 0,
-                    redirect: "/home",
+                    redirect: "/home?&" + query,
                     status: 200
                 });
             }
         } catch (err) {
-            console.log("Ocurrio en el método create" + err);
+            console.log("Ocurrió en el método create " + err);
             res.send({
                 title: "Error al guardar los datos",
                 message: "Ocurrio un error mientras se guardaban los datos, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
@@ -1497,7 +1500,8 @@ class folo6_controllers {
     }
     //Recibe los datos actulizados para un registro de folo 6
     async editFolo6(req, res) {
-        var form, emp, date, motorista;
+        var form, emp, date, motorista, fplaces, address;
+        console.log(req.body);
         motorista = JSON.parse(req.body.motorista);
         console.dir("form: " + JSON.stringify(motorista + "Y del tipo:" + typeof (motorista)));
         form = JSON.parse(req.body.form);
@@ -1510,10 +1514,11 @@ class folo6_controllers {
         console.dir("Recibi estas direcciones: " + address);
 
         try {
+            const errors = validationResult(req);
             console.log("Solicito editar el folo con id: " + form.folo_id);
 
             //errors es una variable declara para las validaciones realizadas en express
-            //console.log(errors.array());            //Conversion al formato permitido por sequelize YYYY-MM-DD y horas HH:mm (Formato 24 hrs)
+            //Conversion al formato permitido por sequelize YYYY-MM-DD y horas HH:mm (Formato 24 hrs)
             date = moment(form.calendar1, "DD/MM/YYYY").format("YYYY-MM-DD");
             var t = moment(form.time, ["h:mm A"]).format("HH:mm");
             var t1 = moment(form.time1, ["h:mm A"]).format("HH:mm");
@@ -1591,15 +1596,18 @@ class folo6_controllers {
                     })
                 })
 
+                const query = querystring.stringify({
+                    success: "yes",
+                    edit: "yes"
+                });
+
                 res.send({
-                    message: "Datos actualizados con exito",
-                    type: 0,
-                    redirect: "/home",
+                    redirect: "/home?&" + query,
                     status: 200
                 });
             }
         } catch (err) {
-            console.log("Ocurrio en el método edit" + err);
+            console.log("Ocurrió en el método edit: " + err);
             res.send({
                 title: "Error al guardar los cambios",
                 message: "Ocurrio un error mientras se actualizaban los datos, intente de nuevo, si el error persiste recargue la pagina o contacte a soporte",
