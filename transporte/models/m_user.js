@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Unit = require('./m_unit');
+const Employee = require('./m_employee');
 const UserRol = require('./m_user_role');
 
 const User = db.define('SGT_Usuario', {
@@ -51,11 +53,20 @@ const User = db.define('SGT_Usuario', {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     freezeTableName: true,
+    hasTrigger: true
 });
 
 User.hasMany(UserRol, {
     foreignKey: 'user_id',
     onDelete: 'cascade'
 });
+
+User.belongsTo(Employee, {
+    foreignKey: 'id_boss'
+});
+
+User.belongsTo(Unit, {
+    foreignKey: 'unit_id'
+})
 
 module.exports = User;
