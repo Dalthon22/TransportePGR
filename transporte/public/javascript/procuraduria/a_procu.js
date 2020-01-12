@@ -60,6 +60,9 @@ if(success == 'yes'){
 
 $('#mytable').DataTable({
     "scrollCollapse": true,
+    language: {
+        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+    }
 });
 
 $(".pencil.yellow.alternate.link.icon").click(function () {

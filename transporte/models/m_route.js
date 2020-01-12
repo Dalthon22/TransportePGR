@@ -33,7 +33,8 @@ const Route = db.define('SGT_Ruta', {
 });
 
 route_conditions.hasOne(Route, {
-  foreignKey: 'route_conditions_id'
+  foreignKey: 'route_conditions_id',
+  onDelete: 'cascade'
 });
 
 Route.hasMany(frequent_places, {
