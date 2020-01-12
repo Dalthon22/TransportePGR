@@ -23,14 +23,27 @@
                         </div>
                     </div>
 
-                    <div class="ui toggle checkbox">
+                    <div class="required field">
+                        <div id="is_unit_boss" class="ui toggle checkbox" style="margin-bottom: 0.5rem;">
+                            {% if user.is_unit_boss == true %}
+                            <input type="checkbox" name="unit_boss" checked="checked">
+                            {% else %}
+                            <input type="checkbox" name="unit_boss">
+                            {% endif %}
+                            <label>Jefe de unidad</label>
+                        </div>
+                    </div>
 
-                        {% if user.is_unit_boss == true %}
-                        <input type="checkbox" name="unit_boss" checked="checked">
-                        {% else %}
-                        <input type="checkbox" name="unit_boss">
+                    <div id="boss">
+                        {% if user.is_unit_boss == false or not user %}
+                        {% include '../user/boss_selector.html' %}
                         {% endif %}
-                        <label>Jefe de unidad</label>
+                    </div>
+
+                    <div id="unit">
+                        {% if user.is_unit_boss == true %}
+                        {% include '../user/unit_selector.html' %}
+                        {% endif %}
                     </div>
 
                     <!-- User html -->
@@ -68,12 +81,12 @@
                         <div class="field" style="margin-top: 1em;">
                             <label>Roles</label>
                             <div class="ui fluid clearable multiple selection dropdown">
-                                <input type="hidden" name="roles" value="{{selected_roles}}">
+                                <input id="assinged_roles" type="hidden" name="roles" value="{{selected_roles}}">
                                 <i class="dropdown icon"></i>
                                 <div class="default text">Seleccione los roles</div>
                                 <div class="menu">
                                     {% for rol in roles %}
-                                    <div class="item">{{rol.name}}</div>
+                                    <div class="item" data-value="{{rol.name}}">{{rol.name}}</div>
                                     {% endfor %}
                                 </div>
                             </div>

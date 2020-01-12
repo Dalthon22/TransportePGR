@@ -1,6 +1,6 @@
 {
   "name": "transporte",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -25,6 +25,6 @@
     "tedious": "^6.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.4"
   }
 }

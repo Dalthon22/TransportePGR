@@ -1,3 +1,6 @@
+//Defines de Fade time (In or Out)
+var time_out = 500;
+
 $(function () {
     $('.ui.form')
         .form({
@@ -47,7 +50,77 @@ $(function () {
         });
 
     $('.ui.toggle.checkbox').checkbox('set enabled');
+
+    createTempTags();
+
 });
+
+/*Crea las etiquetas temporales en caso sea una edicion con roles asignados */
+function createTempTags() {
+    var roles = $('#assinged_roles').val();
+    if (roles) {
+        //Coloca los roles ya asignados. Valido cuando sea una actualizacion
+        $('.ui.fluid.clearable.multiple.selection.dropdown')
+            .dropdown('restore defaults');
+    }
+}
+
+
+/*Nuestra el selector correspondiente en base al valor del checkbox 11012020_DD*/
+$('#is_unit_boss').change(function () {
+    var url = '/usuarios/gestionar?';
+    var uri;
+    if ($(this).checkbox('is checked') === true) {
+        //Para saber si el campo ya fue añadadido
+        if ($('#boss_field').hasClass('field')) {
+            $('#boss_field').fadeOut(time_out, function () {
+                $(this).remove();
+                getSelector(1)
+            });
+        } else {
+            getSelector(1);
+        }
+    } else {
+        if ($('#unit_field').hasClass('field')) {
+            $('#unit_field').fadeOut(time_out, function () {
+                $(this).remove();
+                getSelector(2);
+            });
+        } else {
+            getSelector(2);
+        }
+
+
+    }
+});
+
+/*Funcion para obtener el selector de unidades 11012020_DD*/
+function getSelector(selector) {
+    var url = '/usuarios/gestionar?';
+    var uri = encodeURI(url + "selector=" + selector);
+    switch (selector) {
+        case 1: //Selector de unidad
+            $('#unit').load(uri, 1, function () {
+
+            }).hide();
+            $('#unit').fadeIn(time_out * 5);
+            break;
+        case 2: //Selector de jefes
+            $('#boss').load(uri, 2, function () {
+                var user_id = $('#user_id').val();
+                var user_email = $('#email').val();
+                if (user_id && user_email) {
+                    console.log(user_id + user_email);
+                    var contains = "option[email*='%1']";
+                    contains = contains.replace("%1", user_email);
+                    $(contains).remove();
+                }
+            }).hide();
+            $('#boss').fadeIn(time_out * 5);
+            break;
+    }
+}
+
 
 $('#pw_icon').click(function () {
     if (!$(this).hasClass('slash')) {
