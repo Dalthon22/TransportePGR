@@ -205,42 +205,49 @@ function createRoute() {
         monday = true;
     } else {
         monday = false;
+        monday_frequency = 0;
     };
 
     if($('#tuesday').is(':checked')){
         tuesday = true;
     } else {
         tuesday = false;
+        tuesday_frequency = 0;
     };
 
     if($('#wednesday').is(':checked')){
         wednesday = true;
     } else {
         wednesday = false;
+        wednesday_frequency = 0;
     };
 
     if($('#thursday').is(':checked')){
         thursday = true;
     } else {
         thursday = false;
+        thursday_frequency = 0;
     };
 
     if($('#friday').is(':checked')){
         friday = true;
     } else {
         friday = false;
+        friday_frequency = 0;
     };
 
-    if($('#msaturday').is(':checked')){
+    if($('#saturday').is(':checked')){
         saturday = true;
     } else {
         saturday = false;
+        saturday_frequency = 0;
     };
 
     if($('#sunday').is(':checked')){
         sunday = true;
     } else {
         sunday = false;
+        sunday_frequency = 0;
     };
     //Determina si la ruta está habilitada o no.
     if($('#enabled').is(':checked')){
