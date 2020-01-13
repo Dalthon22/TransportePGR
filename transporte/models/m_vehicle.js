@@ -27,10 +27,15 @@ const Vehicle = db.define('SGT_Vehiculo', {
     chassis: {
         type: Sequelize.STRING(20),
         allowNull: false,
+        unique: true,
+        validate: {
+            notEmpty: true,
+        }
     },
     engine: {
         type: Sequelize.STRING(25),
         allowNull: false,
+        unique: true,
         validate: {
             notEmpty: true,
         }
