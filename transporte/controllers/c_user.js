@@ -120,6 +120,7 @@ class user_controller {
         }
     }
 
+    /*Crea o actuliza la informacion del usuario 05012020_DD */
     async createOrUpdateUser(req, res) {
         var is_unit_boss, active, query, new_user;
         let {
