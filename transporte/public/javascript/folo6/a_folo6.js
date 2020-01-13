@@ -62,6 +62,9 @@ $('.ui.form').form({
             rules: [{
                 type: 'empty',
                 prompt: 'Seleccione una hora de retorno'
+            }, {
+                type: 'different[time]',
+                prompt: 'La hora de retorno debe ser distinta a la hora de salida'
             }]
         },
         passengers_i: {
@@ -183,9 +186,9 @@ $('#standard_calendar').calendar({
 }).calendar('focus');
 /*--Checkbox motorista--*/
 /* Los campos "Nombre del motorista" y "Tipo de licencia" se mostrarán/ocultarán dependiendo de si
-quiere o no motorista.*/ 
+quiere o no motorista.*/
 $('#name_driver_f').prop('hidden', true);
-$('#type_license_f').prop('hidden', true); 
+$('#type_license_f').prop('hidden', true);
 $('.ui.checkbox').checkbox('enable');
 $('#driver_cb').checkbox({
     onChecked: function () {
@@ -258,14 +261,44 @@ function debugBase64(base64URL) {
     win.document.close()
 }
 
-$('#save_print_btn').on('click', function () {
+/* $('#save_print_btn').on('click', function () {
     if ($('.ui.form').form('is valid')) {
         event.preventDefault();
         showDimmer();
         guardarFolo6();
         // setTimeout(guardarFolo6(), 30000);
     }
+}); */
+
+/*PARA VALIDAR QUE SE INGRESE AL MENOS UNA DIRECCIÓN */
+$('#save_print_btn').on('click', function () {
+    $('.ui.toast').remove();
+    if ($('#createdAddress').has('option').length > 0 || $('#selectedFPlace').has('option').length > 0) {
+        if ($('.ui.form').form('is valid')) {
+            event.preventDefault();
+
+            showDimmer();
+            guardarFolo6();
+            // setTimeout(guardarFolo6(), 30000);
+        }
+    } else {
+        event.preventDefault();
+
+        hideDimmer();
+        $('body')
+            .toast({
+                title: "Lugares de destino vacíos",
+                showIcon: false,
+                class: 'error',
+                position: 'top right',
+                displayTime: 0,
+                closeIcon: true,
+                message: "La solicitud debe tener al menos un lugar o una dirección que visitar",
+            });
+    }
 });
+
+
 //Animación patanlla negra y muestra el loader: "guardando..."
 function showDimmer() {
     $('body').dimmer({
@@ -391,7 +424,7 @@ $('#addAddress').click(function () {
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     var baseDir, cmpDir, c1, c2, c3, c4, dirExiste = 0;
-    var tablaDirecciones = document.getElementById('addressTable'); 
+    var tablaDirecciones = document.getElementById('addressTable');
 
     if(destinyPlace == ''){
         destinyPlace = 'No especificado';
@@ -604,7 +637,7 @@ $('#fplaces').change(function () {
 $('#destiny_place_i').on('change', function () {
     if ($(this).val() != null) { //1) Es diferente de nulo
         // 1.1) Y si el campo "Detalle de dirección" está vacío habilita el botón (en caso previo ya hubiese sido deshabilitado).
-        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
+        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección".
         if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', false);
         } else {

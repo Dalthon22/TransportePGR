@@ -74,6 +74,9 @@ $('.ui.form').form({
             rules: [{
                 type: 'empty',
                 prompt: 'Seleccione una hora de retorno'
+            }, {
+                type: 'different[time]',
+                prompt: 'La hora de retorno debe ser distinta a la hora de salida'
             }]
         },
         passengers_i: {
@@ -350,7 +353,7 @@ function updateFolo6() {
                     });
                 hideDimmer();
             } else {
-                //Si se ingreso con exito  
+                //Si se ingreso con exito
                 window.location.href = data.redirect;
             };
         },
@@ -467,7 +470,7 @@ $('#addAddress').click(function () {
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
     var baseDir, cmpDir, c1, c2, c3, c4, dirExiste = 0;
-    var tablaDirecciones = document.getElementById('addressTable'); 
+    var tablaDirecciones = document.getElementById('addressTable');
 
     if(destinyPlace == ''){
         destinyPlace = 'No especificado';
@@ -554,7 +557,7 @@ $('#addAddress').click(function () {
                     });
                 });
                 //Esconde los campos para poder ingresar otra dirección.
-                $('#otherName').slideUp(); 
+                $('#otherName').slideUp();
                 $('#otherDetail').slideUp();
         };
         //Agrego el lugar frecuente seleccionado al dropdown
@@ -713,7 +716,7 @@ $('#fplaces').change(function () {
 $('#destiny_place_i').on('change', function () {
     if ($(this).val() != null) { //1) Es diferente de nulo
         // 1.1) Si el campo "Detalle de dirección" está vacío habilita el botón (en caso previo ya hubiese sido deshabilitado).
-        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
+        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección".
         if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', false);
         } else {
