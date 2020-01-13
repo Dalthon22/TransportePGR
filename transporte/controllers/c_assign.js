@@ -90,10 +90,11 @@ class assign_controller {
                 console.log(mileage_inserted);
                 console.log(cant);
                 console.log(foloA_id);
+                var cantidad = parseInt(cant);
                 try {
                     var vales_lista = await Vales.findAll({
-                        attributes: ['num_voucher'],
-                        top: cant,
+                        attributes: ['num_voucher', 'num_entry_bill', 'voucher_provider'],
+                        limit: cantidad,
                         where: {
                             condition: 'Disponible',
                         }
@@ -111,7 +112,9 @@ class assign_controller {
                             condition: 'Asignado',
                         }, {
                             where: {
-                                num_voucher: vales_lista[i].num_voucher
+                                num_voucher: vales_lista[i].num_voucher,
+                                num_entry_bill: vales_lista[i].num_entry_bill,
+                                voucher_provider: vales_lista[i].voucher_provider
                             }
                         });
                     }
