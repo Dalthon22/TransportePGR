@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block views %}
-
+<br>
 <div class="ui container">
     <div class="ui vertically divided grid">
         <div class="sixteen wide column">
@@ -20,11 +20,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for route in Routes %}
+                    {% for ruta in Rutas %}
                     <tr>
-                        <td>{{ route.name }}</td>
+                        <td>{{ ruta.name }}</td>
                         <td class="center aligned">
-                            <i class="large pencil yellow alternate link icon" value={{ route.id }}></i>
+                            <i class="large pencil yellow alternate link icon" value="{{ ruta.id }}"></i>
                         </td>
                     </tr>
                     {% endfor %}

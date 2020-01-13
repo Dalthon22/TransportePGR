@@ -21,6 +21,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     tuesday: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         validate: {
             notEmpty: true
         },
@@ -28,6 +29,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     tuesday_frequency: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         validate: {
             notEmpty: true
         },
@@ -35,6 +37,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     wednesday: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         validate: {
             notEmpty: true
         },
@@ -42,6 +45,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     wednesday_frequency: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         validate: {
             notEmpty: true
         },
@@ -49,6 +53,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     thursday: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         validate: {
             notEmpty: true
         },
@@ -56,6 +61,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     thursday_frequency: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         validate: {
             notEmpty: true
         },
@@ -63,6 +69,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     friday: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         validate: {
             notEmpty: true
         },
@@ -70,6 +77,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     friday_frequency: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         validate: {
             notEmpty: true
         },
@@ -77,6 +85,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     saturday: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         validate: {
             notEmpty: true
         },
@@ -84,6 +93,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     saturday_frequency: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         validate: {
             notEmpty: true
         },
@@ -91,6 +101,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     sunday: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         validate: {
             notEmpty: true
         },
@@ -98,6 +109,7 @@ const route_conditions = db.define('SGT_Condiciones_Ruta', {
     sunday_frequency: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         validate: {
             notEmpty: true
         },

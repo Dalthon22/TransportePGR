@@ -50,6 +50,7 @@ app.use('/direccion', require('./routes/r_address'));
 app.use('/instituciones', require('./routes/r_procuraduria'));
 app.use('/misiones', require('./routes/r_misiones'));
 app.use('/vehiculos', require('./routes/r_vehicle'));
+
 app.use('/rutas', require('./routes/r_route'));
 app.use('/lugares_frecuentes', require('./routes/r_frequent_places'));
 app.use('/motoristas', require('./routes/r_driver'));

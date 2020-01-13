@@ -4,10 +4,10 @@ const Departamento = require('../controllers/c_department');
 const {
   validationResult
 } = require('express-validator');
+const querystring = require('querystring');
 
 class Procuraduria_controller {
   constructor() { }
-
 
   async getGestionar(req, res) {
     try {
@@ -66,7 +66,7 @@ class Procuraduria_controller {
         municipio,
         enabled
       } = req.body;
-      if(enabled == 'on'){
+      if (enabled == 'on') {
         enabled = true;
       } else {
         enabled = false;
@@ -93,7 +93,13 @@ class Procuraduria_controller {
           enabled,
           address_id: dir.id
         });
-        res.redirect('/instituciones');
+        const query = querystring.stringify({
+          success: 'yes'
+        });
+        res.send({
+          redirect: "/instituciones?&" + query,
+          status: 200
+        });
       }
     } catch (error) {
       console.log(error);
@@ -109,7 +115,8 @@ class Procuraduria_controller {
         name,
         detail,
         departamento,
-        municipio
+        municipio,
+        enabled
       } = req.body;
       let Procu = await Procuraduria.findByPk(procu_id);
       console.log(errors.array());
@@ -131,17 +138,50 @@ class Procuraduria_controller {
           },
         });
         Procuraduria.update({
-          name: name
+          name,
+          enabled
         }, {
           where: {
             id: procu_id
           }
         });
-        res.redirect('/instituciones');
+        const query = querystring.stringify({
+          success: 'yes',
+          edit: 'yes'
+        });
+        res.send({
+          redirect: "/instituciones?&" + query,
+          status: 200
+        });
       };
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //Función para verificar que la ruta tenga nombre único.
+  async procuNameExists(req, res) {
+    try {
+      //Se obtiene el valor del campo 'name'
+      let name = req.body.name;
+      let exists; //Bandera
+      //Obtiene solo el campo 'name' de la tabla de rutas en la BD.
+      let Procus = await Procuraduria.findAll({
+        attributes: ['name']
+      });
+      /* Itera los nombres obtenidos de la BD y compara cada uno con el nombre que proviene del campo
+      en la vista. Si son iguales, se indica en la bandera y se rompe el ciclo. */
+      for (var procu of Procus) {
+        if (name == procu.name) {
+          exists = 'yes';
+          break;
+        };
+      };
+      //Se envía la bandera a la vista.
+      res.send(exists);
+    } catch (error) {
+      console.log(error); //Muestra errores si los hay.
+    };
   };
 };
 
