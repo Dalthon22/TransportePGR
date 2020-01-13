@@ -33,8 +33,8 @@ const Route = db.define('SGT_Ruta', {
   freezeTableName: true,
 });
 
-Route.belongsTo(route_conditions, {
-  foreignKey: 'route_conditions_id',
+Route.hasOne(route_conditions, {
+  foreignKey: 'route_id',
   onDelete: 'cascade'
 });
 

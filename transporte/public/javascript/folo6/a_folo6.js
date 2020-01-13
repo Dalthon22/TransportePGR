@@ -637,7 +637,7 @@ $('#fplaces').change(function () {
 $('#destiny_place_i').on('change', function () {
     if ($(this).val() != null) { //1) Es diferente de nulo
         // 1.1) Y si el campo "Detalle de dirección" está vacío habilita el botón (en caso previo ya hubiese sido deshabilitado).
-        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
+        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección".
         if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', false);
         } else {
