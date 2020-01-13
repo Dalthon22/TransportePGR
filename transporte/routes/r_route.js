@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     controller.getList(req, res);
 });
 
-// Show add form and Get Departamentos list
+// Show add form
 router.get('/gestionar', (req, res) => {
     controller.getGestionar(req, res);
 });
@@ -43,5 +43,10 @@ router.post('/gestionar', [
             controller.createRoute(req, res);
         }
     });
+
+//Ruta para verificar si el nombre existe
+router.post('/routeNameExists', (req, res) => {
+    controller.routeNameExists(req, res);
+});
 
 module.exports = router;

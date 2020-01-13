@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const route_conditions = require('./m_route_conditions');
 const frequent_places = require('./m_frequent_place');
+const route_conditions = require('./m_route_conditions');
 
 const Route = db.define('SGT_Ruta', {
   name: {
