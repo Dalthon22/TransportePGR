@@ -3,8 +3,9 @@ const querystring = require('querystring');
 const User_Role_Controller = require('./c_user_role');
 const User = require('../models/m_user');
 const User_Role = require('../models/m_user_role');
+const Unit_Controller = require('./c_unit');
 const Role_Controller = require('./c_role');
-
+const Employee_Controller = require('./c_employee');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -72,11 +73,13 @@ class user_controller {
     /*Obtiene el formulario de creación/actulización de un usuarios */
     async getAdd(req, res) {
         try {
-            var user, roles, selected_roles;
+            var user, roles, selected_roles, unit_bosses, units;
             var selected_role_codes = [];
             var selected_role_names = [];
             var user_id = req.query.user_id;
             roles = await Role_Controller.getList();
+            unit_bosses = await Employee_Controller.getUnitBosses();
+            units = await Unit_Controller.getList();
             console.log(user_id);
             if (user_id) {
                 user = await User.findOne({
@@ -108,6 +111,8 @@ class user_controller {
             return res.render('../views/user/add.html', {
                 user,
                 roles,
+                unit_bosses,
+                units,
                 selected_roles
             });
         } catch (error) {
@@ -115,6 +120,7 @@ class user_controller {
         }
     }
 
+    /*Crea o actuliza la informacion del usuario 05012020_DD */
     async createOrUpdateUser(req, res) {
         var is_unit_boss, active, query, new_user;
         let {
@@ -125,6 +131,8 @@ class user_controller {
             password,
             is_active,
             user_id,
+            unit_id,
+            id_boss,
             roles
         } = req.body;
         try {
@@ -133,6 +141,14 @@ class user_controller {
             if (errors.isEmpty()) {
                 is_unit_boss = unit_boss == 'on' ? true : false;
                 active = is_active == 'on' ? true : false;
+                unit_id = unit_id ? unit_id : null;
+                id_boss = id_boss ? id_boss : null;
+                if (unit_id === null) //Es necesario guardar la  unidad del jefe
+                {
+                    var emp = await Employee_Controller.findById1(id_boss);
+                    unit_id = emp.unit.id;
+                }
+                console.log("Nuevos valores: " + unit_id + id_boss);
                 if (user_id) {
                     /*Actuliza un registro existente */
                     await User.update({
@@ -142,6 +158,8 @@ class user_controller {
                         email,
                         password,
                         active,
+                        unit_id,
+                        id_boss
                     }, {
                         where: {
                             id: user_id
@@ -162,6 +180,8 @@ class user_controller {
                         email,
                         password,
                         active,
+                        unit_id,
+                        id_boss
                     });
                     //Doble parseo para poder acceder a los atributos del objecto User
                     new_user = JSON.parse(JSON.stringify(seqObjct))

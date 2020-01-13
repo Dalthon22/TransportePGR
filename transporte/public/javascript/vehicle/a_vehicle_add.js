@@ -35,11 +35,11 @@ $(function () {
                         prompt: 'Por favor ingrese información del chasis'
                     }, {
                         type: 'regExp',
-                        value: /([A-Za-z0-9]{10,17})/i,
-                        prompt: 'Ingrese valor alfanumérico de 10 a 17 caracteres'
+                        value: /([A-Za-z0-9]{17})/i,
+                        prompt: 'Ingrese valor alfanumérico de 17 caracteres'
                     }, {
-                        type: 'minLength[10]',
-                        prompt: 'El valor debe contener mínimo 10 caracteres'
+                        type: 'minLength[17]',
+                        prompt: 'El valor debe contener mínimo 17 caracteres'
                     }, {
                         type: 'maxLength[17]',
                         prompt: 'El valor debe contener máximo 17 caracteres'
@@ -57,15 +57,17 @@ $(function () {
                     rules: [{
                             type: 'empty',
                             prompt: 'Por favor ingrese el modelo'
-                        }, {
-                            type: 'minLength[2]',
-                            prompt: 'Debe contener al menos dos caracteres'
                         },
                         {
                             type: 'regExp',
                             value: /([A-Za-z]+)/gi, //Obligar a que contenga al menos una letra
                             prompt: 'El nombre del modelo debe contener al menos una letra'
-                        }
+                        },
+                        {
+                            type: 'minLength[2]',
+                            prompt: 'Debe contener al menos dos caracteres'
+                        },
+
                     ]
                 },
                 engine: {
@@ -73,6 +75,11 @@ $(function () {
                     rules: [{
                             type: 'empty',
                             prompt: 'Por favor ingrese número del motor'
+                        },
+                        {
+                            type: 'regExp',
+                            value: /([A-Za-z0-9]{10})/i,
+                            prompt: 'Ingrese valor alfanumérico de 10 caracteres'
                         },
                         {
                             type: 'minLength[10]',
@@ -91,8 +98,8 @@ $(function () {
                             prompt: 'El numero de placa puede poseer menos de 4 caracteres'
                         },
                         {
-                            type: 'maxLength[8]',
-                            prompt: 'El numero de placa no puede poseer más de 8 caracteres'
+                            type: 'maxLength[7]',
+                            prompt: 'El numero de placa no puede poseer más de 7 caracteres'
                         },
                         {
                             type: 'regExp',
@@ -124,7 +131,13 @@ Impide el ingreso de cualquier caracter que no se numero
 06012019_DD
  */
 $("#seats").keydown(function (event) {
-    return event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+})
+
+/*Limita el ingreso de caracteres a la letra N y numeros
+13012020_DD*/
+$("#vplate").keydown(function (event) {
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 78 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
 })
 
 /*
@@ -133,7 +146,7 @@ BackSpace, Suprimir o flechas direccionales
 06012019_DD
  */
 $("#brand").keydown(function (event) {
-    return event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 || event.keyCode >= 65 && event.keyCode <= 90 ? true : false;
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 || event.keyCode >= 65 && event.keyCode <= 90 ? true : false;
 })
 
 /*
@@ -141,7 +154,35 @@ Impide el ingreso de la letra i,o,q,ñ
 06012019_DD
  */
 $("#chassis").keydown(function (event) {
-    return event.keyCode === 73 || event.keyCode === 79 || event.keyCode === 81 || event.keyCode === 192 ? false : true;
+    return event.keyCode === 73 || event.keyCode === 79 || event.keyCode === 81 || event.keyCode === 192 ||
+        !((event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 9) ||
+            (event.keyCode >= 64 && event.keyCode <= 90) ||
+            (event.keyCode >= 37 && event.keyCode <= 40) ||
+            !isNaN(Number(event.key))) ? false : true;
+})
+
+/*
+Impide el ingreso de la letra ñ y caracteres especiales
+06012019_DD
+ */
+$("#engine").keydown(function (event) {
+    return event.keyCode === 192 ||
+        !((event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 9) ||
+            (event.keyCode >= 64 && event.keyCode <= 90) ||
+            (event.keyCode >= 37 && event.keyCode <= 40) ||
+            !isNaN(Number(event.key))) ? false : true;
+})
+
+/*
+Impide el ingreso de la letra ñ y caracteres especiales
+06012019_DD
+ */
+$("#model").keydown(function (event) {
+    return event.keyCode === 192 ||
+        !((event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 9) ||
+            (event.keyCode >= 64 && event.keyCode <= 90) ||
+            (event.keyCode >= 37 && event.keyCode <= 40) ||
+            !isNaN(Number(event.key))) ? false : true;
 })
 
 /*
@@ -273,7 +314,13 @@ function create_vehicle() {
             if (data.redirect) {
                 window.location.href = data.redirect;
             } else {
-                AddToast(data.title, 'error', data.message);
+                if (data.errors) {
+                    for (var error of data.errors) {
+                        AddToast(data.title, 'error', error.msg);
+                    }
+                } else {
+                    AddToast(data.title, 'error', data.message);
+                }
             }
         }
     });
@@ -294,7 +341,13 @@ function refresh_vehicle() {
             if (data.redirect) {
                 window.location.href = data.redirect;
             } else {
-                AddToast(data.title, 'error', data.message);
+                if (data.errors) {
+                    for (var error of data.errors) {
+                        AddToast(data.title, 'error', error.msg);
+                    }
+                } else {
+                    AddToast(data.title, 'error', data.message);
+                }
             }
         }
     });

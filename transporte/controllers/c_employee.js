@@ -16,6 +16,41 @@ class employee_controller {
     constructor() {
 
     }
+
+    /*Obtiene el selector de jefes de unidad*/
+    async getSelector(req, res) {
+        //Cuando se necesite el selector
+        try {
+            var unit_bosses = await this.getUnitBosses();
+            res.render('../views/user/boss_selector.html', {
+                unit_bosses,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    /*Obtiene el listado de los jefes de unidad 11012020_DD */
+    async getUnitBosses() {
+        try {
+            var unit_bosses = await Employee.findAll({
+                attributes: ['id', 'first_name', 'last_name', 'user_name'],
+                include: [{
+                    model: Unit,
+                    raw: true,
+                    required: false
+                }],
+                where: {
+                    is_unit_boss: true
+                }
+            })
+            console.log(unit_bosses);
+            return unit_bosses;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     //Metodo find por id
     async findById(id, req, res) {
         try {

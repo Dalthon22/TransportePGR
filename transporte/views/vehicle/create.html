@@ -2,7 +2,7 @@
 
 {% block views %}
 
-<div class="ui container">
+<div class="ui container" style="margin-top: 2rem;">
     <form class="ui form" id="nuevo_vehiculo" name="vehiculo" action="/vehiculos/gestionar" method="POST">
         {% if vehicle %}
         <h1 class="ui dividing header left aligned blue">Editar Vehículo</h1>
@@ -66,28 +66,6 @@
         <div class="ui positive button" id="add_btn">Guardar</div>
         <!-- <div class="ui right floated yellow hiden hidden button" id="validate_plate">Validar matrícula</div> -->
     </form>
-    {% if plate_error %}
-    <div class="ui warning message" style="width:30em">
-        <div class="header">
-            Advertencia
-        </div>
-        <i class="close icon"></i>
-        <li> {{ plate_error}} </li>
-    </div>
-    {% endif %}
-    {% if errors %}
-    <div class="ui error message" style="width:30em">
-        <i class="close icon"></i>
-        <div class="header">
-            Errores al Insertar
-        </div>
-        <ul class="list">
-            {% for error in errors %}
-            <li>{{error.msg}}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
 </div>
 
 <link rel="stylesheet" href="/stylesheets/vehicle.css">

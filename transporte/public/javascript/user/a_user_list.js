@@ -15,10 +15,6 @@ $(function () {
     message = getParameterByName('message');
     clss = getParameterByName('class');
 
-    console.log(title);
-    console.log(message);
-    console.log(clss);
-
     if (title && message && clss) {
         AddToast(title, clss, message);
     }
