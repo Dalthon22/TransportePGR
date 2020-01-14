@@ -48,7 +48,13 @@ class Route_controller {
       if (route_id) {
         let Ruta = await Route.findByPk(route_id); //Se obtiene la ruta con el id provisto
         //Se obtienen las condiciones relacionadas con la ruta obtenida
-        let Condiciones = await route_conditions.findByPk(Ruta.route_conditions_id);
+        let Condiciones = await route_conditions.findOne({
+          where: {
+            route_id: Ruta.id
+          }
+        });
+        console.log(Ruta);
+        console.log(Condiciones);
         return res.render('../views/route/add.html', {
           Ruta,
           Condiciones
@@ -94,6 +100,11 @@ class Route_controller {
         });
       } else {
         console.log(req.body); //Impresión del cuerpo de la petición
+        //Guardado en BD de la ruta estándar
+        var ruta = await Route.create({
+          name,
+          enabled,
+        });
         //Guardado en la BD de las condiciones de la ruta
         var conditions = await route_conditions.create({
           monday,
@@ -110,13 +121,10 @@ class Route_controller {
           saturday_frequency,
           sunday,
           sunday_frequency,
+          route_id: ruta.id
         });
-        //Guardado en BD de la ruta estándar
-        var ruta = await Route.create({
-          name,
-          enabled,
-          route_conditions_id: conditions.id
-        });
+        console.log(conditions);
+        console.log(ruta);
         const query = querystring.stringify({
           success: 'yes'
         });
