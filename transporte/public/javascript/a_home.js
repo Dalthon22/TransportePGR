@@ -59,6 +59,9 @@ function fillTable() {
     //Llenar el data table con los datos de todos los folos correspondientes al usuario
     tab = $('#mytable').DataTable({
         "scrollCollapse": false,
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
         //Este AJAX hace referencia al controller, c_folo6.js método getList(req, res)
         ajax: {
             url: '/folos',
