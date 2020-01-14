@@ -48,6 +48,10 @@ const Employee = db.define('SGT_Empleado', {
         type: Sequelize.INTEGER,
         allowNull: true,
     },
+    user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+    },
 }, {
     underscored: true,
     timestamps: true,

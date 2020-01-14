@@ -7,6 +7,7 @@ const {
     validationResult
 } = require('../middleware/expresse-validator');
 
+
 //Muestra el listado de vales y permite el ingreso de vales
 router.get('/vales', (req, res) => {
     res.render('./voucher/area_combustible_voucher.html');
@@ -33,13 +34,11 @@ router.post('/vales/add',
 //Ruta donde se manda a verificar si un número de vales existe
 router.get('/vales/num', (req, res) => {
     controller.ifExist(req, res);
-
 });
 
 //Ruta donde se manda a verificar si un número de vales existe
 router.get('/vales/bills', (req, res) => {
     controller.getBills(req, res);
-
 });
 
 module.exports = router;

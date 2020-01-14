@@ -8,6 +8,9 @@ const db = require('./dbconfig/conex.js');
 var app = express();
 var bodyParser = require('body-parser');
 
+const {
+  protect
+} = require('./middleware/auth');
 
 
 // Test DB
@@ -45,7 +48,7 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 //routes
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/r_folo6'));
-app.use('/', require('./routes/r_voucher'));
+app.use('/', protect, require('./routes/r_voucher'));
 app.use('/direccion', require('./routes/r_address'));
 app.use('/instituciones', require('./routes/r_procuraduria'));
 app.use('/misiones', require('./routes/r_misiones'));
