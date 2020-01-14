@@ -9,6 +9,9 @@ $(document).ready(function () {
     myTable = $('#mytable').DataTable({
         "scrollY": "500px",
         "scrollCollapse": true,
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
     });
     var type = $('input#messagetype').val();
     var info = $('input#messageinfo').val();
