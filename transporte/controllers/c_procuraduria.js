@@ -66,11 +66,6 @@ class Procuraduria_controller {
         municipio,
         enabled
       } = req.body;
-      if (enabled == 'on') {
-        enabled = true;
-      } else {
-        enabled = false;
-      };
       //Para enviar si hay error
       //06102019_DD
       var Procu = req.body;

@@ -357,7 +357,7 @@ function updateRoute() {
         friday_frequency = 0;
     };
 
-    if($('#msaturday').is(':checked')){
+    if($('#saturday').is(':checked')){
         saturday = true;
     } else {
         saturday = false;
