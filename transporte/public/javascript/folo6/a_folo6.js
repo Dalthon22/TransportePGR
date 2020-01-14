@@ -71,10 +71,13 @@ $('.ui.form').form({
             identifier: 'passengers_i',
             rules: [{
                     type: 'empty',
-                    prompt: 'Seleccione un horario de salida'
+                    prompt: 'Seleccione un número de pasajeros'
                 },
                 {
                     type: 'integer',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                }, {
+                    type: 'integer[1...42]',
                     prompt: 'Ingrese un número válido de pasajeros'
                 }
             ]
