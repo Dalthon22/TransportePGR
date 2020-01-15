@@ -5,7 +5,7 @@ const {
     body,
     check,
     validationResult
-} = require('../middleware/expresse-validator');
+} = require('express-validator');
 
 router.get('/empleado/:id',
     (req, res) => {

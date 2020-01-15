@@ -6,7 +6,6 @@ Controlador del modelo Vehicle
 const Vehicle = require('../models/m_vehicle');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
-const url = require('url');
 const {
     validationResult
 } = require('express-validator');
@@ -57,6 +56,34 @@ class Vehicle_controller {
         let vehicle = await Vehicle.count({
             where: {
                 plate: _plate
+            }
+        });
+        console.log(vehicle);
+        let is_registered = (vehicle >= 1) ? true : false;
+        console.log(is_registered);
+        return is_registered;
+    }
+
+    //Encuentra el registro y devuelve true si existe
+    //Parametro: _engine Campo único en la tabla
+    async existByEngine(_engine) {
+        let vehicle = await Vehicle.count({
+            where: {
+                engine: _engine
+            }
+        });
+        console.log(vehicle);
+        let is_registered = (vehicle >= 1) ? true : false;
+        console.log(is_registered);
+        return is_registered;
+    }
+
+    //Encuentra el registro y devuelve true si existe
+    //Parametro: _chasis Campo único en la tabla
+    async existByChassis(_chasis) {
+        let vehicle = await Vehicle.count({
+            where: {
+                chassis: _chasis
             }
         });
         console.log(vehicle);
@@ -125,8 +152,9 @@ class Vehicle_controller {
     //Recibe los parametros request y response, respectivamente
     async create(req, res) {
         try {
-            const errors = validationResult(req);
-            const states = this.getStateList();
+            var errs = validationResult(req);
+            var errors = [];
+            errors = errs.array();
             let {
                 brand,
                 chassis,
@@ -136,8 +164,11 @@ class Vehicle_controller {
                 state,
                 seats,
             } = req.body;
-            let vehicle = req.body;
-            if (errors.isEmpty() && !await this.existByPlate(plate)) {
+            var exist_by_plate = await this.existByPlate(plate);
+            var exist_by_engine = await this.existByEngine(engine);
+            var exist_by_chassis = await this.existByChassis(chassis);;
+            console.log("Existencia por placa: " + exist_by_plate);
+            if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis) {
                 await Vehicle.create({
                     brand,
                     chassis,
@@ -157,17 +188,29 @@ class Vehicle_controller {
                     status: 200
                 });
             } else {
-                res.render('../views/vehicle/create.html', {
-                    errors: errors.array(),
-                    states,
-                    vehicle,
-                    plate_error: "El número de placa ya ha sido vinculada a otro vehículo"
+                if (exist_by_plate) {
+                    errors.push({
+                        msg: "La matrícula ya existe en la base de datos"
+                    });
+                }
+                if (exist_by_chassis) {
+                    errors.push({
+                        msg: "El número de chassis ya existe en la base de datos"
+                    });
+                }
+                if (exist_by_engine) {
+                    errors.push({
+                        msg: "El número de motor ya existe en la base de datos"
+                    });
+                }
+                res.send({
+                    title: "Error en la información",
+                    errors: errors
                 })
             }
         } catch (error) {
             console.log(error);
             res.send({
-                type: 1,
                 title: "Error al guardar",
                 message: "El vehículo no pudo ser guardado. " + error,
             });

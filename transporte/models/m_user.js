@@ -1,53 +1,72 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Unit = require('./m_unit');
+const Employee = require('./m_employee');
 const UserRol = require('./m_user_role');
 
 const User = db.define('SGT_Usuario', {
-    CodigoUsuario: {
-        type: Sequelize.STRING(10),
-        primaryKey: true,
+    first_name: {
+        type: Sequelize.STRING(75),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    last_name: {
+        type: Sequelize.STRING(75),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    is_unit_boss: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    email: {
+        type: Sequelize.STRING(100),
         unique: true,
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    ApellidosUsuario: {
-        type: Sequelize.STRING(50),
+    password: {
+        type: Sequelize.STRING(25),
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    NombresUsuarios: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
-    CorreoElectronicoUsuario: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        }
-    },
-    ActivoInactivousuario: {
+    active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: 1
-    }
+        defaultValue: false
+    },
 }, {
     underscored: true,
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     freezeTableName: true,
+    hasTrigger: true
 });
 
 User.hasMany(UserRol, {
-    foreignKey: 'CodigoUsuario'
+    foreignKey: 'user_id',
+    onDelete: 'cascade'
 });
+
+User.belongsTo(Employee, {
+    foreignKey: 'id_boss'
+});
+
+User.belongsTo(Unit, {
+    foreignKey: 'unit_id'
+})
 
 module.exports = User;

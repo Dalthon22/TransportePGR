@@ -1,13 +1,14 @@
 {% extends 'index.html' %}
 
 {% block views %}
+  <br>
   <div class="ui container" id="add">
   {% if Ruta %}
     <h1 class="ui blue dividing header">Editar ruta</h1>
   {% else %}
       <h1 class="ui blue dividing header">Crear ruta</h1>
   {% endif %}
-    <form class="ui form" action="/rutas/gestionar" method="POST">
+    <form class="ui form" method="POST">
       <div class="required field">
         <label>Nombre de la ruta:</label>
         <input type="text" name="name" id="name" autocomplete="off" placeholder="Nombre de la ruta estándar"
@@ -229,7 +230,7 @@
         </div>
       </div>
     </a>
-    <button class="ui positive button" type="submit">Guardar</button><br>
+    <button class="ui positive button" type="submit" id="guardar" name="guardar">Guardar</button><br>
   </form>
   <br>
   {% if errors %}
@@ -244,5 +245,5 @@
 </div>
 </div>
 
-<script src="/javascript/route/a_route.js"></script>
+<script src="/javascript/route/a_route_add.js"></script>
 {% endblock %}

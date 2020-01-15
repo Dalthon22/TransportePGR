@@ -1,46 +1,46 @@
 {% extends 'index.html' %}
 {% block views %}
-    <div class="ui container" id="bad">
-        <br>
-        <input type="hidden" id="messagetype" value="{{atype}}">
-        <input type="hidden" id="messageinfo" value="{{message}}">
-        <h1 id="title" class="ui blue dividing header">
-            <i class="clipboard icon"></i>Asignación de motorista.</h1>
-        <table class="ui celled selectable table datatable" id="mytable" name="mytable" style="width: 100%">
-            <thead>
-                <tr>
-                    <th>Fecha Salida:</th>
-                    <th>Hora de salida:</th>
-                    <th>Hora de retorno:</th>
-                    <th>Pasajeros:</th>
-                    <th>Misión:</th>
-                    <th>Opciones:</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for folo in Folos %}
-                    <tr>
-                        <td>{{ folo.off_date }}</td>
-                        <td>{{ folo.off_hour }}</td>
-                        <td>{{ folo.return_hour }}</td>
-                        <td>{{ folo.passengers_number }}</td>
-                        <td>{{ folo.mission }}</td>
-                        <td> 
-                        {# Lo trabajé con un form porque no logré hacerlo funcionar con un evento 'click' en el ícono,
+<div class="ui container" id="bad">
+    <br>
+    <input type="hidden" id="messagetype" value="{{atype}}">
+    <input type="hidden" id="messageinfo" value="{{message}}">
+    <h1 id="title" class="ui blue dividing header">
+        <i class="clipboard icon"></i>Control de ruta.</h1>
+    <table class="ui celled selectable table datatable" id="mytable" name="mytable" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Fecha Salida:</th>
+                <th>Hora de salida:</th>
+                <th>Hora de retorno:</th>
+                <th>Pasajeros:</th>
+                <th>Misión:</th>
+                <th>Opciones:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for folo in Folos %}
+            <tr>
+                <td>{{ folo.off_date }}</td>
+                <td>{{ folo.off_hour }}</td>
+                <td>{{ folo.return_hour }}</td>
+                <td>{{ folo.passengers_number }}</td>
+                <td>{{ folo.mission }}</td>
+                <td>
+                    {# Lo trabajé con un form porque no logré hacerlo funcionar con un evento 'click' en el ícono,
                         intenté durante 3 horas de toda forma y no pude. #}
-                            <form class="ui form" action="/asignar_motorista/asignar" method="GET">
-                            <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo.id}}">
-                            <input type="hidden" id="state_id" name="state_id" value="{{ids[loop.index]}}">
-                            <button class="ui basic small icon button" type="submit">
+                    <form class="ui form" action="/asignar_motorista/asignar" method="GET">
+                        <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo.id}}">
+                        <input type="hidden" id="state_id" name="state_id" value="{{ids[loop.index]}}">
+                        <button class="ui basic small icon button" type="submit">
                             <i class="large check green circle outline link icon" title="Asignar motorista">
                             </i></button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <script src="/javascript/driver_assign/a_driver_list.js"></script>
-    <link rel="stylesheet" href="/stylesheets/datatablefix.css">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="/javascript/driver_assign/a_driver_list.js"></script>
+<link rel="stylesheet" href="/stylesheets/datatablefix.css">
 {% endblock %}

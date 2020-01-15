@@ -3,11 +3,13 @@ const Folo6 = require('../models/m_folo6');
 const Driver = require('../models/m_driver');
 const Driver_assign = require('../models/m_driver_assign');
 const moment = require('moment');
+const Vehicle = require('../models/m_vehicle');
+const Vehicle_assign = require('../models/m_vehicle_folo6_assign');
 
 moment.locale("Es-SV");
 
 class driver_assign_controller {
-    constructor() { }
+    constructor() {}
 
     async getAssign(req, res) {
         try {
@@ -17,12 +19,20 @@ class driver_assign_controller {
             let state_id = req.query.state_id;
             //obtengo todos los motoristas en la base para mostrarlos en un dropdown 
             let motoristas = await Driver.findAll();
+            let vehiculos = await Vehicle.findAll({
+                where: {
+                    state: 'Funcional',
+                }
+            });
+
+
             res.render('../views/driver_assign/assign.html', {
+                vehiculos,
                 motoristas,
                 folo06_id,
                 state_id
             }); //renderizado de páginas
-            console.log(motoristas); //muestra en consola el listado de motoristas obtenidos
+            /* console.log(motoristas); */ //muestra en consola el listado de motoristas obtenidos
         } catch (error) {
             console.log(error);
         };
@@ -59,8 +69,8 @@ class driver_assign_controller {
                 state_ids_values.push(i);
             });
             //Muestra en consola los valores obtenidos como comprobación
-            console.log(values);
-            console.log(state_ids_values);
+            /* console.log(values);
+            console.log(state_ids_values); */
             let Folos;
             /*Obtiene de la base todos los folos cuyos ids estén en el array 'values' y hayan
             seleccionado que sí quieren motorista*/
@@ -71,7 +81,7 @@ class driver_assign_controller {
                 }
             });
             //Se muestra en consola el listado de folos obtenido como comprobación
-            console.log(Folos);
+            /* console.log(Folos); */
             var data = [];
             Folos.forEach(folo => {
                 var el = new Object();
@@ -101,7 +111,8 @@ class driver_assign_controller {
             let {
                 folo06_id,
                 driver_id,
-                state_id
+                state_id,
+                vehicle_id
             } = req.body;
             //Muestra en consola el cuerpo de la petición
             console.log(req.body);
@@ -110,9 +121,14 @@ class driver_assign_controller {
                 driver_id,
                 folo06_id,
             });
+            await Vehicle_assign.create({
+                vehicle_id,
+                folo06_id,
+            });
             //Actualizo el estado de la solicitud a 'asignado'.
             await Folo6_state.update({
-                driver_assigned: 1
+                driver_assigned: 1,
+                car: 1
             }, {
                 where: {
                     id: state_id

@@ -31,7 +31,6 @@ router.post('/gestionar', [
     body('detail', 'El detalle debe ser menor a 250 caracteres.').isLength({
         max: 250
     }),
-    body('detail', 'El detalle debe contener solo caracteres alfanuméricos.').matches(/^[a-zA-Záéíóúü0-9 ]+$/i),
     body('departamento', 'No seleccionó un departamento.').not().isEmpty(),
     body('municipio', 'No seleccionó un municipio').not().isEmpty()
 ], (req, res) => {
@@ -42,5 +41,10 @@ router.post('/gestionar', [
         controller.createProcuraduria(req, res);
     };
 
+});
+
+//Ruta para verificar si el nombre existe
+router.post('/procuNameExists', (req, res) => {
+    controller.procuNameExists(req, res);
 });
 module.exports = router;

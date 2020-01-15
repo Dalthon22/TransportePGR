@@ -6,6 +6,9 @@ $(function () {
     //Da formato a la tabla de vehiculos
     $('#mytable').DataTable({
         "scrollCollapse": true,
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
     });
 
     //Verifica si el registro fue guardado con exito

@@ -71,10 +71,13 @@ $('.ui.form').form({
             identifier: 'passengers_i',
             rules: [{
                     type: 'empty',
-                    prompt: 'Seleccione un horario de salida'
+                    prompt: 'Seleccione un número de pasajeros'
                 },
                 {
                     type: 'integer',
+                    prompt: 'Ingrese un número válido de pasajeros'
+                }, {
+                    type: 'integer[1...42]',
                     prompt: 'Ingrese un número válido de pasajeros'
                 }
             ]
@@ -121,7 +124,7 @@ $('.ui.form').form({
                 prompt: 'Ingrese el motivo o misión de su viaje'
             }]
         },
-    }
+    },
 });
 
 //Validación de campos si NO selecciona motorista
@@ -185,20 +188,28 @@ $('#standard_calendar').calendar({
     }
 }).calendar('focus');
 /*--Checkbox motorista--*/
+/* Los campos "Nombre del motorista" y "Tipo de licencia" se mostrarán/ocultarán dependiendo de si
+quiere o no motorista.*/
+$('#name_driver_f').prop('hidden', true);
+$('#type_license_f').prop('hidden', true);
 $('.ui.checkbox').checkbox('enable');
 $('#driver_cb').checkbox({
     onChecked: function () {
-        motorista = 1;
         $('#n_driver_i').prop('disabled', true);
         $('#license_ls_id').prop('disabled', true);
+        motorista = 1;
         $('.ui.form').form('remove fields', ['name_driver_i', 'license_ls']);
-        $(".ui.form").form('validate field', 'name_driver_i');
+        /* $(".ui.form").form('validate field', 'name_driver_i');
         $(".ui.form").form('validate field', 'license_ls');
         $('#license_ls_id').prop('selectedIndex', 0);
-        $('#n_driver_i').val('');
+        $('#n_driver_i').val(''); */
+        $('#name_driver_f').slideUp(); //Esconde el campo
+        $('#type_license_f').slideUp(); //Esconde el campo
     },
     onUnchecked: function () {
         motorista = 0;
+        $('#name_driver_f').slideDown(); //Muestra el campo
+        $('#type_license_f').slideDown(); //Muestra el campo
         $('#n_driver_i').prop('disabled', false);
         $('#license_ls_id').prop('disabled', false);
         $('.ui.form').form('add rule', 'name_driver_i', {
@@ -206,8 +217,8 @@ $('#driver_cb').checkbox({
                 type: 'empty',
                 prompt: 'Ingrese el nombre de la persona que conducirá'
             }, {
-                type: 'regExp[/^[a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/]',
-                prompt: 'Por favor ingrese solo texto'
+                type: 'regExp[/^[A-Za-zÁáÉéÍíÓóÚúñ ]+$/g]',
+                prompt: 'Este campo solo permite letras.'
             }]
         });
         $('.ui.form').form('add rule', 'license_ls', {
@@ -246,112 +257,6 @@ $('#time_calendar1')
         }
     });
 /*****FIN: ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
-//Funciones para crear el PDF del Folo-06.
-function printPDF() {
-    //Recolección de datos.
-    fechaSolicitud = $('#date_lb').text();
-    unidadSolicitante = $('#unidad_lb').text();
-    personaSolicitante = $('#name_lb').text();
-    fechaSalida = $('#calendar1').val();
-    horaSalida = $('#time').val();
-    horaRetorno = $('#time1').val();
-    var motorista; //1 = no ; 0 = sí
-    if ($('#driver_i').is(":checked")) {
-        motorista = 0;
-    } else {
-        motorista = 1;
-    }
-    cantidadPasajeros = $('#passengers_i').val();
-    personaConducir = $('#n_driver_i').val();
-    tipoLicencia = $('#license_ls_id option:selected').text();
-    tablaDirecciones = document.getElementById('addressTable');
-    mision = $('#mision_i_id').val();
-    observaciones = $('#details_i').val();
-    var c1, c2, c3, c4, direccion, b;
-    var direcciones = [];
-    /*La propiedad 'length' en JS comienza en 1.
-    La primera fila es el encabezado, a partir de la segunda van direcciones.
-    Si solo hay una dirección, se asigna a la variable 'dirección'.
-    Si hay más se asignan al array 'direcciones'. */
-    if (tablaDirecciones.rows.length == 2) {
-        //Sin embargo, internamente las filas y las celdas siempre comienzan en 0.
-        //Fila 0 es el encabezado, fila 1 en adelante son las direcciones.
-        c1 = tablaDirecciones.rows[1].cells[0].innerHTML;
-        if (c1 == '') {
-            c1 = 'No especificado';
-        };
-        c2 = tablaDirecciones.rows[1].cells[1].innerHTML;
-        if (c2 == '') {
-            c2 = 'No especificado';
-        };
-        c3 = tablaDirecciones.rows[1].cells[2].innerHTML;
-        if (c3 == '') {
-            c3 = 'No especificado';
-        };
-        c4 = tablaDirecciones.rows[1].cells[3].innerHTML;
-        if (c4 == '') {
-            c4 = 'No especificado';
-        };
-        direccion = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".";
-        b = 0; //No crea listado de direcciones
-    } else {
-        direccion = "Ver listado de direcciones en página anexo.";
-        b = 1; //Crea listado de direcciones
-    };
-    for (var i = 1; i < tablaDirecciones.rows.length; i++) {
-        c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
-        if (c1 == '') {
-            c1 = 'No especificado';
-        };
-        c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
-        if (c2 == '') {
-            c2 = 'No especificado';
-        };
-        c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
-        if (c3 == '') {
-            c3 = 'No especificado';
-        };
-        c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
-        if (c4 == '') {
-            c4 = 'No especificado';
-        };
-        direcciones.push("\n" + i + " - " + c1 + ', ' + c2 + ', ' + c3 + ', ' + c4 + ".");
-    };
-    //Convierto el array en un string.
-    direcciones = direcciones.toString();
-
-    console.log("B se envía con este valor" + b + " y direcciones tendrá " + direcciones);
-
-    return $.post('/solicitud/createPDF', { //Petición ajax post.
-            fechaSolicitud,
-            unidadSolicitante,
-            personaSolicitante,
-            fechaSalida,
-            horaSalida,
-            horaRetorno,
-            motorista,
-            cantidadPasajeros,
-            personaConducir,
-            tipoLicencia,
-            direccion,
-            direcciones,
-            mision,
-            observaciones,
-            b
-        },
-        //Abre el pdf en una nueva ventana.
-        function (result) {
-            // e.g This will open an image in a new window
-            console.log("voy a imprimir el folo")
-            debugBase64(result.link);
-            // window.open(result);
-        });
-
-
-    /* Solo funciona en Mozilla Firefox, en Google Chrome se abre una pestaña en blanco.
-    En IE 11 ni siquiera abre la ventana. No tengo Edge para probar ahí.
-    Tampoco es posible cambiar el nombre con el que se descarga el PDF.*/
-}
 
 function debugBase64(base64URL) {
     var win = window.open();
@@ -469,11 +374,8 @@ function guardarFolo6() {
                     });
                 hideDimmer();
             } else {
-                //Si se ingreso con exito
-                $.when(printPDF()).then(function () {
-                    successAddToast(data.message);
-                    window.location.href = data.redirect;
-                });
+                //Si se ingresó con éxito
+                window.location.href = data.redirect;
             }
         },
     }).done();
@@ -485,40 +387,18 @@ function hideDimmer() {
         //$('.segment').dimmer('set disabled');
         $('body').dimmer('hide');
         //enable_elements();
-    }
-}
-
-//Muestra mensaje de exito
-function successAddToast(message) {
-    hideDimmer();
-    $('body').dimmer({
-        displayLoader: true,
-        loaderVariation: 'slow green medium elastic',
-        loaderText: "Redireccionando...",
-        closable: false,
-    }).dimmer('create').dimmer('set active').dimmer('show').dimmer('set page dimmer');
-    $('body')
-        .toast({
-            showIcon: true,
-            class: 'success',
-            showProgress: true,
-            position: 'top right',
-            displayTime: 25000,
-            closeIcon: true,
-            message: message,
-            transition: {
-                showMethod: 'zoom',
-                showDuration: 100,
-                hideMethod: 'fade',
-                hideDuration: 500
-            }
-        });
-}
+    };
+};
 
 //MANEJO DE DIRECCIONES EN EL FOLO 6
 //Esconde los dropdown.
 $('#createdAddress').hide();
 $('#selectedFPlace').hide();
+
+//Esconde los campos a rellenar únicamente si selecciona "Otro" en el lugar de destino.
+//Serán mostrados hasta que seleccione "Otro" en el lugar de destino.
+$('#otherName').prop('hidden', true);
+$('#otherDetail').prop('hidden', true);
 
 $('#municipio').prop('disabled', true); //Este valor será cambiado a 'false' en a_address.js
 $('#fplaces').prop('disabled', true); //Se habilita al seleccionar un municipio.
@@ -541,42 +421,112 @@ $('#addAddress').click(function () {
     var selectedPlace = $('#fplaces').val();
     var destinyPlace = $('#destiny_place_i').val(); //Obtengo todos los valores
     var direction = $('#direction_txt').val();
+    var selectedDeptoTxt = $('#departamento option:selected').text();
+    var selectedMunTxt = $('#municipio option:selected').text();
     var selectedPlaceTxt = $('#fplaces option:selected').text();
     var dirCreadas = $('#createdAddress'); //Obtengo el dropdown de direcciones que está oculto
     var selectedFPlace = $('#selectedFPlace'); //Dropdown que tiene solo los lugares frecuentes ingresados
-    if (selectedPlaceTxt == 'Otro') {
-        $.post('/direccion/add', { //Hago la petición post
-                idSelDepto,
-                idSelMun,
-                selectedPlace,
-                destinyPlace,
-                direction,
-                selectedPlaceTxt
-            }, //Agrego al dropdown el id de la dirección creada
-            function (dir) {
-                if (dir != null && !jQuery.isEmptyObject(dir)) {
-                    dirCreadas.append($('<option/>', {
-                        value: dir.id,
-                        text: dir.id
-                    }));
-                };
-                fillAddressTable();
-                addDeleteIcon(dir.id);
-            });
-    }
-    if (selectedPlaceTxt != 'Otro') {
-        selectedFPlace.append($('<option/>', {
-            value: selectedPlace,
-            text: selectedPlaceTxt,
-        }));
-        fillAddressTable();
-        addDeleteIconFP(parseInt(selectedPlace));
-    }
+    var baseDir, cmpDir, c1, c2, c3, c4, dirExiste = 0;
+    var tablaDirecciones = document.getElementById('addressTable');
 
-    //Agrego el lugar frecuente seleccionado al dropdown
-    console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
-    console.log(selectedFPlace);
-    $(this).prop('disabled', true);
+    if (destinyPlace == '') {
+        destinyPlace = 'No especificado';
+    };
+
+    if (direction == '') {
+        direction = 'No especificado';
+    };
+
+    //Creo dirección base a partir de los valores obtenidos de los inputs.
+    if (selectedPlaceTxt == 'Otro') {
+        baseDir = destinyPlace + ', ' + direction + ', ' + selectedDeptoTxt + ', ' + selectedMunTxt;
+    } else {
+        baseDir = selectedPlaceTxt + ', No especificado, ' + selectedDeptoTxt + ', ' + selectedMunTxt;
+    };
+
+    //Paso a minúscula la dirección y la muestro en consola del navegador.
+    baseDir = baseDir.toLowerCase();
+    console.log(baseDir);
+    /*Itero las filas de la tabla de direcciones para armar un string que contenga una dirección a partir
+    de los valores en cada celda, esta se compara con la dirección creada a partir de los inputs.*/
+    for (var i = 0; i < tablaDirecciones.rows.length; i++) {
+        c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
+        if (c1 == '') {
+            c1 = 'No especificado';
+        };
+        c2 = tablaDirecciones.rows[i].cells[1].innerHTML;
+        if (c2 == '') {
+            c2 = 'No especificado';
+        };
+        c3 = tablaDirecciones.rows[i].cells[2].innerHTML;
+        c4 = tablaDirecciones.rows[i].cells[3].innerHTML;
+        cmpDir = c1 + ', ' + c2 + ', ' + c3 + ', ' + c4;
+        cmpDir = cmpDir.toLowerCase(); //Convierto a minúscula la dirección creada.
+        console.log(cmpDir); //Muestro en consola la dirección.
+        //Si ambas direcciones son iguales, la variable dirExiste toma el valor de 1 y se rompe el ciclo.
+        if (baseDir == cmpDir) {
+            dirExiste = 1;
+            break;
+        };
+    };
+    //Si dirExiste es igual a 1, se muestra un mensaje de error y NO se ingresa la dirección a la tabla.
+    if (dirExiste == 1) {
+        $('body')
+            .toast({
+                title: '¡Error!',
+                position: 'top right',
+                class: 'error',
+                displayTime: 3000,
+                message: 'La dirección que intenta ingresar ya existe.',
+                pauseOnHover: false
+            });
+        //Caso contrario se añade la dirección a la tabla y se muestra un mensaje de éxito.
+    } else {
+        if (selectedPlaceTxt == 'Otro') {
+            $.post('/direccion/add', { //Hago la petición post
+                    idSelDepto,
+                    idSelMun,
+                    selectedPlace,
+                    destinyPlace,
+                    direction,
+                    selectedPlaceTxt
+                }, //Agrego al dropdown el id de la dirección creada
+                function (dir) {
+                    if (dir != null && !jQuery.isEmptyObject(dir)) {
+                        dirCreadas.append($('<option/>', {
+                            value: dir.id,
+                            text: dir.id
+                        }));
+                    };
+                    fillAddressTable(); //Se llena la tabla en la vista.
+                    addDeleteIcon(dir.id); //Agrega el ícono de eliminar
+                });
+            //Esconde los campos para poder ingresar otra dirección.
+            $('#otherName').slideUp();
+            $('#otherDetail').slideUp();
+        };
+        //Agrego el lugar frecuente seleccionado al dropdown
+        if (selectedPlaceTxt != 'Otro') {
+            selectedFPlace.append($('<option/>', {
+                value: selectedPlace,
+                text: selectedPlaceTxt,
+            }));
+            fillAddressTable();
+            addDeleteIconFP(parseInt(selectedPlace));
+        };
+        $('body')
+            .toast({
+                title: '¡Éxito!',
+                position: 'top right',
+                class: 'success',
+                displayTime: 3000,
+                message: 'Dirección ingresada correctamente.',
+                pauseOnHover: false
+            });
+        console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
+        console.log(selectedFPlace);
+        $(this).prop('disabled', true);
+    };
 });
 
 //Añade el ícono eliminar en la tabla direcciones del folo cuando es FP
@@ -675,9 +625,13 @@ $('#fplaces').change(function () {
     if ($('#fplaces option:selected').text() == 'Otro') {
         $('#destiny_place_i').prop('disabled', false);
         $('#direction_txt').prop('disabled', false);
+        $('#otherName').slideDown(); //Muestra el campo
+        $('#otherDetail').slideDown(); //Muestra el campo
     } else {
         $('#destiny_place_i').prop('disabled', true);
         $('#direction_txt').prop('disabled', true);
+        $('#otherName').slideUp(); //Esconde el campo
+        $('#otherDetail').slideUp(); //Esconde el campo
         $('#addAddress').prop('disabled', false);
     };
 });
@@ -685,8 +639,8 @@ $('#fplaces').change(function () {
 //Función que habilita el botón "Agregar dirección" si el campo "Nombre del destino":
 $('#destiny_place_i').on('change', function () {
     if ($(this).val() != null) { //1) Es diferente de nulo
-        // 1.1) Si el campo "Detalle de dirección" está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
-        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección". 
+        // 1.1) Y si el campo "Detalle de dirección" está vacío habilita el botón (en caso previo ya hubiese sido deshabilitado).
+        //Este caso se puede dar si lleno ambos campos y luego borro el campo "Detalle de dirección".
         if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', false);
         } else {
@@ -703,7 +657,7 @@ $('#destiny_place_i').on('change', function () {
         //2.1) y si el campo "Detalle de dirección" también está vacío deshabilita el botón (en caso previo ya hubiese sido habilitado).
         if ($('#direction_txt').val() == '') {
             $('#addAddress').prop('disabled', true);
-            //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está habilita el botón.
+            //2.2) Pero si este campo está vacío y el campo "Detalle de dirección" no lo está, habilita el botón.
         } else {
             $('#addAddress').prop('disabled', false);
         };
