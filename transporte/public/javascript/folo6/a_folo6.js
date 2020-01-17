@@ -1,8 +1,7 @@
 /*****ANIMACIÓN,SETTINGS INICIALES Y VALIDACIONES******/
 var id_employee = 3;
 var motorista;
-var emp, unit;
-const url_request_employee = 'empleado/' + id_employee;
+var user, unit;;
 
 function showLoadingDimmer() {
     // $('.segment').dimmer('set active');
@@ -18,19 +17,19 @@ function showLoadingDimmer() {
 $(document).ready(function () {
     showLoadingDimmer()
     $.ajax({
-        url: url_request_employee,
+        url: '/empleado/info',
         async: true,
         type: 'GET',
         dataType: 'json',
         success: (data) => {
-            console.log(typeof (data.emp));
-            emp = data.emp;
+            console.log(typeof (data.user));
+            user = data.user;
             unit = data.unit
-            console.log(emp);
+            console.log(user);
             console.log(unit);
         }
     }).done(function () {
-        $("#name_lb").text(emp.first_name + ", " + emp.last_name);
+        $("#name_lb").text(user.first_name + ", " + user.last_name);
         $("#unidad_lb").text(unit.name_unit);
         $('body').dimmer('hide');
     });
@@ -342,13 +341,13 @@ function guardarFolo6() {
     //Valores del json que serán enviados en el ajax para guardar el folo6
     var jsonReq = {
         form: JSON.stringify(form),
-        emp: JSON.stringify(emp),
+        emp: JSON.stringify(use),
         motorista: JSON.stringify(motorista),
         fplaces: JSON.stringify(fplaces),
         address: JSON.stringify(address)
     }
     console.log("Enviará:" +
-        "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(emp) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
+        "form:" + JSON.stringify(form) + "emp:" + JSON.stringify(user) + "fplaces: " + JSON.stringify(fplaces) + "address:" + JSON.stringify(address));
     console.log("Empaquetado" + typeof (jsonReq));
     return $.ajax({
         type: "POST",

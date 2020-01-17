@@ -1,21 +1,10 @@
-const Sequelize = require('sequelize');
-const querystring = require('querystring');
-const User = require('../models/m_user');
 const User_Controller = require('./c_user');
-const User_Role = require('../models/m_user_role');
-const Unit_Controller = require('./c_unit');
-const Role_Controller = require('./c_role');
-const Employee_Controller = require('./c_employee');
-const Employee = require('../models/m_employee');
 const user_role_controller = require('../controllers/c_user_role');
+const secret_token = require('../dbconfig/secret_token');
 
 //Seguridad
 const db = require('../dbconfig/conex');
 const jwt = require('jsonwebtoken');
-const secret_token = require('../dbconfig/secret_token');
-const cookieParser = require('cookie-parser');
-
-
 
 //Manejo de fechas
 var moment = require('moment');
@@ -77,6 +66,11 @@ class auth_controller {
                 err_title: 'Ocurrió un error mientras se iniciba la sesión'
             });
         }
+    }
+
+    decode_token(coded_token) {
+        var decoded = jwt.verify(coded_token, secret_token);
+        return decoded
     }
 };
 
