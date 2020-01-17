@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 var app = express();
 const moment = require('moment');
 const asyncHandler = require('./async');
+const querystring = require('querystring');
 
 exports.is_logged = (req, res, next) => {
     console.log("se verificará la sesión")
@@ -60,9 +61,17 @@ exports.authorize = (...roles) => {
             if (!have_rol) {
                 //Si no, se le redireccionrá a home o a una pantalla donde se le indique que no tiene permisos
                 console.log("Ocurrio un error, usuario no tiene permiso para ingresar");
-                res.redirect('/home');
+                const query = querystring.stringify({
+                    title: "Acesso Denegado",
+                    message: "No posee permisos para la vista solicitada",
+                    class: "error",
+                    icon: "user lock"
+                });
+                req.
+                res.status(403).redirect('/home?' + query);
             } else {
                 //Si posee permisos, se acepta la solicitud
+                // console.log(router)
                 next();
             }
         } catch (err) {

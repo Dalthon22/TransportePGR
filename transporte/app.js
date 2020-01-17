@@ -7,6 +7,8 @@ var nunjucks = require('nunjucks');
 const db = require('./dbconfig/conex.js');
 var app = express();
 var bodyParser = require('body-parser');
+const router = express.Router();
+
 //Constantes para verificar si está logeado y para verificar permisos
 const {
   is_logged,
@@ -46,14 +48,19 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
+
 //routes
+app.use('/login', require('./routes/r_login'))
+
+//Security
+app.use(is_logged);
 app.use('/', require('./routes/index'));
-app.use('/', require('./routes/r_folo6'));
-app.use('/', is_logged, authorize('adminV'), require('./routes/r_voucher'));
+app.use('/solicitud_nueva', require('./routes/r_folo6'));
+app.use('/vales', authorize('adminV'), require('./routes/r_voucher'));
 app.use('/direccion', require('./routes/r_address'));
-app.use('/instituciones', require('./routes/r_procuraduria'));
+app.use('/instituciones', authorize('adminIT'), require('./routes/r_procuraduria'));
 app.use('/misiones', require('./routes/r_misiones'));
-app.use('/vehiculos', require('./routes/r_vehicle'));
+app.use('/vehiculos', authorize('adminTrans'), require('./routes/r_vehicle'));
 
 app.use('/rutas', require('./routes/r_route'));
 app.use('/lugares_frecuentes', require('./routes/r_frequent_places'));

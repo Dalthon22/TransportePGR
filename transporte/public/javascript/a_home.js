@@ -3,49 +3,66 @@ var params = new URLSearchParams(location.search);
 success = params.get('success');
 update = params.get('edit');
 
-$(function (){
-    if(success == 'yes'){
-        if (update == 'yes'){
+$(function () {
+    if (success == 'yes') {
+        if (update == 'yes') {
             $('body')
-            .toast({
-                title: '¡Éxito!',
-                showIcon: true,
-                class: 'success',
-                showProgress: true,
-                position: 'top right',
-                displayTime: 5000,
-                closeIcon: true,
-                message: 'Solicitud editada correctamente.',
-                transition: {
-                    showMethod: 'zoom',
-                    showDuration: 100,
-                    hideMethod: 'fade',
-                    hideDuration: 500
-                },
-                pauseOnHover: false, 
-            });
+                .toast({
+                    title: '¡Éxito!',
+                    showIcon: true,
+                    class: 'success',
+                    showProgress: true,
+                    position: 'top right',
+                    displayTime: 5000,
+                    closeIcon: true,
+                    message: 'Solicitud editada correctamente.',
+                    transition: {
+                        showMethod: 'zoom',
+                        showDuration: 100,
+                        hideMethod: 'fade',
+                        hideDuration: 500
+                    },
+                    pauseOnHover: false,
+                });
         } else {
             $('body')
-            .toast({
-                title: '¡Éxito!',
-                showIcon: true,
-                class: 'success',
-                showProgress: true,
-                position: 'top right',
-                displayTime: 5000,
-                closeIcon: true,
-                message: 'Solicitud creada correctamente.',
-                transition: {
-                    showMethod: 'zoom',
-                    showDuration: 100,
-                    hideMethod: 'fade',
-                    hideDuration: 500
-                },
-                pauseOnHover: false, 
-            });
+                .toast({
+                    title: '¡Éxito!',
+                    showIcon: true,
+                    class: 'success',
+                    showProgress: true,
+                    position: 'top right',
+                    displayTime: 5000,
+                    closeIcon: true,
+                    message: 'Solicitud creada correctamente.',
+                    transition: {
+                        showMethod: 'zoom',
+                        showDuration: 100,
+                        hideMethod: 'fade',
+                        hideDuration: 500
+                    },
+                    pauseOnHover: true,
+                });
         }
     };
+
+    //Mostrará toast si el usuario no tenía permisos de ingresar la sesión
+    //Verifica si el registro fue guardado con exito
+    title = getParameterByName('title');
+    message = getParameterByName('message');
+    clss = getParameterByName('class');
+    icon = getParameterByName('icon')
+
+    console.log(title);
+    console.log(message);
+    console.log(clss);
+
+    if (title && message && clss && icon) {
+        AddToast(title, clss, message, icon);
+    }
+    ///
 });
+
 //Serializa la tabla
 $(document).ready(function () {
     fillTable();
@@ -64,7 +81,7 @@ function fillTable() {
         },
         //Este AJAX hace referencia al controller, c_folo6.js método getList(req, res)
         ajax: {
-            url: '/folos',
+            url: '/solicitud_nueva/folos',
             type: 'GET',
         },
         "columns": [{
@@ -233,7 +250,7 @@ $('#mytable tbody').on('click', '.print.link.icon', function (event) {
     //$('.segment').dimmer('set disabled');
 
     $.ajax({
-        url: '/solicitud/showPDF',
+        url: '/solicitud_nueva/showPDF',
         async: true,
         type: 'POST',
         dataType: 'json',
@@ -734,3 +751,42 @@ function progressBar(valor, motivo) {
             '</div>');
     }
 };
+
+/*
+Obtienes los parametro del querystring por nombre
+25092019_DD
+*/
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    if (results == null)
+        return "";
+    else
+        return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+/*
+Funcion que muestra un mensaje a lado superior derecho
+27092019_DD
+*/
+
+function AddToast(_title, _class, _message, _icon) {
+    $('body')
+        .toast({
+            title: _title,
+            showIcon: _icon ? _icon : true,
+            class: _class,
+            position: 'top right',
+            displayTime: 0,
+            closeIcon: true,
+            message: _message,
+            transition: {
+                showMethod: 'zoom',
+                showDuration: 100,
+                hideMethod: 'fade',
+                hideDuration: 500
+            }
+        });
+}
