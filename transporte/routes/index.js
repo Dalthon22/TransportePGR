@@ -27,4 +27,10 @@ router.get('/home', (req, res) => {
     });
 });
 
+router.get('/logout', (req, res) => {
+
+    auth_controller.log_out(req, res)
+});
+
+
 module.exports = router;

@@ -341,7 +341,7 @@ function guardarFolo6() {
     //Valores del json que serán enviados en el ajax para guardar el folo6
     var jsonReq = {
         form: JSON.stringify(form),
-        emp: JSON.stringify(use),
+        emp: JSON.stringify(user),
         motorista: JSON.stringify(motorista),
         fplaces: JSON.stringify(fplaces),
         address: JSON.stringify(address)

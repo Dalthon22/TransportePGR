@@ -72,6 +72,16 @@ class auth_controller {
         var decoded = jwt.verify(coded_token, secret_token);
         return decoded
     }
+
+
+    //función para el logout o eliminación de la cookie
+    log_out(req, res) {
+        res.cookie('token', 'none', {
+            expires: moment().add(10, 'seconds').toDate(),
+            httpOnly: true
+        })
+        res.redirect('/login');
+    }
 };
 
 module.exports = new auth_controller();
