@@ -18,6 +18,13 @@
     <img class="ui fluid image" src="/images/banner.jpeg"></img>
     <div class=" ui stackable middle aligned center aligned grid" style="margin:1rem;">
         <div class="column">
+            {% if(err_title or err_message) %}
+            <div class="ui negative message">
+                <i class="close icon"></i>
+                <div class="header">{{err_title}} </div>
+                <p> {{err_message}}</p>
+            </div>
+            {%endif%}
             <h2> Ingrese su cuenta</h2>
             <form class="ui large form" action="/auth" method="POST">
                 <div class="ui stacked segment">

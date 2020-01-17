@@ -7,9 +7,10 @@ var nunjucks = require('nunjucks');
 const db = require('./dbconfig/conex.js');
 var app = express();
 var bodyParser = require('body-parser');
-
+//Constantes para verificar si está logeado y para verificar permisos
 const {
-  protect
+  is_logged,
+  authorize
 } = require('./middleware/auth');
 
 
@@ -48,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 //routes
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/r_folo6'));
-app.use('/', protect, require('./routes/r_voucher'));
+app.use('/', is_logged, authorize('adminV'), require('./routes/r_voucher'));
 app.use('/direccion', require('./routes/r_address'));
 app.use('/instituciones', require('./routes/r_procuraduria'));
 app.use('/misiones', require('./routes/r_misiones'));
