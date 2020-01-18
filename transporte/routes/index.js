@@ -32,5 +32,16 @@ router.get('/logout', (req, res) => {
     auth_controller.log_out(req, res)
 });
 
+router.get('/userinfo', (req, res) => {
+    try {
+        const token = auth_controller.decode_token(req.cookies.token)
+        res.send({
+            user: token.user
+        });
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 
 module.exports = router;

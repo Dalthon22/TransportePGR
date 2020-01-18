@@ -20,8 +20,11 @@ exports.is_logged = (req, res, next) => {
         token = req.cookies.token;
     }
     if (!token) {
-        console.log("Sesión no válida")
-        res.redirect('/login');
+        console.log("Sesión no válida");
+        const query = querystring.stringify({
+            session_error: true,
+        });
+        res.status(301).redirect('/login?' + query)
     } else {
         try {
             //Verificar el token
@@ -33,7 +36,10 @@ exports.is_logged = (req, res, next) => {
         } catch (err) {
             console.log(err)
             console.log("Ocurrio un error, la sesión no es válida")
-            res.redirect('/login');
+            const query = querystring.stringify({
+                session_error: true,
+            });
+            res.status(301).redirect('/login?' + query)
         }
     }
 }
@@ -67,7 +73,7 @@ exports.authorize = (...roles) => {
                     class: "error",
                     icon: "user lock"
                 });
-                req.
+                //req.
                 res.status(403).redirect('/home?' + query);
             } else {
                 //Si posee permisos, se acepta la solicitud
