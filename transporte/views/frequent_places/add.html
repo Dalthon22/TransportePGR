@@ -1,12 +1,12 @@
 {% extends 'index.html' %}
 {% block views %}
-<div class="ui container" id="bad">
+<div class="ui container" style="margin-top: 4em;" id="bad">
     <div class="ui vertically divided grid">
         <div class="one column row">
             <div class="column">
                 <form class="ui form" id="frm-prueba" action="/lugares_frecuentes/gestionar" method="POST">
                     {% if fplace_id %}
-                    <h1 class="ui header">Editar Lugar Frecuente</h1>
+                    <h1 class="ui blue dividing header">Editar Lugar Frecuente</h1>
                     {% else %}
                     <h1 class="ui blue dividing header">Agregar una Direccion Frecuente</h1>
                     {% endif %}
