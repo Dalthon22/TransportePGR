@@ -52,9 +52,9 @@ class auth_controller {
                 }
 
                 //Para traer los roles por sus nombres que permita identificar más fácilmente que rol le pertenece y una vez iniciada sesión, a que pantalla se le va a redirigir
-                var roles_names = getRolesNamesCodedToken(token)
+                var roles_names = this.getRolesNamesCodedToken(token)
                 //redirección según rol
-                var url = redirectByRol(roles_names);
+                var url = this.redirectByRol(roles_names);
 
                 /*ENVIO DE COOKIE */
                 res.cookie('token', token, options).redirect(url);
@@ -111,15 +111,16 @@ class auth_controller {
     }
 
     redirectByRol(roles_names) {
-        var url;
+        var url = encodeURI('/home');;
 
         if (roles_names.includes('emp')) url = encodeURI('/home');
+        if (roles_names.includes('unitC ')) url = encodeURI('/vales');
         if (roles_names.includes('adminIT')) url = encodeURI('/usuarios');
-        if (roles_names.includes('adminTrans')) url = encodeURI('/usuarios');
-        if (roles_names.includes('adminV')) url = encodeURI('/asignar_recursos/vales');
-        if (roles_names.includes('adminR')) url = encodeURI('/asignar_motorista');
-        if (roles_names.includes('uBoss')) url = encodeURI('/asignar_motorista');
-
+        if (roles_names.includes('adminV')) url = encodeURI('/asignacion_de_combustible/vales');
+        if (roles_names.includes('adminVe')) url = encodeURI('/vehiculos');
+        if (roles_names.includes('adminR')) url = encodeURI('/control_de_ruta');
+        if (roles_names.includes('uBoss')) url = encodeURI('/panel_de_aprobacion');
+        if (roles_names.includes('adminTrans')) url = encodeURI('/panel_de_aprobacion/nuevos_requerimientos');
 
         return url
     }
