@@ -38,8 +38,9 @@
                     </table>
                 </div>
                 <br>
-                <form class="ui form" action="/asignar_motorista/asignar" method="POST">
+                <form class="ui form" action="/control_de_ruta/asignar" method="POST">
                     <div class="two fields">
+                        {% if WDriver %}
                         <div class=" four wide required field">
                             <label for="motoristas">Seleccione el motorista que desee asignar a este
                                 requerimiento:</label>
@@ -51,6 +52,7 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        {% endif %}
                         <div class="four wide required field">
                             <label>Seleccione el vehiculo que desee asignar a este requerimiento:</label>
                             <select class="ui fluid dropdown" id="vehicle_id" name="vehicle_id">
@@ -64,8 +66,9 @@
                     </div>
                     <input type="hidden" id="state_id" name="state_id" value="{{state_id}}">
                     <input type="hidden" id="folo06_id" name="folo06_id" value="{{folo06_id}}">
+                    <input type="hidden" id="WDriver" name="WDriver" value="{{WDriver}}">
 
-                    <a href="/asignar_motorista">
+                    <a href="/control_de_ruta">
                         <div class="ui left floated animated button" type="button">
                             <div class="visible content">Volver</div>
                             <div class="hidden content">

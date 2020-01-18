@@ -17,16 +17,26 @@ class driver_assign_controller {
             let folo06_id = req.query.folo06_id;
             //Necesario para ir a cambiar el estado a "Asignado" en la tabla de estados de solicitudes
             let state_id = req.query.state_id;
-            //obtengo todos los motoristas en la base para mostrarlos en un dropdown 
-            let motoristas = await Driver.findAll();
-            let vehiculos = await Vehicle.findAll({
+            //obtengo todos los motoristas en la base para mostrarlos en un dropdown
+            var folo = await Folo6.findOne({
+                where: {
+                    id: folo06_id
+                },
+                attributes: ['with_driver']
+            });
+            let WDriver = folo.with_driver;
+            let motoristas;
+            let vehiculos;
+            if (WDriver == true) {
+                motoristas = await Driver.findAll();
+            }
+            vehiculos = await Vehicle.findAll({
                 where: {
                     state: 'Funcional',
                 }
             });
-
-
             res.render('../views/driver_assign/assign.html', {
+                WDriver,
                 vehiculos,
                 motoristas,
                 folo06_id,
@@ -76,8 +86,8 @@ class driver_assign_controller {
             seleccionado que sí quieren motorista*/
             Folos = await Folo6.findAll({
                 where: {
-                    id: values,
-                    with_driver: 1,
+                    id: values
+                    /* with_driver: 1, */
                 }
             });
             //Se muestra en consola el listado de folos obtenido como comprobación
@@ -96,6 +106,7 @@ class driver_assign_controller {
                 el.employee_id = folo.employee_id;
                 data.push(el);
             });
+            console.log(data);
             res.render('../views/driver_assign/list.html', {
                 Folos: data,
                 ids: state_ids_values
@@ -109,6 +120,7 @@ class driver_assign_controller {
         try {
             //Obtiene del cuerpo de la petición los ids del folo, estado de folo y motorista seleccionado
             let {
+                WDriver,
                 folo06_id,
                 driver_id,
                 state_id,
@@ -117,10 +129,12 @@ class driver_assign_controller {
             //Muestra en consola el cuerpo de la petición
             console.log(req.body);
             //Se crea la asignación con el id del folo y el id del motorista asignado a dicho folo
-            await Driver_assign.create({
-                driver_id,
-                folo06_id,
-            });
+            if (WDriver == "true") {
+                await Driver_assign.create({
+                    driver_id,
+                    folo06_id,
+                });
+            }
             await Vehicle_assign.create({
                 vehicle_id,
                 folo06_id,
@@ -135,7 +149,7 @@ class driver_assign_controller {
                 }
             });
             //Regresa al listado de solicitudes sin asignar.
-            res.redirect('/asignar_motorista');
+            res.redirect('/control_de_ruta');
         } catch (error) {
             console.log(error); //Muestra errores en consola.
         };
