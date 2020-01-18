@@ -4,15 +4,16 @@ const controller = require('../controllers/c_approve_panel');
 const {
     body
 } = require('express-validator');
+const auth_controller = require('../controllers/c_auth');
 
 //Ruta para panel de aprobacion de jefe de unidad
-router.get('/panel_de_aprobacion', (req, res) => {
+router.get('/', (req, res) => {
     controller.getListUnit(req, res);
 });
 
 //ruta para aprobar o cancelar folos por jefe de unidad
 
-router.post('/panel_de_aprobacion', (req, res) => {
+router.post('/', (req, res) => {
     let aod = req.body.aprobacion;
     if (aod == 1) {
         controller.AprobarFoloUnidad(req, res);
@@ -23,6 +24,7 @@ router.post('/panel_de_aprobacion', (req, res) => {
 //Ruta para panel de aprobacion de jefe de transporte
 
 router.get('/nuevos_requerimientos', (req, res) => {
+
     controller.getListAllNew(req, res);
 });
 //ruta para aprobar o cancelar folos por jefe de transporte

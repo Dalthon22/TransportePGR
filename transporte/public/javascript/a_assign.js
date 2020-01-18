@@ -25,6 +25,11 @@ $(document).ready(function () {
         $("#quantity").text(num);
     });
 
+    var mostrar = $('input#mostrar_modal').val();
+    if (mostrar == 'true') {
+        $('.ui.modal')
+            .modal('show');
+    }
 });
 
 function enviarToast() {
@@ -75,6 +80,8 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
     }).get();
     $("#model_brand").text($.trim(tableData[1]));
     $("#v_plate").text($.trim(tableData[2]));
+    document.getElementById("veh_plate").value = $.trim(tableData[2]);
+    document.getElementById("veh_model").value = $.trim(tableData[1]);
     document.getElementById("fecha_folo").value = $.trim(tableData[0]);
     console.log("Usted desea Mostrar el folo:" + id_folo);
     $.ajax({
@@ -97,11 +104,13 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
         $("#Passenger_number_lb1").text(data.folo.passengers_number);
         $("#with_driver_lb1").text((data.folo.with_driver ? "Si" : "No"));
         if (data.folo.with_driver) {
-            $("#driver_name_lb1").text("------");
-            $("#license_type_lb1").text("------");
+            document.getElementById("d_name").value = data.folo.driver.first_name + ' ' + data.folo.driver.last_name;
+            $("#driver_name_lb1").text(data.folo.driver.first_name + ' ' + data.folo.driver.last_name);
+            $("#license_type_lb1").text(data.folo.driver.license_type);
         } else {
             $("#driver_name_lb1").text(data.folo.person_who_drive);
             $("#license_type_lb1").text(data.folo.license_type);
+            document.getElementById("d_name").value = data.folo.person_who_drive;
         }
         $("#mission_lb1").text(data.folo.mission);
         if (data.folo.observation) {
@@ -154,6 +163,8 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
 $(".ui.left.floated.animated.button").click(function (e) {
     $("#model_brand").text('---');
     $("#v_plate").text('---');
+    document.getElementById("veh_plate").value = "";
+    document.getElementById("veh_model").value = "";
     document.getElementById("foloA_id").value = "";
     document.getElementById("fecha_folo").value = "";
     var tabla = document.getElementById("div_table");

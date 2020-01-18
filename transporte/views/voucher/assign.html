@@ -5,6 +5,7 @@
         <div id="div_table" class="sixteen wide column">
             <br>
             <input type="hidden" id="messagetype" value="{{atype}}">
+            <input type="hidden" id="mostrar_modal" value="{{data_modal.mostrar}}">
             <input type="hidden" id="messageinfo" value="{{message}}">
             <h1 id="title" class="ui blue dividing header"><i class="clipboard check icon"></i>Asignación de
                 Vales.
@@ -82,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <form class="ui form" id="frm-prueba" action="/asignar_recursos/vales" method="POST">
+                <form class="ui form" id="frm-prueba" action="/asignacion_de_combustible/vales" method="POST">
                     <strong>Vehiculo: <label id="model_brand">-------</label> </strong><br>
                     <strong>Placas: <label id="v_plate">-------</label> </strong><br>
                     <strong>Vales Disponibles:
@@ -106,13 +107,64 @@
                         <div class="hidden content"><i class="left arrow icon"></i></div>
                     </div>
                     <input id="foloA_id" name="foloA_id" type="hidden">
+                    <input id="veh_model" name="veh_model" type="hidden">
+                    <input id="veh_plate" name="veh_plate" type="hidden">
+                    <input id="d_name" name="d_name" type="hidden">
                     <input id="fecha_folo" name="fecha_folo" type="hidden">
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<div class="ui tiny inverted modal" id="succesModal">
+    <div class="ui icon header">
+        <i class="blue exclamation circle icon"></i>
+        Asignacion Exitosa.
+    </div>
+
+    <div class="content">
+        <p>Se han asignado los siguientes vales</p>
+        <table class="ui celled table datatable">
+            <thead>
+                <tr>
+                    <th>Numero:</th>
+                    <th>Proveedor:</th>
+                    <th>Valor:</th>
+                    <th>Factura:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
+                {% for vale_m in data_modal.vales %}
+                <tr>
+                    <td>{{ vale_m.num_voucher }}</td>
+                    <td>{{ vale_m.voucher_provider }}</td>
+                    <td>{{ vale_m.price }}</td>
+                    <td>{{ vale_m.num_entry_bill }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div><strong>Total: $ {{ data_modal.suma }}</strong></div>
+        <div><strong>Al motorista: {{ data_modal.driver }}</strong></div>
+        <div><strong>Al vehiculo: {{ data_modal.v_model }} || {{ data_modal.v_plate }} </strong></div>
+        <div><strong>con Kilometraje: {{ data_modal.mileage }} </strong></div>
+    </div>
+
+    <div class="actions">
+        <div class="ui green ok inverted button" type="submit">
+            <i class="checkmark icon"></i>
+            Aceptar
+        </div>
+        <!--         <div class="ui red deny button" type="submit">
+            <i class="remove icon"></i>
+            Cancelar
+        </div> -->
+    </div>
+
 </div>
+
 <script src="/javascript/a_assign.js"></script>
 <link rel="stylesheet" href="/stylesheets/datatablefix.css">
 </link>

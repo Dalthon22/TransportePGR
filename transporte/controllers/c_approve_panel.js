@@ -2,6 +2,8 @@ const folo6 = require('../models/m_folo6');
 const folo6_approve = require('../models/m_folo6_approve_state');
 const employee = require('../models/m_employee');
 var moment = require('moment');
+const auth_controller = require('../controllers/c_auth');
+const Users = require('../models/m_user');
 
 const {
     validationResult
@@ -10,10 +12,12 @@ class approve_panel_controller {
     /* con get listUnit se utiliza para los jefes de unidad, mostrara solo los folos que no se han aprobado */
     async getListUnit(req, res, message, atype) {
         try {
-            let id_unidad = 1;
+            const token = auth_controller.decode_token(req.cookies.token);
+            var user = token.user;
+            console.log(user.unit_id);
             /* Traemos todos los folos de la unidad correspondiente haciendo Joins con las tablas empleado y estado del folo */
             /* Se hace un join de Empleados,Folo6 y folo6_state */
-            var folos = await employee.findAll({
+            var folos = await Users.findAll({
                 include: [{
                     model: folo6,
                     raw: true,
@@ -27,9 +31,10 @@ class approve_panel_controller {
                     }]
                 }],
                 where: {
-                    unit_id: id_unidad
+                    unit_id: user.unit_id
                 }
             });
+            console.log(folos);
             var data = []; /* La data que se enviara al front */
             /* recorremos todos los empleados y ademas recorremos por cada uno de sus folos */
             folos.forEach(emp => {
@@ -60,13 +65,13 @@ class approve_panel_controller {
     /* Aprobar folo por el jefe de la unidad correspondiente */
     async AprobarFoloUnidad(req, res) {
         try {
+            const token = auth_controller.decode_token(req.cookies.token);
+            var user = token.user;
             let folo06id = await req.body.folo6_id_Amodal; /* Conseguimos el id del folo a aprobar */
-            /* var idboss = session.getActual.idemployee(); */
-            var idboss = 1;
             await folo6_approve.update({
                 /* Hacemos update en el estado del folo */
                 request_unit_approve: 1,
-                aprove_boss_id: idboss
+                aprove_boss_id: user.id
             }, {
                 where: {
                     folo06_id: folo06id,
@@ -89,13 +94,16 @@ class approve_panel_controller {
     /* Cancelar el folo 6 por cada jefe de unidad */
     async CancelarFoloUnidad(req, res) {
         try {
+            const token = auth_controller.decode_token(req.cookies.token);
+            var user = token.user;
             /* Conseguimos el id del folo y ademas la razon por la que se cancela */
             let folo06id = await req.body.folo6_id_Cmodal;
             let motivoC = await req.body.motivo;
             /* Hacemos el update a la tabla */
             await folo6_approve.update({
                 request_unit_approve: 0,
-                unit_cancel_detail: motivoC
+                unit_cancel_detail: motivoC,
+                aprove_boss_id: user.id
             }, {
                 where: {
                     folo06_id: folo06id
@@ -122,7 +130,7 @@ class approve_panel_controller {
         try {
             /* Se buscan todos los folos que hayan sido aprobados por cada unidad */
             /* Se hace un join de Empleados,Folo6 y folo6_apporve */
-            var folos = await employee.findAll({
+            var folos = await Users.findAll({
                 include: [{
                     model: folo6,
                     raw: true,
@@ -171,13 +179,15 @@ class approve_panel_controller {
     /* Metodo para aprobar el folo y pase a la siguiente asignación */
     async AprobeFoloTransport(req, res) {
         try {
+            const token = auth_controller.decode_token(req.cookies.token);
+            var user = token.user;
             let folo06id = await req.body.folo6_id_Amodal; /* se consigue el id del folo */
             /* se actualiza la tabla de estados del folo correspondie   nte */
             /* var idboss = session.getActual.idemployee(); */
-            var idboss = 1;
+
             await folo6_approve.update({
                 transport_unit_approve: 1,
-                aprove_tunit_boss_id: idboss
+                aprove_tunit_boss_id: user.id
             }, {
                 where: {
                     folo06_id: folo06id
@@ -202,13 +212,16 @@ class approve_panel_controller {
     /* Metodo para cancelar el folo si tiene discrepancia */
     async CancelarFoloTransporte(req, res) {
         try {
+            const token = auth_controller.decode_token(req.cookies.token);
+            var user = token.user;
             /* se consiguen el id del folo y el motivo de la cancelacion */
             let folo06id = await req.body.folo6_id_Cmodal;
             let motivoC = await req.body.motivo;
             /* se actualiza la tabla de estados del folo correspondiente */
             await folo6_approve.update({
                 transport_unit_approve: 0,
-                cancel_tunit_detail: motivoC
+                cancel_tunit_detail: motivoC,
+                aprove_tunit_boss_id: user.id
             }, {
                 where: {
                     folo06_id: folo06id
