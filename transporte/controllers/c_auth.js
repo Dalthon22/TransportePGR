@@ -1,6 +1,7 @@
 const User_Controller = require('./c_user');
 const user_role_controller = require('../controllers/c_user_role');
 const secret_token = require('../dbconfig/secret_token');
+const employee_controller = require('./c_employee');
 
 //Seguridad
 const db = require('../dbconfig/conex');
@@ -34,6 +35,7 @@ class auth_controller {
                          type: db.QueryTypes.SELECT */
 
                 //console.dir(user);
+
                 let roles = await user_role_controller.getList(user);
                 console.dir(roles);
                 //create and assign token

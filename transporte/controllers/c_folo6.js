@@ -1088,7 +1088,10 @@ class folo6_controllers {
             });
 
             el.emp = new Object();
-            el.emp = await employee_controller.findById1(el.employee_id);
+            const token = auth_controller.decode_token(req.cookies.token);
+            el.emp = token.user;
+            el.emp.unit = new Object();
+            el.emp.unit = await employee_controller.findUnitByUser(token.user)
 
             console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
