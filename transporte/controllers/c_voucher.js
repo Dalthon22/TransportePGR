@@ -4,6 +4,8 @@ const Op = Sequelize.Op;
 const Voucher = require('../models/m_voucher');
 const FacturaCompra = require('../models/m_bill')
 const bill_controllers = require('../controllers/c_bill');
+const auth_controller = require('../controllers/c_auth');
+
 //Manejo de fechas
 var moment = require('moment');
 moment.locale("Es-SV")
@@ -122,6 +124,7 @@ class voucher_controllers {
     };
 
     async createVoucher(req, res) {
+        const token = auth_controller.decode_token(req.cookies.token);
         var primer, ultimo;
         var date, month, year;
         var my;
@@ -175,7 +178,8 @@ class voucher_controllers {
                     provider: provider,
                     total: to,
                     for_month: month,
-                    for_year: year
+                    for_year: year,
+                    created_by: token.user.id
                 });
 
                 do {
@@ -186,6 +190,8 @@ class voucher_controllers {
                         date_entry: date,
                         voucher_provider: provider,
                         num_entry_bill: bill_num,
+                        //USER ID
+                        created_by: token.user.id
                     });
                     primer++;
 

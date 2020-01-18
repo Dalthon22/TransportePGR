@@ -18,7 +18,6 @@ $(document).ready(function () {
     console.log("Usted va a editar el folo No:" + $('#folo_id').val())
     id_employee = parseInt($('#employee_id').val());
 
-    const url_request_employee = '/empleado/' + id_employee;
     $('.ui.checkbox').checkbox('enable');
     console.log("En el folo original el checkbox con motorista estaba: " + $('#driver_cb').checkbox('is checked'));
     if ($('#driver_cb').checkbox('is checked')) {
@@ -29,13 +28,13 @@ $(document).ready(function () {
         sinMotorista();
     }
     $.ajax({
-        url: url_request_employee,
+        url: '/empleado/info',
         async: true,
         type: 'GET',
         dataType: 'json',
         success: (data) => {
-            console.log(typeof (data.emp));
-            emp = data.emp;
+            console.log(typeof (data.user));
+            emp = data.user;
             unit = data.unit
             console.log(emp);
             console.log(unit);
@@ -472,16 +471,16 @@ $('#addAddress').click(function () {
     var baseDir, cmpDir, c1, c2, c3, c4, dirExiste = 0;
     var tablaDirecciones = document.getElementById('addressTable');
 
-    if(destinyPlace == ''){
+    if (destinyPlace == '') {
         destinyPlace = 'No especificado';
     };
 
-    if(direction == ''){
+    if (direction == '') {
         direction = 'No especificado';
     };
 
     //Creo dirección base a partir de los valores obtenidos de los inputs.
-    if (selectedPlaceTxt == 'Otro'){
+    if (selectedPlaceTxt == 'Otro') {
         baseDir = destinyPlace + ', ' + direction + ', ' + selectedDeptoTxt + ', ' + selectedMunTxt;
     } else {
         baseDir = selectedPlaceTxt + ', No especificado, ' + selectedDeptoTxt + ', ' + selectedMunTxt;
@@ -493,7 +492,7 @@ $('#addAddress').click(function () {
 
     /*Itero las filas de la tabla de direcciones para armar un string que contenga una dirección a partir
     de los valores en cada celda, esta se compara con la dirección creada a partir de los inputs.*/
-    for (var i = 0; i < tablaDirecciones.rows.length; i++){
+    for (var i = 0; i < tablaDirecciones.rows.length; i++) {
         c1 = tablaDirecciones.rows[i].cells[0].innerHTML;
         if (c1 == '') {
             c1 = 'No especificado';
@@ -508,23 +507,23 @@ $('#addAddress').click(function () {
         cmpDir = cmpDir.toLowerCase(); //Convierto a minúscula la dirección creada.
         console.log(cmpDir); //Muestro en consola la dirección.
         //Si ambas direcciones son iguales, la variable dirExiste toma el valor de 1 y se rompe el ciclo.
-        if(baseDir == cmpDir){
+        if (baseDir == cmpDir) {
             dirExiste = 1;
             break;
         };
     };
     //Si dirExiste es igual a 1, se muestra un mensaje de error y NO se ingresa la dirección a la tabla.
-    if(dirExiste == 1){
+    if (dirExiste == 1) {
         $('body')
-        .toast({
-            title: '¡Error!',
-            position: 'top right',
-            class: 'error',
-            displayTime: 3000,
-            message: 'La dirección que intenta ingresar ya existe.',
-            pauseOnHover: false
-        });
-    //Caso contrario se añade la dirección a la tabla y se muestra un mensaje de éxito.
+            .toast({
+                title: '¡Error!',
+                position: 'top right',
+                class: 'error',
+                displayTime: 3000,
+                message: 'La dirección que intenta ingresar ya existe.',
+                pauseOnHover: false
+            });
+        //Caso contrario se añade la dirección a la tabla y se muestra un mensaje de éxito.
     } else {
         if (selectedPlaceTxt == 'Otro') {
             $.post('/direccion/add?folo_id=' + parseInt($("#folo_id").val()), { //Hago la petición post
@@ -556,9 +555,9 @@ $('#addAddress').click(function () {
                         selectedPlaceTxt
                     });
                 });
-                //Esconde los campos para poder ingresar otra dirección.
-                $('#otherName').slideUp();
-                $('#otherDetail').slideUp();
+            //Esconde los campos para poder ingresar otra dirección.
+            $('#otherName').slideUp();
+            $('#otherDetail').slideUp();
         };
         //Agrego el lugar frecuente seleccionado al dropdown
         if (selectedPlaceTxt != 'Otro') {
@@ -582,14 +581,14 @@ $('#addAddress').click(function () {
             addDeleteIconFP(parseInt(selectedPlace)); //Agrega el ícono de eliminar
         };
         $('body')
-        .toast({
-            title: '¡Éxito!',
-            position: 'top right',
-            class: 'success',
-            displayTime: 3000,
-            message: 'Dirección ingresada correctamente.',
-            pauseOnHover: false
-        });
+            .toast({
+                title: '¡Éxito!',
+                position: 'top right',
+                class: 'success',
+                displayTime: 3000,
+                message: 'Dirección ingresada correctamente.',
+                pauseOnHover: false
+            });
         console.log(dirCreadas); //Muestro el dropdown en consola (navegador) para verificar su contenido.
         console.log(selectedFPlace);
         $(this).prop('disabled', true);
@@ -702,7 +701,7 @@ $('#fplaces').change(function () {
         $('#destiny_place_i').prop('disabled', false);
         $('#direction_txt').prop('disabled', false);
         $('#otherName').slideDown(); //Muestra el campo
-        $('#otherDetail').slideDown();//Muestra el campo
+        $('#otherDetail').slideDown(); //Muestra el campo
     } else {
         $('#destiny_place_i').prop('disabled', true);
         $('#direction_txt').prop('disabled', true);

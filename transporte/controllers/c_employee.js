@@ -52,17 +52,19 @@ class employee_controller {
     }
 
     //Metodo find por id
-    async findById(id, req, res) {
+    async findById(user, req, res) {
         try {
-            let emp = await Employee.findByPk(id, {
+            /* let emp = await Employee.findByPk(id, {
                 attributes: ['id', 'first_name', 'last_name', 'is_unit_boss', 'unit_id']
-            });
-            console.log("El empleado recibido" + emp);
-            let unit = await Unit.findByPk(emp.unit_id, {
+            }); */
+            console.log("El empleado recibido" + user);
+            let unit = await Unit.findByPk(user.unit_id, {
                 attributes: ['name_unit']
             });
+            console.log("De la unidad" + unit);
+
             res.send({
-                emp,
+                user,
                 unit
             });
         } catch (err) {

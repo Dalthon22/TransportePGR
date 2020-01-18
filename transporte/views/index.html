@@ -14,11 +14,7 @@
     <div class="ui secondary menu" id="user_menu">
         <a class="browse item" id="user">
             <i class="user tie icon"></i>
-            {% if username %}
-            {{username}}
-            {% else %}
-            Usuario Administrador
-            {% endif %}
+            <label id="username"></label>
             <i class="dropdown icon"></i>
         </a>
         <!-- Contenido del menu del usuario -->
@@ -27,7 +23,7 @@
                 <h4 class="ui dividing header" style="margin: 0rem">Opciones</h4>
                 <div class="ui link list" style="margin: 0.5rem">
                     <a class="item">Preferencias</a>
-                    <a class="item" href="/">Cerrar sesión</a>
+                    <a class="item" href="/logout">Cerrar sesión</a>
                 </div>
             </div>
         </div>
@@ -119,4 +115,8 @@
 </div>
 
 <script src="/javascript/a_index.js"></script>
+<!-- Para mostrar en la nav bar el usuario en seseión -->
+<script src="/javascript/user_navbar.js"></script>
+<!-- Para mostrar en la nav bar el usuario en seseión -->
+
 {% endblock %}
