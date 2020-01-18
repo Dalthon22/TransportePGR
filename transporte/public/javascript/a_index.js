@@ -1,4 +1,4 @@
-const home = "<a href=\"/home\" class=\"item\"><i class=\"home icon\"></i>Home</a>";
+/* const home = "<a href=\"/home\" class=\"item\"><i class=\"home icon\"></i>Home</a>";
 const folo6 = "<a href=\"/solicitud_nueva\" class=\"item\"><i class=\"file alternate icon\"></i>Folo 6</a>";
 const aprobarFolos = "<a href =\"/panel_de_aprobacion\" class=\"item\"><i class=\"tasks icon\"></i>Aprobar Folos</a></i>";
 const flotaVehicular = "<a href=\"/vehiculos\" class=\"item\"><i class=\"car side icon\"></i>Flota Vehicular</a>";
@@ -12,7 +12,7 @@ const asignarVal = "<a href=\"/asignar_recursos/vales\" class=\"item\"><i class=
 const motorista = "<a href=\"/motoristas\" class=\"item\"><i class=\"address card outline icon\"></i>Motoristas</a>";
 const controlRuta = "<a href=\"/asignar_motorista\" class=\"item\"><i class=\"clipboard outline icon\"></i>Control de ruta</a>";
 const mision = "<a href=\"/misiones\" class=\"item\"><i class=\"flag outline icon\"></i>Misiones</a>";
-const ussuarios = "<a href=\"/usuarios\" class=\"item\"><i class=\"user tie icon\"></i>Usuarios</a>";
+const ussuarios = "<a href=\"/usuarios\" class=\"item\"><i class=\"user tie icon\"></i>Usuarios</a>"; */
 
 $(function () {
     $('.ui.sidebar')

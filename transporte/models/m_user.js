@@ -21,7 +21,7 @@ const User = db.define('SGT_Usuario', {
     },
     is_unit_boss: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        defaultValue: '0',
         allowNull: false,
         validate: {
             notEmpty: true,
