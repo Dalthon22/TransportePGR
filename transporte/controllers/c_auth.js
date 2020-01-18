@@ -50,11 +50,17 @@ class auth_controller {
                     expires: moment().add(1, 'months').toDate(),
                     httpOnly: true
                 }
-                var url = encodeURI('/home');
+
+                //Para traer los roles por sus nombres que permita identificar más fácilmente que rol le pertenece y una vez iniciada sesión, a que pantalla se le va a redirigir
+                var roles_names = getRolesNamesCodedToken(token)
+                //redirección según rol
+                var url = redirectByRol(roles_names);
 
                 /*ENVIO DE COOKIE */
                 res.cookie('token', token, options).redirect(url);
                 res.end();
+
+
             } else {
                 res.render('../views/login.html', {
                     err_message: 'Por favor ingrese nuevamente sus datos',
@@ -94,7 +100,29 @@ class auth_controller {
         return roles;
     }
 
+    getRolesNamesCodedToken(coded_token) {
+        const token = this.decode_token(coded_token);
+        var roles = [];
+        token.roles.forEach(el => {
+            roles.push(el.codigo_rol);
+        });
+        console.log(roles);
+        return roles;
+    }
 
+    redirectByRol(roles_names) {
+        var url;
+
+        if (roles_names.includes('emp')) url = encodeURI('/home');
+        if (roles_names.includes('adminIT')) url = encodeURI('/usuarios');
+        if (roles_names.includes('adminTrans')) url = encodeURI('/usuarios');
+        if (roles_names.includes('adminV')) url = encodeURI('/asignar_recursos/vales');
+        if (roles_names.includes('adminR')) url = encodeURI('/asignar_motorista');
+        if (roles_names.includes('uBoss')) url = encodeURI('/asignar_motorista');
+
+
+        return url
+    }
 
 };
 
