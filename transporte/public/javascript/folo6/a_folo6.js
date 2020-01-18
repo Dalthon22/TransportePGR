@@ -217,7 +217,7 @@ $('#driver_cb').checkbox({
                 type: 'empty',
                 prompt: 'Ingrese el nombre de la persona que conducirá'
             }, {
-                type: 'regExp[/^[A-Za-zÁáÉéÍíÓóÚú ]+$/g]',
+                type: 'regExp[/^[A-Za-zÁáÉéÍíÓóÚúñ ]+$/g]',
                 prompt: 'Este campo solo permite letras.'
             }]
         });
