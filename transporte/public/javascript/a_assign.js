@@ -25,6 +25,11 @@ $(document).ready(function () {
         $("#quantity").text(num);
     });
 
+    var mostrar = $('input#mostrar_modal').val();
+    if (mostrar == 'true') {
+        $('.ui.modal')
+            .modal('show');
+    }
 });
 
 function enviarToast() {
@@ -99,9 +104,9 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
         $("#Passenger_number_lb1").text(data.folo.passengers_number);
         $("#with_driver_lb1").text((data.folo.with_driver ? "Si" : "No"));
         if (data.folo.with_driver) {
-            document.getElementById("d_name").value = true;
-            $("#driver_name_lb1").text("------");
-            $("#license_type_lb1").text("------");
+            document.getElementById("d_name").value = data.folo.driver.first_name + ' ' + data.folo.driver.last_name;
+            $("#driver_name_lb1").text(data.folo.driver.first_name + ' ' + data.folo.driver.last_name);
+            $("#license_type_lb1").text(data.folo.driver.license_type);
         } else {
             $("#driver_name_lb1").text(data.folo.person_who_drive);
             $("#license_type_lb1").text(data.folo.license_type);

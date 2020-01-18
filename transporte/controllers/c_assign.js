@@ -69,9 +69,11 @@ class assign_controller {
                     state: 'Funcional',
                 }
             });
+            console.log(data_modal);
             return res.render('../views/voucher/assign.html', {
                 Cars,
                 data,
+                data_modal
             });
         } catch (error) {
             console.log(error);
@@ -103,6 +105,7 @@ class assign_controller {
                 data_modal.v_plate = veh_plate;
                 data_modal.mileage = mileage_inserted;
                 data_modal.driver = d_name;
+                data_modal.mostrar = true;
                 try {
                     var vales_lista = await Vales.findAll({
                         attributes: ['num_voucher', 'num_entry_bill', 'voucher_provider', 'price'],
@@ -113,9 +116,9 @@ class assign_controller {
                     });
                     console.log(vales_lista);
                     var fecha = moment.utc(fecha_folo, 'DD MMMM YYYY').format('YYYY/MM/DD')
-                    let v = [];
                     for (var i = 0; i < cant; i++) {
                         console.log(vales_lista[i].num_voucher);
+                        var v = new Object();
                         await Asignacion.create({
                             date_voucher_f6: fecha,
                             num_voucher: vales_lista[i].num_voucher,
@@ -151,6 +154,7 @@ class assign_controller {
                             folo06_id: foloA_id
                         }
                     });
+                    console.log(data_modal);
                     this.getAsignarVales(req, res, data_modal)
                     /* res.redirect('/asignar_recursos/vales'); */
                 } catch (errors) {
