@@ -2,6 +2,7 @@ const User_Controller = require('./c_user');
 const user_role_controller = require('../controllers/c_user_role');
 const secret_token = require('../dbconfig/secret_token');
 const employee_controller = require('./c_employee');
+const querystring = require('querystring');
 
 //Seguridad
 const db = require('../dbconfig/conex');
@@ -88,7 +89,11 @@ class auth_controller {
             expires: moment().add(10, 'seconds').toDate(),
             httpOnly: true
         })
-        res.redirect('/login');
+
+        const query = querystring.stringify({
+            bye: true,
+        });
+        res.redirect('/login?' + query)
     }
 
     getRolesNames(token) {
