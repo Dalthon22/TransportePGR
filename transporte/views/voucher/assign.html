@@ -5,6 +5,7 @@
         <div id="div_table" class="sixteen wide column">
             <br>
             <input type="hidden" id="messagetype" value="{{atype}}">
+            <input type="hidden" id="mostrar_modal" value="{{data_modal.mostrar}}">
             <input type="hidden" id="messageinfo" value="{{message}}">
             <h1 id="title" class="ui blue dividing header"><i class="clipboard check icon"></i>Asignación de
                 Vales.
@@ -116,7 +117,7 @@
     </div>
 </div>
 
-<div class="ui mini inverted modal" id="succesModal">
+<div class="ui tiny inverted modal" id="succesModal">
     <div class="ui icon header">
         <i class="blue exclamation circle icon"></i>
         Asignacion Exitosa.
@@ -135,20 +136,20 @@
             </thead>
             <tbody>
                 <!-- Recibiendo todas las direcciones e insertandolas en la tabla -->
-                {% for vale_m in vales_modal %}
+                {% for vale_m in data_modal.vales %}
                 <tr>
-                    <td>{{ vale.num_voucher }}</td>
-                    <td>{{ vale.voucher_provider }}</td>
-                    <td>{{ vale.price }}</td>
-                    <td>{{ vale.num_entry_bill }}</td>
+                    <td>{{ vale_m.num_voucher }}</td>
+                    <td>{{ vale_m.voucher_provider }}</td>
+                    <td>{{ vale_m.price }}</td>
+                    <td>{{ vale_m.num_entry_bill }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <div><strong>Total: $ {{ valor_total }}</strong></div>
-        <div><strong>Al motorista: {{ driver_m.first_name }} {{ driver_m.last_name }} </strong></div>
-        <div><strong>Al vehiculo: {{ vehic_m.model }} || {{ vehic_m.plate }} </strong></div>
-        <div><strong>con Kilometraje: {{ mileage }} </strong></div>
+        <div><strong>Total: $ {{ data_modal.suma }}</strong></div>
+        <div><strong>Al motorista: {{ data_modal.driver }}</strong></div>
+        <div><strong>Al vehiculo: {{ data_modal.v_model }} || {{ data_modal.v_plate }} </strong></div>
+        <div><strong>con Kilometraje: {{ data_modal.mileage }} </strong></div>
     </div>
 
     <div class="actions">

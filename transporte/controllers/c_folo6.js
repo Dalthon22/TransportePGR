@@ -7,6 +7,8 @@ const Address = require('../models/m_address');
 const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
 const Apanel = require('../models/m_folo6_approve_state');
+const Driver = require('../models/m_Driver');
+const Driver_assign = require('../models/m_driver_assign');
 const Op = Sequelize.Op;
 const querystring = require('querystring');
 const auth_controller = require('../controllers/c_auth');
@@ -1041,6 +1043,26 @@ class folo6_controllers {
                         el.b++;
                     }
                 })
+            });
+
+            var drivers = await Driver_assign.findAll({
+                include: [{
+                    model: Driver,
+                    attributes: ['first_name', 'last_name', 'license_type']
+                }],
+                where: {
+                    folo06_id: el.id
+                }
+            });
+            el.driver_a = new Object();
+            drivers.forEach((driver, i) => {
+                var e = new Object();
+                el.driver = new Object();
+                console.dir(JSON.stringify(driver));
+                e.first_name = driver.SGT_Motoristum.first_name;
+                e.last_name = driver.SGT_Motoristum.last_name;
+                e.license_type = driver.SGT_Motoristum.license_type;
+                el.driver = e;
             });
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
             el.address = [];
