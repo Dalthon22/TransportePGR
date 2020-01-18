@@ -69,7 +69,7 @@ app.use('/empleado', require('./routes/r_employee'));
 app.use('/panel_de_aprobacion', authorize('uBoss', 'adminTrans'), require('./routes/r_approve_panel'));
 app.use('/configuracion_calendario', require('./routes/r_config_calendar'));
 app.use('/control_de_ruta', authorize('adminTrans', 'adminR'), require('./routes/r_driver_assign'));
-app.use('/asignacion_de_combustible', authorize('adminTrans, adminV'), require('./routes/r_assign'));
+app.use('/asignacion_de_combustible', authorize('adminTrans', 'adminV'), require('./routes/r_assign'));
 app.use('/empleado', require('./routes/r_employee'));
 app.use('/usuarios', require('./routes/r_user'));
 
