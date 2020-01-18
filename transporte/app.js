@@ -66,7 +66,7 @@ app.use('/rutas', require('./routes/r_route'));
 app.use('/lugares_frecuentes', require('./routes/r_frequent_places'));
 app.use('/motoristas', require('./routes/r_driver'));
 app.use('/empleado', require('./routes/r_employee'));
-app.use('/', require('./routes/r_approve_panel'));
+app.use('/panel_de_aprobacion', authorize('uBoss', 'adminTrans'), require('./routes/r_approve_panel'));
 app.use('/configuracion_calendario', require('./routes/r_config_calendar'));
 app.use('/asignar_motorista', require('./routes/r_driver_assign'));
 app.use('/asignar_recursos', require('./routes/r_assign'));
