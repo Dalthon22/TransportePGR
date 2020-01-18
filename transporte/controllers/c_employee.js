@@ -72,6 +72,7 @@ class employee_controller {
         }
     }
 
+    //Retorna los atributos del empleado encapsulado en el objeto emp
     async findById1(id) {
         try {
             var emp = new Object();
@@ -100,6 +101,26 @@ class employee_controller {
             console.log(err);
         }
     }
+    //Retorna los atributos de la unidad através del id del usuario
+    async findUnitByUser(user) {
+        try {
+            var unit = new Object();
+            unit.id = user.unit_id;
+            await Unit.findByPk(user.unit_id, {
+                attributes: ['name_unit']
+            }).then(u => {
+                // console.log("DE LA UNIDAD" + unit + " De tipo " + typeof (unit));
+                unit.name = u.name_unit
+            });
+
+            console.log("DE LA UNIDAD" + unit + " De tipo " + typeof (unit));
+            return unit;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
 
 };
 
