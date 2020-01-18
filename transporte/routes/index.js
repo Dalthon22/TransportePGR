@@ -32,11 +32,15 @@ router.get('/logout', (req, res) => {
     auth_controller.log_out(req, res)
 });
 
+//Obtiene los datos del usuario
 router.get('/userinfo', (req, res) => {
     try {
-        const token = auth_controller.decode_token(req.cookies.token)
+        const token = auth_controller.decode_token(req.cookies.token);
+        var roles = auth_controller.getRolesNames(token)
+
         res.send({
-            user: token.user
+            user: token.user,
+            roles: roles
         });
     } catch (err) {
         console.log(err)

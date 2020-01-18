@@ -84,6 +84,18 @@ class auth_controller {
         })
         res.redirect('/login');
     }
+
+    getRolesNames(token) {
+        var roles = [];
+        token.roles.forEach(el => {
+            roles.push(el.codigo_rol);
+        });
+        console.log(roles);
+        return roles;
+    }
+
+
+
 };
 
 module.exports = new auth_controller();
