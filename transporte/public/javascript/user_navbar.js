@@ -42,14 +42,7 @@ $(function () {
         roles = data.roles;
         $('#username').text(user.first_name + ' ' + user.last_name);
 
-        rolesA = getMenuOptions(roles);
-
-        for (var r in rolesA) {
-            console.log(rolesA[r]);
-            if ($("#menu_container").find(rolesA[r]).length === 0) {
-                $("#menu_container").append(rolesA[r]);
-            }
-        }
+        getMenuOptions(roles);
     });
 
 
