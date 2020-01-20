@@ -1,14 +1,16 @@
+//Rutas del menu lateral
 var home = "<a id=\"_home\" href=\"/home\" class=\"item\"><i class=\"home icon\"></i>Home</a>";
 var folo6 = "<a href=\"/solicitud_nueva\" class=\"item\"><i class=\"file alternate icon\"></i>Folo 6</a>";
 var aprobarFolos = "<a href =\"/panel_de_aprobacion\" class=\"item\"><i class=\"tasks icon\"></i>Aprobar Folos</a></i>";
 var flotaVehicular = "<a href=\"/vehiculos\" class=\"item\"><i class=\"car side icon\"></i>Flota Vehicular</a>";
 var vale = "<a href=\"/vales\" class=\"item\"><i class=\"gas pump icon\"></i>Vales</a>";
 var adminFplaces = "<a href=\"/lugares_frecuentes\" class=\"item\"><i class=\"map marked alternate icon\"></i>Administrar<br>Lugares Frecuentes</a>";
-var aprobarReq = "<a href=\"/nuevos_requerimientos\" class=\"item\"><i class=\"tasks icon\"></i>Aprobar requerimientos</a>";
+//ruta para el jefe de la unidad de transporte
+var aprobarReq = "<a href=\"/panel_de_aprobacion/nuevos_requerimientos\" class=\"item\"><i class=\"tasks icon\"></i>Aprobar requerimientos</a>";
 var adminPro = "<a href=\"/instituciones\" class=\"item\"><i class=\"building outline icon\"></i>Administrar<br>Procuradurías</a>";
 var rutas = "<a href=\"/rutas\" class=\"item\"><i class=\"route icon\"></i>Rutas</a>";
 var calConfig = "<a href=\"/configuracion_calendario\" class=\"item\"><i class=\"inverted corner settings icon\"></i>Calendario de rutas</a>";
-var asignarVal = "<a href=\"/asignar_recursos/vales\" class=\"item\"><i class=\"gas pump icon\"></i>Asignar Vales</a>";
+var asignarVal = "<a href=\"/asignacion_de_combustible/vales\" class=\"item\"><i class=\"gas pump icon\"></i>Asignar Vales</a>";
 var motorista = "<a href=\"/motoristas\" class=\"item\"><i class=\"address card outline icon\"></i>Motoristas</a>";
 var controlRuta = "<a href=\"/asignar_motorista\" class=\"item\"><i class=\"clipboard outline icon\"></i>Control de ruta</a>";
 var mision = "<a href=\"/misiones\" class=\"item\"><i class=\"flag outline icon\"></i>Misiones</a>";
