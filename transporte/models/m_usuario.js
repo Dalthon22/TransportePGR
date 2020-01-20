@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Unit = require('./m_unit');
+const Unit = require('./m_unidad');
 const Employee = require('./m_employee');
-const UserRol = require('./m_user_role');
+const UserRol = require('./m_usuario_por_perfil');
 const Folo6_Approve = require('./m_folo6_approve_state');
 const Folo6 = require('./m_folo6');
 

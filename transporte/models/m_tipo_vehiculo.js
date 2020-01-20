@@ -1,18 +1,17 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const UserRol = require('./m_user_role');
 
-const Role = db.define('SGT_Rol', {
-    codigo_rol: {
-        type: Sequelize.STRING(10),
+const TipoVehiculo = db.define('TRA_TipoVehiculo', {
+    TipoVehiculo: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    name: {
-        type: Sequelize.STRING(50),
+    TipoVehiculo: {
+        type: Sequelize.CHAR(20),
         allowNull: false,
         unique: true,
         validate: {
@@ -21,15 +20,8 @@ const Role = db.define('SGT_Rol', {
     }
 }, {
     underscored: true,
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    timestamps: false,
     freezeTableName: true,
 });
 
-Role.hasMany(UserRol, {
-    foreignKey: 'codigo_rol',
-    onDelete: 'cascade'
-});
-
-module.exports = Role;
+module.exports = TipoVehiculo;
