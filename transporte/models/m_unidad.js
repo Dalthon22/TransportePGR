@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
-const Employees = require('./m_employee');
+/* const Employees = require('./m_employee'); */
 
 const Unit = db.define('SGT_Unidad', {
     name_unit: {

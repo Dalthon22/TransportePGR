@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Unit = require('./m_unidad');
-const Employee = require('./m_employee');
+/* const Employee = require('./m_employee'); */
 const UserRol = require('./m_usuario_por_perfil');
-const Folo6_Approve = require('./m_folo6_approve_state');
-const Folo6 = require('./m_folo6');
+/* const Folo6_Approve = require('./m_folo6_approve_state');
+const Folo6 = require('./m_folo6'); */
 
 const User = db.define('SGT_Usuario', {
     first_name: {
@@ -58,7 +58,7 @@ const User = db.define('SGT_Usuario', {
     hasTrigger: true
 });
 
-User.hasMany(Folo6, {
+/* User.hasMany(Folo6, {
     foreignKey: 'created_by'
 });
 User.hasMany(Folo6_Approve, {
@@ -66,16 +66,16 @@ User.hasMany(Folo6_Approve, {
 });
 User.hasMany(Folo6_Approve, {
     foreignKey: 'aprove_tunit_boss_id'
-});
+}); */
 
 User.hasMany(UserRol, {
     foreignKey: 'user_id',
     onDelete: 'cascade'
 });
 
-User.belongsTo(Employee, {
+/* User.belongsTo(Employee, {
     foreignKey: 'id_boss'
-});
+}); */
 
 User.belongsTo(Unit, {
     foreignKey: 'unit_id'

@@ -1,4 +1,4 @@
-const User_Role = require('../models/m_user_role');
+const User_Role = require('../models/m_usuario_por_perfil');
 const Role_Controller = require('./c_role');
 
 class user_role_controller {

@@ -3,7 +3,7 @@
 Controlador del modelo Vehicle
 */
 
-const Vehicle = require('../models/m_vehicle');
+const Vehicle = require('../models/m_vehiculo');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
 const {

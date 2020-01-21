@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
+const Estado = require('./m_estado_vehiculo');
+const TipoVehiculo = require('./m_tipo_vehiculo');
+const OficinaResponsable = require('./m_oficina_responsable_vehiculo');
 
 const Vehiculo = db.define('TRA_Vehiculos', {
     CodigoActivoFijo: {
@@ -102,6 +105,16 @@ const Vehiculo = db.define('TRA_Vehiculos', {
     underscored: true,
     timestamps: false,
     freezeTableName: true,
+});
+
+Vehiculo.belongsTo(Estado, {
+    foreignKey: 'CodigoEstado',
+});
+Vehiculo.belongsTo(TipoVehiculo, {
+    foreignKey: 'CodigoTipoVehiculo',
+});
+Vehiculo.belongsTo(OficinaResponsable, {
+    foreignKey: 'CodigoOficinaResponsableVehiculo',
 });
 
 module.exports = Vehiculo;

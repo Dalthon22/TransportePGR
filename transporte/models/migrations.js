@@ -1,7 +1,9 @@
-const Department = require('./m_department');
-const City = require('./m_city');
-const Vehicle = require('./m_vehicle');
-const Procuraduria = require('./m_procuraduria');
+/* const Department = require('./m_department');
+const City = require('./m_city'); */
+const Vehicle = require('./m_vehiculo');
+const Historial = require('./m_historial_uso_vehiculo');
+const Description = require('./m_descripcion_uso_vehiculo');
+/* const Procuraduria = require('./m_procuraduria');
 const Address = require('./m_address');
 const Route = require('./m_route');
 const Frequent_Place = require('./m_frequent_place');
@@ -13,20 +15,20 @@ const Employee = require('./m_employee');
 const Unit = require('./m_unit');
 const Places_container = require('./m_places_container');
 const Folo6_Approve_State = require('./m_folo6_approve_state');
-const Route_conditions = require('../models/m_route_conditions');
-const User = require('./m_user');
-const Rol = require('./m_role');
-const UserRol = require('./m_user_role');
-const ProcurementBill = require('./m_bill');
+const Route_conditions = require('../models/m_route_conditions'); */
+const User = require('./m_usuario');
+const Rol = require('./m_perfil');
+const UserRol = require('./m_usuario_por_perfil');
+/* const ProcurementBill = require('./m_bill');
 const CosumedBill = require('./m_bill_close');
 const Mision = require('../models/m_mision');
 const Driver = require('./m_driver');
 const Driver_assign = require('./m_driver_assign');
-const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign');
+const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign'); */
 
 class Migration {
     constructor() {
-        Department.sync();
+        /* Department.sync();
         City.sync();
         Driver.sync({
             alter: false
@@ -39,11 +41,17 @@ class Migration {
         });
         Procuraduria.sync({
             alter: false
-        });
+        }); */
         Vehicle.sync({
             alter: false
         });
-        Frequent_Place.sync({
+        Description.sync({
+            alter: false
+        });
+        Historial.sync({
+            alter: false
+        });
+        /* Frequent_Place.sync({
             alter: false
         });
         Voucher.sync({
@@ -75,7 +83,7 @@ class Migration {
         });
         Route_conditions.sync({
             alter: false
-        });
+        }); */
         User.sync({
             alter: false
         });
@@ -85,7 +93,7 @@ class Migration {
         Rol.sync({
             alter: false
         });
-        Vehicle_folo6_assign.sync({
+        /* Vehicle_folo6_assign.sync({
             alter: false
         });
         ProcurementBill.sync({
@@ -96,7 +104,7 @@ class Migration {
         });
         Driver_assign.sync({
             alter: false
-        });
+        }); */
     };
 };
 

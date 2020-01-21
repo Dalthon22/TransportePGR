@@ -2,13 +2,13 @@ const express = require('express')
 const router = express.Router();
 const db = require('../dbconfig/conex');
 const jwt = require('jsonwebtoken');
-const Sequelize = require('sequelize');
-const Employee = require('../models/m_employee');
+/* const Sequelize = require('sequelize');
+const Employee = require('../models/m_employee'); */
 const secret_token = require('../dbconfig/secret_token');
-const cookieParser = require('cookie-parser');
+/* const cookieParser = require('cookie-parser');
 var app = express();
 const moment = require('moment');
-const asyncHandler = require('./async');
+const asyncHandler = require('./async'); */
 const querystring = require('querystring');
 
 exports.is_logged = (req, res, next) => {

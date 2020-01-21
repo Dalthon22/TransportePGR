@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const Role = require('../models/m_role');
+const Role = require('../models/m_perfil');
 
 class role_controller {
     constructor() {
