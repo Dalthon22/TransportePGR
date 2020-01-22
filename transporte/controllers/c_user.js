@@ -50,10 +50,10 @@ class user_controller {
     async getByMail(mail, password, req, res) {
         try {
             let user = await User.findOne({
-                attributes: ['id', 'first_name', 'last_name', 'is_unit_boss', 'id_boss', 'unit_id'],
+                attributes: ['CodigoUsuario', 'ApellidosUsuario', 'NombresUsuario', 'CodigoUsuarioSupervisor'],
                 where: {
-                    email: mail,
-                    password: password
+                    CorreoElectronicoUsuario: mail,
+                    ClaveUsuario: password,
                 }
             });
             //console.dir(user);

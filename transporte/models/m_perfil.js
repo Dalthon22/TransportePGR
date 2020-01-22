@@ -2,17 +2,17 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const UserRol = require('./m_usuario_por_perfil');
 
-const Role = db.define('SGT_Rol', {
-    codigo_rol: {
-        type: Sequelize.STRING(10),
+const Role = db.define('SIS_Perfiles', {
+    CodigoPerfil: {
+        type: Sequelize.CHAR(10),
         primaryKey: true,
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    name: {
-        type: Sequelize.STRING(50),
+    NombrePerfil: {
+        type: Sequelize.STRING(100),
         allowNull: false,
         unique: true,
         validate: {
@@ -20,15 +20,15 @@ const Role = db.define('SGT_Rol', {
         }
     }
 }, {
-    underscored: true,
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    underscored: false,
+    timestamps: false,
+    /* createdAt: 'created_at',
+     updatedAt: 'updated_at', */
     freezeTableName: true,
 });
 
 Role.hasMany(UserRol, {
-    foreignKey: 'codigo_rol',
+    foreignKey: 'CodigoPerfil',
     onDelete: 'cascade'
 });
 

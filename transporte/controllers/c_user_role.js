@@ -94,7 +94,7 @@ class user_role_controller {
             var linked_roles = [];
             var roles = await User_Role.findAll({
                 where: {
-                    user_id: user.id
+                    CodigoUsuario: user.CodigoUsuario
                 }
             });
             roles.forEach(role => {

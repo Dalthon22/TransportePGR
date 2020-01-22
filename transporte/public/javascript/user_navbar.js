@@ -40,7 +40,7 @@ $(function () {
     }).done(function (data, textStatus, jqXHR) {
         user = data.user;
         roles = data.roles;
-        $('#username').text(user.first_name + ' ' + user.last_name);
+        $('#username').text(user.NombresUsuario + ' ' + user.ApellidosUsuario);
 
         getMenuOptions(roles);
     });

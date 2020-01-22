@@ -35,7 +35,7 @@ class auth_controller {
                          replacements: [username, password],
                          type: db.QueryTypes.SELECT */
 
-                //console.dir(user);
+                console.dir(user);
 
                 let roles = await user_role_controller.getList(user);
                 console.dir(roles);
@@ -99,7 +99,7 @@ class auth_controller {
     getRolesNames(token) {
         var roles = [];
         token.roles.forEach(el => {
-            roles.push(el.codigo_rol);
+            roles.push(el.CodigoPerfil);
         });
         console.log(roles);
         return roles;
@@ -109,7 +109,7 @@ class auth_controller {
         const token = this.decode_token(coded_token);
         var roles = [];
         token.roles.forEach(el => {
-            roles.push(el.codigo_rol);
+            roles.push(el.CodigoPerfil);
         });
         console.log(roles);
         return roles;
@@ -125,7 +125,7 @@ class auth_controller {
         if (roles_names.includes('adminVe')) url = encodeURI('/vehiculos');
         if (roles_names.includes('adminR')) url = encodeURI('/control_de_ruta');
         if (roles_names.includes('uBoss')) url = encodeURI('/panel_de_aprobacion');
-        if (roles_names.includes('adminTrans')) url = encodeURI('/panel_de_aprobacion/nuevos_requerimientos');
+        if (roles_names.includes('adminTrans')) url = encodeURI('/vehiculos');
 
         return url
     }

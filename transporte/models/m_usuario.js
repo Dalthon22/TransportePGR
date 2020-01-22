@@ -6,30 +6,38 @@ const UserRol = require('./m_usuario_por_perfil');
 /* const Folo6_Approve = require('./m_folo6_approve_state');
 const Folo6 = require('./m_folo6'); */
 
-const User = db.define('SGT_Usuario', {
-    first_name: {
-        type: Sequelize.STRING(75),
+const User = db.define('SIS_Usuarios', {
+    CodigoUsuario: {
+        primaryKey: true,
+        type: Sequelize.CHAR(10),
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    last_name: {
-        type: Sequelize.STRING(75),
+    NombresUsuario: {
+        type: Sequelize.STRING(50),
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    is_unit_boss: {
-        type: Sequelize.BOOLEAN,
+    ApellidosUsuario: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    },
+    CodigoUsuarioSupervisor: {
+        type: Sequelize.CHAR(10),
         defaultValue: '0',
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    email: {
+    CorreoElectronicoUsuario: {
         type: Sequelize.STRING(100),
         unique: true,
         allowNull: false,
@@ -37,25 +45,24 @@ const User = db.define('SGT_Usuario', {
             notEmpty: true,
         }
     },
-    password: {
-        type: Sequelize.STRING(25),
+    ClaveUsuario: {
+        type: Sequelize.CHAR(10),
         allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
-    active: {
-        type: Sequelize.BOOLEAN,
+    ActivoInactivoUsuario: {
+        type: Sequelize.CHAR(1),
         allowNull: false,
         defaultValue: false
     },
 }, {
-    underscored: true,
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    freezeTableName: true,
-    hasTrigger: true
+    underscored: false,
+    timestamps: false,
+    /* createdAt: 'created_at',
+    updatedAt: 'updated_at', */
+    freezeTableName: true
 });
 
 /* User.hasMany(Folo6, {
@@ -69,7 +76,7 @@ User.hasMany(Folo6_Approve, {
 }); */
 
 User.hasMany(UserRol, {
-    foreignKey: 'user_id',
+    foreignKey: 'CodigoUsuario',
     onDelete: 'cascade'
 });
 
@@ -77,8 +84,8 @@ User.hasMany(UserRol, {
     foreignKey: 'id_boss'
 }); */
 
-User.belongsTo(Unit, {
+/* User.belongsTo(Unit, {
     foreignKey: 'unit_id'
-})
+}) */
 
 module.exports = User;
