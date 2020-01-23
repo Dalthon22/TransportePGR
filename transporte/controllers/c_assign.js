@@ -1,12 +1,10 @@
 const Asignacion = require('../models/m_voucher_folo6_assign');
 const Vehiculo = require('../models/m_vehicle');
-const employee = require('../models/m_employee');
 const folo6 = require('../models/m_folo6');
-const driver = require('../models/m_driver');
-const driver_assign = require('../models/m_driver_assign');
 const folo6_approve = require('../models/m_folo6_approve_state');
 const Vales = require('../models/m_voucher');
 const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign');
+const Sequelize = require('sequelize');
 
 //Manejo de fechas
 var moment = require('moment');
@@ -64,14 +62,19 @@ class assign_controller {
                 data.push(el);
 
             });
-            var Cars = await Vehiculo.findAll({
-                where: {
-                    state: 'Funcional',
-                }
+            var voucher_prov = await Vales.findAll({
+                attributes:[[Sequelize.fn('DISTINCT', Sequelize.col('voucher_provider')),'voucher_provider']]
             });
-            console.log(data_modal);
+            var proveedores = [];
+            voucher_prov.forEach((prov, i) => {
+                var e = new Object();
+                e.voucher_provider = prov.voucher_provider;
+                proveedores.push(e);
+            });
+
+            console.log(proveedores);
             return res.render('../views/voucher/assign.html', {
-                Cars,
+                proveedores,
                 data,
                 data_modal
             });

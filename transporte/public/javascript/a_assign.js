@@ -152,12 +152,9 @@ $(".check.green.circle.outline.link.icon").click(function (e) {
     var tabla = document.getElementById("div_table");
     tabla.style.display = "none";
     var div = document.getElementById("data-hidden");
+    var divform = document.getElementById("data-hidden-form");
     div.style.display = "block";
-    document.getElementById("cant").disabled = false;
-    document.getElementById("mileage_inserted").disabled = false;
-    document.getElementById("bAsignar").disabled = false;
-    document.getElementById("license_type").disabled = false;
-
+    divform.style.display = "block";
 });
 
 $(".ui.left.floated.animated.button").click(function (e) {
@@ -170,10 +167,9 @@ $(".ui.left.floated.animated.button").click(function (e) {
     var tabla = document.getElementById("div_table");
     tabla.style.display = "block";
     var div = document.getElementById("data-hidden");
+    var divform = document.getElementById("data-hidden-form");
     div.style.display = "none";
-    document.getElementById("bAsignar").disabled = true;
-    document.getElementById("cant").disabled = true;
-    document.getElementById("mileage_inserted").disabled = true;
+    divform.style.display = "none";
 });
 
 function drawTableCells() {
