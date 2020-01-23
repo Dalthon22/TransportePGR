@@ -14,33 +14,112 @@ router.get('/', (req, res) => {
       }
     };
     const printer = new pdfPrinter(fonts);
-   /*  var texto = [[['Mi casa'], ['Colonia El Rosal 1, Block "C", Pasaje #2, Casa #3'], ['La Libertad'], ['Quezaltepeque']],
-  [['Nombre 1'], ['Detalle 1'], ['Departamento 1'], ['Municipio 1']]]; */
-    var bodyData = [];
-    var columns = [{ text: 'Nombre del destino', bold: true }, { text: 'Detalle de dirección', bold: true
-   }, { text: 'Departamento', bold: true }, { text: 'Municipio', bold: true }];
-    var data = [{nombre: 'Nombre 1', detalle: 'Detalle 1', departamento: 'Departamento 1', municipio: 'Municipio 1'},
-                {nombre: 'Nombre 2', detalle: 'Detalle 2', departamento: 'Departamento 2', municipio: 'Municipio 2'}];
-    bodyData.push(columns);
-    data.forEach(row => {
-      var dataRow = [];
-      dataRow.push(row.nombre);
-      dataRow.push(row.detalle);
-      dataRow.push(row.departamento);
-      dataRow.push(row.municipio);
-      bodyData.push(dataRow);
-    });
+    var today = new Date();
+    var month = today.getMonth() + 1;
+    // CUERPO DEL DOCUMENTO. NO TOCAR. >:V
     var docDefinition = {
+      info: {
+        //Nombre interno del documento.
+        title: 'Hoja de Misión Oficial FOLO-13 ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+      },
       pageSize: 'LETTER',
-      content: [
-        {
-          table: {
-            headerRows: 1,
-            widths: ['auto', 'auto', 'auto', 'auto'],
-            body: bodyData,
-          },
+      footer: {
+        text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+        alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+      },
+      content: [{
+        image: 'public/images/logopgr1.png',
+        fit: [60, 60],
+        absolutePosition: {
+          x: 50,
+          y: 20
         },
-      ],
+        writable: true,
+      },
+      {
+        text: 'FORMULARIO CONTROL DE MISIONES OFICIALES',
+        alignment: 'center',
+        bold: true,
+        italics: true,
+        fontSize: '16'
+      },
+      {
+        text: 'PARA DÍAS Y HORAS NO HÁBILES',
+        alignment: 'center',
+        bold: true,
+        italics: true,
+        fontSize: '16'
+      },
+      {
+        text: 'UNIDAD DE LOGÍSTICA',
+        alignment: 'center',
+        bold: true,
+        italics: true,
+        fontSize: '16'
+      },
+      {
+        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+        alignment: 'center',
+        bold: true,
+        italics: true,
+        fontSize: '16'
+      },
+      {
+        text: '\n\nFOLO-13',
+        alignment: 'right',
+        bold: true,
+        italics: true
+      },
+      {
+        text: [{
+          text: 'Fecha: ',
+          bold: true
+        }, '']
+      },
+      {
+        text: [{
+          text: '\nUnidad o procuraduría auxiliar: ',
+          bold: true
+        }, ''],
+      },
+      {
+        text: [{
+          text: '\nSe autoriza a: ',
+          bold: true
+        }, ''],
+      },
+      {
+        text: [{
+          text: '\nVehículo placa #: ',
+          bold: true
+        }, ''],
+      },
+      {
+        text: [{
+          text: '\nMisión: ',
+          bold: true
+        }, ''],
+      },
+      {
+        text: [{
+          text: '\nPeríodo de la misión: ',
+          bold: true
+        }, ''],
+      },
+      {
+        text: '\nAutorizado por: ',
+        bold: true,
+        preserveLeadingSpaces: true
+      },
+      {
+        text: '\n\n\n\n\n\n___________________________________                 _________________________________________',
+        alignment: 'center'
+      },
+      {
+        text: 'Firma y sello de autorizado                                 Nombre y firma del motorista o conductor',
+        preserveLeadingSpaces: true,
+        alignment: 'center',
+      }],
     };
 
     const doc = printer.createPdfKitDocument(docDefinition);
