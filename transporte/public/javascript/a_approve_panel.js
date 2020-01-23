@@ -94,7 +94,7 @@ function fillApproveButton() {
                     console.log("Voy a mostrar el folo" + id_folo);
                     //DATOS PARA MOSTRAR SOBRE EL FOLO A ELIMINAR
                     $.ajax({
-                        url: 'solicitud_nueva/getinfo',
+                        url: '/solicitud_nueva/getinfo',
                         async: true,
                         type: 'POST',
                         dataType: 'json',

@@ -7,10 +7,10 @@
 </a>
 <!-- Acá irá la session del usuario actual y el icono de notificaciones -->
 <div class="right menu">
-    <a class="ui item" style="color: black" id="notification">
+    <!-- <a class="ui item" style="color: black" id="notification">
         <i class="bell outline icon"></i>
         Notificaciones
-    </a>
+    </a> -->
     <div class="ui secondary menu" id="user_menu">
         <a class="browse item" id="user">
             <i class="user tie icon"></i>
@@ -22,7 +22,7 @@
             <div class="ui relaxed grid">
                 <h4 class="ui dividing header" style="margin: 0rem">Opciones</h4>
                 <div class="ui link list" style="margin: 0.5rem">
-                    <a class="item">Preferencias</a>
+                    <!-- <a class="item">Preferencias</a> -->
                     <a class="item" href="/logout">Cerrar sesión</a>
                 </div>
             </div>
@@ -39,82 +39,8 @@
 
 <!-- Contenido del menu principal -->
 <div class="ui fluid container" style="border:0rem;">
-    <div class="ui inverted labeled icon left inline vertical sidebar menu">
-        <a href="/home" class="item">
-            <i class="home icon"></i>
-            Home
-        </a>
-        <a href="/solicitud_nueva" class="item">
-            <i class="file alternate icon"></i>
-            Folo 6
-        </a>
-        <!-- Jefe de unidad -->
-        <a href="/panel_de_aprobacion" class="item">
-            <i class="tasks icon"></i>
-            Aprobar Folos
-        </a>
-        <!-- admin vehículos -->
-        <a href="/vehiculos" class="item">
-            <i class="car side icon"></i>
-            Flota Vehicular
-        </a>
-        <!-- Admin Vales -->
-        <a href="/vales" class="item">
-            <i class="gas pump icon"></i>
-            Vales
-        </a>
-        <!-- Admin unidad transporte -->
-        <a href="/lugares_frecuentes" class="item">
-            <i class="map marked alternate icon"></i>
-            Administrar <br>
-            Lugares Frecuentes
-        </a>
-        <!-- Admin transporte -->
-        <a href="/nuevos_requerimientos" class="item">
-            <i class="tasks icon"></i>
-            Aprobar Requerimientos
-        </a>
-        <!-- Admin IT -->
-        <a href="/instituciones" class="item">
-            <i class="building outline icon"></i>
-            Administrar <br>
-            Procuradurías
-        </a>
-        <!-- Admin Transporte, Encargado de ruta -->
-        <a href="/rutas" class="item">
-            <i class="route icon"></i>
-            Rutas
-        </a>
-        <!-- Admin Transporte -->
-        <a href="/configuracion_calendario" class="item">
-            <i class="inverted corner settings icon"></i>
-            Calendario de rutas
-        </a>
-        <!-- Admin vales -->
-        <a href="/asignar_recursos/vales" class="item">
-            <i class="gas pump icon"></i>
-            Asignar Vales
-        </a>
-        <!-- Admin transporte -->
-        <a href="/motoristas" class="item">
-            <i class="address card outline icon"></i>
-            Motoristas
-        </a>
-        <!-- Admin Transporte, Encargado de ruta -->
-        <a href="/asignar_motorista" class="item">
-            <i class="clipboard outline icon"></i>
-            Control de ruta
-        </a>
-        <!-- Admin transporte -->
-        <a href="/misiones" class="item">
-            <i class="flag outline icon"></i>
-            Misiones
-        </a>
-        <!-- Admin IT -->
-        <a href="/usuarios" class="item">
-            <i class="user tie icon"></i>
-            Usuarios
-        </a>
+    <div id="menu_container" class="ui inverted labeled icon left inline vertical sidebar menu">
+
     </div>
     <div class="pusher">
         <div class="ui basic segment" style="margin-bottom:5rem;border:0rem;padding:0em;">

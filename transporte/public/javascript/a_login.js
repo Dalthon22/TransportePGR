@@ -4,7 +4,10 @@ $(function () {
     if (session_error) {
         $('#session_error_message').removeClass('hidden').addClass('visible')
     }
-
+    var bye = getParameterByName('bye');
+    if (bye) {
+        $('#bye_message').removeClass('hidden').addClass('visible')
+    }
     //Validaciones del formulario
     $(".ui.form")
         .form({
@@ -48,3 +51,9 @@ function getParameterByName(name) {
     else
         return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+$('.message .close')
+    .on('click', function () {
+        $(this)
+            .closest('.message')
+            .transition('fade');
+    });
