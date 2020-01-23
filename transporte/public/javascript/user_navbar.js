@@ -15,9 +15,9 @@ var mision = "<a href=\"/misiones\" class=\"item\"><i class=\"flag outline icon\
 var usuarios = "<a href=\"/usuarios\" class=\"item\"><i class=\"user tie icon\"></i>Usuarios</a>";
 
 //Opciones de menu por Roles
-var adminIT = [usuarios, adminPro];
+var adminIT = [] //[usuarios, adminPro];
 var adminR = [rutas, controlRuta, adminFplaces, calConfig];
-var adminTrans = [flotaVehicular, motorista, aprobarReq, mision];
+var adminTrans = [flotaVehicular]; //, motorista, aprobarReq, mision];
 var adminV = [asignarVal];
 var emp = [home, folo6];
 var uBoss = [aprobarFolos, home, folo6];

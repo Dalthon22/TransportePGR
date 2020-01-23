@@ -11,6 +11,13 @@ const HistorialUsoVehiculo = db.define('TRA_HistorialUsoVehiculo', {
         validate: {
             notEmpty: true,
         }
+    },
+    NuevoKilometraje: {
+        type: Sequelize.CHAR(10),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     }
 }, {
     underscored: false,
