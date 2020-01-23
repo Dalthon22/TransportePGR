@@ -65,10 +65,10 @@ $('#km_cb').checkbox({
         $("#km_input").val($("#km_actual").val());
 
         //Elimina las reglas de validación creadas para ese campo 
-        $('#update_km_form').form('remove field', 'km_input');
+        $('.ui.form').form('remove field', 'km_input');
     }
 })
-$('#update_km_form').form({
+$('.ui.form').form({
     on: 'blur',
     revalidate: true,
     inline: true,
