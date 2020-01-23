@@ -242,10 +242,8 @@ function setInputFilter(textbox, inputFilter) {
     });
 }
 
-setInputFilter(document.getElementById("cant"), function (value) {
-    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 4);
-});
-
 setInputFilter(document.getElementById("mileage_inserted"), function (value) {
     return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1000001);
 });
+
+
