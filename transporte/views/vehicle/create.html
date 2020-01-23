@@ -66,11 +66,14 @@
             </div>
         </div>
         <div class="fields">
-            <div class="four wide required field">
-                <label for="year">Año del vehículo</label>
-                <input id="year" name="year" type="text" placeholder="2012" value="{{ vehicle.AnnoVehiculo }}">
+            <label for="year">Año del vehículo</label>
+            <div class="ui calendar" id="year">
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    <input name="year" type="text" placeholder="Año" value="{{ vehicle.AnnoVehiculo }}">
+                </div>
             </div>
-            <div class="four wide required field">
+            <div class="four wide field">
                 <label for="color">Color del vehículo</label>
                 <input id="color" name="color" type="text" placeholder="Negro" value="{{ vehicle.ColorVehiculo}}">
             </div>
@@ -83,8 +86,8 @@
 
         <h4 class="ui block header grey">Responsable</h4>
         <div class="eight wide required field">
-            <label for="type">Oficina responsable</label>
-            <select class="ui fluid search dropdown" name="type">
+            <label for="office">Oficina responsable</label>
+            <select class="ui fluid search dropdown" name="office">
                 {% for o in offices %}
                 {% if o.CodigoOficinaResponsableVehiculo == vehicle.CodigoOficinaResponsableVehiculo %}
                 <option value="{{o.CodigoOficinaResponsableVehiculo}}" selected>
@@ -162,7 +165,7 @@
         </div>
         <div class="field">
             <label>Observaciones</label>
-            <textarea id="observations">{{vehicle.Observaciones}}</textarea>
+            <textarea id="observations" name="observations">{{vehicle.Observaciones}}</textarea>
         </div>
         <br>
         <input type="hidden" id="vehicle_id" name="vehicle_id" value="{{ vehicle.CodigoActivoFijo }}">
