@@ -102,7 +102,7 @@ const Vehiculo = db.define('TRA_Vehiculos', {
         }
     }
 }, {
-    underscored: true,
+    underscored: false,
     timestamps: false,
     freezeTableName: true,
 });

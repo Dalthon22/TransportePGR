@@ -17,13 +17,6 @@ class Vehicle_controller {
 
     }
 
-    //Metodo que inicializa el los estados de los vehiculos
-    getStateList() {
-        let states_map = new Map();
-        states_map.set('Funcional', 'Funcional').set('Mantenimiento', 'En Mantenimiento').set('Dañado', 'Dañado');
-        return states_map.entries();
-    }
-
     //Encuntra un registro por el id
     //Parametro: _id Llave primaria de la tabla
     async findById(_id) {
@@ -117,7 +110,7 @@ class Vehicle_controller {
     async getList(req, res) {
         try {
             var vehicles = await Vehicle.findAll({
-                order: Sequelize.literal('plate ASC')
+                order: Sequelize.literal('CodigoActivoFijo ASC')
             });
             console.log(vehicles);
             return res.render('../views/vehicle/list.html', {
