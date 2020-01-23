@@ -29,27 +29,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if vehicles.length > 0 %}
-                    {% for c in vehicles %}
+                    {% if vehicles.length %}
+                    {% for v in vehicles %}
                     <tr>
-                        <td class="aligned">{{c.plate}}</td>
-                        <td class="center aligned">{{c.brand}}</td>
-                        <td class="center aligned">{{c.model}}</td>
-                        <td class="center aligned">{{c.seats}}</td>
-                        <td class="center aligned">{{c.chassis}}</td>
-                        <td class="center aligned">{{c.engine}}</td>
-                        {% set state = c.state %}
-                        <td
-                            class={{"positive" if state == "Funcional" else ("warning" if state == "Mantenimiento" else "error")}}>
-                            {% if state == "Funcional" %}
-                            <i class="check icon"></i>
-                            {% elif state == "Mantenimiento" %}
-                            <i class="exclamation icon"></i>
-                            {% else %}
-                            <i class="x icon"></i>
-                            {% endif %}
-                            {{c.state | capitalize}}
-                        </td>
+                        <td class="center aligned">{{v.codigo}}</td>
+                        <td class="center aligned">{{v.matricula | capitalize}}</td>
+                        <td class="center aligned">{{v.descripcion | capitalize}}</td>
+                        <td class="center aligned">{{v.capacidad}}</td>
+                        <td class="center aligned">{{c.state | capitalize}}</td>
+                        <td class="center aligned">{{v.kilometraje}}</td>
                         <td style="text-align: center">
                             <i class="large pencil yellow alternate link icon"></i>
                         </td>

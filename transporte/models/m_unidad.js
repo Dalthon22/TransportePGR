@@ -19,7 +19,7 @@ const Unit = db.define('SGT_Unidad', {
         allowNull: true,
     },
 }, {
-    underscored: true,
+    underscored: false,
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',

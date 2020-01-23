@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const OficinaResponsable = require('../models/m_role');
+const OficinaResponsable = require('../models/m_oficina_responsable_vehiculo');
 
 class oficina_responsable_controller {
     constructor() {

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 
 const TipoVehiculo = db.define('TRA_TipoVehiculo', {
-    TipoVehiculo: {
+    CodigoTipoVehiculo: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
@@ -19,7 +19,7 @@ const TipoVehiculo = db.define('TRA_TipoVehiculo', {
         }
     }
 }, {
-    underscored: true,
+    underscored: false,
     timestamps: false,
     freezeTableName: true,
 });

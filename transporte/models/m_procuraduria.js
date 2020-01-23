@@ -33,7 +33,7 @@ const Procuraduria = db.define('SGT_Procuraduria', {
         type: Sequelize.INTEGER
     }
 }, {
-    underscored: true,
+    underscored: false,
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',

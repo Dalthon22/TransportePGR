@@ -19,7 +19,7 @@ const OficinasResponsablesDeVehiculo = db.define('TRA_OficinasResponsablesDeVehi
         }
     }
 }, {
-    underscored: true,
+    underscored: false,
     timestamps: false,
     freezeTableName: true,
 });

@@ -19,7 +19,7 @@ const Estadovehiculo = db.define('TRA_EstadoVehiculo', {
         }
     }
 }, {
-    underscored: true,
+    underscored: false,
     timestamps: false,
     freezeTableName: true,
 });

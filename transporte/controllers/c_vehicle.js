@@ -4,6 +4,11 @@ Controlador del modelo Vehicle
 */
 
 const Vehicle = require('../models/m_vehiculo');
+const TipoVehiculo = require('../models/m_tipo_vehiculo');
+const CodigoEstado = require('../models/m_estado_vehiculo');
+const TipoVehiculoController = require('./c_tipo_vehiculo');
+const EstadoVehiculoController = require('./c_estado_vehiculo');
+const OficinasResponsableController = require('./c_oficina_responsable');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
 const {
@@ -37,7 +42,7 @@ class Vehicle_controller {
     async findByPlate(_plate) {
         let vehicle = await Vehicle.findOne({
             where: {
-                plate: _plate
+                NumeroMatriculaVehiculo: _plate
             }
         })
         return vehicle;
@@ -109,10 +114,35 @@ class Vehicle_controller {
     //Obtiene todos los reguistros almacenados en la tabla
     async getList(req, res) {
         try {
-            var vehicles = await Vehicle.findAll({
+            var vehicles = [];
+            var vehiculos = await Vehicle.findAll({
+                attributes: ['CodigoActivoFijo', 'NumeroPlacaVehiculo',
+                    'MarcaVehiculo', 'ModeloVehiculo',
+                    'CodigoTipoVehiculo', 'CapacidadPersonaVehiculo',
+                    'KilometrajeActual', 'CodigoEstado'
+                ],
+                include: [{
+                    model: TipoVehiculo,
+                    raw: true,
+                    required: false
+                }, {
+                    model: CodigoEstado,
+                    raw: true,
+                    required: false
+                }],
                 order: Sequelize.literal('CodigoActivoFijo ASC')
             });
-            console.log(vehicles);
+            console.log(vehiculos);
+            vehiculos.forEach((record) => {
+                var v = new Object();
+                v.codigo = record.CodigoActivoFijo;
+                v.matricula = record.NumeroMatriculaVehiculo;
+                v.descripcion = record.TRA_TipoVehiculo.TipoVehiculo + ":" + record.MarcaVehiculo + "-" + record.ModeloVehiculo;
+                v.capacidad = record.CapacidadPersonaVehiculo;
+                v.estado = record.TRA_EstadoVehiculo.EstadoVehiculo;
+                v.Kilometraje = record.KilometrajeActual;
+                vehicles.push(v);
+            })
             return res.render('../views/vehicle/list.html', {
                 vehicles
             });
@@ -125,7 +155,12 @@ class Vehicle_controller {
     //Para editar o ingresar un nuevo vehiculo
     async getCreate(req, res) {
         try {
-            const states = this.getStateList();
+            const states = await EstadoVehiculoController.getList();
+            const offices = await OficinasResponsableController.getList();
+            const types = await TipoVehiculoController.getList();
+            console.log("Estados: " + states);
+            console.log("Oficinas: " + offices);
+            console.log("Tipos: " + types);
             var plate = req.query.matricula;
             var vehicle;
             console.log(plate);
@@ -134,6 +169,8 @@ class Vehicle_controller {
             }
             return res.render('../views/vehicle/create.html', {
                 states,
+                types,
+                offices,
                 vehicle
             })
         } catch (error) {
