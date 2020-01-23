@@ -124,11 +124,11 @@
                     </select>
                     <!-- Campo oculto para estado anterior -->
                     <!-- value debe reemplazarse con {{state.CodigoEstado}} que tiene el vehiculo en la base  -->
-                    <input type="hidden" id="old_state" value="{{vehicle.CodigoEstado}}">
+                    <input type="hidden" id="old_state" value="2">
                 </div>
                 <div class="four wide required field">
                     <label for="mileage">Kilometraje actual</label>
-                    <input id="mileage" name="mileage" min="0" type="text" placeholder="Kilometraje"
+                    <input id="mileage" name="mileage" min="0" type="number" placeholder="Kilometraje"
                         value="{{vehicle.KilometrajeActual | int}}">
                 </div>
             </div>
@@ -139,42 +139,40 @@
             <input type="hidden" id="vehicle_id" name="vehicle_id" value="{{ vehicle.CodigoActivoFijo }}">
             <!-- Formulario para el cambio de los estado de dañado y en manenimiento; al estado Funcional -->
             <div id="update_km_form_div" style="display:none;">
-                <!-- <form class="ui form " id="update_km_form" name="update_km_form"> -->
-                <h4 class="ui block header grey">
-                    Actualización del kilometraje
-                </h4>
-                <div class="fields">
-                    <div class="field">
-                        <label for="km_check">Cambiar kilometraje</label>
-                        <div class="five wide" style="display: flex; align-items: flex-end;">
-                            <label for="km_check" style="margin-right: 1em;">Actual</label>
-                            <div class="ui toggle checkbox" id="km_cb" style="margin-top: 0.2em !important;">
-                                <!-- Mostrará el campo con el km actual y si cambia el checkbos podrá ingresar un nuevo valor -->
-                                <input type="checkbox" id="km_check" name="km_check" checked="unchecked" tabindex="0"
-                                    class="hidden">
+                <form class="ui form " id="update_km_form" name="update_km_form">
+                    <h4 class="ui block header grey">
+                        Actualización del kilometraje
+                    </h4>
+                    <div class="fields">
+                        <div class="field">
+                            <label for="km_check">Cambiar kilometraje</label>
+                            <div class="five wide" style="display: flex; align-items: flex-end;">
+                                <label for="km_check" style="margin-right: 1em;">Actual</label>
+                                <div class="ui toggle checkbox" id="km_cb" style="margin-top: 0.2em !important;">
+                                    <!-- Mostrará el campo con el km actual y si cambia el checkbos podrá ingresar un nuevo valor -->
+                                    <input type="checkbox" id="km_check" name="km_check" checked="unchecked"
+                                        tabindex="0" class="hidden">
+                                </div>
+                                <label for="km_check">Nuevo</label>
                             </div>
-                            <label for="km_check">Nuevo</label>
+                        </div>
+                        <div class="five wide required field">
+                            <label for="km_input">kilometraje:</label>
+                            <!-- Colocar como placeholder el km actual, para tomarlo de referencia -->
+                            <input type="text" name="km_input" id="km_input" readonly>
                         </div>
                     </div>
-                    <div class="five wide required field">
-                        <label for="km_input">kilometraje:</label>
-                        <!-- Colocar como placeholder el km actual, para tomarlo de referencia -->
-                        <input type="text" name="km_input" id="km_input" readonly value="">
+                    <div class="required field">
+                        <label for="motive_dropdown">Motivo de Actualización:</label>
+                        <select class="ui fluid dropdown" name="motive_dropdown" id="motive_dropdown">
+                            {% for r in reasons %}
+                            <option value="{{r.CodigoDescripcion}}">{{r.Descripcion}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                </div>
-                <div class="required field">
-                    <label for="motive_dropdown">Motivo de Actualización:</label>
-                    <select class="ui fluid dropdown" name="motive_dropdown" id="motive_dropdown">
-                        {% for r in reasons %}
-                        {% if r.Descripcion != "Inicial" %}
-                        <option value="{{r.CodigoDescripcion}}">{{r.Descripcion}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-                <br>
-                <input type="hidden" name="km_actual" id="km_actual" value="{{vehicle.KilometrajeActual}}">
-                <!--  </form> -->
+                    <br>
+                    <input type="hidden" name="km_actual" id="km_actual" value="{{vehicle.KilometrajeActual}}">
+                </form>
             </div>
         </div>
         <br>

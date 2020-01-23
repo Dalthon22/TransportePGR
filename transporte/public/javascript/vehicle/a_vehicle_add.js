@@ -225,10 +225,6 @@ $("#mileage").keydown(function (event) {
     return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
 })
 
-$("#km_input").keydown(function (event) {
-    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
-})
-
 /*Limita el ingreso de caracteres a la letra N y numeros
 13012020_DD*/
 $("#vplate").keydown(function (event) {
