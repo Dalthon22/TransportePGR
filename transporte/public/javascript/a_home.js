@@ -268,7 +268,7 @@ $('#mytable tbody').on('click', '.print.link.icon', function (event) {
         //Si la bandera marca 'Sí', se imprime FOLO-13
         if (folo13 == 'Sí') {
             $.ajax({
-                url: '/solicitud/showPDF_Folo13',
+                url: '/solicitud_nueva/showPDF_Folo13',
                 async: true,
                 type: 'POST',
                 dataType: 'json',
