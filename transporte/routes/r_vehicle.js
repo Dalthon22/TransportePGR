@@ -51,4 +51,13 @@ router.get('/matricula_:plate',
         controller.existsResponse(plate, req, res);
     });
 
+
+/*GET Create
+Ruta provisional para modal
+*/
+router.get('/modal', (req, res) => {
+    res.render('../views/vehicle/modal.html');
+});
+
+
 module.exports = router
