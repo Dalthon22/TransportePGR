@@ -14,9 +14,26 @@ $.fn.form.settings.rules.minor = function (value, minor) {
     }
 };
 
+//Para verificar el cambio de estado, si no hay cambio de estado el formulario se mantendra oculto
+$("#state").change(function () {
+    var state = $(this).children("option:selected").val();
+    console.log("El estado es: " + state);
+    //Agregue el es por que asi se maneja en tus dropdown
+    var old_state = $("#old_state").val();
+    console.log("viejo estado: " + old_state)
+
+    if (state == '1' && state != old_state) {
+        console.log("mostrar form")
+        document.getElementById("update_km_form_div").style.display = "block";
+        //Se actualizará con el nuevo estado
+        $("#old_state").val(state)
+    } else {
+        document.getElementById("update_km_form_div").style.display = "none";
+    }
+});
+
 //Kilometraje actual
 $("#km_input").val($("#km_actual").val());
-
 
 $('#km_cb').checkbox('enable').checkbox('uncheck');
 //Para registrar si hay cambio en el kilometraje del vehículo

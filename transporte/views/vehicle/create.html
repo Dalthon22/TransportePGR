@@ -106,7 +106,7 @@
             <div class="two fields">
                 <div class="four wide required field">
                     <label for="state">Estado</label>
-                    <select class="ui fluid search dropdown" name="state">
+                    <select class="ui fluid search dropdown" name="state" id="state">
                         {% for state in states %}
                         {% if state.CodigoEstado == vehicle.CodigoEstado %}
                         <option value="{{state.CodigoEstado}}" selected>{{state.EstadoVehiculo}}</option>
@@ -115,12 +115,52 @@
                         {% endif %}
                         {% endfor %}
                     </select>
+                    <!-- Campo oculto para estado anterior -->
+                    <!-- value debe reemplazarse con {{state.CodigoEstado}} que tiene el vehiculo en la base  -->
+                    <input type="hidden" id="old_state" value="2">
                 </div>
                 <div class="four wide required field">
                     <label for="mileage">Kilometraje actual</label>
                     <input id="mileage" name="mileage" min="0" type="number" placeholder="Kilometraje"
                         value="{{ vehicle.KilometrajeActual }}">
                 </div>
+            </div>
+            <!-- Formulario para el cambio de los estado de dañado y en manenimiento; al estado Funcional -->
+            <div id="update_km_form_div" style="display:none;">
+                <form class="ui form " id="update_km_form" name="update_km_form">
+                    <h4 class="ui block header grey">
+                        Actualización del kilometraje
+                    </h4>
+                    <div class="fields">
+                        <div class="field">
+                            <label for="km_check">Cambiar kilometraje</label>
+                            <div class="five wide" style="display: flex; align-items: flex-end;">
+                                <label for="km_check" style="margin-right: 1em;">Actual</label>
+                                <div class="ui toggle checkbox" id="km_cb" style="margin-top: 0.2em !important;">
+                                    <!-- Mostrará el campo con el km actual y si cambia el checkbos podrá ingresar un nuevo valor -->
+                                    <input type="checkbox" id="km_check" name="km_check" checked="unchecked"
+                                        tabindex="0" class="hidden">
+                                </div>
+                                <label for="km_check">Nuevo</label>
+                            </div>
+                        </div>
+                        <div class="five wide required field">
+                            <label for="km_input">kilometraje:</label>
+                            <!-- Colocar como placeholder el km actual, para tomarlo de referencia -->
+                            <input type="text" name="km_input" id="km_input" readonly maxlength="100">
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label for="motive_dropdown">Motivo de Actualización:</label>
+                        <select class="ui fluid dropdown" name="motive_dropdown" id="motive_dropdown">
+                            <option value="">Seleccione un motivo</option>
+                            <option value="init">Inicial</option>
+                            <option value="update">Reparación y prueba del vehículo</option>
+                        </select>
+                    </div>
+                    <br>
+                    <input type="hidden" id="km_actual" value="{{ vehicle.KilometrajeActual }}">
+                </form>
             </div>
         </div>
         <div class="field">
@@ -138,9 +178,12 @@
         <div class="ui positive button" id="add_btn">Guardar</div>
         <!-- <div class="ui right floated yellow hiden hidden button" id="validate_plate">Validar matrícula</div> -->
     </form>
+    <!-- Formulario para el cambio de los estado de dañado y en manenimiento; al estado Funcional -->
 </div>
 
 <link rel="stylesheet" href="/stylesheets/vehicle.css">
 <script src="/javascript/vehicle/a_vehicle_add.js"></script>
+<!-- JS correspondiente al formulario de cambio de kilometraje -->
+<script src="/javascript/vehicle/a_kilometraje.js"></script>
 
 {% endblock %}
