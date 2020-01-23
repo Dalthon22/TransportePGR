@@ -23,10 +23,7 @@ class employee_controller {
         try {
             var unit_bosses = await this.getUnitBosses();
             res.render('../views/user/boss_selector.html', {
-                unit_bosses,
-                00
-
-                +
+                unit_bosses
             });
         } catch (error) {
             console.log(error);
