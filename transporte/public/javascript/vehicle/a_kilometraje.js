@@ -1,6 +1,23 @@
 $('#modal_update_km')
     .modal('attach events', '#update_km', 'show');
 
+//AGREGA REGLA PARA VERIFICAR QUE EL KILOMETRAJE INGRESADO SEA MAYOR O IGUAL QUE EL ANTERIOR
+$.fn.form.settings.rules.minor = function (value, minor) {
+    try {
+        var valido = true;
+        if (parseInt($("#km_input").val()) <= parseInt($("#km_actual").val())) {
+            valido = false;
+        }
+        return (valido);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+//Kilometraje actual
+$("#km_input").val($("#km_actual").val());
+
+
 $('#km_cb').checkbox('enable').checkbox('uncheck');
 //Para registrar si hay cambio en el kilometraje del vehículo
 $('#km_cb').checkbox({
@@ -16,15 +33,21 @@ $('#km_cb').checkbox({
                 {
                     type: 'regExp[/^[0-9]{1,16}$/]',
                     prompt: 'Por favor ingrese un número con longitud válida '
-                }
+                }, {
+                    type: 'minor[km_actual]',
+                    prompt: 'El nuevo kilometraje deber ser mayor o igual que el registro actual'
+                },
             ]
         });
         $('#km_input').removeAttr('readonly');
     },
     onUnchecked: function () {
         $('#km_input').attr('readonly');
-        /*Setear el valor por defecto del campo, es decir, el último kilometraje ingresado*/
-        $('#km_input').val(123456)
+
+        //Setea el kilometraje actual
+        $("#km_input").val($("#km_actual").val());
+
+        //Elimina las reglas de validación creadas para ese campo 
         $('#update_km_form').form('remove field', 'km_input');
     }
 })
