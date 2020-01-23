@@ -4,23 +4,23 @@ const router = express.Router();
 const controller = require('../controllers/c_folo6');
 
 //Dirección para mostrar el formulario donde se llena una nueva solicitud de folo 6
-router.get('/solicitud_nueva', (req, res) => {
+router.get('/', (req, res) => {
     controller.getDepartmentList(req, res);
 });
 //Cuando se hace refrencia a esta dirección, está redirecciona a la pantalla del folo con la posibilidad de editar los datos que el usuario ha ingresado previamente 
-router.get('/solicitud_nueva/:id', (req, res) => {
+router.get('/edit/:id', (req, res) => {
     console.log("Solicito editar el folo con id: " + req.params.id);
     var id = parseInt(req.params.id);
     controller.foloInfoById(req, res);
 });
 //Esta información muestra como texto cada uno de los atributos del folo
 //****ESTA PENDIENTE DE AGREGAR EL ENVIO DE LAS DIRECCIONES Y LUGARES FRECUENTES
-router.get('/solicitud_nueva/get/:id', (req, res) => {
+router.get('/get/:id', (req, res) => {
     console.log("Solicito información el folo con id: " + req.params.id);
     controller.foloToString(req, res);
 });
 //****ESTA PENDIENTE DE AGREGAR EL ENVIO DE LAS DIRECCIONES Y LUGARES FRECUENTES
-router.post('/solicitud_nueva/getinfo', (req, res) => {
+router.post('/getinfo', (req, res) => {
     console.log("Solicito información el folo con id: " + req.body.id_folo);
     controller.foloInfo(req).then(folo => {
         console.dir(folo)
@@ -33,7 +33,7 @@ router.post('/solicitud_nueva/getinfo', (req, res) => {
 //Con respecto a las direcciones y lugares, acá se envían: 
 //En el caso de las direcciones se manda únicamente los id de las direcciones puesto que, ha este punto ya fueron creadas; 
 //en el caso de los lugares fercuentes estos ya fueron creados previamente
-router.post('/solicitud_nueva/add', (req, res) => {
+router.post('/add', (req, res) => {
     try {
         controller.createFolo6(req, res);
     } catch (err) {
@@ -46,7 +46,7 @@ router.post('/solicitud_nueva/add', (req, res) => {
     }
 });
 //Dirección a la que se envían los datos lueo de ser modificados por el usuario 
-router.post('/solicitud_nueva/edit', (req, res) => {
+router.post('/edit', (req, res) => {
     try {
         controller.editFolo6(req, res);
     } catch (err) {
@@ -59,7 +59,7 @@ router.post('/solicitud_nueva/edit', (req, res) => {
     }
 });
 //Dirección a la que se llama para el eliminar el folo que contenga el id indicado
-router.post('/solicitud_nueva/delete/:id', (req, res) => {
+router.post('/delete/:id', (req, res) => {
     try {
         controller.deleteFolo(req, res);
     } catch (err) {
@@ -72,9 +72,11 @@ router.post('/solicitud_nueva/delete/:id', (req, res) => {
 });
 //****MODIFICAR PARA QUE SE RECIBAN SOLO LOS FOLOS CORRESPONDIENTES AL USUARIO EN SESIÓN
 //Manda a traer los folos ingresados en un formato que el data table pueda renderizar
+
 router.get('/folos', (req, res) => {
     controller.getList(req, res);
 });
+/*Sin ruta inicial /solicitud_nueva */
 
 //RUTAS PARA DIRECCIONES Y PDF
 router.get('/add', (req, res) => {
@@ -94,7 +96,7 @@ router.post('/solicitud_nueva/deletePlacesContainer', (req, res) => {
     controller.deletePlacesContainer(req, res);
 });
 
-router.post('/solicitud_nueva/createPlacesContainer', (req, res)=> {
+router.post('/createPlacesContainer', (req, res) => {
     controller.createPlacesContainer(req, res);
 });
 

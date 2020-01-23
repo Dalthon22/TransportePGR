@@ -6,21 +6,27 @@ const {
     check,
     validationResult
 } = require('express-validator');
+//Constantes para verificar si está logeado y para verificar permisos
+const {
+    is_logged,
+    authorize
+} = require('../middleware/auth');
 
+//router.use(authorize('adminV'))
 //Muestra el listado de vales y permite el ingreso de vales
-router.get('/vales', (req, res) => {
+router.get('/', (req, res) => {
     res.render('./voucher/area_combustible_voucher.html');
 
 });
 //MAndar a traer la data que llenara el datatable con los vales ingresados
-router.get('/vales/list', (req, res) => {
+router.get('/list', (req, res) => {
     controller.getList(req, res);
 });
-router.get('/vales/quantity', (req, res) => {
+router.get('/quantity', (req, res) => {
     controller.getQuantity(req, res);
 });
 //Manda los datos para agregar del vale "n" al vale "m"; n y m son cualquier número donde m > n
-router.post('/vales/add',
+router.post('/add',
     /*  [
          body('first_voucher', "Debe ingresar el numero del voucher").not().isEmpty(),
          body('first_voucher').isInt().withMessage('Debe ser un numero'),
@@ -31,15 +37,13 @@ router.post('/vales/add',
         controller.createVoucher(req, res);
     });
 //Ruta donde se manda a verificar si un número de vales existe
-router.get('/vales/num', (req, res) => {
+router.get('/num', (req, res) => {
     controller.ifExist(req, res);
-
 });
 
 //Ruta donde se manda a verificar si un número de vales existe
-router.get('/vales/bills', (req, res) => {
+router.get('/bills', (req, res) => {
     controller.getBills(req, res);
-
 });
 
 module.exports = router;

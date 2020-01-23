@@ -1,4 +1,14 @@
 $(function () {
+    //Para mostrar mensaje cuando la sesión haya caducado
+    var session_error = getParameterByName('session_error');
+    if (session_error) {
+        $('#session_error_message').removeClass('hidden').addClass('visible')
+    }
+    var bye = getParameterByName('bye');
+    if (bye) {
+        $('#bye_message').removeClass('hidden').addClass('visible')
+    }
+    //Validaciones del formulario
     $(".ui.form")
         .form({
             fields: {
@@ -29,3 +39,21 @@ $(function () {
             }
         });
 });
+
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    if (results == null)
+        return "";
+    else
+        return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+$('.message .close')
+    .on('click', function () {
+        $(this)
+            .closest('.message')
+            .transition('fade');
+    });

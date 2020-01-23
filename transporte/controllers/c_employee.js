@@ -23,7 +23,7 @@ class employee_controller {
         try {
             var unit_bosses = await this.getUnitBosses();
             res.render('../views/user/boss_selector.html', {
-                unit_bosses,
+                unit_bosses
             });
         } catch (error) {
             console.log(error);
@@ -52,17 +52,19 @@ class employee_controller {
     }
 
     //Metodo find por id
-    async findById(id, req, res) {
+    async findById(user, req, res) {
         try {
-            let emp = await Employee.findByPk(id, {
+            /* let emp = await Employee.findByPk(id, {
                 attributes: ['id', 'first_name', 'last_name', 'is_unit_boss', 'unit_id']
-            });
-            console.log("El empleado recibido" + emp);
-            let unit = await Unit.findByPk(emp.unit_id, {
+            }); */
+            console.log("El empleado recibido" + user);
+            let unit = await Unit.findByPk(user.unit_id, {
                 attributes: ['name_unit']
             });
+            console.log("De la unidad" + unit);
+
             res.send({
-                emp,
+                user,
                 unit
             });
         } catch (err) {
@@ -70,6 +72,7 @@ class employee_controller {
         }
     }
 
+    //Retorna los atributos del empleado encapsulado en el objeto emp
     async findById1(id) {
         try {
             var emp = new Object();
@@ -98,6 +101,26 @@ class employee_controller {
             console.log(err);
         }
     }
+    //Retorna los atributos de la unidad através del id del usuario
+    async findUnitByUser(user) {
+        try {
+            var unit = new Object();
+            unit.id = user.unit_id;
+            await Unit.findByPk(user.unit_id, {
+                attributes: ['name_unit']
+            }).then(u => {
+                // console.log("DE LA UNIDAD" + unit + " De tipo " + typeof (unit));
+                unit.name = u.name_unit
+            });
+
+            console.log("DE LA UNIDAD" + unit + " De tipo " + typeof (unit));
+            return unit;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
 
 };
 

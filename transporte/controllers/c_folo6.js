@@ -7,8 +7,12 @@ const Address = require('../models/m_address');
 const Municipios = require('../models/m_city');
 const Departamento = require('../models/m_department');
 const Apanel = require('../models/m_folo6_approve_state');
+const Driver = require('../models/m_Driver');
+const Driver_assign = require('../models/m_driver_assign');
 const Op = Sequelize.Op;
 const querystring = require('querystring');
+const auth_controller = require('../controllers/c_auth');
+
 
 //Manejo de fechas
 var moment = require('moment');
@@ -68,8 +72,19 @@ class folo6_controllers {
             var b = folo.b
             var direccion;
             var bodyData = [];
-            var columns = [{ text: 'Nombre del destino', bold: true }, { text: 'Detalle de dirección', bold: true
-            }, { text: 'Departamento', bold: true }, { text: 'Municipio', bold: true }];
+            var columns = [{
+                text: 'Nombre del destino',
+                bold: true
+            }, {
+                text: 'Detalle de dirección',
+                bold: true
+            }, {
+                text: 'Departamento',
+                bold: true
+            }, {
+                text: 'Municipio',
+                bold: true
+            }];
             bodyData.push(columns);
             console.log("cantidad de direcciones: " + b + " Y MOTORISTA: " + motorista);
             if (b === 1) {
@@ -172,7 +187,11 @@ class folo6_controllers {
                     pageSize: 'LETTER',
                     footer: {
                         text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                        alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+                        alignment: 'right',
+                        fontSize: '8',
+                        color: 'gray',
+                        italics: true,
+                        margin: [15, 5]
                     },
                     content: [{
                             image: 'public/images/logopgr1.png',
@@ -296,7 +315,8 @@ class folo6_controllers {
                         },
                         {
                             text: 'Nombre de motorista asignado:',
-                            preserveLeadingSpaces: true, bold: true
+                            preserveLeadingSpaces: true,
+                            bold: true
                         },
                         {
                             text: '\nMarca: _________________            Matrícula: _________________             Km. inicial: _________________',
@@ -381,7 +401,11 @@ class folo6_controllers {
                     pageSize: 'LETTER',
                     footer: {
                         text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                        alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+                        alignment: 'right',
+                        fontSize: '8',
+                        color: 'gray',
+                        italics: true,
+                        margin: [15, 5]
                     },
                     content: [{
                             image: 'public/images/logopgr1.png',
@@ -590,7 +614,11 @@ class folo6_controllers {
                     pageSize: 'LETTER',
                     footer: {
                         text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                        alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+                        alignment: 'right',
+                        fontSize: '8',
+                        color: 'gray',
+                        italics: true,
+                        margin: [15, 5]
                     },
                     content: [{
                             image: 'public/images/logopgr1.png',
@@ -714,7 +742,8 @@ class folo6_controllers {
                         },
                         {
                             text: 'Nombre de motorista asignado:',
-                            preserveLeadingSpaces: true, bold: true
+                            preserveLeadingSpaces: true,
+                            bold: true
                         },
                         {
                             text: '\nMarca: _________________            Matrícula: _________________             Km. inicial: _________________',
@@ -779,7 +808,11 @@ class folo6_controllers {
                     pageSize: 'LETTER',
                     footer: {
                         text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                        alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+                        alignment: 'right',
+                        fontSize: '8',
+                        color: 'gray',
+                        italics: true,
+                        margin: [15, 5]
                     },
                     content: [{
                             image: 'public/images/logopgr1.png',
@@ -1199,6 +1232,26 @@ class folo6_controllers {
                     }
                 })
             });
+
+            var drivers = await Driver_assign.findAll({
+                include: [{
+                    model: Driver,
+                    attributes: ['first_name', 'last_name', 'license_type']
+                }],
+                where: {
+                    folo06_id: el.id
+                }
+            });
+            el.driver_a = new Object();
+            drivers.forEach((driver, i) => {
+                var e = new Object();
+                el.driver = new Object();
+                console.dir(JSON.stringify(driver));
+                e.first_name = driver.SGT_Motoristum.first_name;
+                e.last_name = driver.SGT_Motoristum.last_name;
+                e.license_type = driver.SGT_Motoristum.license_type;
+                el.driver = e;
+            });
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
             el.address = [];
             //Para traer todos las direcciones ligados a ese folo
@@ -1245,7 +1298,10 @@ class folo6_controllers {
             });
 
             el.emp = new Object();
-            el.emp = await employee_controller.findById1(el.employee_id);
+            const token = auth_controller.decode_token(req.cookies.token);
+            el.emp = token.user;
+            el.emp.unit = new Object();
+            el.emp.unit = await employee_controller.findUnitByUser(token.user)
 
             console.dir("Datos del folo" + JSON.stringify(el) + "\nDatos el empleado: " + JSON.stringify(el.emp));
             console.dir("Lugares frecuentes: " + JSON.stringify(el.fplaces));
@@ -1391,11 +1447,15 @@ class folo6_controllers {
 
     //Método que envía los folos ingresados de forma que puedan ser renderizados en un datatable; incluye iconos de eliminado y de edición.
     async getList(req, res) {
+        const token = auth_controller.decode_token(req.cookies.token)
         var day, mont, year;
         try {
             /******FALTA: LISTAR LOS VALES QUE CORRESPONDEN A UN SOLO EMPLEADO*/
             var folos = await Folo6.findAll({
-                attributes: ['id', 'off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver', 'created_at']
+                attributes: ['id', 'off_date', 'off_hour', 'return_hour', 'passengers_number', 'with_driver', 'created_at'],
+                where: {
+                    created_by: token.user.id
+                }
             });
             //console.log(d);
             //data contendrá todos los folos extraídos de la BD
@@ -1415,7 +1475,7 @@ class folo6_controllers {
                 var trully = moment().isBefore(moment.utc(row.off_date))
                 //console.log("FECHA ES: " + trully);
                 if (trully)
-                    el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i><a href="/solicitud_nueva/' + row.id + '"><i class="large pencil yellow alternate link icon"></i></a><i class="large trash red alternate outline link icon" id="' + row.id + '"></i>';
+                    el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i><a href="/solicitud_nueva/edit/' + row.id + '"><i class="large pencil yellow alternate link icon"></i></a><i class="large trash red alternate outline link icon" id="' + row.id + '"></i>';
                 else
                     el.buttons = '<i id="' + row.id + '" class="large print black link icon "></i><i id="' + row.id + '" class="large file grey alternate outline link icon "></i>'
                 data.push(el);
@@ -1593,7 +1653,7 @@ class folo6_controllers {
                         license_type: null,
                         mission: form.mision_i,
                         observation: form.details_i,
-                        employee_id: emp.id,
+                        created_by: emp.id
                         // procuraduria_id: emp.procuraduria_id
                     });
                     //Folo creado
@@ -1613,7 +1673,7 @@ class folo6_controllers {
                         license_type: form.license_ls,
                         mission: form.mision_i,
                         observation: form.details_i,
-                        employee_id: emp.id,
+                        created_by: emp.id,
                         //procuraduria_id: emp.procuraduria_id
                     });
                     console.dir("Folo creado" + folo);

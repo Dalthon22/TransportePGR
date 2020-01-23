@@ -3,6 +3,8 @@ const db = require('../dbconfig/conex');
 const Unit = require('./m_unit');
 const Employee = require('./m_employee');
 const UserRol = require('./m_user_role');
+const Folo6_Approve = require('./m_folo6_approve_state');
+const Folo6 = require('./m_folo6');
 
 const User = db.define('SGT_Usuario', {
     first_name: {
@@ -21,7 +23,7 @@ const User = db.define('SGT_Usuario', {
     },
     is_unit_boss: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        defaultValue: '0',
         allowNull: false,
         validate: {
             notEmpty: true,
@@ -54,6 +56,16 @@ const User = db.define('SGT_Usuario', {
     updatedAt: 'updated_at',
     freezeTableName: true,
     hasTrigger: true
+});
+
+User.hasMany(Folo6, {
+    foreignKey: 'created_by'
+});
+User.hasMany(Folo6_Approve, {
+    foreignKey: 'aprove_boss_id'
+});
+User.hasMany(Folo6_Approve, {
+    foreignKey: 'aprove_tunit_boss_id'
 });
 
 User.hasMany(UserRol, {
