@@ -19,7 +19,7 @@ const Sequelize = require('sequelize');
 });*/
 
 //Local db connection
-const dbConex = new Sequelize('combinada', 'sa', 'Scjorge1948', {
+const dbConex = new Sequelize('procu', 'hq14006', 'hq14006', {
   host: 'localhost',
   dialect: 'mssql',
 });

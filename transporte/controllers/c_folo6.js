@@ -61,6 +61,7 @@ class folo6_controllers {
             var unidadSolicitante = folo.emp.unit.name;
             var personaSolicitante = folo.emp.first_name + ', ' + folo.emp.last_name;
             var fechaSalida = folo.off_date;
+            var f1 = moment(folo.off_date, "DD/MM/YYYY"); //Para determinar con moment JS qué día de la semana es
             var horaSalida = folo.off_hour;
             var horaRetorno = folo.return_hour;
             var motorista = folo.with_driver ? "Sí" : "No";
@@ -87,11 +88,11 @@ class folo6_controllers {
             bodyData.push(columns);
             console.log("cantidad de direcciones: " + b + " Y MOTORISTA: " + motorista);
             if (b === 1) {
-                //Si existe lugar frecuente si no lo ingresado es una dirección
+                //Si existe lugar frecuente; si no, lo ingresado es una dirección
                 if (folo.fplaces.length) {
                     direccion = folo.fplaces[0].name + " ," + folo.fplaces[0].detail + " ," + folo.fplaces[0].city.name + " ," + folo.fplaces[0].department.name;
                 } else {
-                    //Para verificar que address no esta vacío
+                    //Para verificar que address no está vacío
                     if (folo.address.length)
                         direccion = folo.address[0].name + " ," + folo.address[0].detail + " ," + folo.address[0].city.name + " ," + folo.address[0].department.name;
                 }
@@ -122,9 +123,44 @@ class folo6_controllers {
             console.log(typeof (b) + " cantidad " + b)
             var mision = folo.mission;
             var observaciones = folo.observation;
-            /* Al pasar el Array a String también se convierten las comas que separan a cada uno de los
-             elementos del array. Remuevo la coma al final de cada línea. */
-            //direcciones = direcciones.replace('.,\n', '.\n');
+            var horasNoHabiles = ['12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM', '2:30 AM',
+            '3:00 AM', '3:30 AM', '4:00 AM', '4:30 AM', '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM',
+            '7:00 AM', '7:30 AM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
+            '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM',
+            '11:00 PM', '11:30 PM']; //Para verificar si las horas de salida o returno son NO hábiles.
+            var crearFOLO13; //Variable a enviar a la vista en el response.
+            var diaSemana = f1.weekday(); //Método para obtener qué día de la semana es de la fecha provista.
+            console.log(diaSemana);
+            //0 = Lunes, 6 = Domingo. Si la fecha es sábado o domingo, se genera FOLO-13.
+            if(diaSemana == 5 || diaSemana == 6){
+                crearFOLO13 = "Sí";
+            } else {
+                crearFOLO13 = "No";
+            };
+            console.log(horaSalida);
+            console.log(horaRetorno);
+            /*Horas de salida y retorno serán tratadas como hábiles hasta que sea encontrada en el arreglo 
+            de 'horasNoHabiles'. De encontrarse se rompe el ciclo.*/
+            for (var ele of horasNoHabiles){
+                //Condicionales separadas por cada hora para más claridad.
+                if(ele == horaSalida) {
+                    crearFOLO13 = "Sí";
+                    console.log(horaSalida + ' no es una hora hábil.');
+                    break;
+                } else {
+                    crearFOLO13 = "No";
+                    console.log(horaSalida + ' es una hora hábil.');
+                };
+
+                if(ele == horaRetorno) {
+                    crearFOLO13 = "Sí";
+                    console.log(horaRetorno + ' no es una hora hábil.');
+                    break;
+                } else {
+                    crearFOLO13 = "No";
+                    console.log(horaRetorno + ' es una hora hábil.');
+                };
+            };
 
             //Sí quiere motorista y hay más de una dirección.
             if (motorista == "Sí" && b > 1) {
@@ -336,7 +372,8 @@ class folo6_controllers {
                     //res.setHeader('content-type', 'application/pdf');
                     //Envío del PDF en forma base64.
                     res.send({
-                        link: "data:application/pdf;base64," + result.toString('base64')
+                        link: "data:application/pdf;base64," + result.toString('base64'),
+                        imprimir: crearFOLO13
                     });
                 });
                 doc.end();
@@ -548,7 +585,8 @@ class folo6_controllers {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
                     res.send({
-                        link: "data:application/pdf;base64," + result.toString('base64')
+                        link: "data:application/pdf;base64," + result.toString('base64'),
+                        imprimir: crearFOLO13
                     });
                 });
                 doc.end();
@@ -741,7 +779,8 @@ class folo6_controllers {
                     }); */
                     //delete req.headers;
                     res.send({
-                        link: "data:application/pdf;base64," + result.toString('base64')
+                        link: "data:application/pdf;base64," + result.toString('base64'),
+                        imprimir: crearFOLO13
                     });
                 });
                 doc.end();
@@ -938,11 +977,160 @@ class folo6_controllers {
                     result = Buffer.concat(chunks);
                     //res.setHeader('content-type', 'application/pdf');
                     res.send({
-                        link: "data:application/pdf;base64," + result.toString('base64')
+                        link: "data:application/pdf;base64," + result.toString('base64'),
+                        imprimir: crearFOLO13
                     });
                 });
                 doc.end();
             };
+        } catch (err) {
+            console.log(err);
+        };
+    };
+
+    //Mostrar PDF de los folos ya guardados
+    async showAndcreatePDF_Folo13(req, res) {
+        //Misma documentación del método anterior.
+        try {
+            let folo = await this.foloInfo(req);
+            var fechaSolicitud = folo.created_at;
+            var unidadSolicitante = folo.emp.unit.name;
+            var personaSolicitante = folo.emp.first_name + ', ' + folo.emp.last_name;
+            var fechaSalida = folo.off_date;
+            var horaSalida = folo.off_hour;
+            var horaRetorno = folo.return_hour;
+            var motorista = folo.with_driver ? "Sí" : "No";
+            var personaConducir = folo.person_who_drive;
+            var mision = folo.mission;
+
+            const fonts = {
+                Roboto: {
+                    normal: 'public/fonts/Roboto-Regular.ttf',
+                    bold: 'public/fonts/Roboto-Medium.ttf',
+                    italics: 'public/fonts/Roboto-Italic.ttf',
+                    bolditalics: 'public/fonts/Roboto-BoldItalic.ttf',
+                }
+            };
+            const printer = new pdfPrinter(fonts);
+            var today = new Date();
+            var month = today.getMonth() + 1;
+            var docDefinition = {
+                info: {
+                  //Nombre interno del documento.
+                  title: 'Hoja de Misión Oficial FOLO-13 ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                },
+                pageSize: 'LETTER',
+                footer: {
+                  text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                  alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+                },
+                content: [{
+                  image: 'public/images/logopgr1.png',
+                  fit: [60, 60],
+                  absolutePosition: {
+                    x: 50,
+                    y: 20
+                  },
+                  writable: true,
+                },
+                {
+                  text: 'FORMULARIO CONTROL DE MISIONES OFICIALES',
+                  alignment: 'center',
+                  bold: true,
+                  italics: true,
+                  fontSize: '16'
+                },
+                {
+                  text: 'PARA DÍAS Y HORAS NO HÁBILES',
+                  alignment: 'center',
+                  bold: true,
+                  italics: true,
+                  fontSize: '16'
+                },
+                {
+                  text: 'UNIDAD DE LOGÍSTICA',
+                  alignment: 'center',
+                  bold: true,
+                  italics: true,
+                  fontSize: '16'
+                },
+                {
+                  text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                  alignment: 'center',
+                  bold: true,
+                  italics: true,
+                  fontSize: '16'
+                },
+                {
+                  text: '\n\nFOLO-13',
+                  alignment: 'right',
+                  bold: true,
+                  italics: true
+                },
+                {
+                  text: [{
+                    text: 'Fecha: ',
+                    bold: true
+                  }, '' + fechaSolicitud]
+                },
+                {
+                  text: [{
+                    text: '\nUnidad o procuraduría auxiliar: ',
+                    bold: true
+                  }, '' + unidadSolicitante],
+                },
+                {
+                  text: [{
+                    text: '\nSe autoriza a: ',
+                    bold: true
+                  }, '' + personaSolicitante],
+                },
+                {
+                  text: [{
+                    text: '\nVehículo placa #: ',
+                    bold: true
+                  }, ''],
+                },
+                {
+                  text: [{
+                    text: '\nMisión: ',
+                    bold: true
+                  }, '' + mision],
+                },
+                {
+                  text: [{
+                    text: '\nPeríodo de la misión: ',
+                    bold: true
+                  }, ''],
+                },
+                {
+                  text: '\nAutorizado por: ',
+                  bold: true,
+                  preserveLeadingSpaces: true
+                },
+                {
+                  text: '\n\n\n\n\n\n___________________________________                 _________________________________________',
+                  alignment: 'center'
+                },
+                {
+                  text: 'Firma y sello de autorizado                                 Nombre y firma del motorista o conductor',
+                  preserveLeadingSpaces: true,
+                  alignment: 'center',
+                }],
+              };
+            const doc = printer.createPdfKitDocument(docDefinition);
+            let chunks = [];
+            let result;
+            doc.on('data', (chunk) => {
+                chunks.push(chunk);
+            });
+            doc.on('end', () => {
+                result = Buffer.concat(chunks);
+                res.send({
+                    link: "data:application/pdf;base64," + result.toString('base64')
+                });
+            });
+            doc.end();
         } catch (err) {
             console.log(err);
         };
@@ -1123,7 +1311,7 @@ class folo6_controllers {
             return el;
         } catch (error) {
             console.log(error);
-        }
+        };
     };
     async foloInfoById(req, res) {
         try {
@@ -1557,7 +1745,7 @@ class folo6_controllers {
             });
             //throw new Error(" Ocurre ingresando los vales en la BD " + err);
         }
-    }
+    };
     //Recibe los datos actulizados para un registro de folo 6
     async editFolo6(req, res) {
         var form, emp, date, motorista, fplaces, address;
@@ -1766,6 +1954,46 @@ class folo6_controllers {
             console.log(error);
         };
     };
+
+    //Función que verifica si el día seleccionado es un día hábil.
+    async esDiaHabil(req, res) {
+        try {
+            console.log(req.body);
+            let fecha = req.body.fecha;
+            //Se convierte la fecha a un objeto 'moment' para su manipulación
+            var date = moment(fecha, "DD/MM/YYYY");
+            //Variable que indica qué día de la semana es. 0 = Lunes, 6 = Domingo
+            var day = date.weekday(); 
+            day = day.toString();
+            console.log(day);
+            res.send(day); //Se envía dato a la vista para mostrar mensaje de advertencia.
+        } catch (error) {
+            console.log(error)
+        };
+    };
+
+    //Función que verifica si la hora de salida o de retorno son horas hábiles.
+    async esHoraHabil(req, res) {
+        try {
+            console.log(req.body);
+            let hora = req.body.hora;
+            var horasNoHabiles = ['0:0', '0:30', '1:0', '1:30', '2:0', '2:30', '3:0', '3:30', '4:0', '4:30',
+                '5:0', '5:30', '6:0', '6:30', '7:0', '7:30', '16:30', '17:0', '17:30', '18:0', '18:30', '19:0',
+                '19:30', '20:0', '20:30', '21:0', '21:30', '22:0', '22:30', '23:0', '23:30'];
+            var habil; //Bandera
+            for (var ele of horasNoHabiles){
+                if (hora == ele) {
+                    habil = 'no';
+                    break;
+                } else {
+                    habil = 'sí';
+                };
+            };
+            res.send(habil); //Se envía a la vista para mostrar mensaje de advertencia.
+        } catch (error) {
+            console.log(error)
+        };
+    };
 };
 
 module.exports = new folo6_controllers();
@@ -1774,4 +2002,4 @@ async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
         await callback(array[index], index, array);
     }
-}
+};

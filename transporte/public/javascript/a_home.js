@@ -246,9 +246,10 @@ function debugBase64(base64URL) {
 $('#mytable tbody').on('click', '.print.link.icon', function (event) {
     showLoadingPDFDimmer();
     var id_folo = parseInt($(this).attr('id'));
+    var folo13; //Bandera para determinar si se mostrará FOLO-13
     console.log("Usted desea imprimir el folo:" + id_folo);
-    //$('.segment').dimmer('set disabled');
 
+    //Petición Post para mostrar FOLO-06
     $.ajax({
         url: '/solicitud_nueva/showPDF',
         async: true,
@@ -261,11 +262,30 @@ $('#mytable tbody').on('click', '.print.link.icon', function (event) {
             console.log("El folo se mostrará en seguida")
         }
     }).done(function (data, textStatus, jqXHR) {
-        console.log("imprimi")
-        debugBase64(data.link);
+        debugBase64(data.link); //Genera PDF en una nueva ventana
+        folo13 = data.imprimir;
+        console.log(folo13);
+        //Si la bandera marca 'Sí', se imprime FOLO-13
+        if (folo13 == 'Sí') {
+            $.ajax({
+                url: '/solicitud/showPDF_Folo13',
+                async: true,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id_folo: JSON.stringify(id_folo)
+                },
+                success: (data) => {
+                    console.log("El folo se mostrará en seguida")
+                }
+            }).done(function (data, textStatus, jqXHR) {
+                debugBase64(data.link); //Genera PDF en una nueva ventana.
+            });
+        }
         $('.segment').dimmer('hide');
-    })
+    });
 });
+
 $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (event) {
     showLoadingDimmer();
     var id_folo = parseInt($(this).attr('id'));
