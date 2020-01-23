@@ -21,69 +21,19 @@ $(function () {
             inline: true,
             on: 'blur',
             fields: {
-                brand: {
-                    identifier: 'brand',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Por favor ingrese la marca del vehículo'
-                    }]
-                },
-                chassis: {
-                    identifier: 'chassis',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Por favor ingrese información del chasis'
-                    }, {
-                        type: 'regExp',
-                        value: /([A-Za-z0-9]{17})/i,
-                        prompt: 'Ingrese valor alfanumérico de 17 caracteres'
-                    }, {
-                        type: 'minLength[17]',
-                        prompt: 'El valor debe contener mínimo 17 caracteres'
-                    }, {
-                        type: 'maxLength[17]',
-                        prompt: 'El valor debe contener máximo 17 caracteres'
-                    }]
-                },
-                state: {
-                    identifier: 'state',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Debe seleccionar el estado del vehículo'
-                    }]
-                },
-                model: {
-                    identifier: 'model',
+                code: {
+                    identifier: 'code',
                     rules: [{
                             type: 'empty',
-                            prompt: 'Por favor ingrese el modelo'
-                        },
-                        {
-                            type: 'regExp',
-                            value: /([A-Za-z]+)/gi, //Obligar a que contenga al menos una letra
-                            prompt: 'El nombre del modelo debe contener al menos una letra'
-                        },
-                        {
-                            type: 'minLength[2]',
-                            prompt: 'Debe contener al menos dos caracteres'
-                        },
-
-                    ]
-                },
-                engine: {
-                    identifier: 'engine',
-                    rules: [{
-                            type: 'empty',
-                            prompt: 'Por favor ingrese número del motor'
-                        },
-                        {
-                            type: 'regExp',
-                            value: /([A-Za-z0-9]{10})/i,
-                            prompt: 'Ingrese valor alfanumérico de 10 caracteres'
+                            prompt: 'Por favor ingrese el número del activo fijo'
                         },
                         {
                             type: 'minLength[10]',
-                            prompt: 'La información del motor debe contener al menos caracteres 10'
+                            prompt: 'El numero del activo fijo no puede poseer menos de 10 caracteres'
+                        },
+                        {
+                            type: 'maxLength[21]',
+                            prompt: 'El numero de activo fijo no puede poseer más de 21 caracteres'
                         }
                     ]
                 },
@@ -108,13 +58,117 @@ $(function () {
                         }
                     ]
                 },
+                chassis: {
+                    identifier: 'chassis',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Por favor ingrese información del chasis'
+                    }, {
+                        type: 'regExp',
+                        value: /([A-Za-z0-9]{17})/i,
+                        prompt: 'Ingrese valor alfanumérico de 17 caracteres'
+                    }, {
+                        type: 'minLength[17]',
+                        prompt: 'El valor debe contener mínimo 17 caracteres'
+                    }, {
+                        type: 'maxLength[17]',
+                        prompt: 'El valor debe contener máximo 17 caracteres'
+                    }]
+                },
+                engine: {
+                    identifier: 'engine',
+                    rules: [{
+                            type: 'empty',
+                            prompt: 'Por favor ingrese número del motor'
+                        },
+                        {
+                            type: 'regExp',
+                            value: /([A-Za-z0-9]{10})/i,
+                            prompt: 'Ingrese valor alfanumérico de 10 caracteres'
+                        },
+                        {
+                            type: 'minLength[10]',
+                            prompt: 'La información del motor debe contener al menos caracteres 10'
+                        }
+                    ]
+                },
+                vin: {
+                    identifier: 'vin',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Por favor ingrese información del número VIN'
+                    }, {
+                        type: 'regExp',
+                        value: /([A-Za-z0-9]{17})/i,
+                        prompt: 'Ingrese valor alfanumérico de 17 caracteres'
+                    }, {
+                        type: 'minLength[17]',
+                        prompt: 'El valor debe contener mínimo 17 caracteres'
+                    }, {
+                        type: 'maxLength[17]',
+                        prompt: 'El valor debe contener máximo 17 caracteres'
+                    }]
+                },
+                brand: {
+                    identifier: 'brand',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Por favor ingrese la marca del vehículo'
+                    }]
+                },
+                model: {
+                    identifier: 'model',
+                    rules: [{
+                            type: 'empty',
+                            prompt: 'Por favor ingrese el modelo'
+                        },
+                        {
+                            type: 'regExp',
+                            value: /([A-Za-z]+)/gi, //Obligar a que contenga al menos una letra
+                            prompt: 'El nombre del modelo debe contener al menos una letra'
+                        },
+                        {
+                            type: 'minLength[2]',
+                            prompt: 'Debe contener al menos dos caracteres'
+                        },
+
+                    ]
+                },
+                type: {
+                    identifier: 'type',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Debe seleccionar el tipo de vehículo'
+                    }]
+                },
+                year: {
+                    identifier: 'year',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Por favor ingrese el modelo'
+                    }]
+                },
+                state: {
+                    identifier: 'state',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Debe seleccionar el estado del vehículo'
+                    }]
+                },
                 seats: {
                     identifier: 'seats',
                     rules: [{
                         type: 'integer[2..40]',
-                        prompt: 'Le número de asientos del vehículo debe ser entre 2 y 40'
+                        prompt: 'La capacidad de personas debe estar entre 2 y 40'
                     }]
-                }
+                },
+                office: {
+                    identifier: 'office',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Debe seleccionar la oficina responsable del vehiculo del vehículo'
+                    }]
+                },
             }
         });
 
@@ -125,6 +179,10 @@ $(function () {
     current_plate = $('#vplate').val();
 });
 
+$('#year')
+    .calendar({
+        type: 'year'
+    });
 
 /*
 Impide el ingreso de cualquier caracter que no se numero

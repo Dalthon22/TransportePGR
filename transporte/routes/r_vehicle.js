@@ -24,16 +24,23 @@ router.get('/gestionar', (req, res) => {
 /*POST Create*/
 router.post('/gestionar',
     [
+        body('code', 'Debe ingresarel código de activo fijo del vehículo').not().isEmpty(),
         body('brand', 'Debe ingresar la marca del vehículo').not().isEmpty(),
+        body('plate', 'Debe ingresar le número de matrícula del vehículo').not().isEmpty(),
         body('chassis', 'Debe ingresar el número chasis del vehículo').not().isEmpty(),
+        body('vin', 'Debe ingresar el número VIN del vehículo').not().isEmpty(),
         body('model', 'Debe ingresar modelo del vehículo').not().isEmpty(),
         body('engine', 'Debe ingresar número de motor del vehículo').not().isEmpty()
         .isLength({
             min: 10
         }).withMessage('El número del motor debe contener al menos 10 carácteres alfanúmericos'),
         body('state', 'Debe ingresar el estado del vehículo').not().isEmpty(),
+        body('office', 'Debe ingresar la oficina responsable del vehículo').not().isEmpty(),
+        body('type', 'Debe ingresar el tipo del vehículo').not().isEmpty(),
+        body('year', 'Debe ingresar el año del vehículo').not().isEmpty(),
         body('seats', 'Debe ingresar la cantidad de asientos de forma númerica').isInt()
-        .not().isEmpty().withMessage('Debe ingresar la cantidad de asientos')
+        .not().isEmpty().withMessage('Debe ingresar la cantidad de asientos'),
+        body('mileage', 'Debe ingresar kilometraje actual del vehículo').not().isEmpty(),
     ], (req, res) => {
         console.log(req.body);
         let vehicle_id = req.body.vehicle_id;

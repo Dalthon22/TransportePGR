@@ -53,7 +53,7 @@ class Vehicle_controller {
     async existByPlate(_plate) {
         let vehicle = await Vehicle.count({
             where: {
-                plate: _plate
+                NumeroPlacaVehiculo: _plate
             }
         });
         console.log(vehicle);
@@ -67,7 +67,7 @@ class Vehicle_controller {
     async existByEngine(_engine) {
         let vehicle = await Vehicle.count({
             where: {
-                engine: _engine
+                NumeroMotorVehiculo: _engine
             }
         });
         console.log(vehicle);
@@ -81,7 +81,21 @@ class Vehicle_controller {
     async existByChassis(_chasis) {
         let vehicle = await Vehicle.count({
             where: {
-                chassis: _chasis
+                NumeroChasisVehiculo: _chasis
+            }
+        });
+        console.log(vehicle);
+        let is_registered = (vehicle >= 1) ? true : false;
+        console.log(is_registered);
+        return is_registered;
+    }
+
+    //Encuentra el registro y devuelve true si existe
+    //Parametro: _code Campo único y llave primaria en la tabla
+    async existByCode(_code) {
+        let vehicle = await Vehicle.count({
+            where: {
+                CodigoActivoFijo: _code
             }
         });
         console.log(vehicle);
@@ -193,12 +207,36 @@ class Vehicle_controller {
                 plate,
                 state,
                 seats,
+                code,
+                vin,
+                type,
+                year,
+                color,
+                office,
+                mileage,
+                observations
             } = req.body;
             var exist_by_plate = await this.existByPlate(plate);
             var exist_by_engine = await this.existByEngine(engine);
-            var exist_by_chassis = await this.existByChassis(chassis);;
+            var exist_by_chassis = await this.existByChassis(chassis);
+            var exist_by_code = await this.existByCode(code);
             console.log("Existencia por placa: " + exist_by_plate);
-            if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis) {
+            console.log(brand,
+                chassis,
+                model,
+                engine,
+                plate,
+                state,
+                seats,
+                code,
+                vin,
+                type,
+                year,
+                color,
+                office,
+                mileage,
+                observations);
+            /* if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis) {
                 await Vehicle.create({
                     brand,
                     chassis,
@@ -207,6 +245,14 @@ class Vehicle_controller {
                     plate,
                     state,
                     seats,
+                    code,
+                    vin,
+                    type,
+                    year,
+                    color,
+                    office,
+                    mileage,
+                    observations
                 });
                 const query = querystring.stringify({
                     title: "Guardado exitoso",
@@ -237,7 +283,7 @@ class Vehicle_controller {
                     title: "Error en la información",
                     errors: errors
                 })
-            }
+            } */
         } catch (error) {
             console.log(error);
             res.send({
