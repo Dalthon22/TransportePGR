@@ -41,10 +41,10 @@ router.post('/gestionar',
         body('seats', 'Debe ingresar la cantidad de asientos de forma númerica').isInt()
         .not().isEmpty().withMessage('Debe ingresar la cantidad de asientos'),
         body('mileage', 'Debe ingresar kilometraje actual del vehículo').not().isEmpty(),
+        body('fuel', 'Debe ingresar el tipo de combustible del vehhículo').not().isEmpty(),
     ], (req, res) => {
-        console.log(req.body);
         let vehicle_id = req.body.vehicle_id;
-        console.log(vehicle_id);
+        console.log("Para bifurcar en ruta: " + vehicle_id);
         if (vehicle_id) {
             controller.update(req, res);
         } else {

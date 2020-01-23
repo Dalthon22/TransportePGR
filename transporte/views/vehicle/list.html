@@ -36,10 +36,10 @@
                         <td class="center aligned">{{v.matricula | capitalize}}</td>
                         <td class="center aligned">{{v.descripcion | capitalize}}</td>
                         <td class="center aligned">{{v.capacidad}}</td>
-                        <td class="center aligned">{{c.state | capitalize}}</td>
-                        <td class="center aligned">{{v.kilometraje}}</td>
+                        <td class="center aligned">{{v.estado | capitalize}}</td>
+                        <td class="center aligned">{{v.kilometraje}} km</td>
                         <td style="text-align: center">
-                            <i class="large pencil yellow alternate link icon"></i>
+                            <i class="large pencil yellow alternate link icon" value="{{v.matricula}}"></i>
                         </td>
                     </tr>
                     {% endfor %}

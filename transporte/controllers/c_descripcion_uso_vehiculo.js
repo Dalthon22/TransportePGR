@@ -39,7 +39,7 @@ class descripcion_uso_vehiculo_controller {
     /*Obtiene el listado de los estados del vehiculo*/
     async getList() {
         try {
-            var Descripciones = await EstadoVehiculo.findAll({
+            var Descripciones = await Descripcion.findAll({
                 order: Sequelize.literal('CodigoDescripcion')
             });
             console.log(Descripciones);

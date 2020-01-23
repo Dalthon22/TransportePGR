@@ -90,9 +90,6 @@ const Vehiculo = db.define('TRA_Vehiculos', {
     ObservacionesVehiculo: {
         type: Sequelize.TEXT,
         allowNull: true,
-        validate: {
-            notEmpty: false,
-        }
     },
     KilometrajeActual: {
         type: Sequelize.CHAR(10),

@@ -9,6 +9,10 @@ const CodigoEstado = require('../models/m_estado_vehiculo');
 const TipoVehiculoController = require('./c_tipo_vehiculo');
 const EstadoVehiculoController = require('./c_estado_vehiculo');
 const OficinasResponsableController = require('./c_oficina_responsable');
+const HistorialDeUsoController = require('./c_historial_vehiculo');
+const DescripcionUsoController = require('./c_descripcion_uso_vehiculo');
+const jwt = require('jsonwebtoken');
+const secret_token = require('../dbconfig/secret_token');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
 const {
@@ -42,7 +46,7 @@ class Vehicle_controller {
     async findByPlate(_plate) {
         let vehicle = await Vehicle.findOne({
             where: {
-                NumeroMatriculaVehiculo: _plate
+                NumeroPlacaVehiculo: _plate
             }
         })
         return vehicle;
@@ -150,11 +154,11 @@ class Vehicle_controller {
             vehiculos.forEach((record) => {
                 var v = new Object();
                 v.codigo = record.CodigoActivoFijo;
-                v.matricula = record.NumeroMatriculaVehiculo;
-                v.descripcion = record.TRA_TipoVehiculo.TipoVehiculo + ":" + record.MarcaVehiculo + "-" + record.ModeloVehiculo;
+                v.matricula = record.NumeroPlacaVehiculo;
+                v.descripcion = record.TRA_TipoVehiculo.TipoVehiculo + ": " + record.MarcaVehiculo + " - " + record.ModeloVehiculo;
                 v.capacidad = record.CapacidadPersonaVehiculo;
                 v.estado = record.TRA_EstadoVehiculo.EstadoVehiculo;
-                v.Kilometraje = record.KilometrajeActual;
+                v.kilometraje = record.KilometrajeActual;
                 vehicles.push(v);
             })
             return res.render('../views/vehicle/list.html', {
@@ -172,19 +176,23 @@ class Vehicle_controller {
             const states = await EstadoVehiculoController.getList();
             const offices = await OficinasResponsableController.getList();
             const types = await TipoVehiculoController.getList();
+            const reasons = await DescripcionUsoController.getList();
             console.log("Estados: " + states);
             console.log("Oficinas: " + offices);
             console.log("Tipos: " + types);
+            console.log("Tipos: " + reasons);
             var plate = req.query.matricula;
             var vehicle;
-            console.log(plate);
+            console.log("La placa que recibo: " + plate);
             if (plate) {
                 vehicle = await this.findByPlate(plate);
+                console.log("El vehiculo que encontre: " + vehicle);
             }
             return res.render('../views/vehicle/create.html', {
                 states,
                 types,
                 offices,
+                reasons,
                 vehicle
             })
         } catch (error) {
@@ -214,7 +222,11 @@ class Vehicle_controller {
                 color,
                 office,
                 mileage,
-                observations
+                observations,
+                fuel,
+                motive_dropdown,
+                km_input,
+                vehicle_id
             } = req.body;
             var exist_by_plate = await this.existByPlate(plate);
             var exist_by_engine = await this.existByEngine(engine);
@@ -233,27 +245,35 @@ class Vehicle_controller {
                 type,
                 year,
                 color,
+                fuel,
                 office,
                 mileage,
-                observations);
-            /* if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis) {
-                await Vehicle.create({
-                    brand,
-                    chassis,
-                    model,
-                    engine,
-                    plate,
-                    state,
-                    seats,
-                    code,
-                    vin,
-                    type,
-                    year,
-                    color,
-                    office,
-                    mileage,
-                    observations
+                observations, km_input, motive_dropdown, vehicle_id);
+            if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis && !exist_by_code) {
+                var token = req.cookies.token;;
+                const user_session = jwt.verify(token, secret_token);
+                console.dir("Usuario en sesion: " + user_session)
+                var recernt_vehicle = await Vehicle.create({
+                    MarcaVehiculo: brand,
+                    NumeroChasisVehiculo: chassis,
+                    ModeloVehiculo: model,
+                    NumeroMotorVehiculo: engine,
+                    NumeroPlacaVehiculo: plate,
+                    CodigoEstado: state,
+                    CapacidadPersonaVehiculo: seats,
+                    CodigoActivoFijo: code,
+                    NumeroVINVehiculo: vin,
+                    CodigoTipoVehiculo: type,
+                    TipoCombustibleVehiculo: fuel,
+                    AnnoVehiculo: year,
+                    ColorVehiculo: color,
+                    CodigoOficinaResponsableVehiculo: office,
+                    KilometrajeActual: mileage,
+                    ObservacionesVehiculo: observations
                 });
+                var new_vehicle = JSON.parse(JSON.stringify(recernt_vehicle));
+                console.dir("Antes de crear el historico: " + new_vehicle);
+                HistorialDeUsoController.Create(new_vehicle, '1', user_session); //1 corresponde a valores iniciales
                 const query = querystring.stringify({
                     title: "Guardado exitoso",
                     message: "Vehiculo registrado",
@@ -279,11 +299,16 @@ class Vehicle_controller {
                         msg: "El número de motor ya existe en la base de datos"
                     });
                 }
+                if (exist_by_code) {
+                    errors.push({
+                        msg: "El codigo de activo fijo ya ha existe en la base"
+                    });
+                }
                 res.send({
                     title: "Error en la información",
                     errors: errors
                 })
-            } */
+            }
         } catch (error) {
             console.log(error);
             res.send({
@@ -297,8 +322,9 @@ class Vehicle_controller {
     //Recibe los parametros request y response, respectivamente
     async update(req, res) {
         try {
-            const errors = validationResult(req);
-            const states = this.getStateList();
+            var errs = validationResult(req);
+            var errors = [];
+            errors = errs.array();
             let {
                 brand,
                 chassis,
@@ -307,21 +333,55 @@ class Vehicle_controller {
                 plate,
                 state,
                 seats,
-                vehicle_id,
+                code,
+                vin,
+                type,
+                year,
+                color,
+                office,
+                mileage,
+                observations,
+                fuel,
+                motive_dropdown,
+                km_input,
+                vehicle_id
             } = req.body;
-            let vehicle = req.body;
-            if (errors.isEmpty()) {
+            console.log(brand,
+                chassis,
+                model,
+                engine,
+                plate,
+                state,
+                seats,
+                code,
+                vin,
+                type,
+                year,
+                color,
+                fuel,
+                office,
+                mileage,
+                observations, km_input, motive_dropdown, vehicle_id);
+            if (errs.isEmpty()) {
                 await Vehicle.update({
-                    brand,
-                    chassis,
-                    model,
-                    engine,
-                    plate,
-                    state,
-                    seats,
+                    MarcaVehiculo: brand,
+                    NumeroChasisVehiculo: chassis,
+                    ModeloVehiculo: model,
+                    NumeroMotorVehiculo: engine,
+                    NumeroPlacaVehiculo: plate,
+                    CodigoEstado: state,
+                    CapacidadPersonaVehiculo: seats,
+                    CodigoActivoFijo: code,
+                    NumeroVINVehiculo: vin,
+                    CodigoTipoVehiculo: type,
+                    TipoCombustibleVehiculo: fuel,
+                    AnnoVehiculo: year,
+                    ColorVehiculo: color,
+                    CodigoOficinaResponsableVehiculo: office,
+                    ObservacionesVehiculo: observations
                 }, {
                     where: {
-                        id: vehicle_id
+                        CodigoActivoFijo: vehicle_id
                     }
                 });
                 const query = querystring.stringify({
@@ -334,10 +394,9 @@ class Vehicle_controller {
                     status: 200
                 });
             } else {
-                res.render('../views/vehicle/create.html', {
-                    errors: errors.array(),
-                    states,
-                    vehicle,
+                res.send({
+                    title: "Error en la información",
+                    errors: errors
                 })
             }
         } catch (error) {

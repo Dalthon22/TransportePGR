@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 const Vehiculo = require('./m_vehiculo');
-/* const User = require('./m_usuario'); */
+const User = require('./m_usuario');
 const Descripcion = require('./m_descripcion_uso_vehiculo');
 
 const HistorialUsoVehiculo = db.define('TRA_HistorialUsoVehiculo', {
@@ -22,9 +22,9 @@ HistorialUsoVehiculo.belongsTo(Vehiculo, {
     foreignKey: 'CodigoActivoFijo_Vehiculo',
 });
 
-/* HistorialUsoVehiculo.belongsTo(User, {
-    foreignKey: 'ResponableRegistro',
-}); */
+HistorialUsoVehiculo.belongsTo(User, {
+    foreignKey: 'ResponsableRegistro',
+});
 
 HistorialUsoVehiculo.belongsTo(Descripcion, {
     foreignKey: 'CodigoDescripcionUso',

@@ -141,11 +141,18 @@ $(function () {
                         prompt: 'Debe seleccionar el tipo de vehículo'
                     }]
                 },
+                mileage: {
+                    identifier: 'mileage',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Debe ingresar el kilometraje inicial'
+                    }]
+                },
                 year: {
                     identifier: 'year',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Por favor ingrese el modelo'
+                        prompt: 'Por favor ingrese el año del vehículo'
                     }]
                 },
                 state: {
@@ -169,16 +176,38 @@ $(function () {
                         prompt: 'Debe seleccionar la oficina responsable del vehiculo del vehículo'
                     }]
                 },
+                fuel: {
+                    identifier: 'fuel',
+                    rules: [{
+                            type: 'empty',
+                            prompt: 'Debe seleccionar el tipo de combustible del vehículo. Especial: \'S\', Regular: \'R\' o Diesel: \'D\''
+                        },
+                        {
+                            type: 'regExp',
+                            value: /([S,R,D]{1})/gi,
+                            prompt: 'Sólo puede ingresa un caracter. Valores posible: \'S\'(Especial), \'R\'(Regular) o \'D\'(Diesel)'
+                        }, {
+                            type: 'minLength[1]',
+                            prompt: 'El valor debe contener un caracter'
+                        }, {
+                            type: 'maxLength[1]',
+                            prompt: 'El valor debe contener máximo 1 caractere'
+                        }
+                    ]
+                },
             }
         });
 
     if (!$('#vehicle_id').val()) {
         $('#add_btn').addClass('disabled');
+    } else {
+        $('#mileage').attr("Readonly", "true");
     }
 
     current_plate = $('#vplate').val();
 });
 
+/*Calendar input unicamente para año*/
 $('#year')
     .calendar({
         type: 'year'
@@ -189,6 +218,10 @@ Impide el ingreso de cualquier caracter que no se numero
 06012019_DD
  */
 $("#seats").keydown(function (event) {
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+})
+
+$("#mileage").keydown(function (event) {
     return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
 })
 
@@ -256,11 +289,13 @@ Detona el proceso de insercion del vehiculo
 28092019_DD 
 */
 $("#add_btn").click(function () {
+    console.log($('#vehicle_id').val());
     if ($('#vehicle_id').val()) {
         update_vehicle();
     } else {
         insert_vehicle();
     }
+
 
 });
 

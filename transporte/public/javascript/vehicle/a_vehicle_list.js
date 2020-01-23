@@ -25,10 +25,8 @@ $(function () {
     }
 
     $(".pencil.yellow.alternate.link.icon").click(function () {
-        var index = $(this).closest("tr")[0].rowIndex;
-        var tr = $('#mytable').find("tr").eq(index);
-        current_plate = tr.find("td").eq(0).text();
-        console.log(tr);
+        current_plate = $(this).attr('value');
+        console.log(current_plate);
         //alert('You click plate: ' + current_plate + " and the id is: " + index);
         url_list = encodeURI('vehiculos/gestionar?' + "matricula=" + current_plate);
         console.log(url_list);

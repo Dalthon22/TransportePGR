@@ -36,7 +36,7 @@
             </div>
             <div class="required field">
                 <label for="vin">Número VIN</label>
-                <input id="vin" name="vin" type="text" placeholder="VIN" value="{{ vehicle.NumeroVINVeniculo }}">
+                <input id="vin" name="vin" type="text" placeholder="VIN" value="{{ vehicle.NumeroVINVehiculo }}">
             </div>
         </div>
 
@@ -66,11 +66,13 @@
             </div>
         </div>
         <div class="fields">
-            <label for="year">Año del vehículo</label>
-            <div class="ui calendar" id="year">
-                <div class="ui input left icon">
-                    <i class="calendar icon"></i>
-                    <input name="year" type="text" placeholder="Año" value="{{ vehicle.AnnoVehiculo }}">
+            <div class=" required field">
+                <label for="color">Año del vehículo</label>
+                <div class="ui calendar" id="year">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input name="year" type="text" placeholder="Año" value="{{ (vehicle.AnnoVehiculo|int)+1 }}">
+                    </div>
                 </div>
             </div>
             <div class="four wide field">
@@ -81,6 +83,11 @@
                 <label for="seats">Capidad de personas</label>
                 <input id="seats" name="seats" min="2" max="40" type="number" placeholder="2-40"
                     value="{{ vehicle.CapacidadPersonaVehiculo }}">
+            </div>
+            <div class="four wide required field">
+                <label for="fuel">Tipo de combustible</label>
+                <input id="fuel" name="fuel" type="text" placeholder="S - R - D"
+                    value="{{ vehicle.TipoCombustibleVehiculo}}">
             </div>
         </div>
 
@@ -122,9 +129,14 @@
                 <div class="four wide required field">
                     <label for="mileage">Kilometraje actual</label>
                     <input id="mileage" name="mileage" min="0" type="number" placeholder="Kilometraje"
-                        value="{{ vehicle.KilometrajeActual }}">
+                        value="{{vehicle.KilometrajeActual | int}}">
                 </div>
             </div>
+            <div class="field">
+                <label>Observaciones</label>
+                <textarea id="observations" name="observations">{{vehicle.ObservacionesVehiculo}}</textarea>
+            </div>
+            <input type="hidden" id="vehicle_id" name="vehicle_id" value="{{ vehicle.CodigoActivoFijo }}">
             <!-- Formulario para el cambio de los estado de dañado y en manenimiento; al estado Funcional -->
             <div id="update_km_form_div" style="display:none;">
                 <form class="ui form " id="update_km_form" name="update_km_form">
@@ -153,22 +165,17 @@
                     <div class="required field">
                         <label for="motive_dropdown">Motivo de Actualización:</label>
                         <select class="ui fluid dropdown" name="motive_dropdown" id="motive_dropdown">
-                            <option value="">Seleccione un motivo</option>
-                            <option value="init">Inicial</option>
-                            <option value="update">Reparación y prueba del vehículo</option>
+                            {% for r in reasons %}
+                            <option value="{{r.CodigoDescripcion}}">{{r.Descripcion}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <br>
-                    <input type="hidden" id="km_actual" value="{{ vehicle.KilometrajeActual }}">
+                    <input type="hidden" name="km_actual" id="km_actual" value="{{vehicle.KilometrajeActual}}">
                 </form>
             </div>
         </div>
-        <div class="field">
-            <label>Observaciones</label>
-            <textarea id="observations" name="observations">{{vehicle.Observaciones}}</textarea>
-        </div>
         <br>
-        <input type="hidden" id="vehicle_id" name="vehicle_id" value="{{ vehicle.CodigoActivoFijo }}">
         <a href="/vehiculos">
             <div class="ui left floated animated button" style="margin-bottom:1em" type="button">
                 <div class="visible content">Volver</div>
