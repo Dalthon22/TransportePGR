@@ -312,7 +312,7 @@ $('#fPlate').focusout(function () {
     if ($(".ui.form").form('validate field', 'plate')) {
         if (current_plate === $('#vplate').val() && $('#vehicle_id').val()) {
             $('#add_btn').removeClass('disabled');
-            AddToast("Valor Integro", "orange", "El numero de placa: " + current_plate + " no ha cambiado");
+            //AddToast("Valor Integro", "orange", "El numero de placa: " + current_plate + " no ha cambiado");
         } else if (!$('#vplate').val()) {
             $('#fPlate').addClass('error');
             AddToast("Valor Nulo", "error", "Debe ingresar un matricula valida para poder verificar su unicidad");
