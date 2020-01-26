@@ -28,12 +28,17 @@ $(function () {
                             prompt: 'Por favor ingrese el número del activo fijo'
                         },
                         {
-                            type: 'minLength[10]',
-                            prompt: 'El numero del activo fijo no puede poseer menos de 10 caracteres'
+                            type: 'minLength[21]',
+                            prompt: 'El numero del activo fijo debe tener exactamente 21 caracteres'
                         },
                         {
                             type: 'maxLength[21]',
-                            prompt: 'El numero de activo fijo no puede poseer más de 21 caracteres'
+                            prompt: 'El numero del activo fijo debe tener exactamente 21 caracteres'
+                        },
+                        {
+                            type: 'regExp',
+                            value: /(\d{4})-(\d{5})-(\d{3})-(\d{1})-(\d{4})/i,
+                            prompt: 'El número de activo fijo solo puede contener valores numéricos y guiones. El formato debe ser: "1800-61101-101-1-0004"'
                         }
                     ]
                 },
@@ -48,13 +53,13 @@ $(function () {
                             prompt: 'El numero de placa puede poseer menos de 4 caracteres'
                         },
                         {
-                            type: 'maxLength[7]',
-                            prompt: 'El numero de placa no puede poseer más de 7 caracteres'
+                            type: 'maxLength[8]',
+                            prompt: 'El numero de placa no puede poseer más de 8 caracteres'
                         },
                         {
                             type: 'regExp',
-                            value: /([N]{1})(\d{3,6})/i,
-                            prompt: 'El número de placa debe tener este este formato: N###(###)'
+                            value: /^(N|M|P|AB|MB)(\d{3,6}$)/i,
+                            prompt: 'El número de placa debe tener este este formato: (N|M|P|AB|MB)###(###)'
                         }
                     ]
                 },
@@ -65,14 +70,14 @@ $(function () {
                         prompt: 'Por favor ingrese información del chasis'
                     }, {
                         type: 'regExp',
-                        value: /([A-Za-z0-9]{17})/i,
-                        prompt: 'Ingrese valor alfanumérico de 17 caracteres'
+                        value: /([A-Za-z0-9]{20})/i,
+                        prompt: 'Ingrese valor alfanumérico del chasis'
                     }, {
                         type: 'minLength[17]',
                         prompt: 'El valor debe contener mínimo 17 caracteres'
                     }, {
-                        type: 'maxLength[17]',
-                        prompt: 'El valor debe contener máximo 17 caracteres'
+                        type: 'maxLength[20]',
+                        prompt: 'El valor debe contener máximo 20 caracteres'
                     }]
                 },
                 engine: {
@@ -99,14 +104,14 @@ $(function () {
                         prompt: 'Por favor ingrese información del número VIN'
                     }, {
                         type: 'regExp',
-                        value: /([A-Za-z0-9]{17})/i,
-                        prompt: 'Ingrese valor alfanumérico de 17 caracteres'
+                        value: /([A-Za-z0-9]{20})/i,
+                        prompt: 'Ingrese valor alfanumérico del VIN'
                     }, {
                         type: 'minLength[17]',
                         prompt: 'El valor debe contener mínimo 17 caracteres'
                     }, {
-                        type: 'maxLength[17]',
-                        prompt: 'El valor debe contener máximo 17 caracteres'
+                        type: 'maxLength[20]',
+                        prompt: 'El valor debe contener máximo 20 caracteres'
                     }]
                 },
                 brand: {
@@ -165,8 +170,8 @@ $(function () {
                 seats: {
                     identifier: 'seats',
                     rules: [{
-                        type: 'integer[2..40]',
-                        prompt: 'La capacidad de personas debe estar entre 2 y 40'
+                        type: 'integer[1..40]',
+                        prompt: 'La capacidad de personas debe estar entre 1 y 40'
                     }]
                 },
                 office: {
@@ -179,21 +184,9 @@ $(function () {
                 fuel: {
                     identifier: 'fuel',
                     rules: [{
-                            type: 'empty',
-                            prompt: 'Debe seleccionar el tipo de combustible del vehículo. Especial: \'S\', Regular: \'R\' o Diesel: \'D\''
-                        },
-                        {
-                            type: 'regExp',
-                            value: /([S,R,D]{1})/gi,
-                            prompt: 'Sólo puede ingresa un caracter. Valores posible: \'S\'(Especial), \'R\'(Regular) o \'D\'(Diesel)'
-                        }, {
-                            type: 'minLength[1]',
-                            prompt: 'El valor debe contener un caracter'
-                        }, {
-                            type: 'maxLength[1]',
-                            prompt: 'El valor debe contener máximo 1 caractere'
-                        }
-                    ]
+                        type: 'empty',
+                        prompt: 'Debe seleccionar el tipo de combustible del vehículo.'
+                    }]
                 },
             }
         });
@@ -202,7 +195,10 @@ $(function () {
         $('#add_btn').addClass('disabled');
     } else {
         $('#mileage').attr("Readonly", "true");
+        $('#code').attr("Readonly", "true");
     }
+
+    $("#code").mask("000-00000-000-0-0000");
 
     current_plate = $('#vplate').val();
 });
@@ -232,7 +228,7 @@ $("#km_input").keydown(function (event) {
 /*Limita el ingreso de caracteres a la letra N y numeros
 13012020_DD*/
 $("#vplate").keydown(function (event) {
-    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 78 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 65 || event.keyCode === 66 || event.keyCode === 77 || event.keyCode === 78 || event.keyCode === 80 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
 })
 
 /*
@@ -310,7 +306,7 @@ $("#add_btn").click(function () {
 $('#fPlate').focusout(function () {
     console.dir($(".ui.form").form('validate field', 'plate'));
     if ($(".ui.form").form('validate field', 'plate')) {
-        if (current_plate === $('#vplate').val() && $('#vehicle_id').val()) {
+        if ($('#old_plate').val() === $('#vplate').val() && $('#vehicle_id').val()) {
             $('#add_btn').removeClass('disabled');
             //AddToast("Valor Integro", "orange", "El numero de placa: " + current_plate + " no ha cambiado");
         } else if (!$('#vplate').val()) {
@@ -359,7 +355,9 @@ function update_vehicle() {
     $('.ui.toast').remove();
     $('.ui.form').form('validate form');
     if ($('.ui.form').form('is valid')) {
-        if (current_plate === $('#vplate').val()) {
+        console.log($('#old_plate').val());
+        console.log($('#vplate').val());
+        if ($('#old_plate').val() === $('#vplate').val()) {
             refresh_vehicle();
         } else {
             validate_plate();

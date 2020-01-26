@@ -22,7 +22,7 @@ $("#state").change(function () {
     var old_state = $("#old_state").val();
     console.log("viejo estado: " + old_state)
 
-    if (state == '1' && state != old_state) {
+    if (state == '1' && state != old_state && old_state) {
         console.log("mostrar form")
         document.getElementById("update_km_form_div").style.display = "block";
         //Se actualizará con el nuevo estado.
@@ -46,6 +46,12 @@ $("#state").change(function () {
                     prompt: 'El nuevo kilometraje deber ser mayor o igual que el registro actual'
                 },
             ]
+        });
+        $('.ui.form').form('add rule', 'details', {
+            rule: [{
+                type: 'empty',
+                prompt: 'Ingrese una justificacion detallada'
+            }]
         });
     } else {
         //Elimina las reglas de validación creadas para ese campo 
@@ -76,6 +82,7 @@ $('#km_cb').checkbox({
         //$('.ui.form').form('remove field', 'km_input');
     }
 })
+
 $('.ui.form').form({
     on: 'blur',
     revalidate: true,
@@ -86,6 +93,13 @@ $('.ui.form').form({
             rules: [{
                 type: 'empty',
                 prompt: 'Por favor seleccione un motivo de actulización de kilometraje'
+            }]
+        },
+        details: {
+            identifier: 'details',
+            rule: [{
+                type: 'empty',
+                prompt: 'Ingrese una justificacion detallada'
             }]
         }
     },

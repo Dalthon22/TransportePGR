@@ -25,6 +25,21 @@ class Vehicle_controller {
 
     }
 
+    //Genera el arreglo de los tipos de combustible
+    //25012020_DD
+    getFuels() {
+        var fuels = [];
+        let fuel = new Object()
+        fuel.TipoCombustibleCodigo = 'G';
+        fuel.TipoCombustible = 'Gasolina';
+        fuels.push(fuel);
+        fuel = new Object();
+        fuel.TipoCombustibleCodigo = 'D';
+        fuel.TipoCombustible = 'Diesel';
+        fuels.push(fuel);
+        return fuels;
+    }
+
     //Encuntra un registro por el id
     //Parametro: _id Llave primaria de la tabla
     async findById(_id) {
@@ -176,6 +191,7 @@ class Vehicle_controller {
             const offices = await OficinasResponsableController.getList();
             const types = await TipoVehiculoController.getList();
             const reasons = await DescripcionUsoController.getList();
+            const fuels = this.getFuels();
             console.log("Estados: " + states);
             console.log("Oficinas: " + offices);
             console.log("Tipos: " + types);
@@ -192,7 +208,8 @@ class Vehicle_controller {
                 types,
                 offices,
                 reasons,
-                vehicle
+                vehicle,
+                fuels
             })
         } catch (error) {
             console.log("Error en getCreate" + error)
@@ -225,7 +242,8 @@ class Vehicle_controller {
                 fuel,
                 motive_dropdown,
                 km_input,
-                vehicle_id
+                vehicle_id,
+                details
             } = req.body;
             var exist_by_plate = await this.existByPlate(plate);
             var exist_by_engine = await this.existByEngine(engine);
@@ -247,7 +265,7 @@ class Vehicle_controller {
                 fuel,
                 office,
                 mileage,
-                observations, km_input, motive_dropdown, vehicle_id);
+                observations, km_input, motive_dropdown, vehicle_id, details);
             if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis && !exist_by_code) {
                 const user_session = Authorize.decode_token(req.cookies.token);
                 console.dir("Usuario en sesion: " + user_session);
@@ -342,7 +360,8 @@ class Vehicle_controller {
                 fuel,
                 motive_dropdown,
                 km_input,
-                vehicle_id
+                vehicle_id,
+                details
             } = req.body;
             console.log(brand,
                 chassis,
@@ -359,7 +378,7 @@ class Vehicle_controller {
                 fuel,
                 office,
                 mileage,
-                observations, km_input, motive_dropdown, vehicle_id);
+                observations, km_input, motive_dropdown, vehicle_id, details);
             if (errs.isEmpty()) {
                 const user_session = Authorize.decode_token(req.cookies.token);
                 console.dir("Usuario en sesion: " + user_session);
@@ -387,7 +406,7 @@ class Vehicle_controller {
                 if (km_input && motive_dropdown) {
                     var recernt_vehicle = await this.findById(code);
                     console.dir("Antes de crear el historico: " + recernt_vehicle);
-                    HistorialDeUsoController.Create(recernt_vehicle, user_session.user, km_input, motive_dropdown);
+                    HistorialDeUsoController.Create(recernt_vehicle, user_session.user, km_input, details, motive_dropdown);
                 }
                 const query = querystring.stringify({
                     title: "Guardado exitoso",

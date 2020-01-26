@@ -1,5 +1,6 @@
 const Historial = require('../models/m_historial_uso_vehiculo');
 const Vehicle = require('../models/m_vehiculo');
+const Description = require('./c_descripcion_uso_vehiculo');
 
 class historial_vehiculo_controller {
     constructor() {
@@ -10,14 +11,16 @@ class historial_vehiculo_controller {
     /*
     Inserta un registro en la tabla de transacciones
      */
-    async Create(vehicle, user_session, new_mileage, codeDes = '1') {
+    async Create(vehicle, user_session, new_mileage, details = ' ', codeDes = '1') {
         try {
             if (vehicle.CodigoActivoFijo) {
+                details = await Description.getNameByCode(codeDes);
                 var new_record = await Historial.create({
                     FechaHoraUso: new Date(),
                     CodigoActivoFijo_Vehiculo: vehicle.CodigoActivoFijo,
                     CodigoDescripcionUso: codeDes,
                     NuevoKilometraje: new_mileage,
+                    DetalleUso: details,
                     ResponsableRegistro: user_session.CodigoUsuario
                 });
                 await Vehicle.update({
