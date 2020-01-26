@@ -11,8 +11,7 @@ const EstadoVehiculoController = require('./c_estado_vehiculo');
 const OficinasResponsableController = require('./c_oficina_responsable');
 const HistorialDeUsoController = require('./c_historial_vehiculo');
 const DescripcionUsoController = require('./c_descripcion_uso_vehiculo');
-const jwt = require('jsonwebtoken');
-const secret_token = require('../dbconfig/secret_token');
+const Authorize = require('./c_auth');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
 const {
@@ -250,9 +249,8 @@ class Vehicle_controller {
                 mileage,
                 observations, km_input, motive_dropdown, vehicle_id);
             if (errs.isEmpty() && !exist_by_plate && !exist_by_engine && !exist_by_chassis && !exist_by_code) {
-                var token = req.cookies.token;;
-                const user_session = jwt.verify(token, secret_token);
-                console.dir("Usuario en sesion: " + user_session)
+                const user_session = Authorize.decode_token(req.cookies.token);
+                console.dir("Usuario en sesion: " + user_session);
                 var recernt_vehicle = await Vehicle.create({
                     MarcaVehiculo: brand,
                     NumeroChasisVehiculo: chassis,
@@ -273,7 +271,7 @@ class Vehicle_controller {
                 });
                 var new_vehicle = JSON.parse(JSON.stringify(recernt_vehicle));
                 console.dir("Antes de crear el historico: " + new_vehicle);
-                HistorialDeUsoController.Create(new_vehicle, '1', user_session); //1 corresponde a valores iniciales
+                HistorialDeUsoController.Create(new_vehicle, user_session.user, new_vehicle.KilometrajeActual); //1 corresponde a valores iniciales
                 const query = querystring.stringify({
                     title: "Guardado exitoso",
                     message: "Vehiculo registrado",
@@ -363,6 +361,8 @@ class Vehicle_controller {
                 mileage,
                 observations, km_input, motive_dropdown, vehicle_id);
             if (errs.isEmpty()) {
+                const user_session = Authorize.decode_token(req.cookies.token);
+                console.dir("Usuario en sesion: " + user_session);
                 await Vehicle.update({
                     MarcaVehiculo: brand,
                     NumeroChasisVehiculo: chassis,
@@ -384,6 +384,11 @@ class Vehicle_controller {
                         CodigoActivoFijo: vehicle_id
                     }
                 });
+                if (km_input && motive_dropdown) {
+                    var recernt_vehicle = await this.findById(code);
+                    console.dir("Antes de crear el historico: " + recernt_vehicle);
+                    HistorialDeUsoController.Create(recernt_vehicle, user_session.user, km_input, motive_dropdown);
+                }
                 const query = querystring.stringify({
                     title: "Guardado exitoso",
                     message: "Vehiculo actualizado",

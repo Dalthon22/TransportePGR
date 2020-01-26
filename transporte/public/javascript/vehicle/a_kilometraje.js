@@ -5,7 +5,7 @@ $('#modal_update_km')
 $.fn.form.settings.rules.minor = function (value, minor) {
     try {
         var valido = true;
-        if (parseInt($("#km_input").val()) <= parseInt($("#km_actual").val())) {
+        if (parseInt($("#km_input").val()) < parseInt($("#km_actual").val())) {
             valido = false;
         }
         return (valido);
@@ -25,20 +25,11 @@ $("#state").change(function () {
     if (state == '1' && state != old_state) {
         console.log("mostrar form")
         document.getElementById("update_km_form_div").style.display = "block";
-        //Se actualizará con el nuevo estado
-        $("#old_state").val(state)
-    } else {
-        document.getElementById("update_km_form_div").style.display = "none";
-    }
-});
-
-//Kilometraje actual
-$("#km_input").val($("#km_actual").val());
-
-$('#km_cb').checkbox('enable').checkbox('uncheck');
-//Para registrar si hay cambio en el kilometraje del vehículo
-$('#km_cb').checkbox({
-    onChecked: function () {
+        //Se actualizará con el nuevo estado.
+        //DD: No debe actualizarse sino al estar jugando con el cambio pierde el sentido y deja de funcionar
+        //$("#old_state").val(state)
+        $('#km_cb').checkbox('checked');
+        $('#km_input').removeAttr('readonly');
         $('.ui.form').form('add rule', 'km_input', {
             rules: [{
                     type: 'empty',
@@ -56,16 +47,33 @@ $('#km_cb').checkbox({
                 },
             ]
         });
+    } else {
+        //Elimina las reglas de validación creadas para ese campo 
+        $('.ui.form').form('remove field', 'km_input');
+        document.getElementById("update_km_form_div").style.display = "none";
+    }
+});
+
+//Kilometraje actual
+//DD:No necesario porque justo arriba titene el valor
+//$("#km_input").val($("#km_actual").val());
+
+$('#km_cb').checkbox('enable'); //.checkbox('uncheck');
+//Para registrar si hay cambio en el kilometraje del vehículo
+$('#km_cb').checkbox({
+    onChecked: function () {
+
         $('#km_input').removeAttr('readonly');
     },
     onUnchecked: function () {
         $('#km_input').attr('readonly');
 
         //Setea el kilometraje actual
+        //DD:No necesario porque justo arriba titene el valor
         $("#km_input").val($("#km_actual").val());
 
         //Elimina las reglas de validación creadas para ese campo 
-        $('.ui.form').form('remove field', 'km_input');
+        //$('.ui.form').form('remove field', 'km_input');
     }
 })
 $('.ui.form').form({
