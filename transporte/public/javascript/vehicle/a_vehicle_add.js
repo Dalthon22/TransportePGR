@@ -7,7 +7,6 @@ Animaciones del Front del formulario de ingresar vehiculo
 var url_request_plate_exist;
 var url_post_create = '/vehiculos/gestionar';
 var url_get_lis = 'vehiculos';
-var current_plate;
 var data_type;
 
 
@@ -181,6 +180,13 @@ $(function () {
                         prompt: 'Debe seleccionar la oficina responsable del vehiculo del vehículo'
                     }]
                 },
+                color: {
+                    identifier: 'color',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Debe ingresar el color del vehículo'
+                    }]
+                },
                 fuel: {
                     identifier: 'fuel',
                     rules: [{
@@ -188,6 +194,14 @@ $(function () {
                         prompt: 'Debe seleccionar el tipo de combustible del vehículo.'
                     }]
                 },
+                details: {
+                    identifier: 'details',
+                    depends: 'km_input',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Debe ingresar un justificación detallada'
+                    }]
+                }
             }
         });
 
@@ -198,9 +212,6 @@ $(function () {
         $('#code').attr("Readonly", "true");
     }
 
-    $("#code").mask("000-00000-000-0-0000");
-
-    current_plate = $('#vplate').val();
 });
 
 /*Calendar input unicamente para año*/
@@ -208,6 +219,29 @@ $('#year')
     .calendar({
         type: 'year'
     });
+
+$('#code').keypress(function () {
+    $('#code').val(Masking($(this).val(), '____-_____-___-_-____'))
+})
+
+function Masking(value, pattern) {
+    var out = '';
+    var space = ' ';
+    var any = '_';
+
+    for (var i = 0, j = 0; j < value.length; i++, j++) {
+        if (value[j] === pattern[i]) {
+            out += value[j];
+        } else if (pattern[i] === any && value[j] !== space) {
+            out += value[j];
+        } else if (pattern[i] !== any && pattern[i] !== space) {
+            out += pattern[i];
+            j--;
+        }
+    }
+    console.log('Output: ' + out);
+    return out;
+}
 
 /*
 Impide el ingreso de cualquier caracter que no se numero

@@ -89,7 +89,7 @@
                 <label for="fuel">Tipo de Combustible</label>
                 <select class="ui fluid search dropdown" name="fuel">
                     {% for f in fuels %}
-                    {% if f.TipoCombustibleCodigo == vehicle.TipoCombustible %}
+                    {% if f.TipoCombustibleCodigo == vehicle.TipoCombustibleVehiculo %}
                     <option value="{{f.TipoCombustibleCodigo}}" selected>
                         {{f.TipoCombustible}}
                     </option>

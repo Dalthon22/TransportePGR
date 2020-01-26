@@ -11,10 +11,12 @@ class historial_vehiculo_controller {
     /*
     Inserta un registro en la tabla de transacciones
      */
-    async Create(vehicle, user_session, new_mileage, details = ' ', codeDes = '1') {
+    async Create(vehicle, user_session, new_mileage, details = '', codeDes = '1') {
         try {
             if (vehicle.CodigoActivoFijo) {
-                details = await Description.getNameByCode(codeDes);
+                if (!details) {
+                    details = await Description.getNameByCode(codeDes);
+                }
                 var new_record = await Historial.create({
                     FechaHoraUso: new Date(),
                     CodigoActivoFijo_Vehiculo: vehicle.CodigoActivoFijo,

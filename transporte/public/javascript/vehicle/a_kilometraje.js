@@ -30,29 +30,24 @@ $("#state").change(function () {
         //$("#old_state").val(state)
         $('#km_cb').checkbox('checked');
         $('#km_input').removeAttr('readonly');
-        $('.ui.form').form('add rule', 'km_input', {
-            rules: [{
-                    type: 'empty',
-                    prompt: 'Ingrese un nuevo kilometraje'
-                }, {
-                    type: 'integer[1...999999999999]',
-                    prompt: 'Este campo solo permite números enteros.'
-                }, //Válida la longitud de caracteres
-                {
-                    type: 'regExp[/^[0-9]{1,16}$/]',
-                    prompt: 'Por favor ingrese un número con longitud válida '
-                }, {
-                    type: 'minor[km_actual]',
-                    prompt: 'El nuevo kilometraje deber ser mayor o igual que el registro actual'
-                },
-            ]
-        });
-        $('.ui.form').form('add rule', 'details', {
-            rule: [{
-                type: 'empty',
-                prompt: 'Ingrese una justificacion detallada'
-            }]
-        });
+        $('.ui.form')
+            .form('add rule', 'km_input', {
+                rules: [{
+                        type: 'empty',
+                        prompt: 'Ingrese un nuevo kilometraje'
+                    }, {
+                        type: 'integer[1...999999999999]',
+                        prompt: 'Este campo solo permite números enteros.'
+                    }, //Válida la longitud de caracteres
+                    {
+                        type: 'regExp[/^[0-9]{1,16}$/]',
+                        prompt: 'Por favor ingrese un número con longitud válida '
+                    }, {
+                        type: 'minor[km_actual]',
+                        prompt: 'El nuevo kilometraje deber ser mayor o igual que el registro actual'
+                    },
+                ]
+            });
     } else {
         //Elimina las reglas de validación creadas para ese campo 
         $('.ui.form').form('remove field', 'km_input');
