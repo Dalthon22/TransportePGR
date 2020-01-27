@@ -239,7 +239,7 @@ function Masking(value, pattern) {
             j--;
         }
     }
-    console.log('Output: ' + out);
+    //console.log('Output: ' + out);
     return out;
 }
 
