@@ -68,15 +68,15 @@ $(function () {
                         type: 'empty',
                         prompt: 'Por favor ingrese información del chasis'
                     }, {
-                        type: 'regExp',
-                        value: /([A-Za-z0-9]{20})/i,
-                        prompt: 'Ingrese valor alfanumérico del chasis'
-                    }, {
                         type: 'minLength[17]',
                         prompt: 'El valor debe contener mínimo 17 caracteres'
                     }, {
                         type: 'maxLength[20]',
                         prompt: 'El valor debe contener máximo 20 caracteres'
+                    }, {
+                        type: 'regExp',
+                        value: /([A-Za-z0-9]{17,20})/i,
+                        prompt: 'Ingrese unicamente valores alfanuméricos al número del chasis'
                     }]
                 },
                 engine: {
@@ -102,15 +102,15 @@ $(function () {
                         type: 'empty',
                         prompt: 'Por favor ingrese información del número VIN'
                     }, {
-                        type: 'regExp',
-                        value: /([A-Za-z0-9]{20})/i,
-                        prompt: 'Ingrese valor alfanumérico del VIN'
-                    }, {
                         type: 'minLength[17]',
                         prompt: 'El valor debe contener mínimo 17 caracteres'
                     }, {
                         type: 'maxLength[20]',
                         prompt: 'El valor debe contener máximo 20 caracteres'
+                    }, {
+                        type: 'regExp',
+                        value: /([A-Za-z0-9]{17,20})/i,
+                        prompt: 'Ingrese unicamente valores alfanuméricos al número del VIN'
                     }]
                 },
                 brand: {
