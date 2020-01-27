@@ -62,9 +62,9 @@ router.get('/matricula_:plate',
 /*GET Create
 Ruta provisional para modal
 */
-router.get('/modal', (req, res) => {
+/* router.get('/modal', (req, res) => {
     res.render('../views/vehicle/modal.html');
-});
+}); */
 
 router.get('/reporteLoteVehicular', (req, res) => {
     controller.reporteLoteVehicular(req, res);
