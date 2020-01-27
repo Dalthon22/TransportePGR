@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const pdfPrinter = require('pdfmake/src/printer');
+const jwt = require('jsonwebtoken');
+const secret_token = require('../dbconfig/secret_token');
 
 //Router para testear modificaciones a realizar en PDFs.
 router.get('/', (req, res) => {
@@ -16,17 +18,66 @@ router.get('/', (req, res) => {
     const printer = new pdfPrinter(fonts);
     var today = new Date();
     var month = today.getMonth() + 1;
+    let token = jwt.verify(req.cookies.token, secret_token);
+    var columns = [{
+      text: 'Marca',
+      bold: true
+    }, {
+      text: 'Modelo',
+      bold: true
+    }, {
+      text: 'Color',
+      bold: true
+    }, {
+      text: 'Año',
+      bold: true
+    }, {
+      text: 'Número de motor',
+      bold: true
+    }, {
+      text: 'Número de chasis',
+      bold: true
+    }, {
+      text: 'Kilometraje',
+      bold: true
+    }, {
+      text: 'Número de placa',
+      bold: true
+    }, {
+      text: 'Tipo de vehículo',
+      bold: true
+    }, {
+      text: 'Oficina responsable',
+      bold: true
+    }];
+    var bodyData = [];
+    var bodyRow = [];
+    bodyData.push(columns);
     // CUERPO DEL DOCUMENTO. NO TOCAR. >:V
     var docDefinition = {
       info: {
         //Nombre interno del documento.
-        title: 'Hoja de Misión Oficial FOLO-13 ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+        title: 'Reporte lote de vehículos ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
       },
-      pageSize: 'LETTER',
-      footer: {
-        text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-        alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
-      },
+      pageSize: 'A4',
+      pageOrientation: 'landscape',
+      footer:
+        function (currentPage, pageCount) {
+          return [
+            {
+              text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+              alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+            },
+            {
+              text: 'Generado por: ' + token.user.first_name + ' ' + token.user.last_name,
+              alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+            },
+            {
+              text: 'Página ' + currentPage.toString() + ' de ' + pageCount.toString(),
+              alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+            }
+          ];
+        },
       content: [{
         image: 'public/images/logopgr1.png',
         fit: [60, 60],
@@ -37,88 +88,16 @@ router.get('/', (req, res) => {
         writable: true,
       },
       {
-        text: 'FORMULARIO CONTROL DE MISIONES OFICIALES',
+        text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n\n\n',
         alignment: 'center',
-        bold: true,
-        italics: true,
-        fontSize: '16'
+        fontSize: '12'
       },
       {
-        text: 'PARA DÍAS Y HORAS NO HÁBILES',
-        alignment: 'center',
-        bold: true,
-        italics: true,
-        fontSize: '16'
-      },
-      {
-        text: 'UNIDAD DE LOGÍSTICA',
-        alignment: 'center',
-        bold: true,
-        italics: true,
-        fontSize: '16'
-      },
-      {
-        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-        alignment: 'center',
-        bold: true,
-        italics: true,
-        fontSize: '16'
-      },
-      {
-        text: '\n\nFOLO-13',
-        alignment: 'right',
-        bold: true,
-        italics: true
-      },
-      {
-        text: [{
-          text: 'Fecha: ',
-          bold: true
-        }, '']
-      },
-      {
-        text: [{
-          text: '\nUnidad o procuraduría auxiliar: ',
-          bold: true
-        }, ''],
-      },
-      {
-        text: [{
-          text: '\nSe autoriza a: ',
-          bold: true
-        }, ''],
-      },
-      {
-        text: [{
-          text: '\nVehículo placa #: ',
-          bold: true
-        }, ''],
-      },
-      {
-        text: [{
-          text: '\nMisión: ',
-          bold: true
-        }, ''],
-      },
-      {
-        text: [{
-          text: '\nPeríodo de la misión: ',
-          bold: true
-        }, ''],
-      },
-      {
-        text: '\nAutorizado por: ',
-        bold: true,
-        preserveLeadingSpaces: true
-      },
-      {
-        text: '\n\n\n\n\n\n___________________________________                 _________________________________________',
-        alignment: 'center'
-      },
-      {
-        text: 'Firma y sello de autorizado                                 Nombre y firma del motorista o conductor',
-        preserveLeadingSpaces: true,
-        alignment: 'center',
+        table: {
+          headerRows: 1,
+          widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+          body: bodyData,
+        },
       }],
     };
 
@@ -139,7 +118,7 @@ router.get('/', (req, res) => {
     doc.end();
   } catch (err) {
     console.log(err)
-  }
+  };
 });
 
 module.exports = router;

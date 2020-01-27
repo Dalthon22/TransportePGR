@@ -72,6 +72,7 @@ app.use('/control_de_ruta', authorize('adminTrans', 'adminR'), require('./routes
 app.use('/asignacion_de_combustible', authorize('adminTrans', 'adminV'), require('./routes/r_assign'));
 app.use('/empleado', require('./routes/r_employee'));
 app.use('/usuarios', authorize('adminIT'), require('./routes/r_user'));
+app.use('/test', authorize('adminIT'), require('./routes/r_pdf'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
