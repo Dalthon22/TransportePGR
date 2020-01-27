@@ -6,6 +6,7 @@ Controlador del modelo Vehicle
 const Vehicle = require('../models/m_vehiculo');
 const TipoVehiculo = require('../models/m_tipo_vehiculo');
 const CodigoEstado = require('../models/m_estado_vehiculo');
+const OficinaResponsableVehiculo = require('../models/m_oficina_responsable_vehiculo');
 const TipoVehiculoController = require('./c_tipo_vehiculo');
 const EstadoVehiculoController = require('./c_estado_vehiculo');
 const OficinasResponsableController = require('./c_oficina_responsable');
@@ -14,6 +15,7 @@ const DescripcionUsoController = require('./c_descripcion_uso_vehiculo');
 const Authorize = require('./c_auth');
 const Sequelize = require('sequelize');
 const querystring = require('querystring');
+const pdfPrinter = require('pdfmake/src/printer');
 const {
     validationResult
 } = require('express-validator');
@@ -431,7 +433,154 @@ class Vehicle_controller {
                 message: "El vehículo no pudo ser guardado. " + error,
             });
         }
-    }
+    };
+
+    async reporteLoteVehicular(req, res) {
+        try {
+            const fonts = {
+                Roboto: {
+                    normal: 'public/fonts/Roboto-Regular.ttf',
+                    bold: 'public/fonts/Roboto-Medium.ttf',
+                    italics: 'public/fonts/Roboto-Italic.ttf',
+                    bolditalics: 'public/fonts/Roboto-BoldItalic.ttf',
+                }
+            };
+            const printer = new pdfPrinter(fonts);
+            var today = new Date();
+            var month = today.getMonth() + 1;
+            const token = Authorize.decode_token(req.cookies.token);
+            var columns = [{
+                text: 'Marca',
+                bold: true
+            }, {
+                text: 'Modelo',
+                bold: true
+            }, {
+                text: 'Color',
+                bold: true
+            }, {
+                text: 'Año',
+                bold: true
+            }, {
+                text: 'Número de motor',
+                bold: true
+            }, {
+                text: 'Número de chasis',
+                bold: true
+            }, {
+                text: 'Kilometraje',
+                bold: true
+            }, {
+                text: 'Número de placa',
+                bold: true
+            }, {
+                text: 'Tipo de vehículo',
+                bold: true
+            }, {
+                text: 'Oficina responsable',
+                bold: true
+            }];
+            var bodyData = [];
+            bodyData.push(columns);
+            var vehiculos = await Vehicle.findAll({
+                attributes: ['CodigoActivoFijo', 'NumeroPlacaVehiculo', 'NumeroChasisVehiculo',
+                    'MarcaVehiculo', 'ModeloVehiculo', 'ColorVehiculo', 'AnnoVehiculo',
+                    'NumeroMotorVehiculo', 'KilometrajeActual'
+                ],
+                include: [{
+                    model: TipoVehiculo,
+                    raw: true,
+                    required: false
+                }, {
+                    model: OficinaResponsableVehiculo,
+                    raw: true,
+                    required: false
+                }],
+                order: Sequelize.literal('CodigoActivoFijo ASC')
+            });
+            console.log(vehiculos);
+            vehiculos.forEach(v => {
+                var bodyRow = [];
+                bodyRow.push(v.MarcaVehiculo.trim());
+                bodyRow.push(v.ModeloVehiculo.trim());
+                bodyRow.push(v.ColorVehiculo.trim());
+                bodyRow.push(v.AnnoVehiculo.trim());
+                bodyRow.push(v.NumeroMotorVehiculo.trim());
+                bodyRow.push(v.NumeroChasisVehiculo.trim());
+                bodyRow.push(v.KilometrajeActual.trim());
+                bodyRow.push(v.NumeroPlacaVehiculo.trim());
+                bodyRow.push(v.TRA_TipoVehiculo.TipoVehiculo.trim());
+                bodyRow.push(v.TRA_OficinasResponsablesDeVehiculo.DescripcionOficinaResponsableVehiculo.trim());
+                bodyData.push(bodyRow);
+            });
+
+            // CUERPO DEL DOCUMENTO. NO TOCAR. >:V
+            var docDefinition = {
+                info: {
+                    //Nombre interno del documento.
+                    title: 'Reporte lote de vehículos ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                },
+                pageSize: 'A4',
+                pageOrientation: 'landscape',
+                footer:
+                    function (currentPage, pageCount) {
+                        return [
+                            {
+                                text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                                alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+                            },
+                            {
+                                text: 'Generado por: ' + token.user.NombresUsuario + ' ' + token.user.ApellidosUsuario,
+                                alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+                            },
+                            {
+                                text: 'Página ' + currentPage.toString() + ' de ' + pageCount.toString(),
+                                alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+                            }
+                        ];
+                    },
+                content: [{
+                    image: 'public/images/logopgr1.png',
+                    fit: [60, 60],
+                    absolutePosition: {
+                        x: 50,
+                        y: 20
+                    },
+                    writable: true,
+                },
+                {
+                    text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n\n\n',
+                    alignment: 'center',
+                    fontSize: '12'
+                },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                        body: bodyData,
+                    },
+                }],
+            };
+
+            const doc = printer.createPdfKitDocument(docDefinition);
+
+            let chunks = [];
+            let result;
+            doc.on('data', (chunk) => {
+                chunks.push(chunk);
+            });
+
+            doc.on('end', () => {
+                result = Buffer.concat(chunks);
+                res.setHeader('content-type', 'application/pdf');
+                res.send(result);
+            });
+
+            doc.end();
+        } catch (err) {
+            console.log(err)
+        };
+    };
 };
 
 module.exports = new Vehicle_controller();
