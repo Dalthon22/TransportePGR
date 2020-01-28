@@ -12,7 +12,7 @@ var rutas = "<a href=\"/rutas\" class=\"item\"><i class=\"route icon\"></i>Rutas
 var calConfig = "<a href=\"/configuracion_calendario\" class=\"item\"><i class=\"inverted corner settings icon\"></i>Calendario de rutas</a>";
 var asignarVal = "<a href=\"/asignacion_de_combustible/vales\" class=\"item\"><i class=\"gas pump icon\"></i>Asignar Vales</a>";
 var motorista = "<a href=\"/motoristas\" class=\"item\"><i class=\"address card outline icon\"></i>Motoristas</a>";
-var controlRuta = "<a href=\"/asignar_motorista\" class=\"item\"><i class=\"clipboard outline icon\"></i>Control de ruta</a>";
+var controlRuta = "<a href=\"/control_de_ruta\" class=\"item\"><i class=\"clipboard outline icon\"></i>Control de ruta</a>";
 var mision = "<a href=\"/misiones\" class=\"item\"><i class=\"flag outline icon\"></i>Misiones</a>";
 var usuarios = "<a href=\"/usuarios\" class=\"item\"><i class=\"user tie icon\"></i>Usuarios</a>";
 
