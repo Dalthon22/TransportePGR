@@ -39,7 +39,10 @@
                         <td class="center aligned">{{v.estado | capitalize}}</td>
                         <td class="center aligned">{{v.kilometraje}} km</td>
                         <td style="text-align: center">
-                            <i class="large pencil yellow alternate link icon" value="{{v.matricula}}"></i>
+                            <i class="large pencil yellow alternate link icon" data-content="Editar"
+                                value="{{v.matricula}}"></i>
+                            <i class="large file alternate link icon" value="{{v.codigo}}"
+                                data-content="Generar reporte"></i>
                         </td>
                     </tr>
                     {% endfor %}

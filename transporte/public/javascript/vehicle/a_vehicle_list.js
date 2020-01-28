@@ -33,6 +33,15 @@ $(function () {
         location.href = url_list;
     });
 
+    $(".large.file.alternate.link.icon").click(function () {
+        codigoActivoFijo = $(this).attr('value');
+        console.log(codigoActivoFijo);
+        //alert('You click plate: ' + current_plate + " and the id is: " + index);
+        url_list = encodeURI('vehiculos/reporteIndividual?' + "codigo=" + codigoActivoFijo);
+        console.log(url_list);
+        location.href = url_list;
+    });
+
 });
 
 /*

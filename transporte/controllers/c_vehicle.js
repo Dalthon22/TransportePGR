@@ -522,44 +522,52 @@ class Vehicle_controller {
                 },
                 pageSize: 'A4',
                 pageOrientation: 'landscape',
-                footer:
-                    function (currentPage, pageCount) {
-                        return [
-                            {
-                                text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                                alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-                            },
-                            {
-                                text: 'Generado por: ' + token.user.NombresUsuario + ' ' + token.user.ApellidosUsuario,
-                                alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-                            },
-                            {
-                                text: 'Página ' + currentPage.toString() + ' de ' + pageCount.toString(),
-                                alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-                            }
-                        ];
-                    },
+                footer: function (currentPage, pageCount) {
+                    return [{
+                            text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                            alignment: 'right',
+                            fontSize: '9',
+                            italics: true,
+                            margin: [15, 0]
+                        },
+                        {
+                            text: 'Generado por: ' + token.user.NombresUsuario + ' ' + token.user.ApellidosUsuario,
+                            alignment: 'right',
+                            fontSize: '9',
+                            italics: true,
+                            margin: [15, 0]
+                        },
+                        {
+                            text: 'Página ' + currentPage.toString() + ' de ' + pageCount.toString(),
+                            alignment: 'right',
+                            fontSize: '9',
+                            italics: true,
+                            margin: [15, 0]
+                        }
+                    ];
+                },
                 content: [{
-                    image: 'public/images/logopgr1.png',
-                    fit: [60, 60],
-                    absolutePosition: {
-                        x: 50,
-                        y: 20
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 50,
+                            y: 20
+                        },
+                        writable: true,
                     },
-                    writable: true,
-                },
-                {
-                    text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n\n\n',
-                    alignment: 'center',
-                    fontSize: '12'
-                },
-                {
-                    table: {
-                        headerRows: 1,
-                        widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
-                        body: bodyData,
+                    {
+                        text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n\n\n',
+                        alignment: 'center',
+                        fontSize: '12'
                     },
-                }],
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            body: bodyData,
+                        },
+                    }
+                ],
             };
 
             const doc = printer.createPdfKitDocument(docDefinition);
@@ -585,24 +593,22 @@ class Vehicle_controller {
     async reporteIndividual(req, res) {
         try {
             const fonts = {
-              Roboto: {
-                normal: 'public/fonts/Roboto-Regular.ttf',
-                bold: 'public/fonts/Roboto-Medium.ttf',
-                italics: 'public/fonts/Roboto-Italic.ttf',
-                bolditalics: 'public/fonts/Roboto-BoldItalic.ttf',
-              }
+                Roboto: {
+                    normal: 'public/fonts/Roboto-Regular.ttf',
+                    bold: 'public/fonts/Roboto-Medium.ttf',
+                    italics: 'public/fonts/Roboto-Italic.ttf',
+                    bolditalics: 'public/fonts/Roboto-BoldItalic.ttf',
+                }
             };
             const printer = new pdfPrinter(fonts);
             var today = new Date();
             var month = today.getMonth() + 1;
             const token = Authorize.decode_token(req.cookies.token);
             //Descomentar siguiente línea de código:
-            //let CodigoActivoFijo = req.body.CodigoActivoFijo;
-
+            let CodigoActivoFijo = req.query.codigo;
             var vehiculo = await Vehicle.findOne({
                 where: {
-                    //Cambiar por -> CodigoActivoFijo: CodigoActivoFijo,
-                    CodigoActivoFijo: '1236-12563-123-1-2036',
+                    CodigoActivoFijo: CodigoActivoFijo,
                 },
                 include: [{
                     model: TipoVehiculo,
@@ -621,7 +627,7 @@ class Vehicle_controller {
             });
 
             let TipoCombustible = vehiculo.TipoCombustibleVehiculo;
-            switch(TipoCombustible){
+            switch (TipoCombustible) {
                 case 'D':
                     TipoCombustible = 'Diesel';
                     break;
@@ -632,84 +638,138 @@ class Vehicle_controller {
 
             // CUERPO DEL DOCUMENTO. NO TOCAR. >:V
             var docDefinition = {
-              info: {
-                //Nombre interno del documento.
-                title: 'Reporte lote de vehículos ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-              },
-              pageSize: 'LETTER',
-              footer: [
-                {
-                  text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                  alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+                info: {
+                    //Nombre interno del documento.
+                    title: 'Reporte lote de vehículos ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
                 },
-                {
-                  text: 'Generado por: ' + token.user.NombresUsuario + ' ' + token.user.ApellidosUsuario,
-                  alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-                },
-              ],
-              content: [{
-                image: 'public/images/logopgr1.png',
-                fit: [60, 60],
-                absolutePosition: {
-                  x: 50,
-                  y: 20
-                },
-                writable: true,
-              },
-              {
-                text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n',
-                alignment: 'center',
-                fontSize: '12'
-              },
-              {
-                text: 'Inventario de vehículo ' + vehiculo.CodigoActivoFijo + '\n\n\n',
-                alignment: 'center',
-                fontSize: '12'
-              },
-              {
-                table: {
-                  headerRows: 0,
-                  widths: ['*', '*'],
-                  body: [
-                    [{ text: 'Marca', bold: true }, vehiculo.MarcaVehiculo],
-                    [{ text: 'Modelo', bold: true }, vehiculo.ModeloVehiculo],
-                    [{ text: 'Color', bold: true }, vehiculo.ColorVehiculo],
-                    [{ text: 'Año', bold: true }, vehiculo.AnnoVehiculo],
-                    [{ text: 'Capacidad', bold: true }, vehiculo.CapacidadPersonaVehiculo],
-                    [{ text: 'Número de motor', bold: true }, vehiculo.NumeroMotorVehiculo],
-                    [{ text: 'Número de chasis', bold: true }, vehiculo.NumeroChasisVehiculo],
-                    [{ text: 'Kilometraje', bold: true }, vehiculo.KilometrajeActual],
-                    [{ text: 'Número de placa', bold: true }, vehiculo.NumeroPlacaVehiculo],
-                    [{ text: 'Cantidad de pasajeros', bold: true }, vehiculo.CapacidadPersonaVehiculo],
-                    [{ text: 'Estado del vehículo', bold: true }, vehiculo.TRA_EstadoVehiculo.EstadoVehiculo],
-                    [{ text: 'Tipo de vehículo', bold: true }, vehiculo.TRA_TipoVehiculo.TipoVehiculo],
-                    [{ text: 'Tipo de combustible', bold: true }, TipoCombustible],
-                    [{ text: 'Observaciones', bold: true }, vehiculo.ObservacionesVehiculo],
-                    [{ text: 'Procuraduría/Unidad asignada', bold: true }, vehiculo.TRA_OficinasResponsablesDeVehiculo.DescripcionOficinaResponsableVehiculo],
-                    [{ text: 'Id de solicitudes Folo-06 atendidas', bold: true }, 'N/A']
-                  ]
-                },
-              }],
+                pageSize: 'LETTER',
+                footer: [{
+                        text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                        alignment: 'right',
+                        fontSize: '9',
+                        italics: true,
+                        margin: [15, 0]
+                    },
+                    {
+                        text: 'Generado por: ' + token.user.NombresUsuario + ' ' + token.user.ApellidosUsuario,
+                        alignment: 'right',
+                        fontSize: '9',
+                        italics: true,
+                        margin: [15, 0]
+                    },
+                ],
+                content: [{
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 50,
+                            y: 20
+                        },
+                        writable: true,
+                    },
+                    {
+                        text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n',
+                        alignment: 'center',
+                        fontSize: '12'
+                    },
+                    {
+                        text: 'Inventario de vehículo ' + vehiculo.CodigoActivoFijo + '\n\n\n',
+                        alignment: 'center',
+                        fontSize: '12'
+                    },
+                    {
+                        table: {
+                            headerRows: 0,
+                            widths: ['*', '*'],
+                            body: [
+                                [{
+                                    text: 'Marca',
+                                    bold: true
+                                }, vehiculo.MarcaVehiculo],
+                                [{
+                                    text: 'Modelo',
+                                    bold: true
+                                }, vehiculo.ModeloVehiculo],
+                                [{
+                                    text: 'Color',
+                                    bold: true
+                                }, vehiculo.ColorVehiculo],
+                                [{
+                                    text: 'Año',
+                                    bold: true
+                                }, vehiculo.AnnoVehiculo],
+                                [{
+                                    text: 'Capacidad',
+                                    bold: true
+                                }, vehiculo.CapacidadPersonaVehiculo],
+                                [{
+                                    text: 'Número de motor',
+                                    bold: true
+                                }, vehiculo.NumeroMotorVehiculo],
+                                [{
+                                    text: 'Número de chasis',
+                                    bold: true
+                                }, vehiculo.NumeroChasisVehiculo],
+                                [{
+                                    text: 'Kilometraje',
+                                    bold: true
+                                }, vehiculo.KilometrajeActual],
+                                [{
+                                    text: 'Número de placa',
+                                    bold: true
+                                }, vehiculo.NumeroPlacaVehiculo],
+                                [{
+                                    text: 'Cantidad de pasajeros',
+                                    bold: true
+                                }, vehiculo.CapacidadPersonaVehiculo],
+                                [{
+                                    text: 'Estado del vehículo',
+                                    bold: true
+                                }, vehiculo.TRA_EstadoVehiculo.EstadoVehiculo],
+                                [{
+                                    text: 'Tipo de vehículo',
+                                    bold: true
+                                }, vehiculo.TRA_TipoVehiculo.TipoVehiculo],
+                                [{
+                                    text: 'Tipo de combustible',
+                                    bold: true
+                                }, TipoCombustible],
+                                [{
+                                    text: 'Observaciones',
+                                    bold: true
+                                }, vehiculo.ObservacionesVehiculo],
+                                [{
+                                    text: 'Procuraduría/Unidad asignada',
+                                    bold: true
+                                }, vehiculo.TRA_OficinasResponsablesDeVehiculo.DescripcionOficinaResponsableVehiculo],
+                                [{
+                                    text: 'Id de solicitudes Folo-06 atendidas',
+                                    bold: true
+                                }, 'N/A']
+                            ]
+                        },
+                    }
+                ],
             };
-        
+
             const doc = printer.createPdfKitDocument(docDefinition);
-        
+
             let chunks = [];
             let result;
             doc.on('data', (chunk) => {
-              chunks.push(chunk);
+                chunks.push(chunk);
             });
-        
+
             doc.on('end', () => {
-              result = Buffer.concat(chunks);
-              res.setHeader('content-type', 'application/pdf');
-              res.send(result);
+                result = Buffer.concat(chunks);
+                res.setHeader('content-type', 'application/pdf');
+                res.send(result);
             });
-        
+
             doc.end();
-          } catch (err) {
+        } catch (err) {
             console.log(err)
-          };
+        };
     }
 };
 
