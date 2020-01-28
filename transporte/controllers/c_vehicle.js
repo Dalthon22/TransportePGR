@@ -563,7 +563,8 @@ class Vehicle_controller {
                     {
                         table: {
                             headerRows: 1,
-                            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            dontBreakRows: true,
+                            widths: [50, 55, 58, 'auto', 80, 'auto', 'auto', 'auto', 'auto', 'auto'],
                             body: bodyData,
                         },
                     }
@@ -604,7 +605,6 @@ class Vehicle_controller {
             var today = new Date();
             var month = today.getMonth() + 1;
             const token = Authorize.decode_token(req.cookies.token);
-            //Descomentar siguiente línea de código:
             let CodigoActivoFijo = req.query.codigo;
             var vehiculo = await Vehicle.findOne({
                 where: {
