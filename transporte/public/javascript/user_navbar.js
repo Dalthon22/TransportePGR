@@ -13,11 +13,12 @@ var motorista = "<a href=\"/motoristas\" class=\"item\"><i class=\"address card 
 var controlRuta = "<a href=\"/asignar_motorista\" class=\"item\"><i class=\"clipboard outline icon\"></i>Control de ruta</a>";
 var mision = "<a href=\"/misiones\" class=\"item\"><i class=\"flag outline icon\"></i>Misiones</a>";
 var usuarios = "<a href=\"/usuarios\" class=\"item\"><i class=\"user tie icon\"></i>Usuarios</a>";
+var reportes = "<a href=\"/reportes\" class=\"item\"><i class=\"print icon\"></i>Reportes</a>";
 
 //Opciones de menu por Roles
-var adminIT = [] //[usuarios, adminPro];
+var adminIT = [reportes] //[usuarios, adminPro];
 var adminR = [rutas, controlRuta, adminFplaces, calConfig];
-var adminTrans = [flotaVehicular]; //, motorista, aprobarReq, mision];
+var adminTrans = [flotaVehicular, reportes]; //, motorista, aprobarReq, mision];
 var adminV = [asignarVal];
 var emp = [home, folo6];
 var uBoss = [aprobarFolos, home, folo6];
