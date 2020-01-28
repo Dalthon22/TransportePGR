@@ -477,7 +477,7 @@ class Vehicle_controller {
                 text: 'Tipo de vehículo',
                 bold: true
             }, {
-                text: 'Oficina responsable',
+                text: 'Procuraduría/Unidad asignada',
                 bold: true
             }];
             var bodyData = [];
@@ -581,6 +581,136 @@ class Vehicle_controller {
             console.log(err)
         };
     };
+
+    async reporteIndividual(req, res) {
+        try {
+            const fonts = {
+              Roboto: {
+                normal: 'public/fonts/Roboto-Regular.ttf',
+                bold: 'public/fonts/Roboto-Medium.ttf',
+                italics: 'public/fonts/Roboto-Italic.ttf',
+                bolditalics: 'public/fonts/Roboto-BoldItalic.ttf',
+              }
+            };
+            const printer = new pdfPrinter(fonts);
+            var today = new Date();
+            var month = today.getMonth() + 1;
+            const token = Authorize.decode_token(req.cookies.token);
+            //Descomentar siguiente línea de código:
+            //let CodigoActivoFijo = req.body.CodigoActivoFijo;
+
+            var vehiculo = await Vehicle.findOne({
+                where: {
+                    //Cambiar por -> CodigoActivoFijo: CodigoActivoFijo,
+                    CodigoActivoFijo: '1236-12563-123-1-2036',
+                },
+                include: [{
+                    model: TipoVehiculo,
+                    raw: true,
+                    required: false
+                }, {
+                    model: OficinaResponsableVehiculo,
+                    raw: true,
+                    required: false
+                }, {
+                    model: CodigoEstado,
+                    raw: true,
+                    required: false
+                }],
+                order: Sequelize.literal('CodigoActivoFijo ASC')
+            });
+
+            let TipoCombustible = vehiculo.TipoCombustibleVehiculo;
+            switch(TipoCombustible){
+                case 'D':
+                    TipoCombustible = 'Diesel';
+                    break;
+                case 'G':
+                    TipoCombustible = 'Gasolina';
+                    break;
+            };
+
+            // CUERPO DEL DOCUMENTO. NO TOCAR. >:V
+            var docDefinition = {
+              info: {
+                //Nombre interno del documento.
+                title: 'Reporte lote de vehículos ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+              },
+              pageSize: 'LETTER',
+              footer: [
+                {
+                  text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                  alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+                },
+                {
+                  text: 'Generado por: ' + token.user.NombresUsuario + ' ' + token.user.ApellidosUsuario,
+                  alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+                },
+              ],
+              content: [{
+                image: 'public/images/logopgr1.png',
+                fit: [60, 60],
+                absolutePosition: {
+                  x: 50,
+                  y: 20
+                },
+                writable: true,
+              },
+              {
+                text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n',
+                alignment: 'center',
+                fontSize: '12'
+              },
+              {
+                text: 'Inventario de vehículo ' + vehiculo.CodigoActivoFijo + '\n\n\n',
+                alignment: 'center',
+                fontSize: '12'
+              },
+              {
+                table: {
+                  headerRows: 0,
+                  widths: ['*', '*'],
+                  body: [
+                    [{ text: 'Marca', bold: true }, vehiculo.MarcaVehiculo],
+                    [{ text: 'Modelo', bold: true }, vehiculo.ModeloVehiculo],
+                    [{ text: 'Color', bold: true }, vehiculo.ColorVehiculo],
+                    [{ text: 'Año', bold: true }, vehiculo.AnnoVehiculo],
+                    [{ text: 'Capacidad', bold: true }, vehiculo.CapacidadPersonaVehiculo],
+                    [{ text: 'Número de motor', bold: true }, vehiculo.NumeroMotorVehiculo],
+                    [{ text: 'Número de chasis', bold: true }, vehiculo.NumeroChasisVehiculo],
+                    [{ text: 'Kilometraje', bold: true }, vehiculo.KilometrajeActual],
+                    [{ text: 'Número de placa', bold: true }, vehiculo.NumeroPlacaVehiculo],
+                    [{ text: 'Cantidad de pasajeros', bold: true }, vehiculo.CapacidadPersonaVehiculo],
+                    [{ text: 'Estado del vehículo', bold: true }, vehiculo.TRA_EstadoVehiculo.EstadoVehiculo],
+                    [{ text: 'Tipo de vehículo', bold: true }, vehiculo.TRA_TipoVehiculo.TipoVehiculo],
+                    [{ text: 'Tipo de combustible', bold: true }, TipoCombustible],
+                    [{ text: 'Observaciones', bold: true }, vehiculo.ObservacionesVehiculo],
+                    [{ text: 'Procuraduría/Unidad asignada', bold: true }, vehiculo.TRA_OficinasResponsablesDeVehiculo.DescripcionOficinaResponsableVehiculo],
+                    [{ text: 'Id de solicitudes Folo-06 atendidas', bold: true }, 'N/A']
+                  ]
+                },
+              }],
+            };
+        
+            const doc = printer.createPdfKitDocument(docDefinition);
+        
+            let chunks = [];
+            let result;
+            doc.on('data', (chunk) => {
+              chunks.push(chunk);
+            });
+        
+            doc.on('end', () => {
+              result = Buffer.concat(chunks);
+              res.setHeader('content-type', 'application/pdf');
+              res.send(result);
+            });
+        
+            doc.end();
+          } catch (err) {
+            console.log(err)
+          };
+    }
 };
 
 module.exports = new Vehicle_controller();

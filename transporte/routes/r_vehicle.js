@@ -70,4 +70,9 @@ router.get('/reporteLoteVehicular', (req, res) => {
     controller.reporteLoteVehicular(req, res);
 });
 
+//Cambiar esta ruta por un post.
+router.get('/reporteIndividual', (req, res) => {
+    controller.reporteIndividual(req, res);
+});
+
 module.exports = router
