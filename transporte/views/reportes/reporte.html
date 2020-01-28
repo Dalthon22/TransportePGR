@@ -1,0 +1,35 @@
+{% extends 'index.html'%}
+
+{% block views %}
+<div class="ui container">
+    <div class="ui vertically divided grid">
+        <div class="sixteen wide column">
+            <br>
+            <h1 id="title" class="ui blue dividing header"><i class="print icon"></i>Reportes</h1>
+            <table class="ui celled table datatable" id="mytable" name="mytable" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th style="width: 15em;">Cod</th>
+                        <th style="width: 10em;">Nombre</th>
+                        <th style="width: 10em;">Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Nombre del reporte</td>
+                        <td>Descripción del vehículo</td>
+                        <td>Iconos de acciones</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- JS principal -->
+<script src="/javascript/reportes/reportes.js"></script>
+<!-- JS principal -->
+
+
+{% endblock %}
