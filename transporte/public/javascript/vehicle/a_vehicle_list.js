@@ -39,7 +39,8 @@ $(function () {
         //alert('You click plate: ' + current_plate + " and the id is: " + index);
         url_list = encodeURI('vehiculos/reporteIndividual?' + "codigo=" + codigoActivoFijo);
         console.log(url_list);
-        location.href = url_list;
+        var win = window.open(url_list);
+        //location.href = url_list;
     });
 
 });
