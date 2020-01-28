@@ -46,4 +46,14 @@ router.get('/bills', (req, res) => {
     controller.getBills(req, res);
 });
 
+router.post('/getValesProv', (req, res) => {
+    console.log("Solicito los vales del prov: " + req.body.voucher_provider);
+    controller.valesProv(req, res);/* .then(vales => {
+        console.dir(vales)
+        res.send({
+            vales: vales
+        });
+    }); */
+});
+
 module.exports = router;

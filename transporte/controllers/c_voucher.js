@@ -281,6 +281,31 @@ class voucher_controllers {
             console.log(error);
         }
     };
-}
 
+    async valesProv(req, res) {
+        try {
+            console.log("proveedor: " + req.body.voucher_provider)
+            var vales = await Voucher.findAll({
+                where: {
+                    voucher_provider: req.body.voucher_provider,
+                    condition: "Disponible"
+                },
+                attributes: ['num_voucher', 'price', 'num_entry_bill']
+            });
+            var data =  [];
+            vales.forEach((vale, i) => {
+                var el = new Object();
+                el.num_voucher = vale.num_voucher;
+                el.price = vale.price;
+                el.num_entry_bill = vale.num_entry_bill;
+                data.push(el);
+            })
+            res.send({
+                data: data
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
 module.exports = new voucher_controllers();

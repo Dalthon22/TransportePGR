@@ -74,6 +74,7 @@ $('#container').css('display', 'block'); /* para arreglar un error de datatables
 
 /* Detona el metodo editar en el back mediante el id en un querystring */
 $(".check.green.circle.outline.link.icon").click(function (e) {
+    showLoadingDimmer();
     var id_folo = parseInt($(e.currentTarget).closest('td.btnDelete').find("input[name='folo06_id']").val());
     var tableData = $(this).parent().parent().children("td").map(function () {
         return $(this).text();
@@ -225,6 +226,42 @@ $('.ui.form').form({
     }
 });
 
+$('#proveedores').change(function () {
+    fillTablaVales();
+});
+
+function fillTablaVales() {
+    showLoadingDimmer();
+    var voucher_provider = $("#proveedores").val();
+    $.ajax({
+        url: '/vales/getValesProv',
+        async: true,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            voucher_provider: voucher_provider
+        },
+        success: (data) => {
+        }
+    }).done(function (data, textStatus, jqXHR) {
+        $('#tablaVales').find('tbody').detach();
+        $('#tablaVales').append($('<tbody>'));
+        if (data.data.length) {
+            for (var i = 0; i < data.data.length; i++) {
+                //Función que agrega las direcciones a la tabla al hacer clic en el botón "Agregar dirección"
+                //Inserción de elementos a la tabla
+                $('#tablaVales tbody').append("<tr>" +
+                    "<td>" + "<div class='ui checkbox'><input type='checkbox' id='row-selector'><label></label></div>" + "</td>" +
+                    "<td>" + data.data[i].num_voucher + "</td>" +
+                    "<td>" + data.data[i].price + "</td>" +
+                    "<td>" + data.data[i].num_entry_bill + "</td>" +
+                    "</tr>");
+            }
+        }$('.segment').dimmer('hide');
+    })
+};
+
+
 function setInputFilter(textbox, inputFilter) {
     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
         textbox.addEventListener(event, function () {
@@ -245,5 +282,6 @@ function setInputFilter(textbox, inputFilter) {
 setInputFilter(document.getElementById("mileage_inserted"), function (value) {
     return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1000001);
 });
+
 
 
