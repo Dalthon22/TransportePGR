@@ -62,6 +62,27 @@ class user_controller {
             console.log(err);
         }
     }
+    //15/01/20 Jorge Sibrian
+    //Parametro: email Campo único en la tabla
+    //Si se buscará por otro parametro modificar este método
+    async getByUserCod(cod_usuario, password, req, res) {
+        try {
+            let user = await User.findOne({
+                attributes: ['CodigoUsuario', 'ApellidosUsuario', 'NombresUsuario', 'CodigoUsuarioSupervisor'],
+                where: {
+                    CodigoUsuario: cod_usuario,
+                    ClaveUsuario: password,
+                }
+            });
+            //console.dir(user);
+            return user
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+
 
     /*Obtiene el listado de los usarios y los renderiza en pantalla*/
     async getList(req, res) {

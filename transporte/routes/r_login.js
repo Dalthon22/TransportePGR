@@ -15,14 +15,21 @@ router.get('/', (req, res) => {
 });
 
 router.post('/auth', async (req, res) => {
-    var username = req.body.username;
-    var password = req.body.password;
-    if (username && password) {
-        await auth_controller.log_in(username, password, req, res);
-    } else {
+    try {
+        var cod_usuario = req.body.cod_usuario;
+        var password = req.body.password;
+        if (cod_usuario && password) {
+            await auth_controller.log_in(cod_usuario, password, req, res);
+        } else {
+            res.render('../views/login.html', {
+                err_message: 'Usuario o contraseña no han sido ingresados',
+                err_title: 'Datos incompletos'
+            });
+        }
+    } catch (err) {
         res.render('../views/login.html', {
-            err_message: 'Usuario o contraseña no han sido ingresados',
-            err_title: 'Datos incompletos'
+            err_message: 'Por favor intente de nuevo, si el error persiste contacte a soporte técnico',
+            err_title: 'Ocurrió un error mientras se iniciba la sesión'
         });
     }
 });

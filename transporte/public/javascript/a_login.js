@@ -12,28 +12,24 @@ $(function () {
     $(".ui.form")
         .form({
             fields: {
-                email: {
-                    identifier: "e-mail",
+                cod_usuario: {
+                    identifier: "cod_usuario",
                     rules: [{
-                            type: "empty",
-                            prompt: "Por favor introduzca su correo electronico"
-                        },
-                        {
-                            type: "e-mail",
-                            prompt: "Porfavor introduzca una direccion de correo electronico valida"
-                        }
-                    ]
+                        type: "empty",
+                        prompt: "Por favor introduzca su código de usuario"
+                    }]
                 },
                 password: {
                     identifier: "password",
                     rules: [{
                             type: "empty",
                             prompt: "Por favor introduzca su contraseña"
-                        },
-                        {
-                            type: "length[3]",
-                            prompt: "La contraseña deve tener al menos 3 caracteres"
                         }
+                        /*DEFINIR LA LONGITUD DE LA CONTRASEÑA ,
+                                                {
+                                                    type: "length[3]",
+                                                    prompt: "La contraseña deve tener al menos 3 caracteres"
+                                                } */
                     ]
                 }
             }
