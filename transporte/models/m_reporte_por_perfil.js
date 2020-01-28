@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 const db = require('../dbconfig/conex');
 
-const UserRol = db.define('SIS_UsuariosPorPerfil', {}, {
+
+const ReportePorPerfil = db.define('TRA_ReportePorPefil', {}, {
     underscored: false,
     timestamps: false,
     freezeTableName: true,
 });
 
-UserRol.removeAttribute('id');
 
-module.exports = UserRol;
+module.exports = ReportePorPerfil;

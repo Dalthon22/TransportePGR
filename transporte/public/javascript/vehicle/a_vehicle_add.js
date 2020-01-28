@@ -157,6 +157,12 @@ $(function () {
                     rules: [{
                         type: 'empty',
                         prompt: 'Por favor ingrese el año del vehículo'
+                    }, {
+                        type: 'minLength[4]',
+                        prompt: 'El valor debe contener únicamente 4 caracteres'
+                    }, {
+                        type: 'maxLength[4]',
+                        prompt: 'El valor debe contener únicamente 4 caracteres'
                     }]
                 },
                 state: {
@@ -244,15 +250,23 @@ function Masking(value, pattern) {
 }
 
 /*
+Evita el ingreso de mas de 21 caracteres al campo
+27012020_DD
+*/
+$('#code').keydown(function (event) {
+    return $(this).val().length <= 20 || event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 35 && event.keyCode <= 40 ? true : false;
+})
+
+/*
 Impide el ingreso de cualquier caracter que no se numero
 06012019_DD
  */
 $("#seats").keydown(function (event) {
-    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 35 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
 })
 
 $("#mileage").keydown(function (event) {
-    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 37 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
+    return event.keyCode === 9 || event.keyCode === 8 || event.keyCode === 46 || event.keyCode >= 35 && event.keyCode <= 40 ? true : !isNaN(Number(event.key));
 })
 
 $("#km_input").keydown(function (event) {
@@ -285,6 +299,19 @@ $("#chassis").keydown(function (event) {
             (event.keyCode >= 37 && event.keyCode <= 40) ||
             !isNaN(Number(event.key))) ? false : true;
 })
+
+/*
+Impide el ingreso de la letra i,o,q,ñ
+06012019_DD
+ */
+$("#vin").keydown(function (event) {
+    return event.keyCode === 73 || event.keyCode === 79 || event.keyCode === 81 || event.keyCode === 192 ||
+        !((event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 9) ||
+            (event.keyCode >= 64 && event.keyCode <= 90) ||
+            (event.keyCode >= 37 && event.keyCode <= 40) ||
+            !isNaN(Number(event.key))) ? false : true;
+})
+
 
 /*
 Impide el ingreso de la letra ñ y caracteres especiales

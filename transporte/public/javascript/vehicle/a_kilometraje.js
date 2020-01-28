@@ -63,11 +63,10 @@ $('#km_cb').checkbox('enable'); //.checkbox('uncheck');
 //Para registrar si hay cambio en el kilometraje del vehículo
 $('#km_cb').checkbox({
     onChecked: function () {
-
         $('#km_input').removeAttr('readonly');
     },
     onUnchecked: function () {
-        $('#km_input').attr('readonly');
+        $('#km_input').attr('readonly', 'true');
 
         //Setea el kilometraje actual
         //DD:No necesario porque justo arriba titene el valor
