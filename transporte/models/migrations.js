@@ -19,6 +19,8 @@ const Route_conditions = require('../models/m_route_conditions'); */
 const User = require('./m_usuario');
 const Rol = require('./m_perfil');
 const UserRol = require('./m_usuario_por_perfil');
+const Reporte = require('./m_reporte');
+const ReportePorPerfil = require('./m_reporte_por_perfil');
 /* const ProcurementBill = require('./m_bill');
 const CosumedBill = require('./m_bill_close');
 const Mision = require('../models/m_mision');
@@ -91,6 +93,12 @@ class Migration {
             alter: false
         });
         Rol.sync({
+            alter: false
+        });
+        Reporte.sync({
+            alter: false
+        });
+        ReportePorPerfil.sync({
             alter: false
         });
         /* Vehicle_folo6_assign.sync({
