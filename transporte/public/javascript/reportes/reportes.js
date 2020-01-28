@@ -1,5 +1,14 @@
 $(function () {
     fillTable();
+
+    $(".ui.primary.button").click(function () {
+        var reporteId = $(this).attr('value');
+        console.log(reporteId);
+        //alert('You click plate: ' + current_plate + " and the id is: " + index);
+        url_list = encodeURI('vehiculos/reporteLoteVehicular');
+        console.log(url_list);
+        var win = window.open(url_list);
+    });
 })
 
 //llenar tabla

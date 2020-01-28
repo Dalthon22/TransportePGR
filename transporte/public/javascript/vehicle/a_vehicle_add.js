@@ -57,8 +57,8 @@ $(function () {
                         },
                         {
                             type: 'regExp',
-                            value: /^(N|M|P|AB|MB)(\d{3,6}$)/i,
-                            prompt: 'El número de placa debe tener este este formato: (N|M|P|AB|MB)###(###)'
+                            value: /^(N|M|P|C)(\d{3,6}$)/i,
+                            prompt: 'El número de placa debe tener este este formato: (N|M|P|C)###(###)'
                         }
                     ]
                 },
@@ -123,20 +123,9 @@ $(function () {
                 model: {
                     identifier: 'model',
                     rules: [{
-                            type: 'empty',
-                            prompt: 'Por favor ingrese el modelo'
-                        },
-                        {
-                            type: 'regExp',
-                            value: /([A-Za-z]+)/gi, //Obligar a que contenga al menos una letra
-                            prompt: 'El nombre del modelo debe contener al menos una letra'
-                        },
-                        {
-                            type: 'minLength[2]',
-                            prompt: 'Debe contener al menos dos caracteres'
-                        },
-
-                    ]
+                        type: 'empty',
+                        prompt: 'Por favor ingrese el modelo'
+                    }]
                 },
                 type: {
                     identifier: 'type',
