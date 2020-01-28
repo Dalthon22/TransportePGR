@@ -19,65 +19,23 @@ router.get('/', (req, res) => {
     var today = new Date();
     var month = today.getMonth() + 1;
     let token = jwt.verify(req.cookies.token, secret_token);
-    var columns = [{
-      text: 'Marca',
-      bold: true
-    }, {
-      text: 'Modelo',
-      bold: true
-    }, {
-      text: 'Color',
-      bold: true
-    }, {
-      text: 'Año',
-      bold: true
-    }, {
-      text: 'Número de motor',
-      bold: true
-    }, {
-      text: 'Número de chasis',
-      bold: true
-    }, {
-      text: 'Kilometraje',
-      bold: true
-    }, {
-      text: 'Número de placa',
-      bold: true
-    }, {
-      text: 'Tipo de vehículo',
-      bold: true
-    }, {
-      text: 'Oficina responsable',
-      bold: true
-    }];
-    var bodyData = [];
-    var bodyRow = [];
-    bodyData.push(columns);
     // CUERPO DEL DOCUMENTO. NO TOCAR. >:V
     var docDefinition = {
       info: {
         //Nombre interno del documento.
         title: 'Reporte lote de vehículos ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
       },
-      pageSize: 'A4',
-      pageOrientation: 'landscape',
-      footer:
-        function (currentPage, pageCount) {
-          return [
-            {
-              text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-              alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-            },
-            {
-              text: 'Generado por: ' + token.user.first_name + ' ' + token.user.last_name,
-              alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-            },
-            {
-              text: 'Página ' + currentPage.toString() + ' de ' + pageCount.toString(),
-              alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
-            }
-          ];
+      pageSize: 'LETTER',
+      footer: [
+        {
+          text: 'Fecha de generación: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+          alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
         },
+        {
+          text: 'Generado por: ' + token.user.first_name + ' ' + token.user.last_name,
+          alignment: 'right', fontSize: '9', italics: true, margin: [15, 0]
+        },
+      ],
       content: [{
         image: 'public/images/logopgr1.png',
         fit: [60, 60],
@@ -88,15 +46,37 @@ router.get('/', (req, res) => {
         writable: true,
       },
       {
-        text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n\n\n',
+        text: 'Procuraduría General de la República - Unidad de Transporte\n\n\n',
+        alignment: 'center',
+        fontSize: '12'
+      },
+      {
+        text: 'Inventario de vehículo #\n\n\n',
         alignment: 'center',
         fontSize: '12'
       },
       {
         table: {
-          headerRows: 1,
-          widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-          body: bodyData,
+          headerRows: 0,
+          widths: ['*', '*'],
+          body: [
+            [{ text: 'Marca', bold: true }, 'Val 2'],
+            [{ text: 'Modelo', bold: true }, 'Val 2'],
+            [{ text: 'Color', bold: true }, 'Val 2'],
+            [{ text: 'Año', bold: true }, 'Val 2'],
+            [{ text: 'Capacidad', bold: true }, 'Val 2'],
+            [{ text: 'Número de motor', bold: true }, 'Val 2'],
+            [{ text: 'Número de chasis', bold: true }, 'Val 2'],
+            [{ text: 'Kilometraje', bold: true }, 'Val 2'],
+            [{ text: 'Número de placa', bold: true }, 'Val 2'],
+            [{ text: 'Cantidad de pasajeros', bold: true }, 'Val 2'],
+            [{ text: 'Estado del vehículo', bold: true }, 'Val 2'],
+            [{ text: 'Tipo de vehículo', bold: true }, 'Val 2'],
+            [{ text: 'Tipo de combustible', bold: true }, 'Val 2'],
+            [{ text: 'Observaciones', bold: true }, 'Val 2'],
+            [{ text: 'Procuraduría/Unidad asignada', bold: true }, 'Val 2'],
+            [{ text: 'Id de solicitudes Folo-06 atendidas', bold: true }, 'Val 2']
+          ]
         },
       }],
     };
