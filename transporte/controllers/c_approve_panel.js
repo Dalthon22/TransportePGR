@@ -184,7 +184,7 @@ class approve_panel_controller {
             let folo06id = await req.body.folo6_id_Amodal; /* se consigue el id del folo */
             /* se actualiza la tabla de estados del folo correspondie   nte */
             /* var idboss = session.getActual.idemployee(); */
-
+            console.log("usuario: " + user.id)
             await folo6_approve.update({
                 transport_unit_approve: 1,
                 aprove_tunit_boss_id: user.id

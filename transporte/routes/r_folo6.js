@@ -83,11 +83,13 @@ router.get('/add', (req, res) => {
     controller.getDepartmentList(req, res);
 });
 //Dirección que genera el pdf
-router.post('/createPDF', (req, res) => {
-    controller.createPDF(req, res);
-});
+
 router.post('/showPDF', (req, res) => {
     controller.showAndcreatePDF(req, res);
+});
+
+router.post('/showPDF_Folo13', (req, res) => {
+    controller.showAndcreatePDF_Folo13(req, res);
 });
 
 router.post('/deletePlacesContainer', (req, res) => {
@@ -96,5 +98,13 @@ router.post('/deletePlacesContainer', (req, res) => {
 
 router.post('/createPlacesContainer', (req, res) => {
     controller.createPlacesContainer(req, res);
+});
+
+router.post('/esDiaHabil', (req, res) => {
+    controller.esDiaHabil(req, res);
+});
+
+router.post('/esHoraHabil', (req, res) => {
+    controller.esHoraHabil(req, res);
 });
 module.exports = router;
