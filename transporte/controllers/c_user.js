@@ -70,15 +70,6 @@ class user_controller {
     async getByUserCod(cod_usuario, password, req, res) {
         try {
             let user;
-            /*FORMA ANTERIOR DE CONSULTAR SIN FUNCION
-            await User.findOne({
-                           attributes: ['CodigoUsuario', 'ApellidosUsuario', 'NombresUsuario', 'CodigoUsuarioSupervisor'],
-                           where: {
-                               CodigoUsuario: cod_usuario,
-                               ClaveUsuario: password,
-                           }
-                       }); */
-
             /* Consulta a la tabla de SIS_USUARIO */
             await db.query('SELECT CodigoUsuario,ApellidosUsuario,NombresUsuario,CodigoUsuarioSupervisor FROM SIS_Usuarios WHERE CodigoUsuario = ? AND  dbo.SIS_FU_DesencriptarClave(ClaveUsuario) = ?', {
                 replacements: [cod_usuario, password],
