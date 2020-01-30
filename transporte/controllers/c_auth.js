@@ -30,11 +30,6 @@ class auth_controller {
             let user = await User_Controller.getByUserCod(cod_usuario, password, req, res)
             if (user) {
                 console.log("usuario encontrado");
-                /* Consulta a la tabla de SIS_USUARIO */
-                /*  await db.query('SELECT * FROM SIS_Usuarios WHERE CorreoElectronicoUsuario = ? AND ClaveUsuario = ?', {
-                         replacements: [username, password],
-                         type: db.QueryTypes.SELECT */
-
                 console.dir(user);
 
                 let roles = await user_role_controller.getList(user);

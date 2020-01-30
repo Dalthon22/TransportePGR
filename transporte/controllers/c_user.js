@@ -7,6 +7,8 @@ const Unit_Controller = require('./c_unit');
 const Role_Controller = require('./c_role');
 const Employee_Controller = require('./c_employee');
 
+const db = require('../dbconfig/conex');
+
 //Manejo de fechas
 var moment = require('moment');
 moment.locale("Es-SV")
@@ -67,12 +69,22 @@ class user_controller {
     //Si se buscará por otro parametro modificar este método
     async getByUserCod(cod_usuario, password, req, res) {
         try {
-            let user = await User.findOne({
-                attributes: ['CodigoUsuario', 'ApellidosUsuario', 'NombresUsuario', 'CodigoUsuarioSupervisor'],
-                where: {
-                    CodigoUsuario: cod_usuario,
-                    ClaveUsuario: password,
-                }
+            let user;
+            /*FORMA ANTERIOR DE CONSULTAR SIN FUNCION
+            await User.findOne({
+                           attributes: ['CodigoUsuario', 'ApellidosUsuario', 'NombresUsuario', 'CodigoUsuarioSupervisor'],
+                           where: {
+                               CodigoUsuario: cod_usuario,
+                               ClaveUsuario: password,
+                           }
+                       }); */
+
+            /* Consulta a la tabla de SIS_USUARIO */
+            await db.query('SELECT CodigoUsuario,ApellidosUsuario,NombresUsuario,CodigoUsuarioSupervisor FROM SIS_Usuarios WHERE CodigoUsuario = ? AND  dbo.SIS_FU_DesencriptarClave(ClaveUsuario) = ?', {
+                replacements: [cod_usuario, password],
+                type: db.QueryTypes.SELECT
+            }).then(data => {
+                user = data[0];
             });
             //console.dir(user);
             return user
