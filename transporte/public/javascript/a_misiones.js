@@ -1,8 +1,4 @@
-/*
-Animaciones del Front del formulario de ingresar Procu 
-06102019_DD
-*/
-
+var title, message, clss, query1;
 var filterValue, myTable;
 var tableCells = "<tbody> <tr> <td> 1 </td> <td> <i class =\"yellow big edit icon\" value=\"\" >< /i> <i class =\"red big window close icon\" value =\"\" >< /i> </td > </tr> </tbody>"
 
@@ -15,6 +11,18 @@ $(function () {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         }
     });
+
+    title = getParameterByName('title');
+    message = getParameterByName('message');
+    clss = getParameterByName('class');
+
+    console.log(title);
+    console.log(message);
+    console.log(clss);
+
+    if (title && message && clss) {
+        AddToast(title, clss, message);
+    }
 
     /* Detona el metodo editar en el back mediante el id en un querystring */
     $(".pencil.yellow.alternate.link.icon").click(function () {
@@ -72,3 +80,33 @@ $(function () {
         });
 
 });
+
+function AddToast(_title, _class, _message) {
+    $('body')
+        .toast({
+            title: _title,
+            showIcon: true,
+            class: _class,
+            position: 'top right',
+            displayTime: 0,
+            closeIcon: true,
+            message: _message,
+            transition: {
+                showMethod: 'zoom',
+                showDuration: 100,
+                hideMethod: 'fade',
+                hideDuration: 500
+            }
+        });
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    if (results == null)
+        return "";
+    else
+        return decodeURIComponent(results[1].replace(/\+/g, " "));
+}

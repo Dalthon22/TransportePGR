@@ -1,4 +1,5 @@
 const Mision = require('../models/m_mision');
+const querystring = require('querystring');
 const {
   validationResult
 } = require('express-validator');
@@ -64,10 +65,21 @@ class Mision_controller {
         Mision.create({
           Nombre_mision: name
         });
-        res.redirect('/misiones');
+        const query = querystring.stringify({
+          title: "Guardado exitoso",
+          message: "Misi&oacute;n registrada",
+          class: "success"
+        });
+        res.redirect('/misiones?&' + query);
       }
     } catch (error) {
       console.log(error);
+      const query = querystring.stringify({
+        title: "Guardado Fallido",
+        message: "Misi&oacute;n no pudo ser registrada" + error,
+        class: "error"
+      })
+      res.redirect('/misiones?&' + query);
     };
   };
 
@@ -96,10 +108,21 @@ class Mision_controller {
             id: Misi_id
           }
         });
-        res.redirect('/misiones');
+        const query = querystring.stringify({
+          title: "Guardado exitoso",
+          message: "Misi&oacute; actualizada",
+          class: "success"
+        });
+        res.redirect('/misiones?&' + query);
       };
     } catch (error) {
       console.log(error);
+      const query = querystring.stringify({
+        title: "Guardado Fallido",
+        message: "Misi&oacute;n no pudo ser actualizado" + error,
+        class: "error"
+      })
+      res.redirect('/misiones?&' + query);
     }
   };
   async deleteMisiones(req, res) {
@@ -113,9 +136,19 @@ class Mision_controller {
           id: Misi_id
         }
       });
-      res.redirect('/misiones');
+      const query = querystring.stringify({
+        title: "Dar de Baja exitoso",
+        message: "Misi&oacute;n actualizada",
+        class: "success"
+      });
+      res.redirect('/misiones?&' + query);
     } catch (error) {
-      res.redirect('/misiones');
+      const query = querystring.stringify({
+        title: "Error al Actualizar",
+        message: "Misi&oacute;n NO actualizada" + error,
+        class: "error"
+      });
+      res.redirect('/misiones?&' + query);
     }
   };
 
@@ -130,9 +163,20 @@ class Mision_controller {
           id: Misi_id
         }
       });
-      res.redirect('/misiones');
+      const query = querystring.stringify({
+        title: "Activar exitoso",
+        message: "Misi&oacute;n actualizada",
+        class: "success"
+      });
+      res.redirect('/misiones?&' + query);
     } catch (error) {
-      res.redirect('/misiones');
+      console.log(error);
+      const query = querystring.stringify({
+        title: "Error al Actualizar",
+        message: "Misi&oacute;n NO actualizada" + error,
+        class: "error"
+      });
+      res.redirect('/misiones?&' + query);
     }
   };
 
