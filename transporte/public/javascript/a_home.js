@@ -337,8 +337,8 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                     /* $('#progressTable1').find('tbody').detach();
                     $('#progressTable1').append($('<tbody>')); */
                     /* console.log("lo que quiero que se vea" + data.folo.estado.unit_cancel_detail); */
-                    console.log(data.folo.estado.gas);
-                    if (data.folo.estado.gas) {
+                    /*  console.log(data.folo.estado.gas); */
+                    /* if (data.folo.estado.gas) {
                         var value = 1;
                         progressBar(value);
                     } else if (data.folo.estado.car) {
@@ -363,7 +363,7 @@ $('#mytable tbody').on('click', '.file.alternate.outline.link.icon', function (e
                         progressBar(value, motivo);
                     } else {
                         progressBar();
-                    }
+                    } */
                     $('#addressTable1').find('tbody').detach();
                     $('#addressTable1').append($('<tbody>'));
                     if (data.folo.fplaces.length) {

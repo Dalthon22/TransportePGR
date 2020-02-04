@@ -124,15 +124,16 @@ class folo6_controllers {
             var mision = folo.mission;
             var observaciones = folo.observation;
             var horasNoHabiles = ['12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM', '2:30 AM',
-            '3:00 AM', '3:30 AM', '4:00 AM', '4:30 AM', '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM',
-            '7:00 AM', '7:30 AM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
-            '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM',
-            '11:00 PM', '11:30 PM']; //Para verificar si las horas de salida o returno son NO hábiles.
+                '3:00 AM', '3:30 AM', '4:00 AM', '4:30 AM', '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM',
+                '7:00 AM', '7:30 AM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
+                '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM',
+                '11:00 PM', '11:30 PM'
+            ]; //Para verificar si las horas de salida o returno son NO hábiles.
             var crearFOLO13; //Variable a enviar a la vista en el response.
             var diaSemana = f1.weekday(); //Método para obtener qué día de la semana es de la fecha provista.
             console.log(diaSemana);
             //0 = Lunes, 6 = Domingo. Si la fecha es sábado o domingo, se genera FOLO-13.
-            if(diaSemana == 5 || diaSemana == 6){
+            if (diaSemana == 5 || diaSemana == 6) {
                 crearFOLO13 = "Sí";
             } else {
                 crearFOLO13 = "No";
@@ -141,9 +142,9 @@ class folo6_controllers {
             console.log(horaRetorno);
             /*Horas de salida y retorno serán tratadas como hábiles hasta que sea encontrada en el arreglo 
             de 'horasNoHabiles'. De encontrarse se rompe el ciclo.*/
-            for (var ele of horasNoHabiles){
+            for (var ele of horasNoHabiles) {
                 //Condicionales separadas por cada hora para más claridad.
-                if(ele == horaSalida) {
+                if (ele == horaSalida) {
                     crearFOLO13 = "Sí";
                     console.log(horaSalida + ' no es una hora hábil.');
                     break;
@@ -152,7 +153,7 @@ class folo6_controllers {
                     console.log(horaSalida + ' es una hora hábil.');
                 };
 
-                if(ele == horaRetorno) {
+                if (ele == horaRetorno) {
                     crearFOLO13 = "Sí";
                     console.log(horaRetorno + ' no es una hora hábil.');
                     break;
@@ -1016,108 +1017,113 @@ class folo6_controllers {
             var month = today.getMonth() + 1;
             var docDefinition = {
                 info: {
-                  //Nombre interno del documento.
-                  title: 'Hoja de Misión Oficial FOLO-13 ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                    //Nombre interno del documento.
+                    title: 'Hoja de Misión Oficial FOLO-13 ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
                 },
                 pageSize: 'LETTER',
                 footer: {
-                  text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
-                  alignment: 'right', fontSize: '8', color: 'gray', italics: true, margin: [15, 5]
+                    text: 'Fecha de impresión: ' + today.getDate() + '/' + month + '/' + today.getFullYear(),
+                    alignment: 'right',
+                    fontSize: '8',
+                    color: 'gray',
+                    italics: true,
+                    margin: [15, 5]
                 },
                 content: [{
-                  image: 'public/images/logopgr1.png',
-                  fit: [60, 60],
-                  absolutePosition: {
-                    x: 50,
-                    y: 20
-                  },
-                  writable: true,
-                },
-                {
-                  text: 'FORMULARIO CONTROL DE MISIONES OFICIALES',
-                  alignment: 'center',
-                  bold: true,
-                  italics: true,
-                  fontSize: '16'
-                },
-                {
-                  text: 'PARA DÍAS Y HORAS NO HÁBILES',
-                  alignment: 'center',
-                  bold: true,
-                  italics: true,
-                  fontSize: '16'
-                },
-                {
-                  text: 'UNIDAD DE LOGÍSTICA',
-                  alignment: 'center',
-                  bold: true,
-                  italics: true,
-                  fontSize: '16'
-                },
-                {
-                  text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
-                  alignment: 'center',
-                  bold: true,
-                  italics: true,
-                  fontSize: '16'
-                },
-                {
-                  text: '\n\nFOLO-13',
-                  alignment: 'right',
-                  bold: true,
-                  italics: true
-                },
-                {
-                  text: [{
-                    text: 'Fecha: ',
-                    bold: true
-                  }, '' + fechaSolicitud]
-                },
-                {
-                  text: [{
-                    text: '\nUnidad o procuraduría auxiliar: ',
-                    bold: true
-                  }, '' + unidadSolicitante],
-                },
-                {
-                  text: [{
-                    text: '\nSe autoriza a: ',
-                    bold: true
-                  }, '' + personaSolicitante],
-                },
-                {
-                  text: [{
-                    text: '\nVehículo placa #: ',
-                    bold: true
-                  }, ''],
-                },
-                {
-                  text: [{
-                    text: '\nMisión: ',
-                    bold: true
-                  }, '' + mision],
-                },
-                {
-                  text: [{
-                    text: '\nPeríodo de la misión: ',
-                    bold: true
-                  }, ''],
-                },
-                {
-                  text: '\nAutorizado por: ',
-                  bold: true,
-                  preserveLeadingSpaces: true
-                },
-                {
-                  text: '\n\n\n\n\n\n___________________________________                 _________________________________________',
-                  alignment: 'center'
-                },
-                {
-                  text: 'Firma y sello de autorizado                                 Nombre y firma del motorista o conductor',
-                  preserveLeadingSpaces: true,
-                  alignment: 'center',
-                }],
-              };
+                        image: 'public/images/logopgr1.png',
+                        fit: [60, 60],
+                        absolutePosition: {
+                            x: 50,
+                            y: 20
+                        },
+                        writable: true,
+                    },
+                    {
+                        text: 'FORMULARIO CONTROL DE MISIONES OFICIALES',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'PARA DÍAS Y HORAS NO HÁBILES',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'UNIDAD DE LOGÍSTICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA',
+                        alignment: 'center',
+                        bold: true,
+                        italics: true,
+                        fontSize: '16'
+                    },
+                    {
+                        text: '\n\nFOLO-13',
+                        alignment: 'right',
+                        bold: true,
+                        italics: true
+                    },
+                    {
+                        text: [{
+                            text: 'Fecha: ',
+                            bold: true
+                        }, '' + fechaSolicitud]
+                    },
+                    {
+                        text: [{
+                            text: '\nUnidad o procuraduría auxiliar: ',
+                            bold: true
+                        }, '' + unidadSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nSe autoriza a: ',
+                            bold: true
+                        }, '' + personaSolicitante],
+                    },
+                    {
+                        text: [{
+                            text: '\nVehículo placa #: ',
+                            bold: true
+                        }, ''],
+                    },
+                    {
+                        text: [{
+                            text: '\nMisión: ',
+                            bold: true
+                        }, '' + mision],
+                    },
+                    {
+                        text: [{
+                            text: '\nPeríodo de la misión: ',
+                            bold: true
+                        }, ''],
+                    },
+                    {
+                        text: '\nAutorizado por: ',
+                        bold: true,
+                        preserveLeadingSpaces: true
+                    },
+                    {
+                        text: '\n\n\n\n\n\n___________________________________                 _________________________________________',
+                        alignment: 'center'
+                    },
+                    {
+                        text: 'Firma y sello de autorizado                                 Nombre y firma del motorista o conductor',
+                        preserveLeadingSpaces: true,
+                        alignment: 'center',
+                    }
+                ],
+            };
             const doc = printer.createPdfKitDocument(docDefinition);
             let chunks = [];
             let result;
@@ -1170,7 +1176,7 @@ class folo6_controllers {
                 el.created_at = moment.utc(folo.created_at).utcOffset("-06:00").format("DD/MM/YYYY");
                 el.employee_id = folo.employee_id;
             });
-            console.log(el.id);
+            /* console.log(el.id);
             var estados = await Apanel.findAll({
                 where: {
                     folo06_id: el.id
@@ -1189,9 +1195,8 @@ class folo6_controllers {
                 e.car = estado.car;
                 e.gas = estado.gasoline;
                 el.estado = e;
-            });
-            /* if(estado.SGT_Folo6_Aprovado.gasoline){
-            } */
+            }); */
+            
             //Contador de lugares frecuentes y direcciones
             el.b = 0
             //Contendra el total de direcciones que se han creaddo para el folo que se solicita
@@ -1874,6 +1879,12 @@ class folo6_controllers {
                 }
             });
 
+            /*  await Apanel.destroy({
+                where: {
+                    folo_id: req.params.id
+                }
+            });
+ */
             /* Elimina el folo */
             var folo = await Folo6.destroy({
                 where: {
@@ -1963,7 +1974,7 @@ class folo6_controllers {
             //Se convierte la fecha a un objeto 'moment' para su manipulación
             var date = moment(fecha, "DD/MM/YYYY");
             //Variable que indica qué día de la semana es. 0 = Lunes, 6 = Domingo
-            var day = date.weekday(); 
+            var day = date.weekday();
             day = day.toString();
             console.log(day);
             res.send(day); //Se envía dato a la vista para mostrar mensaje de advertencia.
@@ -1979,9 +1990,10 @@ class folo6_controllers {
             let hora = req.body.hora;
             var horasNoHabiles = ['0:0', '0:30', '1:0', '1:30', '2:0', '2:30', '3:0', '3:30', '4:0', '4:30',
                 '5:0', '5:30', '6:0', '6:30', '7:0', '7:30', '16:30', '17:0', '17:30', '18:0', '18:30', '19:0',
-                '19:30', '20:0', '20:30', '21:0', '21:30', '22:0', '22:30', '23:0', '23:30'];
+                '19:30', '20:0', '20:30', '21:0', '21:30', '22:0', '22:30', '23:0', '23:30'
+            ];
             var habil; //Bandera
-            for (var ele of horasNoHabiles){
+            for (var ele of horasNoHabiles) {
                 if (hora == ele) {
                     habil = 'no';
                     break;
