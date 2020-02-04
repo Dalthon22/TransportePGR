@@ -22,9 +22,9 @@ const UserRol = require('./m_usuario_por_perfil');
 const Reporte = require('./m_reporte');
 const ReportePorPerfil = require('./m_reporte_por_perfil');
 /* const ProcurementBill = require('./m_bill');
-const CosumedBill = require('./m_bill_close');
+const CosumedBill = require('./m_bill_close');*/
 const Mision = require('../models/m_mision');
-const Driver = require('./m_driver');
+/*const Driver = require('./m_driver');
 const Driver_assign = require('./m_driver_assign');
 const Vehicle_folo6_assign = require('../models/m_vehicle_folo6_assign'); */
 
@@ -34,11 +34,11 @@ class Migration {
         City.sync();
         Driver.sync({
             alter: false
-        });
+        }); */
         Mision.sync({
             alter: false
         });
-        Address.sync({
+        /* Address.sync({
             alter: false
         });
         Procuraduria.sync({
