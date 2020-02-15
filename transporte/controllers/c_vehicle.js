@@ -149,7 +149,7 @@ class Vehicle_controller {
     async getList(req, res) {
         try {
             var vehicles = [];
-            var vehiculos = await Vehicle.findAll({
+            /* var vehiculos = await Vehicle.findAll({
                 attributes: ['CodigoActivoFijo', 'NumeroPlacaVehiculo',
                     'MarcaVehiculo', 'ModeloVehiculo',
                     'CodigoTipoVehiculo', 'CapacidadPersonaVehiculo',
@@ -165,8 +165,8 @@ class Vehicle_controller {
                     required: false
                 }],
                 order: Sequelize.literal('CodigoActivoFijo ASC')
-            });
-            console.log(vehiculos);
+            }); */
+            /* console.log(vehiculos);
             vehiculos.forEach((record) => {
                 var v = new Object();
                 v.codigo = record.CodigoActivoFijo;
@@ -176,9 +176,9 @@ class Vehicle_controller {
                 v.estado = record.TRA_EstadoVehiculo.EstadoVehiculo;
                 v.kilometraje = record.KilometrajeActual;
                 vehicles.push(v);
-            })
+            }) */
             return res.render('../views/vehicle/list.html', {
-                vehicles
+                //vehicles
             });
         } catch (Error) {
             console.log(Error)
