@@ -448,6 +448,9 @@ class Vehicle_controller {
             const printer = new pdfPrinter(fonts);
             var today = new Date();
             var month = today.getMonth() + 1;
+            //Nombre del archivo PDF a descargar.
+            var fileName = 'Reporte_lote_de_vehículos_' + today.getDate() + '/' + month + '/' + today.getFullYear() + '.pdf';
+            console.log(fileName);
             const token = Authorize.decode_token(req.cookies.token);
             var columns = [{
                 text: 'Marca',
@@ -498,7 +501,7 @@ class Vehicle_controller {
                 }],
                 order: Sequelize.literal('CodigoActivoFijo ASC')
             });
-            console.log(vehiculos);
+            //console.log(vehiculos);
             vehiculos.forEach(v => {
                 var bodyRow = [];
                 bodyRow.push(v.MarcaVehiculo.trim());
@@ -563,7 +566,8 @@ class Vehicle_controller {
                     {
                         table: {
                             headerRows: 1,
-                            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            dontBreakRows: true,
+                            widths: [50, 55, 58, 'auto', 80, 'auto', 'auto', 'auto', 'auto', 'auto'],
                             body: bodyData,
                         },
                     }
@@ -580,7 +584,18 @@ class Vehicle_controller {
 
             doc.on('end', () => {
                 result = Buffer.concat(chunks);
+                /*Para visualizar el PDF sin descargarlo directamente, descomentar la siguiente línea de código.
+                Mozilla Firefox: Al descargar el PDF con el botón Descargar del visor, 
+                se descarga como 'document.pdf'. Si se descarga dando clic derecho en el documento y
+                luego clic en "Guardar como", se descarga con el nombre de la ruta relativa (reporteLoteVehicular.pdf).
+                Google Chrome: El PDF se descarga con el nombre de la ruta relativa de ambas formas.*/
+                
+                /* res.setHeader('content-type', 'application/pdf'); */
+
+                /*Para descargar el PDF directamente sin visualización en navegador.
+                Esta forma permite asignar nombre al documento a descargar de manera dinámica.*/
                 res.setHeader('content-type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
                 res.send(result);
             });
 
@@ -604,8 +619,8 @@ class Vehicle_controller {
             var today = new Date();
             var month = today.getMonth() + 1;
             const token = Authorize.decode_token(req.cookies.token);
-            //Descomentar siguiente línea de código:
             let CodigoActivoFijo = req.query.codigo;
+            
             var vehiculo = await Vehicle.findOne({
                 where: {
                     CodigoActivoFijo: CodigoActivoFijo,
@@ -626,6 +641,9 @@ class Vehicle_controller {
                 order: Sequelize.literal('CodigoActivoFijo ASC')
             });
 
+            //Nombre del archivo PDF a descargar.
+            var fileName = 'Reporte_vehiculo_' + vehiculo.NumeroPlacaVehiculo.trim() + '_' 
+            + today.getDate() + '/' + month + '/' + today.getFullYear() + '.pdf';
             let TipoCombustible = vehiculo.TipoCombustibleVehiculo;
             switch (TipoCombustible) {
                 case 'D':
@@ -699,10 +717,6 @@ class Vehicle_controller {
                                     bold: true
                                 }, vehiculo.AnnoVehiculo],
                                 [{
-                                    text: 'Capacidad',
-                                    bold: true
-                                }, vehiculo.CapacidadPersonaVehiculo],
-                                [{
                                     text: 'Número de motor',
                                     bold: true
                                 }, vehiculo.NumeroMotorVehiculo],
@@ -762,7 +776,18 @@ class Vehicle_controller {
 
             doc.on('end', () => {
                 result = Buffer.concat(chunks);
+                /*Para visualizar el PDF sin descargarlo directamente, descomentar la siguiente línea de código.
+                Mozilla Firefox: Al descargar el PDF con el botón Descargar del visor, 
+                se descarga como 'document.pdf'. Si se descarga dando clic derecho en el documento y
+                luego clic en "Guardar como", se descarga con el nombre de la ruta relativa (reporteLoteVehicular.pdf).
+                Google Chrome: El PDF se descarga con el nombre de la ruta relativa de ambas formas.*/
+                
+                /* res.setHeader('content-type', 'application/pdf'); */
+
+                /*Para descargar el PDF directamente sin visualización en navegador.
+                Esta forma permite asignar nombre al documento a descargar de manera dinámica.*/
                 res.setHeader('content-type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
                 res.send(result);
             });
 

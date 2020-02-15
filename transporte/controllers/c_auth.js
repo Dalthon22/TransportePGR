@@ -22,19 +22,14 @@ class auth_controller {
     constructor() {
 
     }
-    async log_in(username, password, req, res) {
+    async log_in(cod_usuario, password, req, res) {
         try {
             /* Buscar por mail, para ver si existe el usuario */
             //console.dir("Existe por mail: " + User_Controller.existByEmail(username)):
             /* Consulta a tabla de SGT_USUARIO */
-            let user = await User_Controller.getByMail(username, password, req, res)
+            let user = await User_Controller.getByUserCod(cod_usuario, password, req, res)
             if (user) {
                 console.log("usuario encontrado");
-                /* Consulta a la tabla de SIS_USUARIO */
-                /*  await db.query('SELECT * FROM SIS_Usuarios WHERE CorreoElectronicoUsuario = ? AND ClaveUsuario = ?', {
-                         replacements: [username, password],
-                         type: db.QueryTypes.SELECT */
-
                 console.dir(user);
 
                 let roles = await user_role_controller.getList(user);
@@ -65,7 +60,7 @@ class auth_controller {
             } else {
                 res.render('../views/login.html', {
                     err_message: 'Por favor ingrese nuevamente sus datos',
-                    err_title: 'Usuario o contraseña son incorrectos'
+                    err_title: 'Codigo de usuario o contraseña son incorrectos'
                 });
             }
         } catch (error) {
